@@ -10,9 +10,12 @@ dependencies:
   camera_platform_interface: ^2.6.0
   camera_windows: ^0.2.6+1
   flutter_doc_scanner:
-    git:
-      url: https://github.com/SarangthemAmarjit/flutter_doc_scanner.git
-      ref: main # branch name
+      git:
+        url: https://github.com/SarangthemAmarjit/flutter_doc_scanner.git
+        ref: main # branch name
+
+
+  
   flutter:
     sdk: flutter
 

@@ -91,7 +91,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: d1b6f0ea3fb37224cb0fac578a7e0164013225a2
+      resolved-ref: "107ae18a40adbc341de0253f6289844af0bf7ef2"
       url: "https://github.com/SarangthemAmarjit/flutter_doc_scanner.git"
     source: git
     version: "0.0.15"
