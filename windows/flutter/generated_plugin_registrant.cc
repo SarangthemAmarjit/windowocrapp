@@ -7,11 +7,11 @@
 #include "generated_plugin_registrant.h"
 
 #include <camera_windows/camera_windows.h>
-#include <flutter_doc_scanner/flutter_doc_scanner_plugin.h>
+#include <flutter_doc_scanner/flutter_doc_scanner_plugin_c_api.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   CameraWindowsRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("CameraWindows"));
-  FlutterDocScannerPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("FlutterDocScannerPlugin"));
+  FlutterDocScannerPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("FlutterDocScannerPluginCApi"));
 }

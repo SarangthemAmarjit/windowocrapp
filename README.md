@@ -9,3 +9,7 @@ Unless you are making changes to this implementation package, this example is
 very unlikely to be relevant.
 
 
+ flutter_doc_scanner:
+    git:
+      url: https://github.com/SarangthemAmarjit/flutter_doc_scanner.git
+      ref: main # branch name

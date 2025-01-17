@@ -2,23 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera_platform_interface/camera_platform_interface.dart';
-import 'package:camera_windows_example/expopencv.dart';
 import 'package:flutter/material.dart';
 import 'package:opencv_dart/opencv.dart' as cv;
 
-void main() {
-  runApp(const OpencvExmp());
-}
-
 /// Example app for Camera with Document Detection.
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class OpencvPage extends StatefulWidget {
+  const OpencvPage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<OpencvPage> createState() => _OpencvPageState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _OpencvPageState extends State<OpencvPage> {
   String _cameraInfo = 'Unknown';
   List<CameraDescription> _cameras = <CameraDescription>[];
   int _cameraIndex = 0;

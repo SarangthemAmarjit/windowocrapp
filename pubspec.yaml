@@ -9,12 +9,10 @@ environment:
 dependencies:
   camera_platform_interface: ^2.6.0
   camera_windows: ^0.2.6+1
-  flutter_doc_scanner:
-    git:
-      url: https://github.com/SarangthemAmarjit/flutter_doc_scanner.git
-      ref: main # branch name
   flutter:
     sdk: flutter
+  flutter_doc_scanner: ^0.0.15
+  opencv_dart: ^1.3.3
 
 dev_dependencies:
   async: ^2.5.0
