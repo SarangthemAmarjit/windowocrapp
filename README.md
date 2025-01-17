@@ -7,7 +7,7 @@ package.
 
 Unless you are making changes to this implementation package, this example is
 very unlikely to be relevant.
-
+  # camera_windows: ^0.2.6+1
 
  flutter_doc_scanner:
     git:
