@@ -5,11 +5,12 @@
 import 'dart:async';
 
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_windows_example/scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ScannerDocPage());
 }
 
 /// Example app for Camera Windows plugin.

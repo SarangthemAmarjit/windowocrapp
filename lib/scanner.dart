@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_doc_scanner/flutter_doc_scanner.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class ScannerDocPage extends StatefulWidget {
+  const ScannerDocPage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<ScannerDocPage> createState() => _ScannerDocPageState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _ScannerDocPageState extends State<ScannerDocPage> {
   dynamic _scannedDocuments;
 
   Future<void> scanDocument() async {

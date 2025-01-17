@@ -1,6 +1,6 @@
 name: camera_windows_example
 description: Demonstrates how to use the camera_windows plugin.
-publish_to: 'none'
+publish_to: "none"
 
 environment:
   sdk: ^3.4.0
@@ -8,16 +8,13 @@ environment:
 
 dependencies:
   camera_platform_interface: ^2.6.0
-  camera_windows:
-    # When depending on this package from a real application you should use:
-    #   camera_windows: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
-    path: ../
+  camera_windows: ^0.2.6+1
+  flutter_doc_scanner:
+    git:
+      url: https://github.com/SarangthemAmarjit/flutter_doc_scanner.git
+      ref: main # branch name
   flutter:
     sdk: flutter
-  flutter_doc_scanner: ^0.0.15
 
 dev_dependencies:
   async: ^2.5.0

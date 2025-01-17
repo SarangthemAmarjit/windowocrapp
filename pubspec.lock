@@ -28,9 +28,10 @@ packages:
   camera_windows:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      name: camera_windows
+      sha256: "116118ccc3e8001b67490cbd895db622105c91ffcee4080d74419673a8dc01a9"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.2.6+1"
   characters:
     dependency: transitive
@@ -88,10 +89,11 @@ packages:
   flutter_doc_scanner:
     dependency: "direct main"
     description:
-      name: flutter_doc_scanner
-      sha256: "2132bfbc5464aa4e3b754020dccc92410abb298ae65e2d2fb4ea7d15f98f3b38"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: main
+      resolved-ref: d1b6f0ea3fb37224cb0fac578a7e0164013225a2
+      url: "https://github.com/SarangthemAmarjit/flutter_doc_scanner.git"
+    source: git
     version: "0.0.15"
   flutter_driver:
     dependency: transitive
