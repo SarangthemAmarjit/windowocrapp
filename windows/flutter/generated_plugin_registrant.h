@@ -1,56 +1,15 @@
-#ifndef FLUTTER_PLUGIN_FLUTTER_DOC_SCANNER_PLUGIN_H_
-#define FLUTTER_PLUGIN_FLUTTER_DOC_SCANNER_PLUGIN_H_
+//
+//  Generated file. Do not edit.
+//
 
-#include <flutter/method_channel.h>
-#include <flutter/plugin_registrar_windows.h>
-#pragma once
+// clang-format off
 
-#include <memory>
+#ifndef GENERATED_PLUGIN_REGISTRANT_
+#define GENERATED_PLUGIN_REGISTRANT_
 
-#ifdef FLUTTER_PLUGIN_IMPL
-#define FLUTTER_PLUGIN_EXPORT __declspec(dllexport)
-#else
-#define FLUTTER_PLUGIN_EXPORT __declspec(dllimport)
-#endif
+#include <flutter/plugin_registry.h>
 
-namespace flutter_doc_scanner {
+// Registers Flutter plugins.
+void RegisterPlugins(flutter::PluginRegistry* registry);
 
-/**
- * The FlutterDocScannerPlugin class provides a plugin implementation
- * for communication between Dart and native Windows code.
- */
-class FLUTTER_PLUGIN_EXPORT FlutterDocScannerPlugin : public flutter::Plugin {
- public:
-  /**
-   * Registers the plugin with the provided Windows plugin registrar.
-   * @param registrar The registrar that manages the plugin.
-   */
-  static void RegisterWithRegistrar(flutter::PluginRegistrarWindows* registrar);
-
-  /**
-   * Constructor for FlutterDocScannerPlugin.
-   */
-  FlutterDocScannerPlugin();
-
-  /**
-   * Destructor for FlutterDocScannerPlugin.
-   */
-  virtual ~FlutterDocScannerPlugin();
-
-  // Prevent copying and assignment.
-  FlutterDocScannerPlugin(const FlutterDocScannerPlugin&) = delete;
-  FlutterDocScannerPlugin& operator=(const FlutterDocScannerPlugin&) = delete;
-
-  /**
-   * Handles method calls from the Dart side.
-   * @param method_call The method call object containing method name and arguments.
-   * @param result The result object for sending responses back to Dart.
-   */
-  void HandleMethodCall(
-      const flutter::MethodCall<flutter::EncodableValue>& method_call,
-      std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
-};
-
-}  // namespace flutter_doc_scanner
-
-#endif  // FLUTTER_PLUGIN_FLUTTER_DOC_SCANNER_PLUGIN_H_
+#endif  // GENERATED_PLUGIN_REGISTRANT_
