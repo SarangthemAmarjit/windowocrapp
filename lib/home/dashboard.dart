@@ -1,8 +1,9 @@
 import 'package:camera_windows_example/controller/imagecapture.dart';
+import 'package:camera_windows_example/controller/pagecontroller.dart';
+import 'package:camera_windows_example/home/registration.dart';
 import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SelectIdCardTypeScreen extends StatefulWidget {
   const SelectIdCardTypeScreen({super.key});
@@ -26,130 +27,138 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     Imagecontroller imgcon = Get.put(Imagecontroller());
-    return Scaffold(
-      body: GetBuilder<Imagecontroller>(builder: (_) {
-        return Container(
-          height: screenHeight,
-          width: screenWidth,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/bg.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 100),
-            child: Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              elevation: 10,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(20),
+    return GetBuilder<PageControllers>(
+      builder: (pagectrl) {
+        return Scaffold(
+          body: GetBuilder<Imagecontroller>(builder: (_) {
+            return Container(
+              height: screenHeight,
+              width: screenWidth,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/bg.png'),
+                  fit: BoxFit.cover,
                 ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 20),
-                      Text(
-                        imgcon.navindex == 0
-                            ? "SELECT ID CARD TYPE"
-                            : "CAPTURE YOUR ID CARD",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+              ),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 1200,maxHeight: 1400),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Card(
+                    
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      elevation: 10,
+                      child: AnimatedContainer(
+                        height:pagectrl.regPage==2?1400: 600,
+                        padding:  const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+                        decoration: BoxDecoration(
+                          // border: Border.all(),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                      ),
-                      const SizedBox(height: 5),
-                      Container(
-                        width: 40,
-                        height: 4,
-                        color: Colors.green,
-                      ),
-                      imgcon.navindex == 1
-                          ? SizedBox()
-                          : const SizedBox(height: 40),
-                      Expanded(
-                        child: imgcon.navindex == 1
-                            ? IdSelectionAndScanningScreen()
-                            : Row(
-                                children: idCards
-                                    .map((card) => Expanded(
-                                          child: _buildOption(
-                                              card["label"], card["icon"]),
-                                        ))
-                                    .toList(),
+                        duration: Duration(milliseconds: 600),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // const SizedBox(height: 20),
+                            pagectrl.regPage==2?SizedBox(): Text(
+                              pagectrl.regPage == 0
+                                  ? "SELECT ID CARD TYPE"
+                                  : "CAPTURE YOUR ID CARD",
+                              style: TextStyle(
+                                fontSize: 30,
+                                // fontWeight: FontWeight.bold,
+                                // color: Colors.black87,
                               ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          imgcon.navindex > 0
-                              ? InkWell(
+                            ),
+                        pagectrl.regPage==2?SizedBox():  const SizedBox(height: 5),
+                           pagectrl.regPage==2?SizedBox():   Container(
+                              width: 40,
+                              height: 4,
+                              color: Colors.green,
+                            ),
+                            pagectrl.regPage==0
+                                ? SizedBox(height: 40,)
+                                : const SizedBox(),
+                            Expanded(
+                              child:  pagectrl.regPage==1
+                                  ? IdSelectionAndScanningScreen()
+                                  :  pagectrl.regPage==2?RegistrationPage(cardtype:"Aadhar"):Row(
+                                      children: idCards
+                                          .map((card) => Expanded(
+                                                child: _buildOption(
+                                                    card["label"], card["icon"]),
+                                              ))
+                                          .toList(),
+                                    ),
+                            ),
+                         pagectrl.regPage==2?SizedBox():Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                pagectrl.regPage > 0
+                                    ? InkWell(
+                                        // overlayColor:
+                                        //     WidgetStateProperty.all(Colors.transparent),
+                                        focusColor: Colors.transparent,
+                                        splashColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        onTap:pagectrl.regPage  > 0
+                                            ? () {
+                                                  pagectrl.changeDashboardPage(pagectrl.regPage-1);
+                                              }
+                                            : null,
+                                        child: Transform.flip(
+                                          flipX: true,
+                                          child: Image.asset(
+                                            'assets/images/next2.png',
+                                            height: 60,
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox(),
+                                // ElevatedButton(
+                                //     onPressed: () {},
+                                //     style: ElevatedButton.styleFrom(
+                                //       backgroundColor: Colors.grey.shade300,
+                                //     ),
+                                //     child: Padding(
+                                //       padding: const EdgeInsets.all(8.0),
+                                //       child: Text(
+                                //         'Back',
+                                //         style: TextStyle(fontSize: 18),
+                                //       ),
+                                //     )),
+                                InkWell(
                                   // overlayColor:
                                   //     WidgetStateProperty.all(Colors.transparent),
                                   focusColor: Colors.transparent,
                                   splashColor: Colors.transparent,
                                   hoverColor: Colors.transparent,
-                                  onTap: imgcon.navindex > 0
-                                      ? () {
-                                          imgcon.setnavindex(
-                                              navin: imgcon.navindex - 1);
-                                        }
-                                      : null,
-                                  child: Transform.flip(
-                                    flipX: true,
-                                    child: Image.asset(
-                                      'assets/images/next2.png',
-                                      height: 60,
-                                    ),
+                                  onTap: () {
+                                    pagectrl.changeDashboardPage(pagectrl.regPage+1);
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/next2.png',
+                                    height: 60,
                                   ),
                                 )
-                              : SizedBox(),
-                          // ElevatedButton(
-                          //     onPressed: () {},
-                          //     style: ElevatedButton.styleFrom(
-                          //       backgroundColor: Colors.grey.shade300,
-                          //     ),
-                          //     child: Padding(
-                          //       padding: const EdgeInsets.all(8.0),
-                          //       child: Text(
-                          //         'Back',
-                          //         style: TextStyle(fontSize: 18),
-                          //       ),
-                          //     )),
-                          InkWell(
-                            // overlayColor:
-                            //     WidgetStateProperty.all(Colors.transparent),
-                            focusColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            onTap: () {
-                              imgcon.setnavindex(navin: imgcon.navindex + 1);
-                            },
-                            child: Image.asset(
-                              'assets/images/next2.png',
-                              height: 60,
+                              ],
                             ),
-                          )
-                        ],
+                            const SizedBox(height: 20),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 20),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         );
-      }),
+      }
     );
   }
 
@@ -189,16 +198,16 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
                 Icon(
                   icon,
                   size: 40,
-                  color: isSelected ? Colors.purple : Colors.black54,
+                  color: isSelected ? Colors.green : Colors.black54,
                 ),
                 const SizedBox(height: 10),
                 Text(
                   label,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.righteous(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: isSelected ? Colors.purple : Colors.black54,
+                  style: TextStyle(
+                    fontSize: 20,
+                    // fontWeight: FontWeight.w600,
+                    color: isSelected ? Colors.green : Colors.black54,
                   ),
                 ),
               ],

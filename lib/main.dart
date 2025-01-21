@@ -3,16 +3,20 @@
 // found in the LICENSE file.
 
 import 'dart:async';
-
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'controller/managementcontroller.dart';
+import 'controller/pagecontroller.dart';
 import 'home/dashboard.dart';
 
 void main() {
   runApp(MyApp());
+    Get.put(PageControllers());
+  Get.put(Managementcontroller());
 }
 
 class MyApp extends StatelessWidget {
@@ -366,10 +370,15 @@ class _ActualCameraPageState extends State<ActualCameraPage> {
     }).toList();
 
     return MaterialApp(
+            theme: ThemeData(
+       textTheme: GoogleFonts.poppinsTextTheme(),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        useMaterial3: true,
+      ),
       scaffoldMessengerKey: _scaffoldMessengerKey,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('ILP Scanner'),
         ),
         body: ListView(
           children: <Widget>[

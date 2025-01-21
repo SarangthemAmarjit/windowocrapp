@@ -250,8 +250,6 @@ class _IdSelectionAndScanningScreenState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Dropdown for selecting ID card type
-
         Expanded(
           child: Row(
             children: [
