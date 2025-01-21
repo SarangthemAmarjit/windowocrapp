@@ -9,6 +9,8 @@ import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'home/dashboard.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -18,12 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(debugShowCheckedModeBanner: false,
-    home: IdSelectionAndScanningScreen(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SelectIdCardTypeScreen(),
     );
   }
 }
-
 
 /// Example app for Camera Windows plugin.
 class ActualCameraPage extends StatefulWidget {
