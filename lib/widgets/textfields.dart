@@ -67,7 +67,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                     widget.hint,
                     style: TextStyle(
                       
-                        fontSize: 12),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold
+                        ),
                   )
                 : const SizedBox(),
             SizedBox(
@@ -76,10 +78,11 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             SizedBox(
               height: 70,
               child: TextFormField(
+                
                 textAlign: widget.textalign ?? TextAlign.start,
                 cursorColor: Colors.white,
                 cursorHeight: 20,
-                
+      
                 controller: widget.controller,
                 focusNode: widget.focusnode,
                 onFieldSubmitted: (value) {
@@ -134,6 +137,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                     //         }
                     //         return null;
                     //       },
+                    style: TextStyle(fontSize: 18),
                 maxLength: widget.counter ?? 50,
                 enabled: widget.enabletext,
                 enableInteractiveSelection: widget.interactivetext,
@@ -142,7 +146,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                 onChanged: widget.onchanged,
                 decoration: InputDecoration( 
                     counter: const Offstage(),
-            
+                
                     suffixIcon: widget.obscure
                         ? IconButton(
                             onPressed: () {
@@ -155,6 +159,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                     focusColor: Theme.of(context).colorScheme.secondary,
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
+                        width: 1.5,
                           color: Colors.green),
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                     ),

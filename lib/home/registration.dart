@@ -8,8 +8,7 @@ import 'registrationpages/personaldetails.dart';
 import 'registrationpages/photodetails.dart';
 
 class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({super.key, required this.cardtype});
-  final String cardtype;
+  const RegistrationPage({super.key});
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
 }
@@ -28,31 +27,37 @@ class _RegistrationPageState extends State<RegistrationPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-                                        // overlayColor:
-                                        //     WidgetStateProperty.all(Colors.transparent),
-                                        focusColor: Colors.transparent,
-                                        splashColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        onTap:controller.regPage  > 0
-                                            ? () {
-                                                  controller.changeDashboardPage(controller.regPage-1);
-                                              }
-                                            : null,
-                                        child: Transform.flip(
-                                          flipX: true,
-                                          child: Image.asset(
-                                            'assets/images/next2.png',
-                                            height: 60,
+            Row(
+              children: [
+                InkWell(
+                                            // overlayColor:
+                                            //     WidgetStateProperty.all(Colors.transparent),
+                                            focusColor: Colors.transparent,
+                                            splashColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            onTap:controller.regPage  > 0
+                                                ? () {
+                                                      controller.changeDashboardPage(controller.regPage-1);
+                                                  }
+                                                : null,
+                                            child: Transform.flip(
+                                              flipX: true,
+                                              child: Image.asset(
+                                                'assets/images/next2.png',
+                                                height: 60,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-            Text(
+SizedBox(width: 20,),
+                                                   Text(
               "Registration",
               style: TextStyle(fontSize: 30),
             ),
+              ],
+            ),
+   
             SizedBox(
-              height: 30,
+              height: 20,
             ),
             Row(
               children: [
@@ -61,45 +66,48 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         child: Text(
                   "Personal Details",
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize:controller.page == 1?30: 16,
                     
-                      color: controller.page > 1 ? Colors.green : null),
+                      color: controller.page >= 1 ? Colors.green : null),
                 ))),
                 Expanded(
                     child: Center(
                         child: Text(
                   "Address Details",
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize:controller.page == 2?30: 16,
+                      // fontSize: 16,
                     
-                      color: controller.page > 2 ? Colors.green : null),
+                      color: controller.page >= 2 ? Colors.green : null),
                 ))),
                 Expanded(
                     child: Center(
                         child: Text(
                   "Permit Details",
                   style: TextStyle(
-                      fontSize: 16,
-                    
-                      color: controller.page > 3 ? Colors.green : null),
+                      fontSize:controller.page == 3?30: 16,
+                      
+                      color: controller.page >= 3 ? Colors.green : null),
                 ))),
                 Expanded(
                     child: Center(
                         child: Text(
                   "Photo & Sign",
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize:controller.page == 4?30: 16,
+                      // fontSize: 16,
                   
-                      color: controller.page > 4 ? Colors.green : null),
+                      color: controller.page >= 4 ? Colors.green : null),
                 ))),
                 Expanded(
                     child: Center(
                         child: Text(
                   "Payment",
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize:controller.page == 5?30: 16,
+                      // fontSize: 16,
                      
-                      color: controller.page > 5 ? Colors.green : null),
+                      color: controller.page >= 5 ? Colors.green : null),
                 ))),
               ],
             ),
@@ -118,10 +126,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
             SizedBox(
               height: 10,
             ),
-            Text("Completed: ${controller.page}/5"),
-            SizedBox(
-              height: 20,
-            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text("Completed: ${controller.page}/5",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),)),
+            // SizedBox(
+            //   height: 20,
+            // ),
             Expanded(
                 child: SingleChildScrollView(
                     child: controller.page == 1

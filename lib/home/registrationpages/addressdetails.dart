@@ -25,8 +25,8 @@ class _AddressDetailsState extends State<AddressDetails> {
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Address Details",style: TextStyle(fontSize: 30,color: Colors.green),),
-                  Divider(),
+                  // Text("Address Details",style: TextStyle(fontSize: 30,color: Colors.green),),
+                  // Divider(),
                   SizedBox(height: 10,),
                   Row(
                     children: [

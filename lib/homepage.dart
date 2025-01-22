@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -250,165 +249,163 @@ class _IdSelectionAndScanningScreenState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Align(
-                  alignment: Alignment.centerLeft,
+        Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _initializeCamera(isfront: true);
+                      },
+                      child: Text('Capture Front Side'),
+                    ),
+                    SizedBox(height: 20),
+        
+                    // Capture back side of the ID card
+        
+                    ElevatedButton(
+                      onPressed: () {
+                        _initializeCamera(isfront: false);
+                      },
+                      child: Text('Capture Back Side'),
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  constraints:
+                      const BoxConstraints(maxHeight: 260, maxWidth: 400),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all()),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          _initializeCamera(isfront: true);
-                        },
-                        child: Text('Capture Front Side'),
-                      ),
-                      SizedBox(height: 20),
-
-                      // Capture back side of the ID card
-
-                      ElevatedButton(
-                        onPressed: () {
-                          _initializeCamera(isfront: false);
-                        },
-                        child: Text('Capture Back Side'),
-                      ),
-                      SizedBox(height: 20),
+                      iscamerashown
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
+                                  child: Align(
+                                    child: Container(
+                                      constraints: const BoxConstraints(
+                                        maxHeight: 200,
+                                      ),
+                                      child: AspectRatio(
+                                        aspectRatio: _previewSize!.width /
+                                            _previewSize!.height,
+                                        child: _buildPreview(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        _disposeCurrentCamera();
+                                      },
+                                      child: Text('Cancel'),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        _takePicture();
+                                      },
+                                      child: const Text('Capture ID'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Center(child: Text('Camera Preview Area'))
                     ],
                   ),
                 ),
               ),
-              Expanded(
-                flex: 3,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    constraints:
-                        const BoxConstraints(maxHeight: 260, maxWidth: 400),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all()),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        iscamerashown
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                    ),
-                                    child: Align(
-                                      child: Container(
-                                        constraints: const BoxConstraints(
-                                          maxHeight: 200,
-                                        ),
-                                        child: AspectRatio(
-                                          aspectRatio: _previewSize!.width /
-                                              _previewSize!.height,
-                                          child: _buildPreview(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          _disposeCurrentCamera();
-                                        },
-                                        child: Text('Cancel'),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          _takePicture();
-                                        },
-                                        child: const Text('Capture ID'),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            : Center(child: Text('Camera Preview Area'))
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: iscamerashown
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Text(
-                          isFrontcapture
-                              ? 'Place the front side of the ID card within the frame.'
-                              : 'Flip the card and place the back side within the frame.',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )
-                    : SizedBox(),
-              ),
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   children: [
-              //     frontImage != null
-              //         ? Container(
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 border: Border.all()),
-              //             constraints: const BoxConstraints(maxHeight: 160),
-              //             child: Center(
-              //               child: ClipRRect(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 child: Image.file(
-              //                   File(frontImage!.path),
-              //                 ),
-              //               ),
-              //             ),
-              //           )
-              //         : Container(
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 border: Border.all()),
-              //             constraints: const BoxConstraints(
-              //                 maxHeight: 160, maxWidth: 300),
-              //           ),
-              //     SizedBox(
-              //       height: 40,
-              //     ),
-              //     backImage != null
-              //         ? Container(
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 border: Border.all()),
-              //             constraints: const BoxConstraints(maxHeight: 160),
-              //             child: Center(
-              //               child: ClipRRect(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 child: Image.file(
-              //                   File(backImage!.path),
-              //                 ),
-              //               ),
-              //             ),
-              //           )
-              //         : Container(
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 border: Border.all()),
-              //             constraints: const BoxConstraints(
-              //                 maxHeight: 160, maxWidth: 300),
-              //           ),
-              //   ],
-              // )
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 1,
+              child: iscamerashown
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: Text(
+                        isFrontcapture
+                            ? 'Place the front side of the ID card within the frame.'
+                            : 'Flip the card and place the back side within the frame.',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    )
+                  : SizedBox(),
+            ),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     frontImage != null
+            //         ? Container(
+            //             decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border: Border.all()),
+            //             constraints: const BoxConstraints(maxHeight: 160),
+            //             child: Center(
+            //               child: ClipRRect(
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 child: Image.file(
+            //                   File(frontImage!.path),
+            //                 ),
+            //               ),
+            //             ),
+            //           )
+            //         : Container(
+            //             decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border: Border.all()),
+            //             constraints: const BoxConstraints(
+            //                 maxHeight: 160, maxWidth: 300),
+            //           ),
+            //     SizedBox(
+            //       height: 40,
+            //     ),
+            //     backImage != null
+            //         ? Container(
+            //             decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border: Border.all()),
+            //             constraints: const BoxConstraints(maxHeight: 160),
+            //             child: Center(
+            //               child: ClipRRect(
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 child: Image.file(
+            //                   File(backImage!.path),
+            //                 ),
+            //               ),
+            //             ),
+            //           )
+            //         : Container(
+            //             decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(10),
+            //                 border: Border.all()),
+            //             constraints: const BoxConstraints(
+            //                 maxHeight: 160, maxWidth: 300),
+            //           ),
+            //   ],
+            // )
+          ],
         ), // Capture front side of the ID card
 
         // Proceed button

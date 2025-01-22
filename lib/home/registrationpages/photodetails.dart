@@ -22,8 +22,8 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Photo & Signature",style: TextStyle(fontSize: 30,color: Colors.green),),
-                  Divider(),
+                  // Text("Photo & Signature",style: TextStyle(fontSize: 30,color: Colors.green),),
+                  // Divider(),
                   SizedBox(height: 10,),
 
                     Row(
