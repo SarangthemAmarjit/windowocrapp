@@ -141,7 +141,7 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
                           )
                         ],
                       ),
-                      const SizedBox(height: 20),
+                   
                     ],
                   ),
                 ),

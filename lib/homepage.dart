@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:satya_textocr/src_path/SatyaTextKit.dart';
+import 'package:satya_textocr/src_path/satya_textocrKit.dart';
 
 class IdSelectionAndScanningScreen extends StatefulWidget {
   @override
@@ -31,8 +34,8 @@ class _IdSelectionAndScanningScreenState
   Size? _previewSize;
   bool isFrontcapture = false;
   MediaSettings _mediaSettings = const MediaSettings(
-    resolutionPreset: ResolutionPreset.low,
-    fps: 15,
+    resolutionPreset: ResolutionPreset.high,
+    fps: 30,
     videoBitrate: 200000,
     audioBitrate: 32000,
     enableAudio: true,
@@ -224,27 +227,19 @@ class _IdSelectionAndScanningScreenState
     final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
     setState(() {
       if (isFrontcapture) {
-        frontImage = file;
+    
       } else {
         backImage = file;
       }
     });
+    
   }
 
   Widget _buildPreview() {
     return CameraPlatform.instance.buildPreview(_cameraId);
   }
 
-  Future<void> captureImage(bool isFront) async {
-    final image = await picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      if (isFront) {
-        frontImage = image;
-      } else {
-        backImage = image;
-      }
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -309,10 +304,12 @@ class _IdSelectionAndScanningScreenState
                                         constraints: const BoxConstraints(
                                           maxHeight: 200,
                                         ),
-                                        child: AspectRatio(
-                                          aspectRatio: _previewSize!.width /
-                                              _previewSize!.height,
-                                          child: _buildPreview(),
+                                        child: Transform.flip(flipX: true,
+                                          child: AspectRatio(
+                                            aspectRatio: _previewSize!.width /
+                                                _previewSize!.height,
+                                            child: _buildPreview(),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -343,72 +340,74 @@ class _IdSelectionAndScanningScreenState
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: iscamerashown
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: Text(
-                          isFrontcapture
-                              ? 'Place the front side of the ID card within the frame.'
-                              : 'Flip the card and place the back side within the frame.',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )
-                    : SizedBox(),
-              ),
-              // Column(
-              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   children: [
-              //     frontImage != null
-              //         ? Container(
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 border: Border.all()),
-              //             constraints: const BoxConstraints(maxHeight: 160),
-              //             child: Center(
-              //               child: ClipRRect(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 child: Image.file(
-              //                   File(frontImage!.path),
-              //                 ),
-              //               ),
-              //             ),
-              //           )
-              //         : Container(
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 border: Border.all()),
-              //             constraints: const BoxConstraints(
-              //                 maxHeight: 160, maxWidth: 300),
+              // Expanded(
+              //   flex: 1,
+              //   child: iscamerashown
+              //       ? Padding(
+              //           padding: const EdgeInsets.only(left: 30),
+              //           child: Text(
+              //             isFrontcapture
+              //                 ? 'Place the front side of the ID card within the frame.'
+              //                 : 'Flip the card and place the back side within the frame.',
+              //             style: TextStyle(fontSize: 20),
               //           ),
-              //     SizedBox(
-              //       height: 40,
-              //     ),
-              //     backImage != null
-              //         ? Container(
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 border: Border.all()),
-              //             constraints: const BoxConstraints(maxHeight: 160),
-              //             child: Center(
-              //               child: ClipRRect(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 child: Image.file(
-              //                   File(backImage!.path),
-              //                 ),
-              //               ),
-              //             ),
-              //           )
-              //         : Container(
-              //             decoration: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(10),
-              //                 border: Border.all()),
-              //             constraints: const BoxConstraints(
-              //                 maxHeight: 160, maxWidth: 300),
-              //           ),
-              //   ],
-              // )
+              //         )
+              //       : SizedBox(),
+              // ),
+              Expanded(flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    frontImage != null
+                        ? Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all()),
+                            constraints: const BoxConstraints(maxHeight: 150),
+                            child: Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(
+                                  File(frontImage!.path),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all()),
+                            constraints: const BoxConstraints(
+                                maxHeight: 100, maxWidth: 300),
+                          ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    backImage != null
+                        ? Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all()),
+                            constraints: const BoxConstraints(maxHeight: 150),
+                            child: Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(
+                                  File(backImage!.path),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all()),
+                            constraints: const BoxConstraints(
+                                maxHeight: 100, maxWidth: 300),
+                          ),
+                  ],
+                ),
+              )
             ],
           ),
         ), // Capture front side of the ID card

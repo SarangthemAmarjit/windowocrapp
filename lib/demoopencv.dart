@@ -1,94 +1,98 @@
-// import 'package:flutter/material.dart';
-// import 'package:windows_camera/windows_camera.dart';
-// import 'package:opencv/opencv.dart';
-// import 'package:opencv/core/core.dart';
-// import 'package:opencv/imgproc/imgproc.dart';
+import 'dart:io';
 
-// class DocumentIDScannerPage extends StatefulWidget {
-//   @override
-//   _DocumentIDScannerPageState createState() => _DocumentIDScannerPageState();
-// }
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_ocr_camera/ocr_camera_widget.dart';
+import 'package:satya_textocr/satya_textocr.dart';
 
-// class _DocumentIDScannerPageState extends State<DocumentIDScannerPage> {
-//   final _cameraController = ();
-//   String detectedID = "No ID detected";
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     _initializeCamera();
-//   }
 
-//   Future<void> _initializeCamera() async {
-//     await _cameraController.initialize();
-//     setState(() {});
-//   }
+class OcrWindows extends StatefulWidget {
+  OcrWindows({Key? key, required this.title}) : super(key: key);
 
-//   Future<void> _processFrame() async {
-//     if (_cameraController.isInitialized) {
-//       final frame = await _cameraController.captureFrame();
+  final String title;
 
-//       // Convert frame to grayscale for processing
-//       final grayImage = await ImgProc.cvtColor(
-//         frame, 
-//         ImgProc.colorBGR2GRAY,
-//       );
+  @override
+  _OcrWindowsState createState() => _OcrWindowsState();
+}
 
-//       // Apply thresholding to isolate the document ID
-//       final thresholdImage = await .threshold(
-//         grayImage, 
-//         120, 
-//         255, 
-//         ImgProc.threshBinary,
-//       );
+class _OcrWindowsState extends State<OcrWindows> {
+  late List<CameraDescription> _cameras;
+  String _imgPath = '';
 
-//       // Extract the document ID (simulate OCR functionality)
-//       // This is where OCR or similar processing would come in
-//       final extractedID = _simulateOCR(thresholdImage);
+  @override
+  Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        child: Visibility(
+          visible: _imgPath.isNotEmpty,
+          child: Image.file(
+            File(_imgPath),
+            width: _size.width,
+            height: _size.height,
+            fit: BoxFit.cover,
+          ),
+          replacement: Text('Image empty!'),
+        ),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
 
-//       setState(() {
-//         detectedID = extractedID ?? "Unable to detect ID";
-//       });
-//     }
-//   }
-
-//   String? _simulateOCR(List<int> imageBytes) {
-//     // Placeholder for actual OCR logic
-//     // Replace with an OCR library for real text extraction
-//     return "123456789"; // Simulated ID
-//   }
-
-//   @override
-//   void dispose() {
-//     _cameraController.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("Document ID Scanner"),
-//       ),
-//       body: Column(
-//         children: [
-//           Expanded(
-//             child: _cameraController.isInitialized
-//                 ? WindowsCameraPreview(_cameraController)
-//                 : Center(child: CircularProgressIndicator()),
-//           ),
-//           SizedBox(height: 20),
-//           Text(
-//             "Detected ID: $detectedID",
-//             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 20),
-//           ElevatedButton(
-//             onPressed: _processFrame,
-//             child: Text("Detect Document ID"),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+             
+              TextButton(
+                onPressed: () async {
+                  _cameras = await availableCameras();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OCRCameraWidget(
+                                camera: _cameras,
+                                maskType: MaskType.selfie,
+                                onResult: (XFile? value) {
+                                  setState(() {
+                                    _imgPath = value!.path;
+                                  });
+                                  print(
+                                    'XFile ----> ${value!.path}',
+                                  );
+                                },
+                              )));
+                },
+                child: Text('Take a selfie'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  _cameras = await availableCameras();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OCRCameraWidget(
+                                camera: _cameras,
+                                onResult: (XFile? value) {
+                                  setState(() {
+                                    _imgPath = value!.path;
+                                  });
+                                  print(
+                                    'XFile ----> ${value!.path}',
+                                  );
+                                },
+                              )));
+                },
+                child: Text('Take a photo'),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
