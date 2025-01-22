@@ -7,8 +7,8 @@ class Imagecontroller extends GetxController{
   int? _cameraid ;
   int? get cameraid=>_cameraid;
 
-    int _navindex = 0 ;
-  int get navindex=>_navindex;
+    int? _navindex ;
+  int? get navindex=>_navindex;
 
   void setcameraid({required int id,required Size size}){
     _cameraid = id;

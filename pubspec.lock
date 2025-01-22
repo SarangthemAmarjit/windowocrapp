@@ -97,14 +97,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.6"
-  dartcv4:
-    dependency: transitive
-    description:
-      name: dartcv4
-      sha256: "783526138b3903b4493c05ee1b0ca0e122a75c517bf0c6b75af94bf464d9d35e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -166,6 +158,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animate:
+    dependency: "direct main"
+    description:
+      name: flutter_animate
+      sha256: "7befe2d3252728afb77aecaaea1dec88a89d35b9b1d2eea6d04479e8af9117b5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.2"
   flutter_doc_scanner:
     dependency: "direct main"
     description:
@@ -200,6 +200,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.24"
+  flutter_shaders:
+    dependency: transitive
+    description:
+      name: flutter_shaders
+      sha256: "34794acadd8275d971e02df03afee3dee0f98dbfb8c4837082ad0034f612a3e2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.3"
   flutter_svg:
     dependency: transitive
     description:
@@ -218,6 +226,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  form_validation:
+    dependency: "direct main"
+    description:
+      name: form_validation
+      sha256: b0a9b0bcc118b6f04ebcd4a0b42ac45d358cde17216298890c3613b8578fa4f9
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   fuchsia_remote_debug_protocol:
     dependency: transitive
     description: flutter
@@ -332,6 +348,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.19.0"
+  json_class:
+    dependency: transitive
+    description:
+      name: json_class
+      sha256: f27de435c3b47ceea23c13d0516afa98c71c62c7a762a6c8f1df665189eb855e
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -356,6 +380,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      sha256: c8245ada5f1717ed44271ed1c26b8ce85ca3228fd2ffdb75468ab01979309d61
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0"
   matcher:
     dependency: transitive
     description:
@@ -388,14 +420,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  opencv_dart:
-    dependency: "direct main"
-    description:
-      name: opencv_dart
-      sha256: "1535852dc92da1d386c5fd7c9363c9332cd19153fdf297be1947c9ba7cbec1be"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.3"
   path:
     dependency: transitive
     description:
@@ -508,14 +532,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.2"
-  satya_textocr:
-    dependency: "direct main"
-    description:
-      name: satya_textocr
-      sha256: c83abd541877cf43b172682d3e18620278c708a16c49306b7be830865730326d
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2"
   sky_engine:
     dependency: transitive
     description: flutter

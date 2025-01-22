@@ -3,9 +3,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ocr_camera/ocr_camera_widget.dart';
-import 'package:satya_textocr/satya_textocr.dart';
-
-
 
 class OcrWindows extends StatefulWidget {
   OcrWindows({Key? key, required this.title}) : super(key: key);
@@ -46,8 +43,6 @@ class _OcrWindowsState extends State<OcrWindows> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
-             
               TextButton(
                 onPressed: () async {
                   _cameras = await availableCameras();

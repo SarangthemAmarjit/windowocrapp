@@ -5,8 +5,6 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:satya_textocr/src_path/SatyaTextKit.dart';
-import 'package:satya_textocr/src_path/satya_textocrKit.dart';
 
 class IdSelectionAndScanningScreen extends StatefulWidget {
   @override
@@ -114,6 +112,12 @@ class _IdSelectionAndScanningScreenState
     }
   }
 
+  Future<void> _initialize({required bool isfront}) async {
+    setState(() {
+      isFrontcapture = isfront;
+    });
+  }
+
   /// Initializes the camera on the device.
   Future<void> _initializeCamera({required bool isfront}) async {
     setState(() {
@@ -121,7 +125,7 @@ class _IdSelectionAndScanningScreenState
     });
     if (isFrontcapture) {
       assert(!isinitialized);
-      print(isinitialized.toString());
+      print("isinitialized " + isinitialized.toString());
       if (_cameras.isEmpty) {
         return;
       }
@@ -227,55 +231,56 @@ class _IdSelectionAndScanningScreenState
     final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
     setState(() {
       if (isFrontcapture) {
-    
+        frontImage = file;
       } else {
         backImage = file;
       }
     });
-    
   }
 
   Widget _buildPreview() {
     return CameraPlatform.instance.buildPreview(_cameraId);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Dropdown for selecting ID card type
-
         Expanded(
-          child: Row(
+          child: Column(
             children: [
               Expanded(
                 flex: 1,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          _initializeCamera(isfront: true);
-                        },
-                        child: Text('Capture Front Side'),
-                      ),
-                      SizedBox(height: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                              side: BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(10))),
+                          backgroundColor: WidgetStatePropertyAll(isFrontcapture
+                              ? const Color.fromARGB(255, 216, 236, 217)
+                              : Colors.white)),
+                      onPressed: () {
+                        _initialize(isfront: true);
+                        // _initializeCamera(isfront: true);
+                      },
+                      child: Text('Capture Front Side'),
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    // Csizebapture back side of the ID card
 
-                      // Capture back side of the ID card
-
-                      ElevatedButton(
-                        onPressed: () {
-                          _initializeCamera(isfront: false);
-                        },
-                        child: Text('Capture Back Side'),
-                      ),
-                      SizedBox(height: 20),
-                    ],
-                  ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _initializeCamera(isfront: false);
+                      },
+                      child: Text('Capture Back Side'),
+                    ),
+                    SizedBox(height: 20),
+                  ],
                 ),
               ),
               Expanded(
@@ -284,7 +289,7 @@ class _IdSelectionAndScanningScreenState
                   alignment: Alignment.center,
                   child: Container(
                     constraints:
-                        const BoxConstraints(maxHeight: 260, maxWidth: 400),
+                        const BoxConstraints(maxHeight: 270, maxWidth: 400),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all()),
@@ -304,7 +309,8 @@ class _IdSelectionAndScanningScreenState
                                         constraints: const BoxConstraints(
                                           maxHeight: 200,
                                         ),
-                                        child: Transform.flip(flipX: true,
+                                        child: Transform.flip(
+                                          flipX: true,
                                           child: AspectRatio(
                                             aspectRatio: _previewSize!.width /
                                                 _previewSize!.height,
@@ -354,16 +360,18 @@ class _IdSelectionAndScanningScreenState
               //         )
               //       : SizedBox(),
               // ),
-              Expanded(flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     frontImage != null
                         ? Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all()),
-                            constraints: const BoxConstraints(maxHeight: 150),
+                            constraints: const BoxConstraints(
+                                maxHeight: 120, maxWidth: 160),
                             child: Center(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -378,7 +386,7 @@ class _IdSelectionAndScanningScreenState
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all()),
                             constraints: const BoxConstraints(
-                                maxHeight: 100, maxWidth: 300),
+                                maxHeight: 120, maxWidth: 160),
                           ),
                     SizedBox(
                       height: 40,
@@ -388,7 +396,8 @@ class _IdSelectionAndScanningScreenState
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all()),
-                            constraints: const BoxConstraints(maxHeight: 150),
+                            constraints: const BoxConstraints(
+                                maxHeight: 120, maxWidth: 160),
                             child: Center(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -403,7 +412,7 @@ class _IdSelectionAndScanningScreenState
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all()),
                             constraints: const BoxConstraints(
-                                maxHeight: 100, maxWidth: 300),
+                                maxHeight: 120, maxWidth: 160),
                           ),
                   ],
                 ),
