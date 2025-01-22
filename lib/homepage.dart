@@ -30,7 +30,8 @@ class _IdSelectionAndScanningScreenState
   bool _recordingTimed = false;
   bool _previewPaused = false;
   Size? _previewSize;
-  bool isFrontcapture = false;
+  bool isFrontcapturebuttonpress = false;
+  bool isBackcapturebuttonpress = false;
   MediaSettings _mediaSettings = const MediaSettings(
     resolutionPreset: ResolutionPreset.high,
     fps: 30,
@@ -112,18 +113,17 @@ class _IdSelectionAndScanningScreenState
     }
   }
 
-  Future<void> _initialize({required bool isfront}) async {
-    setState(() {
-      isFrontcapture = isfront;
-    });
-  }
+  Future<void> _initialize(
+      {required bool isfront, required bool isback}) async {}
 
   /// Initializes the camera on the device.
-  Future<void> _initializeCamera({required bool isfront}) async {
+  Future<void> _initializeCamera(
+      {required bool isfront, required bool isback}) async {
     setState(() {
-      isFrontcapture = isfront;
+      isFrontcapturebuttonpress = isfront;
+      isBackcapturebuttonpress = isback;
     });
-    if (isFrontcapture) {
+    if (isFrontcapturebuttonpress) {
       assert(!isinitialized);
       print("isinitialized " + isinitialized.toString());
       if (_cameras.isEmpty) {
@@ -206,6 +206,10 @@ class _IdSelectionAndScanningScreenState
 
         if (mounted) {
           setState(() {
+            frontImage = null;
+            backImage = null;
+            isFrontcapturebuttonpress = false;
+            isBackcapturebuttonpress = false;
             isinitialized = false;
             iscamerashown = false;
             _cameraId = -1;
@@ -230,7 +234,7 @@ class _IdSelectionAndScanningScreenState
   Future<void> _takePicture() async {
     final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
     setState(() {
-      if (isFrontcapture) {
+      if (isFrontcapturebuttonpress) {
         frontImage = file;
       } else {
         backImage = file;
@@ -244,203 +248,190 @@ class _IdSelectionAndScanningScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.green),
-                              borderRadius: BorderRadius.circular(10))),
-                          backgroundColor: WidgetStatePropertyAll(isFrontcapture
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.green),
+                          borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: WidgetStatePropertyAll(
+                          isFrontcapturebuttonpress
                               ? const Color.fromARGB(255, 216, 236, 217)
                               : Colors.white)),
-                      onPressed: () {
-                        _initialize(isfront: true);
-                        // _initializeCamera(isfront: true);
-                      },
-                      child: Text('Capture Front Side'),
-                    ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    // Csizebapture back side of the ID card
-
-                    ElevatedButton(
-                      onPressed: () {
-                        _initializeCamera(isfront: false);
-                      },
-                      child: Text('Capture Back Side'),
-                    ),
-                    SizedBox(height: 20),
-                  ],
+                  onPressed: () {
+                    _initializeCamera(isfront: true, isback: false);
+                    // _initializeCamera(isfront: true);
+                  },
+                  child: Text('Capture Front Side'),
                 ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    constraints:
-                        const BoxConstraints(maxHeight: 270, maxWidth: 400),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all()),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        iscamerashown
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                    ),
-                                    child: Align(
-                                      child: Container(
-                                        constraints: const BoxConstraints(
-                                          maxHeight: 200,
-                                        ),
-                                        child: Transform.flip(
-                                          flipX: true,
-                                          child: AspectRatio(
-                                            aspectRatio: _previewSize!.width /
-                                                _previewSize!.height,
-                                            child: _buildPreview(),
-                                          ),
-                                        ),
+                SizedBox(
+                  width: 30,
+                ),
+                // Csizebapture back side of the ID card
+
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.green),
+                          borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: WidgetStatePropertyAll(
+                          isBackcapturebuttonpress
+                              ? const Color.fromARGB(255, 216, 236, 217)
+                              : Colors.white)),
+                  onPressed: () {
+                    _initializeCamera(isfront: false, isback: true);
+                    // _initializeCamera(isfront: false);
+                  },
+                  child: Text('Capture Back Side'),
+                ),
+                SizedBox(height: 20),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50, left: 40, right: 40),
+            child: Container(
+              constraints: iscamerashown
+                  ? null
+                  : const BoxConstraints(maxHeight: 250, maxWidth: 500),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all()),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  iscamerashown
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            iscamerashown
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 30),
+                                    child: Center(
+                                      child: Text(
+                                        isFrontcapturebuttonpress
+                                            ? 'Place the front side of the ID card within the frame.'
+                                            : 'Flip the card and place the back side within the frame.',
+                                        style: TextStyle(fontSize: 20),
                                       ),
+                                    ),
+                                  )
+                                : SizedBox(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              child: Align(
+                                child: Container(
+                                  constraints: const BoxConstraints(
+                                    maxHeight: 250,
+                                  ),
+                                  child: Transform.flip(
+                                    flipX: true,
+                                    child: AspectRatio(
+                                      aspectRatio: _previewSize!.width /
+                                          _previewSize!.height,
+                                      child: _buildPreview(),
                                     ),
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          _disposeCurrentCamera();
-                                        },
-                                        child: Text('Cancel'),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          _takePicture();
-                                        },
-                                        child: const Text('Capture ID'),
-                                      ),
-                                    ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 50, bottom: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _disposeCurrentCamera();
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _takePicture();
+                                    },
+                                    child: const Text('Capture ID'),
                                   ),
                                 ],
-                              )
-                            : Center(child: Text('Camera Preview Area'))
-                      ],
-                    ),
-                  ),
-                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Center(child: Text('Camera Preview Area'))
+                ],
               ),
-              // Expanded(
-              //   flex: 1,
-              //   child: iscamerashown
-              //       ? Padding(
-              //           padding: const EdgeInsets.only(left: 30),
-              //           child: Text(
-              //             isFrontcapture
-              //                 ? 'Place the front side of the ID card within the frame.'
-              //                 : 'Flip the card and place the back side within the frame.',
-              //             style: TextStyle(fontSize: 20),
-              //           ),
-              //         )
-              //       : SizedBox(),
-              // ),
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    frontImage != null
-                        ? Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all()),
-                            constraints: const BoxConstraints(
-                                maxHeight: 120, maxWidth: 160),
-                            child: Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  File(frontImage!.path),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all()),
-                            constraints: const BoxConstraints(
-                                maxHeight: 120, maxWidth: 160),
-                          ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    backImage != null
-                        ? Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all()),
-                            constraints: const BoxConstraints(
-                                maxHeight: 120, maxWidth: 160),
-                            child: Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  File(backImage!.path),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all()),
-                            constraints: const BoxConstraints(
-                                maxHeight: 120, maxWidth: 160),
-                          ),
-                  ],
-                ),
-              )
-            ],
+            ),
           ),
-        ), // Capture front side of the ID card
-
-        // Proceed button
-        // ElevatedButton(
-        //   onPressed: selectedCardType != null &&
-        //           frontImage != null &&
-        //           backImage != null
-        //       ? () {
-        //           Navigator.push(
-        //             context,
-        //             MaterialPageRoute(
-        //               builder: (context) => AutoFillFormScreen(
-        //                 frontImage: frontImage!,
-        //                 backImage: backImage!,
-        //               ),
-        //             ),
-        //           );
-        //         }
-        //       : null,
-        //   child: Text('Proceed'),
-        // ),
-      ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              frontImage != null
+                  ? Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all()),
+                      // constraints: const BoxConstraints(
+                      //     maxHeight: 120, maxWidth: 160),
+                      child: Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.file(
+                            fit: BoxFit.contain,
+                            File(frontImage!.path),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all()),
+                      constraints:
+                          const BoxConstraints(maxHeight: 120, maxWidth: 160),
+                    ),
+              SizedBox(
+                height: 40,
+              ),
+              backImage != null
+                  ? Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all()),
+                      // constraints: const BoxConstraints(
+                      //     maxHeight: 120, maxWidth: 160),
+                      child: Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.file(
+                            File(backImage!.path),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all()),
+                      constraints:
+                          const BoxConstraints(maxHeight: 120, maxWidth: 160),
+                    ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

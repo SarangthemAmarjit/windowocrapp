@@ -31,8 +31,6 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
       return Scaffold(
         body: GetBuilder<Imagecontroller>(builder: (_) {
           return Container(
-            height: screenHeight,
-            width: screenWidth,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/bg.png'),
@@ -42,90 +40,93 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
             child: Padding(
               padding: const EdgeInsets.only(top: 100),
               child: Center(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 650, maxHeight: 1600),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
-                      child: Card(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        elevation: 10,
-                        child: AnimatedContainer(
-                          height: pagectrl.regPage == 2 ? 1400 : 800,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 40, horizontal: 40),
-                          decoration: BoxDecoration(
-                            // border: Border.all(),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          duration: Duration(milliseconds: 600),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // const SizedBox(height: 20),
-                              pagectrl.regPage == 2
-                                  ? SizedBox()
-                                  : Text(
-                                      pagectrl.regPage == 0
-                                          ? "SELECT ID CARD TYPE"
-                                          : "CAPTURE YOUR ID CARD",
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        // fontWeight: FontWeight.bold,
-                                        // color: Colors.black87,
-                                      ),
+                child: Container(
+                  // constraints: BoxConstraints(maxWidth: 650, maxHeight: 1600),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      elevation: 10,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(top: 50, left: 30, right: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // const SizedBox(height: 20),
+                            pagectrl.regPage == 2
+                                ? SizedBox()
+                                : Text(
+                                    pagectrl.regPage == 0
+                                        ? "SELECT ID CARD TYPE"
+                                        : "CAPTURE YOUR ID CARD",
+                                    style: TextStyle(
+                                      fontSize: 30,
+                                      // fontWeight: FontWeight.bold,
+                                      // color: Colors.black87,
                                     ),
-                              pagectrl.regPage == 2
-                                  ? SizedBox()
-                                  : const SizedBox(height: 5),
-                              pagectrl.regPage == 2
-                                  ? SizedBox()
-                                  : Container(
-                                      width: 40,
-                                      height: 4,
-                                      color: Colors.green,
-                                    ),
-                              pagectrl.regPage == 0
-                                  ? SizedBox(
-                                      height: 40,
-                                    )
-                                  : const SizedBox(),
-                              Expanded(
-                                child: pagectrl.regPage == 1
-                                    ? IdSelectionAndScanningScreen()
-                                    : pagectrl.regPage == 2
-                                        ? RegistrationPage(cardtype: "Aadhar")
-                                        : GridView.builder(
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount:
-                                                  2, // Number of items per row
-                                              crossAxisSpacing: 20,
-                                              mainAxisSpacing:
-                                                  20, // Spacing between rows
+                                  ),
+                            pagectrl.regPage == 2
+                                ? SizedBox()
+                                : const SizedBox(height: 5),
+                            pagectrl.regPage == 2
+                                ? SizedBox()
+                                : Container(
+                                    width: 40,
+                                    height: 4,
+                                    color: Colors.green,
+                                  ),
+                            pagectrl.regPage == 0
+                                ? SizedBox(
+                                    height: 40,
+                                  )
+                                : const SizedBox(),
+                            Expanded(
+                              child: pagectrl.regPage == 1
+                                  ? IdSelectionAndScanningScreen()
+                                  : pagectrl.regPage == 2
+                                      ? RegistrationPage(cardtype: "Aadhar")
+                                      : SingleChildScrollView(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 50),
+                                            child: GridView.builder(
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount:
+                                                    2, // Number of items per row
+                                                crossAxisSpacing: 20,
+                                                mainAxisSpacing:
+                                                    20, // Spacing between rows
+                                              ),
+                                              itemCount: idCards.length,
+                                              shrinkWrap:
+                                                  true, // Prevent GridView from taking infinite height
+                                              physics:
+                                                  NeverScrollableScrollPhysics(), // Disable scrolling inside a parent scrollable widget
+                                              itemBuilder: (context, index) {
+                                                final card = idCards[index];
+                                                return _buildOption(
+                                                    card["label"],
+                                                    card["icon"]);
+                                              },
                                             ),
-                                            itemCount: idCards.length,
-                                            shrinkWrap:
-                                                true, // Prevent GridView from taking infinite height
-                                            physics:
-                                                NeverScrollableScrollPhysics(), // Disable scrolling inside a parent scrollable widget
-                                            itemBuilder: (context, index) {
-                                              final card = idCards[index];
-                                              return _buildOption(
-                                                  card["label"], card["icon"]);
-                                            },
                                           ),
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              pagectrl.regPage == 2
-                                  ? SizedBox()
-                                  : Row(
+                                        ),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            pagectrl.regPage == 2
+                                ? SizedBox()
+                                : Padding(
+                                    padding: const EdgeInsets.only(bottom: 50),
+                                    child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         pagectrl.regPage > 0
@@ -183,9 +184,9 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
                                               )
                                       ],
                                     ),
-                              const SizedBox(height: 20),
-                            ],
-                          ),
+                                  ),
+                            const SizedBox(height: 20),
+                          ],
                         ),
                       ),
                     ),
