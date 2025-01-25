@@ -54,60 +54,130 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
             children: [
               _buildTextField('Applicant Name', _nameController),
               _buildTextField('Parent/Guardian Name', _parentNameController),
-              _buildDropdownField('ID Proof', idProofs, _selectedIdProof,
-                  (value) {
-                setState(() {
-                  _selectedIdProof = value;
-                });
-              }),
-              _buildTextField('ID No.', _idNoController),
-              _buildTextField('Email', _emailController,
-                  validator: _emailValidator),
-              _buildTextField('Mobile No.', _mobileController,
-                  validator: _phoneValidator),
-              _buildDateField('Period of Stay (From)', _fromDate, (value) {
-                setState(() {
-                  _fromDate = value;
-                });
-              }),
-              _buildTextField('Place of Stay in Manipur', _placeStayController),
-              _buildDropdownField(
-                  'Purpose of Visit', purposes, _selectedPurpose, (value) {
-                setState(() {
-                  _selectedPurpose = value;
-                });
-              }),
-              _buildTextField('Purpose (if other)', _visitPurposeController),
-              _buildDropdownField('Gate/Entry Point', gates, _selectedGate,
-                  (value) {
-                setState(() {
-                  _selectedGate = value;
-                });
-              }),
-              _buildDateField('Date of Birth', _dob, (value) {
-                setState(() {
-                  _dob = value;
-                });
-              }),
-              _buildRadioGroup('Gender', genders, _selectedGender, (value) {
-                setState(() {
-                  _selectedGender = value;
-                });
-              }),
-              _buildDropdownField('State', states, _selectedState, (value) {
-                setState(() {
-                  _selectedState = value;
-                });
-              }),
-              _buildTextField('District', _villageController),
-              _buildTextField(
-                  'Nearest Police Station', _nearestpliceController),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDropdownField(
+                        'ID Proof', idProofs, _selectedIdProof, (value) {
+                      setState(() {
+                        _selectedIdProof = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(child: _buildTextField('ID No.', _idNoController)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildTextField('Email', _emailController,
+                        validator: _emailValidator),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: _buildTextField('Mobile No.', _mobileController,
+                        validator: _phoneValidator),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDateField('Period of Stay (From)', _fromDate,
+                        (value) {
+                      setState(() {
+                        _fromDate = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: _buildTextField(
+                          'Place of Stay in Manipur', _placeStayController)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDropdownField(
+                        'Purpose of Visit', purposes, _selectedPurpose,
+                        (value) {
+                      setState(() {
+                        _selectedPurpose = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: _buildTextField(
+                          'Purpose (if other)', _visitPurposeController)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDateField('Date of Birth', _dob, (value) {
+                      setState(() {
+                        _dob = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: _buildRadioGroup('Gender', genders, _selectedGender,
+                        (value) {
+                      setState(() {
+                        _selectedGender = value;
+                      });
+                    }),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDropdownField('State', states, _selectedState,
+                        (value) {
+                      setState(() {
+                        _selectedState = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: _buildTextField('District', _villageController)),
+                ],
+              ),
               _buildTextField('Village/Street', _villageController),
-              _buildTextField('Tehsil', _tehsilController),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildTextField(
+                        'Nearest Police Station', _nearestpliceController),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(child: _buildTextField('Tehsil', _tehsilController)),
+                ],
+              ),
               const SizedBox(height: 20),
               InkWell(
                 onTap: () {
-                  controller.changePage(3);
+                  controller.changePage(2);
                 },
                 child: Container(
                   width: double.infinity,
@@ -138,7 +208,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         ),
         validator: validator,
       ),
@@ -152,7 +222,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -188,7 +258,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
         child: InputDecorator(
           decoration: InputDecoration(
             labelText: label,
-            border: OutlineInputBorder(),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           ),
           child: Text(selectedDate != null
               ? '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}'
@@ -212,6 +282,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
             children: options
                 .map((option) => Expanded(
                       child: RadioListTile(
+                        contentPadding: EdgeInsets.zero,
                         title: Text(option),
                         value: option,
                         groupValue: selectedValue,

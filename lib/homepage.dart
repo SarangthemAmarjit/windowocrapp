@@ -71,11 +71,12 @@ class _IdSelectionAndScanningScreenState
     int cameraIndex = 0;
     try {
       cameras = await CameraPlatform.instance.availableCameras();
+      log("All Cameras : " + cameras.toString());
       if (cameras.isEmpty) {
         cameraInfo = 'No available cameras';
       } else {
         cameraIndex = _cameraIndex % cameras.length;
-        cameraInfo = 'Found camera: ${cameras[cameraIndex].name}';
+        cameraInfo = 'Found camera: ${cameras[1].name}';
       }
     } on PlatformException catch (e) {
       cameraInfo = 'Failed to get cameras: ${e.code}: ${e.message}';
@@ -115,13 +116,22 @@ class _IdSelectionAndScanningScreenState
   }
 
   Future<void> _initialize(
-      {required bool isfront, required bool isback}) async {}
+      {required bool isfront,
+      required bool isback,
+      required bool isprofilecam}) async {}
 
   /// Initializes the camera on the device.
   Future<void> _initializeCamera(
-      {required bool isfront, required bool isback}) async {
+      {required bool isfront,
+      required bool isback,
+      required bool isprofilecam}) async {
+    int cameraIndex = 0;
     setState(() {
-      isFrontcapturebuttonpress = isfront;
+      isFrontcapturebuttonpress = isfront
+          ? isfront
+          : isprofilecam
+              ? true
+              : false;
       isBackcapturebuttonpress = isback;
     });
     if (isFrontcapturebuttonpress) {
@@ -133,7 +143,19 @@ class _IdSelectionAndScanningScreenState
 
       int cameraId = -1;
       try {
-        final int cameraIndex = _cameraIndex % _cameras.length;
+        if (isprofilecam) {
+          setState(() {
+            cameraIndex = _cameras.indexWhere((ele) =>
+                ele.name.toString().toLowerCase().contains('webcam') ||
+                ele.name.toString().toLowerCase().contains('logi'));
+          });
+        } else {
+          setState(() {
+            cameraIndex = _cameras.indexWhere(
+                (ele) => ele.name.toString().toLowerCase().contains('czur'));
+          });
+        }
+
         final CameraDescription camera = _cameras[cameraIndex];
 
         cameraId = await CameraPlatform.instance.createCameraWithSettings(
@@ -269,7 +291,8 @@ class _IdSelectionAndScanningScreenState
                               ? const Color.fromARGB(255, 216, 236, 217)
                               : Colors.white)),
                   onPressed: () {
-                    _initializeCamera(isfront: true, isback: false);
+                    _initializeCamera(
+                        isfront: true, isback: false, isprofilecam: false);
                     // _initializeCamera(isfront: true);
                   },
                   child: Text('Capture Front Side'),
@@ -289,10 +312,32 @@ class _IdSelectionAndScanningScreenState
                               ? const Color.fromARGB(255, 216, 236, 217)
                               : Colors.white)),
                   onPressed: () {
-                    _initializeCamera(isfront: false, isback: true);
+                    _initializeCamera(
+                        isfront: false, isback: false, isprofilecam: false);
                     // _initializeCamera(isfront: false);
                   },
                   child: Text('Capture Back Side'),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                // Csizebapture back side of the ID card
+
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.green),
+                          borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: WidgetStatePropertyAll(
+                          isBackcapturebuttonpress
+                              ? const Color.fromARGB(255, 216, 236, 217)
+                              : Colors.white)),
+                  onPressed: () {
+                    _initializeCamera(
+                        isfront: false, isback: true, isprofilecam: true);
+                    // _initializeCamera(isfront: false);
+                  },
+                  child: Text('Capture Profile Image'),
                 ),
                 SizedBox(height: 20),
               ],
