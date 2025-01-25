@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   camera_windows
   file_selector_windows
   flutter_doc_scanner
+  flutter_ocr_sdk
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

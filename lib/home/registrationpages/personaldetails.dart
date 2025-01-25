@@ -1,166 +1,250 @@
+import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:form_validation/form_validation.dart';
 import 'package:get/get.dart';
 
-import '../../cons/constant.dart';
-import '../../controller/managementcontroller.dart';
-import '../../controller/pagecontroller.dart';
-import '../../widgets/textfields.dart';
-
-
-class PersonalDetails extends StatefulWidget {
-  const PersonalDetails({super.key});
+class TemporaryILPForm extends StatefulWidget {
+  const TemporaryILPForm({super.key});
 
   @override
-  State<PersonalDetails> createState() => _PersonalDetailsState();
+  State<TemporaryILPForm> createState() => _TemporaryILPFormState();
 }
 
-class _PersonalDetailsState extends State<PersonalDetails> {
-    final _namecontroller = TextEditingController();
-  final _phonecontroller = TextEditingController();
-  final _parentnamecontroller = TextEditingController();
-  final _idmarkcontroller = TextEditingController();
-  final _occupationcontroller = TextEditingController();
-  DateTime _dob = DateTime.now();
+class _TemporaryILPFormState extends State<TemporaryILPForm> {
+  final _nameController = TextEditingController();
+  final _parentNameController = TextEditingController();
+  final _idNoController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _mobileController = TextEditingController();
+  final _placeStayController = TextEditingController();
+  final _visitPurposeController = TextEditingController();
+  final _nearestpliceController = TextEditingController();
+  final _villageController = TextEditingController();
+  final _tehsilController = TextEditingController();
+
+  DateTime? _fromDate;
+  DateTime? _dob;
+  String? _selectedIdProof;
+  String? _selectedPurpose;
+  String? _selectedGate;
+  String? _selectedState;
+  String? _selectedDistrict;
+  String? _selectedPoliceStation;
+  String? _selectedGender;
+
+  final List<String> idProofs = [
+    'Aadhaar',
+    'Voter ID',
+    'Driving License',
+    'Passport'
+  ];
+  final List<String> purposes = ['Business', 'Tourism', 'Medical', 'Other'];
+  final List<String> gates = ['Imphal Gate', 'Mao Gate', 'Moreh Gate'];
+  final List<String> states = ['Manipur', 'Assam', 'Nagaland', 'Other'];
+  final List<String> genders = ['Male', 'Female', 'Others'];
+
   @override
   Widget build(BuildContext context) {
-    return  GetBuilder<Managementcontroller>(
-      builder: (managectrl) {
-        return GetBuilder<PageControllers>(
-          builder: (controller) {
-            return Form(
-              child: Column(
-                   
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Personal Details",style: TextStyle(fontSize: 30,color: Colors.green),),
-                        Divider(),
-                        SizedBox(height: 10,),
-                           TextFieldWidget(hint:"Aadhar Id",controller: _phonecontroller,validator: PhoneNumberValidator(),),
-                        Row(
-                          children: [
-                            Expanded(child: TextFieldWidget(hint: 'Name', controller:_namecontroller,validator: RequiredValidator(),)),
-                            SizedBox(width: 20,),
-                            Expanded(child: TextFieldWidget(hint:"Phone",controller: _phonecontroller,validator: PhoneNumberValidator(),)),
-                          ],
-                        ),
-              
-                                      Row(
-                          children: [
-                            Expanded(child: TextFieldWidget(hint: 'Parent Name', controller:_parentnamecontroller,validator: RequiredValidator(),)),
-                            SizedBox(width: 20,),
-                            Expanded(child: TextFieldWidget(hint:"Id Mark",controller: _idmarkcontroller,validator: RequiredValidator(),)),
-                          ],
-                        ),
-              
-                                      Row(
-                                    
-                          children: [
-                            
-                        
-                    
-                            Expanded(child: TextFieldWidget(hint:"Occupation",controller: _occupationcontroller,validator: RequiredValidator(),)),
-                                  
-                              Expanded(child: SizedBox(width:20,)),
-                             
-                          ],
-                        ),
-              
-              
-                            // SizedBox(width: 20,),
-                                  Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                       Text(
-                                                        "D.O.B",
-                                                          style: TextStyle(
-                                                            
-                                                              fontSize: 12),
-                                                        ),
-                                                        SizedBox(height: 8,),
-                                          Container(
-                                          height: 60,
-                                        clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                               border: Border.all(color: Colors.grey[900]!),
-                                               borderRadius: BorderRadius.circular(8)
-                                            ),
-                                            child: InkWell(
-                                              onTap: (){
-                                                showDatePicker(context: context, firstDate: DateTime(1950), lastDate: DateTime(DateTime.now().year)).then((value) {
-                                                  setState(() {
-                                                    _dob = value!;
-                                                  });
-                                                },);
-                                          
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  children: [
-                                                    Text("${_dob.day}/${_dob.month}/${_dob.year}"),
-                                                    SizedBox(width: 10,),
-                                                    Icon(Icons.date_range_outlined,size: 16,)
-                                                  ],
-                                                ),
-                                              ),
-                                            )
-                                          ),
-                                        ],
-                                      ),
-                SizedBox(width:20,),
-                                      Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                   Text(
-                                                    "Gender",
-                                                      style: TextStyle(
-                                                        
-                                                          fontSize: 12),
-                                                    ),
-                                                    SizedBox(height: 8,),
-                                      Container(
-                                      height: 60,
-                                      padding: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                           border: Border.all(color: Colors.grey[900]!),
-                                           borderRadius: BorderRadius.circular(8)
-                                        ),
-                                        child: DropdownButton(
-                                          style: TextStyle(fontSize: 16,color: Colors.black),
-                                          underline: SizedBox(),
-                                          value: managectrl.gender,
-                                          items: genders.map((e) => DropdownMenuItem(value:e,child: Text(e),),).toList(), onChanged:(v){managectrl.changeGender(v!);}),
-                                      ),
-                                    ],
-                                  ),
-                                    ],
-                                  ),
-                                SizedBox(height: 20,),
-                                  InkWell(
-                                    onTap: (){
-                                      
-                                      controller.changePage(2);
-                                    },
-                                    child: Container(
-                                      width: double.infinity,
-                                                           
-                                      padding: EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.circular(8)),clipBehavior: Clip.antiAlias,child: Center(child: Text("Next",style: TextStyle(color: Colors.white),)),),
-                                  ),
-                      ],
-                    ),
-            ).animate().fadeIn(duration: Duration(milliseconds: 500));
-          }
-        );
-      }
+    return GetBuilder<PageControllers>(builder: (controller) {
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTextField('Applicant Name', _nameController),
+              _buildTextField('Parent/Guardian Name', _parentNameController),
+              _buildDropdownField('ID Proof', idProofs, _selectedIdProof,
+                  (value) {
+                setState(() {
+                  _selectedIdProof = value;
+                });
+              }),
+              _buildTextField('ID No.', _idNoController),
+              _buildTextField('Email', _emailController,
+                  validator: _emailValidator),
+              _buildTextField('Mobile No.', _mobileController,
+                  validator: _phoneValidator),
+              _buildDateField('Period of Stay (From)', _fromDate, (value) {
+                setState(() {
+                  _fromDate = value;
+                });
+              }),
+              _buildTextField('Place of Stay in Manipur', _placeStayController),
+              _buildDropdownField(
+                  'Purpose of Visit', purposes, _selectedPurpose, (value) {
+                setState(() {
+                  _selectedPurpose = value;
+                });
+              }),
+              _buildTextField('Purpose (if other)', _visitPurposeController),
+              _buildDropdownField('Gate/Entry Point', gates, _selectedGate,
+                  (value) {
+                setState(() {
+                  _selectedGate = value;
+                });
+              }),
+              _buildDateField('Date of Birth', _dob, (value) {
+                setState(() {
+                  _dob = value;
+                });
+              }),
+              _buildRadioGroup('Gender', genders, _selectedGender, (value) {
+                setState(() {
+                  _selectedGender = value;
+                });
+              }),
+              _buildDropdownField('State', states, _selectedState, (value) {
+                setState(() {
+                  _selectedState = value;
+                });
+              }),
+              _buildTextField('District', _villageController),
+              _buildTextField(
+                  'Nearest Police Station', _nearestpliceController),
+              _buildTextField('Village/Street', _villageController),
+              _buildTextField('Tehsil', _tehsilController),
+              const SizedBox(height: 20),
+              InkWell(
+                onTap: () {
+                  controller.changePage(3);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8)),
+                  clipBehavior: Clip.antiAlias,
+                  child: Center(
+                      child: Text(
+                    "Next",
+                    style: TextStyle(color: Colors.white),
+                  )),
+                ),
+              ),
+            ],
+          ).animate().fadeIn(duration: const Duration(milliseconds: 500)),
+        ),
+      );
+    });
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller,
+      {String? Function(String?)? validator}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+        ),
+        validator: validator,
+      ),
     );
+  }
+
+  Widget _buildDropdownField(String label, List<String> items,
+      String? selectedValue, ValueChanged<String?> onChanged) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            isDense: true,
+            value: selectedValue,
+            isExpanded: false,
+            onChanged: onChanged,
+            items: items
+                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+                .toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDateField(String label, DateTime? selectedDate,
+      ValueChanged<DateTime?> onDateSelected) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: InkWell(
+        onTap: () async {
+          DateTime? date = await showDatePicker(
+            context: context,
+            initialDate: selectedDate ?? DateTime.now(),
+            firstDate: DateTime(1900),
+            lastDate: DateTime.now().add(const Duration(days: 365)),
+          );
+          if (date != null) {
+            onDateSelected(date);
+          }
+        },
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: label,
+            border: OutlineInputBorder(),
+          ),
+          child: Text(selectedDate != null
+              ? '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}'
+              : 'Select Date'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRadioGroup(String label, List<String> options,
+      String? selectedValue, ValueChanged<String?> onChanged) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label,
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Row(
+            children: options
+                .map((option) => Expanded(
+                      child: RadioListTile(
+                        title: Text(option),
+                        value: option,
+                        groupValue: selectedValue,
+                        onChanged: onChanged,
+                      ),
+                    ))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String? _emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email cannot be empty';
+    }
+    final emailRegex =
+        RegExp(r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Enter a valid email';
+    }
+    return null;
+  }
+
+  String? _phoneValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Mobile number cannot be empty';
+    }
+    final phoneRegex = RegExp(r'^\d{10}\$');
+    if (!phoneRegex.hasMatch(value)) {
+      return 'Enter a valid 10-digit mobile number';
+    }
+    return null;
   }
 }

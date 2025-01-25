@@ -5,6 +5,7 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_ocr_sdk/flutter_ocr_sdk.dart';
 
 class IdSelectionAndScanningScreen extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _IdSelectionAndScanningScreenState
   XFile? frontImage;
   XFile? backImage;
   final ImagePicker picker = ImagePicker();
-
+  FlutterOcrSdk detector = FlutterOcrSdk();
   String _cameraInfo = 'Unknown';
   List<CameraDescription> _cameras = <CameraDescription>[];
   int _cameraIndex = 0;
@@ -240,6 +241,8 @@ class _IdSelectionAndScanningScreenState
         backImage = file;
       }
     });
+    var dn = await detector.recognizeByFile(frontImage!.path);
+    log(dn.toString());
   }
 
   Widget _buildPreview() {

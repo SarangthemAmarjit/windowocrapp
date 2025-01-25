@@ -38,7 +38,7 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(top: 100),
+              padding: const EdgeInsets.only(top: 100, bottom: 100),
               child: Center(
                 child: Container(
                   // constraints: BoxConstraints(maxWidth: 650, maxHeight: 1600),
@@ -90,7 +90,7 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
                               child: pagectrl.regPage == 1
                                   ? IdSelectionAndScanningScreen()
                                   : pagectrl.regPage == 2
-                                      ? RegistrationPage(cardtype: "Aadhar")
+                                      ? RegistrationPage()
                                       : SingleChildScrollView(
                                           child: Padding(
                                             padding: const EdgeInsets.only(

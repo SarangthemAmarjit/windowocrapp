@@ -23,11 +23,8 @@ class _PermitDetailsState extends State<PermitDetails> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Permit Details",
-            style: TextStyle(fontSize: 30, color: Colors.green),
-          ),
-          Divider(),
+          // Text("Permit Details",style: TextStyle(fontSize: 30,color: Colors.green),),
+          // Divider(),
           SizedBox(
             height: 10,
           ),

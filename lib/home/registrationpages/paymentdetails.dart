@@ -15,15 +15,15 @@ class PaymentDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             
-          Row(
-            children: [
-              Icon(Icons.monetization_on_rounded,size: 30,color: Colors.green  ),
-              SizedBox(width: 10,),
-              Text("Payments",style: TextStyle(fontSize: 30,color: Colors.green),),
-            ],
-          ),
-                      Divider(),
-          SizedBox(height: 30,),
+          // Row(
+          //   children: [
+          //     Icon(Icons.monetization_on_rounded,size: 30,color: Colors.green  ),
+          //     SizedBox(width: 10,),
+          //     Text("Payments",style: TextStyle(fontSize: 30,color: Colors.green),),
+          //   ],
+          // ),
+          //             Divider(),
+          // SizedBox(height: 30,),
                         Center(
                           child: Container(
                            width: 350,
