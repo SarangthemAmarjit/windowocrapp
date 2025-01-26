@@ -4,7 +4,7 @@ import '../controller/pagecontroller.dart';
 import 'registrationpages/addressdetails.dart';
 import 'registrationpages/paymentdetails.dart';
 import 'registrationpages/permittypes.dart';
-import 'registrationpages/personaldetails.dart';
+import 'registrationpages/ilpform.dart';
 import 'registrationpages/photodetails.dart';
 
 class RegistrationPage extends StatefulWidget {

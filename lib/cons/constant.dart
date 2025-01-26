@@ -1,6 +1,7 @@
  import 'package:flutter/material.dart';
 
 List<String> genders = ['Male',"Female","Other"];
+  final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
 
 List<String> termcondition = [
 	"a)I shall be responsible for the good conduct during my stay in the state of Manipur.",
