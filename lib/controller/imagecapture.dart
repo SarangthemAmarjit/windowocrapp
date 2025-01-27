@@ -188,7 +188,6 @@ class Imagecontroller extends GetxController {
   void updateProfileImage(XFile file) {
     _profileimage = file;
     update();
-    log(_profileimage!.path);
   }
 
   /// Initializes the camera on the device.
@@ -329,19 +328,17 @@ class Imagecontroller extends GetxController {
       // Encode the cropped image back to PNG or JPG
       final croppedBytes = img.encodePng(cropped);
 
-
-
 // Generate a unique file name
-final uniqueFileName = 'cropped_image_${Uuid().v4()}.png'; // Using UUID for uniqueness
-final tempDir = Directory.systemTemp;
-final croppedFilePath = '${tempDir.path}/$uniqueFileName';
-final croppedFile = File(croppedFilePath);
+      final uniqueFileName =
+          'cropped_image_${Uuid().v4()}.png'; // Using UUID for uniqueness
+      final tempDir = Directory.systemTemp;
+      final croppedFilePath = '${tempDir.path}/$uniqueFileName';
+      final croppedFile = File(croppedFilePath);
 
 // Save the cropped image to the unique file path
-await croppedFile.writeAsBytes(croppedBytes);
+      await croppedFile.writeAsBytes(croppedBytes);
 
 // You can now use `croppedFile.path` for further operations
-
 
       return croppedFile;
     } else {
