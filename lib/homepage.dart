@@ -38,7 +38,10 @@ class _IdSelectionAndScanningScreenState
                                 : Colors.white)),
                     onPressed: () {
                       imgcon.initializeCamera(
-                          isfront: true, isback: false, isprofilecam: false);
+                          isfront: true,
+                          isback: false,
+                          isprofilecam: false,
+                          context: context);
                       // _initializeCamera(isfront: true);
                     },
                     child: Text('Capture Front Side'),
@@ -59,7 +62,10 @@ class _IdSelectionAndScanningScreenState
                                 : Colors.white)),
                     onPressed: () {
                       imgcon.initializeCamera(
-                          isfront: false, isback: false, isprofilecam: false);
+                          isfront: false,
+                          isback: false,
+                          isprofilecam: false,
+                          context: context);
                       // _initializeCamera(isfront: false);
                     },
                     child: Text('Capture Back Side'),
@@ -80,7 +86,10 @@ class _IdSelectionAndScanningScreenState
                                 : Colors.white)),
                     onPressed: () {
                       imgcon.initializeCamera(
-                          isfront: false, isback: true, isprofilecam: true);
+                          isfront: false,
+                          isback: true,
+                          isprofilecam: true,
+                          context: context);
                       // _initializeCamera(isfront: false);
                     },
                     child: Text('Capture Profile Image'),

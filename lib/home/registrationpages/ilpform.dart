@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
-
+import 'dart:io';
+import 'package:crop_image/crop_image.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,27 +32,6 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
   String? selectedCardType;
   XFile? profileimage;
 
-  String _cameraInfo = 'Unknown';
-  List<CameraDescription> _cameras = <CameraDescription>[];
-  int _cameraIndex = 0;
-  int _cameraId = -1;
-  bool isinitialized = false;
-  bool iscamerashown = false;
-  bool _recording = false;
-  bool _recordingTimed = false;
-  bool _previewPaused = false;
-  Size? _previewSize;
-  bool isFrontcapturebuttonpress = false;
-  bool isBackcapturebuttonpress = false;
-  MediaSettings _mediaSettings = const MediaSettings(
-    resolutionPreset: ResolutionPreset.high,
-    fps: 30,
-    videoBitrate: 200000,
-    audioBitrate: 32000,
-    enableAudio: true,
-  );
-  StreamSubscription<CameraErrorEvent>? _errorStreamSubscription;
-  StreamSubscription<CameraClosingEvent>? _cameraClosingStreamSubscription;
   DateTime? _fromDate;
   DateTime? _dob;
   String? _selectedIdProof;
@@ -60,23 +41,6 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
   String? _selectedDistrict;
   String? _selectedPoliceStation;
   String? _selectedGender;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsFlutterBinding.ensureInitialized();
-    _fetchCameras();
-  }
-
-  @override
-  void dispose() {
-    _disposeCurrentCamera();
-    _errorStreamSubscription?.cancel();
-    _errorStreamSubscription = null;
-    _cameraClosingStreamSubscription?.cancel();
-    _cameraClosingStreamSubscription = null;
-    super.dispose();
-  }
 
   final List<String> idProofs = [
     'Aadhaar',
@@ -89,265 +53,9 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
   final List<String> states = ['Manipur', 'Assam', 'Nagaland', 'Other'];
   final List<String> genders = ['Male', 'Female', 'Others'];
 
-  /// Initializes the camera on the device.
-  Future<void> _initializeCamera(
-      {required bool isfront,
-      required bool isback,
-      required bool isprofilecam}) async {
-    int cameraIndex = 0;
-    setState(() {
-      isFrontcapturebuttonpress = isfront
-          ? isfront
-          : isprofilecam
-              ? true
-              : false;
-      isBackcapturebuttonpress = isback;
-    });
-    if (isFrontcapturebuttonpress) {
-      assert(!isinitialized);
-      print("isinitialized " + isinitialized.toString());
-      if (_cameras.isEmpty) {
-        return;
-      }
-
-      int cameraId = -1;
-      try {
-        if (isprofilecam) {
-          log(_cameras[0].name);
-          setState(() {
-            cameraIndex = _cameras.indexWhere((ele) =>
-                ele.name.toString().toLowerCase().contains('webcam') ||
-                ele.name.toString().toLowerCase().contains('logi') ||
-                ele.name
-                    .toString()
-                    .toLowerCase()
-                    .contains('integrated camera'));
-          });
-          log("cameraIndex :" + cameraIndex.toString());
-        } else {
-          setState(() {
-            cameraIndex = _cameras.indexWhere(
-                (ele) => ele.name.toString().toLowerCase().contains('czur'));
-          });
-        }
-
-        final CameraDescription camera = _cameras[cameraIndex];
-
-        cameraId = await CameraPlatform.instance.createCameraWithSettings(
-          camera,
-          _mediaSettings,
-        );
-
-        unawaited(_errorStreamSubscription?.cancel());
-        _errorStreamSubscription = CameraPlatform.instance
-            .onCameraError(cameraId)
-            .listen(_onCameraError);
-
-        unawaited(_cameraClosingStreamSubscription?.cancel());
-        _cameraClosingStreamSubscription = CameraPlatform.instance
-            .onCameraClosing(cameraId)
-            .listen(_onCameraClosing);
-
-        final Future<CameraInitializedEvent> initialized =
-            CameraPlatform.instance.onCameraInitialized(cameraId).first;
-
-        await CameraPlatform.instance.initializeCamera(
-          cameraId,
-        );
-
-        final CameraInitializedEvent event = await initialized;
-        _previewSize = Size(
-          event.previewWidth,
-          event.previewHeight,
-        );
-
-        if (mounted) {
-          setState(() {
-            isinitialized = true;
-            _cameraId = cameraId;
-            iscamerashown = true;
-            _cameraIndex = cameraIndex;
-            _cameraInfo = 'Capturing camera: ${camera.name}';
-          });
-          _showCameraDialog(context);
-        }
-      } on CameraException catch (e) {
-        try {
-          if (cameraId >= 0) {
-            await CameraPlatform.instance.dispose(cameraId);
-          }
-        } on CameraException catch (e) {
-          debugPrint('Failed to dispose camera: ${e.code}: ${e.description}');
-        }
-
-        // Reset state.
-        if (mounted) {
-          setState(() {
-            isinitialized = false;
-            iscamerashown = false;
-            _cameraId = -1;
-            _cameraIndex = 0;
-            _previewSize = null;
-            _recording = false;
-            _recordingTimed = false;
-            _cameraInfo =
-                'Failed to initialize camera: ${e.code}: ${e.description}';
-          });
-        }
-      }
-    }
-  }
-
-  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
-      GlobalKey<ScaffoldMessengerState>();
-
-  /// Fetches list of available cameras from camera_windows plugin.
-  Future<void> _fetchCameras() async {
-    String cameraInfo;
-    List<CameraDescription> cameras = <CameraDescription>[];
-
-    int cameraIndex = 0;
-    try {
-      cameras = await CameraPlatform.instance.availableCameras();
-      log("All Cameras : " + cameras.toString());
-      if (cameras.isEmpty) {
-        cameraInfo = 'No available cameras';
-      } else {
-        cameraIndex = _cameraIndex % cameras.length;
-        cameraInfo = 'Found camera: ${cameras[cameraIndex].name}';
-      }
-    } on PlatformException catch (e) {
-      cameraInfo = 'Failed to get cameras: ${e.code}: ${e.message}';
-    }
-
-    if (mounted) {
-      setState(() {
-        _cameraIndex = cameraIndex;
-        _cameras = cameras;
-        _cameraInfo = cameraInfo;
-      });
-    }
-  }
-
-  void _onCameraError(CameraErrorEvent event) {
-    if (mounted) {
-      _scaffoldMessengerKey.currentState?.showSnackBar(
-          SnackBar(content: Text('Error: ${event.description}')));
-
-      // Dispose camera on camera error as it can not be used anymore.
-      _disposeCurrentCamera();
-      _fetchCameras();
-    }
-  }
-
-  void _showInSnackBar(String message) {
-    _scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
-      content: Text(message),
-      duration: const Duration(seconds: 1),
-    ));
-  }
-
-  void _onCameraClosing(CameraClosingEvent event) {
-    if (mounted) {
-      _showInSnackBar('Camera is closing');
-    }
-  }
-
-  Future<void> _disposeCurrentCamera() async {
-    if (_cameraId >= 0 && isinitialized) {
-      try {
-        await CameraPlatform.instance.dispose(_cameraId);
-
-        if (mounted) {
-          setState(() {
-            profileimage = null;
-
-            isFrontcapturebuttonpress = false;
-            isBackcapturebuttonpress = false;
-            isinitialized = false;
-            iscamerashown = false;
-            _cameraId = -1;
-            _previewSize = null;
-            _recording = false;
-            _recordingTimed = false;
-            _previewPaused = false;
-            _cameraInfo = 'Camera disposed';
-          });
-        }
-      } on CameraException catch (e) {
-        if (mounted) {
-          setState(() {
-            _cameraInfo =
-                'Failed to dispose camera: ${e.code}: ${e.description}';
-          });
-        }
-      }
-    }
-  }
-
-  Future<void> _takePicture() async {
-    final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
-    setState(() {
-      profileimage = file;
-    });
-  }
-
-  Widget _buildPreview() {
-    return CameraPlatform.instance.buildPreview(_cameraId);
-  }
-
-  void _showCameraDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                constraints: const BoxConstraints(
-                  maxHeight: 250,
-                ),
-                child: Transform.flip(
-                  flipX: true,
-                  child: AspectRatio(
-                    aspectRatio: _previewSize!.width / _previewSize!.height,
-                    child: _buildPreview(),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                           _disposeCurrentCamera();
-                      Navigator.pop(context);
-                    },
-                    child: Text("Cancel"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // if (_cameraController != null && _cameraController!.value.isInitialized) {
-                      //   final image = await _cameraController!.takePicture();
-                      //   Navigator.pop(context, image.path); // Return the captured image path
-                      // }
-                    },
-                    child: Text("Capture"),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    Imagecontroller imgcon = Get.put(Imagecontroller());
     return GetBuilder<PageControllers>(builder: (controller) {
       return SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -355,14 +63,29 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              imgcon.profileimage != null
+                  ? CropImage(
+                      controller: imgcon.crcontroller,
+                      image: Image.file(
+                        File(imgcon.profileimage!.path),
+                      ),
+                      paddingSize: 25.0,
+                      alwaysMove: true,
+                      minimumImageSize: 500,
+                      maximumImageSize: 500,
+                    )
+                  : SizedBox(),
               Row(
                 children: [
                   Expanded(
                     flex: 1,
                     child: InkWell(
                       onTap: () {
-                        _initializeCamera(
-                            isfront: false, isback: false, isprofilecam: true);
+                        imgcon.initializeCamera(
+                            isfront: false,
+                            isback: false,
+                            isprofilecam: true,
+                            context: context);
                       },
                       child: Container(
                         height: 130,
@@ -374,16 +97,23 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.add_a_photo_rounded),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              Text("Capture a Profile Photo")
-                            ],
-                          ),
+                          child: imgcon.profileimage != null
+                              ? Transform.flip(
+                                  flipX: true,
+                                  child: Image.file(
+                                    File(imgcon.profileimage!.path),
+                                  ),
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add_a_photo_rounded),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Text("Capture a Profile Photo")
+                                  ],
+                                ),
                         ),
                       ),
                     ),
@@ -392,7 +122,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                     width: 20,
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: Column(
                       children: [
                         _buildTextField('Applicant Name', _nameController),

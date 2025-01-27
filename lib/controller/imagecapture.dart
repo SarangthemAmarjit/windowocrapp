@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:crop_image/crop_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,9 @@ class Imagecontroller extends GetxController {
 
   XFile? _frontImage;
   XFile? get frontimage => _frontImage;
+
+  XFile? _profileimage;
+  XFile? get profileimage => _profileimage;
 
   XFile? _backImage;
   XFile? get backImage => _backImage;
@@ -95,12 +99,89 @@ class Imagecontroller extends GetxController {
   }
 
   void _onCameraClosing(CameraClosingEvent event) {}
+  final crcontroller = CropController(
+    aspectRatio: 0.7,
+    defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
+  );
+
+  void showProfileCameraDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, s) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                    constraints: const BoxConstraints(
+                      maxHeight: 250,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 7 / 9, // Passport photo ratio
+                      child: Center(
+                        child: ClipRect(
+                          child: OverflowBox(
+                            alignment: Alignment.center,
+                            maxWidth: 400,
+                            maxHeight: 600,
+                            child: FittedBox(
+                              fit: BoxFit
+                                  .fill, // Ensure it covers the entire aspect ratio
+                              child: SizedBox(
+                                width: _previewSize!.width,
+                                height: _previewSize!.height,
+                                child: buildPreview(), // Your camera preview
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        disposeCurrentCamera();
+                        Navigator.pop(context);
+                      },
+                      child: Text("Cancel"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final XFile file = await CameraPlatform.instance
+                            .takePicture(_cameraId);
+                        s(() {
+                          _profileimage = file;
+                        });
+                        update();
+
+                        // if (_cameraController != null && _cameraController!.value.isInitialized) {
+                        //   final image = await _cameraController!.takePicture();
+                        //   Navigator.pop(context, image.path); // Return the captured image path
+                        // }
+                      },
+                      child: Text("Capture"),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+      },
+    );
+  }
 
   /// Initializes the camera on the device.
   Future<void> initializeCamera(
       {required bool isfront,
       required bool isback,
-      required bool isprofilecam}) async {
+      required bool isprofilecam,
+      required BuildContext context}) async {
     int cameraIndex = 0;
 
     _isFrontcapturebuttonpress = isfront
@@ -156,16 +237,20 @@ class Imagecontroller extends GetxController {
         );
 
         final CameraInitializedEvent event = await initialized;
-        _previewSize = Size(
-          event.previewWidth,
-          event.previewHeight,
-        );
+
+// Adjust the preview size to match the passport photo aspect ratio (7:9)
+        _previewSize = Size(event.previewWidth, event.previewWidth
+            // Adjust height based on the 7:9 aspect ratio
+            );
 
         _isinitialized = true;
         _cameraId = cameraId;
         _iscamerashown = true;
         _cameraIndex = cameraIndex;
         update();
+        if (isprofilecam) {
+          showProfileCameraDialog(context);
+        }
       } on CameraException catch (e) {
         try {
           if (cameraId >= 0) {
@@ -215,6 +300,13 @@ class Imagecontroller extends GetxController {
       _backImage = file;
       update();
     }
+  }
+
+  Future<void> takeprofilePicture() async {
+    final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
+
+    _profileimage = file;
+    update();
   }
 
   Widget buildPreview() {
