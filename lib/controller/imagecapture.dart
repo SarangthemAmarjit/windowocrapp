@@ -204,8 +204,9 @@ class Imagecontroller extends GetxController {
             ? true
             : false;
     _isBackcapturebuttonpress = isback;
+    update();
 
-    if (isFrontcapturebuttonpress) {
+    if (_isFrontcapturebuttonpress) {
       assert(!isinitialized);
       print("isinitialized " + isinitialized.toString());
       if (_allavailablecameras.isEmpty) {

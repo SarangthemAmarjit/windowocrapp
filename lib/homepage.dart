@@ -63,7 +63,7 @@ class _IdSelectionAndScanningScreenState
                     onPressed: () {
                       imgcon.initializeCamera(
                           isfront: false,
-                          isback: false,
+                          isback: true,
                           isprofilecam: false,
                           context: context);
                       // _initializeCamera(isfront: false);
@@ -74,27 +74,6 @@ class _IdSelectionAndScanningScreenState
                     width: 30,
                   ),
                   // Csizebapture back side of the ID card
-
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(10))),
-                        backgroundColor: WidgetStatePropertyAll(
-                            imgcon.isBackcapturebuttonpress
-                                ? const Color.fromARGB(255, 216, 236, 217)
-                                : Colors.white)),
-                    onPressed: () {
-                      imgcon.initializeCamera(
-                          isfront: false,
-                          isback: true,
-                          isprofilecam: true,
-                          context: context);
-                      // _initializeCamera(isfront: false);
-                    },
-                    child: Text('Capture Profile Image'),
-                  ),
-                  SizedBox(height: 20),
                 ],
               ),
             ),
@@ -134,8 +113,7 @@ class _IdSelectionAndScanningScreenState
                                 child: Align(
                                   child: Container(
                                     constraints: const BoxConstraints(
-                                      maxHeight: 250,
-                                    ),
+                                        maxHeight: 250, maxWidth: 500),
                                     child: Transform.flip(
                                       flipX: true,
                                       child: AspectRatio(
