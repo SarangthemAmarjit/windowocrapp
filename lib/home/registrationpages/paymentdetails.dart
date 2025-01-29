@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
 import '../../controller/pagecontroller.dart';
+import 'linkpage.dart';
 
 class PaymentDetails extends StatelessWidget {
   const PaymentDetails({super.key});
@@ -117,7 +118,8 @@ class PaymentDetails extends StatelessWidget {
                                     )),
                                 InkWell(
                                   onTap: (){
-                                    controller.changePage(1);
+                                    // controller.changePage(1);
+                                    Get.to(()=>ExampleBrowser());
                                   },
                                   child: Container(
                                     margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),

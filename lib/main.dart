@@ -1,8 +1,8 @@
 // Copyright 2013 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
+//import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/dashboard.dart';
@@ -16,7 +16,9 @@ import 'controller/pagecontroller.dart';
 import 'home/dashboard.dart';
 
 void main() {
+   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
+  
   Get.put(Imagecontroller());
   Get.put(PageControllers());
   Get.put(Managementcontroller());
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SelectIdCardTypeScreen(),
     );
@@ -492,5 +494,21 @@ class _ActualCameraPageState extends State<ActualCameraPage> {
         ),
       ),
     );
+  }
+}
+
+
+
+
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    // Customizing the HttpClient as needed
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) {
+        // Allow self-signed or invalid certificates (for development purposes only)
+        return true;
+      };
   }
 }
