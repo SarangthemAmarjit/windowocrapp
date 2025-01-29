@@ -48,7 +48,7 @@ class Imagecontroller extends GetxController {
   bool get isBackcapturebuttonpress => _isBackcapturebuttonpress;
 
   MediaSettings _mediaSettings = const MediaSettings(
-    resolutionPreset: ResolutionPreset.high,
+    resolutionPreset: ResolutionPreset.veryHigh,
     fps: 30,
     videoBitrate: 200000,
     audioBitrate: 32000,
@@ -127,7 +127,7 @@ class Imagecontroller extends GetxController {
                             .fill, // Ensure it covers the entire aspect ratio
                         child: SizedBox(
                           width: _previewSize!.width,
-                          height: _previewSize!.height,
+                          height: _previewSize!.width,
                           child: buildPreview(), // Your camera preview
                         ),
                       ),
@@ -288,6 +288,64 @@ class Imagecontroller extends GetxController {
     }
   }
 
+  Future<File> cropImageID(
+    File imageFile, {
+    required double aspectRatio,
+  }) async {
+    // Read the image as bytes
+    final bytes = await imageFile.readAsBytes();
+
+    // Decode the image using the `image` package
+    final originalImage = img.decodeImage(bytes);
+
+    if (originalImage != null) {
+      // Get image dimensions
+      final imageWidth = originalImage.width;
+      final imageHeight = originalImage.height;
+
+      // Calculate maximum possible crop size while maintaining aspect ratio
+      int cropWidth, cropHeight;
+      int x, y;
+
+      if (imageWidth / imageHeight > aspectRatio) {
+        // Image is wider than target aspect ratio - limit by height
+        cropHeight = imageHeight;
+        cropWidth = (cropHeight * aspectRatio).toInt();
+        x = (imageWidth - cropWidth) ~/ 2; // Center horizontally
+        y = 0;
+      } else {
+        // Image is taller than target aspect ratio - limit by width
+        cropWidth = imageWidth;
+        cropHeight = (cropWidth / aspectRatio).toInt();
+        x = 0;
+        y = (imageHeight - cropHeight) ~/ 2; // Center vertically
+      }
+
+      // Crop the image from center
+      final cropped = img.copyCrop(
+        originalImage,
+        x: x,
+        y: y,
+        width: cropWidth,
+        height: cropHeight,
+      );
+
+      // Encode the cropped image back to PNG
+      final croppedBytes = img.encodePng(cropped);
+
+      // Generate a unique file name
+      final uniqueFileName = 'cropped_id_${Uuid().v4()}.png';
+      final tempDir = Directory.systemTemp;
+      final croppedFile = File('${tempDir.path}/$uniqueFileName');
+
+      // Save and return the cropped image
+      await croppedFile.writeAsBytes(croppedBytes);
+      return croppedFile;
+    } else {
+      throw Exception("Failed to decode image.");
+    }
+  }
+
   Future<File> cropImageWithAspectRatio(
     File imageFile, {
     required double aspectRatio,
@@ -368,11 +426,20 @@ class Imagecontroller extends GetxController {
   Future<void> takePicture() async {
     final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
 
+    final croppedFile = await cropImageWithAspectRatio(
+      File(file.path),
+      aspectRatio: 1.4,
+      defaultCrop: const Rect.fromLTRB(0.4, 0.4, 0.6, 0.6),
+    );
+
+    log(croppedFile.path);
+
     if (isFrontcapturebuttonpress) {
-      _frontImage = file;
+      _frontImage = XFile(croppedFile.path);
       update();
     } else {
-      _backImage = file;
+      _backImage = XFile(croppedFile.path);
+      ;
       update();
     }
   }

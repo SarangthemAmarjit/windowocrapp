@@ -19,7 +19,7 @@ class _PermitDetailsState extends State<PermitDetails> {
   DateTime _dob = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PageControllers>(builder: (controller) {
+    return GetBuilder<PagenavControllers>(builder: (controller) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -57,7 +57,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
   Widget build(BuildContext context) {
     Imagecontroller imgcon = Get.put(Imagecontroller());
     return GetBuilder<Imagecontroller>(builder: (_) {
-      return GetBuilder<PageControllers>(builder: (controller) {
+      return GetBuilder<PagenavControllers>(builder: (controller) {
         return SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Form(

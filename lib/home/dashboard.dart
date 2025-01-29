@@ -16,7 +16,7 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
   final List<Map<String, dynamic>> idCards = [
     {"label": "Aadhar Card", "icon": Icons.credit_card},
     {"label": "PAN Card", "icon": Icons.account_balance_wallet},
-    {"label": "Voter Card", "icon": Icons.how_to_vote},
+    {"label": "PassPort", "icon": Icons.card_giftcard_sharp},
     {"label": "Driving License", "icon": Icons.directions_car},
   ];
 
@@ -24,21 +24,18 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
-    var screenWidth = MediaQuery.of(context).size.width;
-
-    return GetBuilder<PageControllers>(builder: (pagectrl) {
-      return Scaffold(
-        body: GetBuilder<Imagecontroller>(builder: (_) {
-          return Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/bg.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
+    return GetBuilder<PagenavControllers>(builder: (pagectrl) {
+      return GetBuilder<Imagecontroller>(builder: (_) {
+        return Expanded(
+          child: Container(
+            // decoration: const BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage('assets/images/bg.png'),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
             child: Padding(
-              padding: const EdgeInsets.only(top: 100, bottom: 100),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Center(
                 child: Container(
                   // constraints: BoxConstraints(maxWidth: 650, maxHeight: 1600),
@@ -91,31 +88,28 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
                                   ? IdSelectionAndScanningScreen()
                                   : pagectrl.regPage == 2
                                       ? RegistrationPage()
-                                      : SingleChildScrollView(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 50),
-                                            child: GridView.builder(
-                                              gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount:
-                                                    2, // Number of items per row
-                                                crossAxisSpacing: 20,
-                                                mainAxisSpacing:
-                                                    20, // Spacing between rows
-                                              ),
-                                              itemCount: idCards.length,
-                                              shrinkWrap:
-                                                  true, // Prevent GridView from taking infinite height
-                                              physics:
-                                                  NeverScrollableScrollPhysics(), // Disable scrolling inside a parent scrollable widget
-                                              itemBuilder: (context, index) {
-                                                final card = idCards[index];
-                                                return _buildOption(
-                                                    card["label"],
-                                                    card["icon"]);
-                                              },
+                                      : Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 50),
+                                          child: GridView.builder(
+                                            gridDelegate:
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount:
+                                                  2, // Number of items per row
+                                              crossAxisSpacing: 20,
+                                              mainAxisSpacing:
+                                                  20, // Spacing between rows
                                             ),
+                                            itemCount: idCards.length,
+                                            shrinkWrap:
+                                                true, // Prevent GridView from taking infinite height
+                                            physics:
+                                                NeverScrollableScrollPhysics(), // Disable scrolling inside a parent scrollable widget
+                                            itemBuilder: (context, index) {
+                                              final card = idCards[index];
+                                              return _buildOption(
+                                                  card["label"], card["icon"]);
+                                            },
                                           ),
                                         ),
                             ),
@@ -194,14 +188,14 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
                 ),
               ),
             ),
-          );
-        }),
-      );
+          ),
+        );
+      });
     });
   }
 
   Widget _buildOption(String label, IconData icon) {
-    PageControllers pngcon = Get.put(PageControllers());
+    PagenavControllers pngcon = Get.put(PagenavControllers());
     final isSelected = selectedCard == label;
     return InkWell(
       overlayColor: WidgetStateProperty.all(Colors.transparent),

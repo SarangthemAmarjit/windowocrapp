@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/dashboard.dart';
-import 'package:camera_windows_example/home/welcomscreen.dart';
+import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +19,7 @@ import 'home/dashboard.dart';
 void main() {
   runApp(MyApp());
   Get.put(Imagecontroller());
-  Get.put(PageControllers());
+  Get.put(PagenavControllers());
   Get.put(Managementcontroller());
 }
 
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ILPSystemScreen(),
+      home: LandingPage(),
     );
   }
 }

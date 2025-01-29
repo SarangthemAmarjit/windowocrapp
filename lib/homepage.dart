@@ -113,14 +113,31 @@ class _IdSelectionAndScanningScreenState
                                 child: Align(
                                   child: Container(
                                     constraints: const BoxConstraints(
-                                        maxHeight: 250, maxWidth: 500),
-                                    child: Transform.flip(
-                                      flipX: true,
-                                      child: AspectRatio(
-                                          aspectRatio:
-                                              imgcon.previewsize!.width /
-                                                  imgcon.previewsize!.height,
-                                          child: imgcon.buildPreview()),
+                                        maxHeight: 150, maxWidth: 500),
+                                    child: AspectRatio(
+                                      aspectRatio:
+                                          8 / 6, // Passport photo ratio
+                                      child: Center(
+                                        child: ClipRect(
+                                          child: OverflowBox(
+                                            alignment: Alignment.center,
+                                            maxWidth: 600,
+                                            maxHeight: 400,
+                                            child: FittedBox(
+                                              fit: BoxFit
+                                                  .contain, // Ensure it covers the entire aspect ratio
+                                              child: SizedBox(
+                                                width:
+                                                    imgcon.previewsize!.width,
+                                                height:
+                                                    imgcon.previewsize!.height,
+                                                child: imgcon
+                                                    .buildPreview(), // Your camera preview
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

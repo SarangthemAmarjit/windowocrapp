@@ -16,7 +16,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PageControllers>(builder: (controller) {
+    return GetBuilder<PagenavControllers>(builder: (controller) {
       return Container(
         // padding: EdgeInsets.all(32),
         clipBehavior: Clip.antiAlias,
