@@ -254,7 +254,7 @@ class Imagecontroller extends GetxController {
         final CameraInitializedEvent event = await initialized;
 
 // Adjust the preview size to match the passport photo aspect ratio (7:9)
-        _previewSize = Size(event.previewWidth, event.previewWidth
+        _previewSize = Size(event.previewWidth, event.previewHeight
             // Adjust height based on the 7:9 aspect ratio
             );
 
