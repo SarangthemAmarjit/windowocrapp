@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/dashboard.dart';
+import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,8 +21,8 @@ void main() {
   runApp(MyApp());
   
   Get.put(Imagecontroller());
-  Get.put(PageControllers());
-  Get.put(Managementcontroller());
+  Get.put(PagenavControllers());
+  Get.put(Managementcontroller());  
 }
 
 class MyApp extends StatelessWidget {
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SelectIdCardTypeScreen(),
+      home: LandingPage(),
     );
   }
 }

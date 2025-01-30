@@ -4,7 +4,7 @@ import '../controller/pagecontroller.dart';
 import 'registrationpages/addressdetails.dart';
 import 'registrationpages/paymentdetails.dart';
 import 'registrationpages/permittypes.dart';
-import 'registrationpages/personaldetails.dart';
+import 'registrationpages/ilpform.dart';
 import 'registrationpages/photodetails.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -16,7 +16,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PageControllers>(builder: (controller) {
+    return GetBuilder<PagenavControllers>(builder: (controller) {
       return Container(
         // padding: EdgeInsets.all(32),
         clipBehavior: Clip.antiAlias,

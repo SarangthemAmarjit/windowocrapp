@@ -1,6 +1,50 @@
  import 'package:flutter/material.dart';
 
-List<String> genders = ['Male',"Female","Other"];
+List<String> genders =  [
+  "Male",
+  "Female",
+  "Others"
+];
+  final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
+final List<String> purposes = ["Tourist", "Official", "Business", "Others"];
+List<String> states = [
+  "Andaman and Nicobar Islands",
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chandigarh",
+  "Chhattisgarh",
+  "Dadra and Nagar Haveli",
+  "Daman and Diu",
+  "Delhi",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jammu and Kashmir",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Ladakh",
+  "Lakshadweep",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Pondicherry",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttarakhand",
+  "Uttar Pradesh",
+  "West Bengal"
+];
 
 List<String> termcondition = [
 	"a)I shall be responsible for the good conduct during my stay in the state of Manipur.",

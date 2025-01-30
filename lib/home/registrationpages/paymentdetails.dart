@@ -10,12 +10,10 @@ class PaymentDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PageControllers>(
-      builder: (controller) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            
+    return GetBuilder<PagenavControllers>(builder: (controller) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           // Row(
           //   children: [
           //     Icon(Icons.monetization_on_rounded,size: 30,color: Colors.green  ),
