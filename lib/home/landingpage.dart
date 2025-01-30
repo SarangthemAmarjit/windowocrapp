@@ -1,5 +1,6 @@
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/home/dashboard.dart';
+import 'package:camera_windows_example/home/idselectionpage.dart';
 import 'package:camera_windows_example/home/registration.dart';
 import 'package:camera_windows_example/home/welcomepage.dart';
 import 'package:camera_windows_example/homepage.dart';
@@ -16,7 +17,8 @@ class LandingPage extends StatelessWidget {
         return Container(
           width: double.infinity,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding:
@@ -25,35 +27,38 @@ class LandingPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Image.asset(
-                      'assets/images/Kanglashanew1.png',
+                      'assets/images/kanglashaok.png',
                       height: 50,
                     ),
                     SizedBox(
                       width: 10,
                     ),
                     Image.asset(
-                      'assets/images/ilplogo.png',
+                      'assets/images/ilplogo2.png',
                       height: 60,
                     )
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                  'assets/images/Untitled21.png',
-                ))),
-                width: MediaQuery.of(context).size.width,
-                child: pagenav.mainpageindex == 0
-                    ? WelcomeScreen()
-                    : pagenav.mainpageindex == 1
-                        ? SelectIdCardTypeScreen()
-                        : pagenav.mainpageindex == 2
-                            ? IdSelectionAndScanningScreen()
-                            : pagenav.mainpageindex == 3
-                                ? RegistrationPage()
-                                : SizedBox(),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          alignment: Alignment.bottomCenter,
+                          image: AssetImage(
+                            'assets/images/Untitled21.png',
+                          ))),
+                  width: MediaQuery.of(context).size.width,
+                  child: pagenav.mainpageindex == 0
+                      ? WelcomeScreen()
+                      : pagenav.mainpageindex == 1
+                          ? DocumentScanPage()
+                          : pagenav.mainpageindex == 2
+                              ? IdSelectionAndScanningScreen()
+                              : pagenav.mainpageindex == 3
+                                  ? RegistrationPage()
+                                  : SizedBox(),
+                ),
               ),
             ],
           ),

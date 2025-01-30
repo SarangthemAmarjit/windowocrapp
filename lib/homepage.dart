@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
+import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -18,10 +19,19 @@ class _IdSelectionAndScanningScreenState
   @override
   Widget build(BuildContext context) {
     Imagecontroller imgcon = Get.put(Imagecontroller());
-    return GetBuilder<Imagecontroller>(builder: (_) {
-      return SingleChildScrollView(
-        child: Column(
+    PagenavControllers pngcon = Get.put(PagenavControllers());
+    return GetBuilder<PagenavControllers>(builder: (_) {
+      return GetBuilder<Imagecontroller>(builder: (_) {
+        return Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: const Text(
+                'Scan Your ID Card',
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 50),
               child: Row(
@@ -113,26 +123,29 @@ class _IdSelectionAndScanningScreenState
                                 child: Align(
                                   child: Container(
                                     constraints: const BoxConstraints(
-                                        maxHeight: 150, maxWidth: 500),
-                                    child: AspectRatio(
-                                      aspectRatio:
-                                          8 / 6, // Passport photo ratio
-                                      child: Center(
-                                        child: ClipRect(
-                                          child: OverflowBox(
-                                            alignment: Alignment.center,
-                                            maxWidth: 600,
-                                            maxHeight: 400,
-                                            child: FittedBox(
-                                              fit: BoxFit
-                                                  .contain, // Ensure it covers the entire aspect ratio
-                                              child: SizedBox(
-                                                width:
-                                                    imgcon.previewsize!.width,
-                                                height:
-                                                    imgcon.previewsize!.height,
-                                                child: imgcon
-                                                    .buildPreview(), // Your camera preview
+                                        maxHeight: 160, maxWidth: 500),
+                                    child: Transform.flip(
+                                      flipX: true,
+                                      child: AspectRatio(
+                                        aspectRatio:
+                                            12.5 / 7, // Passport photo ratio
+                                        child: Center(
+                                          child: ClipRect(
+                                            child: OverflowBox(
+                                              alignment: Alignment.center,
+                                              maxWidth: 600,
+                                              maxHeight: 420,
+                                              child: FittedBox(
+                                                fit: BoxFit
+                                                    .contain, // Ensure it covers the entire aspect ratio
+                                                child: SizedBox(
+                                                  width:
+                                                      imgcon.previewsize!.width,
+                                                  height: imgcon
+                                                      .previewsize!.height,
+                                                  child: imgcon
+                                                      .buildPreview(), // Your camera preview
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -227,10 +240,71 @@ class _IdSelectionAndScanningScreenState
                             const BoxConstraints(maxHeight: 120, maxWidth: 160),
                       ),
               ],
-            )
+            ),
+            SizedBox(
+              height: 70,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 50, right: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    // overlayColor:
+                    //     WidgetStateProperty.all(Colors.transparent),
+                    focusColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    onTap: pngcon.regPage > 0
+                        ? () {
+                            pngcon.changeDashboardPage(pngcon.regPage - 1);
+                          }
+                        : null,
+                    child: Transform.flip(
+                      flipX: true,
+                      child: Image.asset(
+                        'assets/images/next2.png',
+                        height: 60,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(
+                    width: 20,
+                  ),
+
+                  // ElevatedButton(
+                  //     onPressed: () {},
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.grey.shade300,
+                  //     ),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.all(8.0),
+                  //       child: Text(
+                  //         'Back',
+                  //         style: TextStyle(fontSize: 18),
+                  //       ),
+                  //     )),
+                  InkWell(
+                    // overlayColor:
+                    //     WidgetStateProperty.all(Colors.transparent),
+                    focusColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    onTap: () {
+                      pngcon.changeDashboardPage(pngcon.regPage + 1);
+                    },
+                    child: Image.asset(
+                      'assets/images/next2.png',
+                      height: 60,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
-        ),
-      );
+        );
+      });
     });
   }
 }
