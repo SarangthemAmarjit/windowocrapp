@@ -54,7 +54,14 @@ class _IdSelectionAndScanningScreenState
                           context: context);
                       // _initializeCamera(isfront: true);
                     },
-                    child: Text('Capture Front Side'),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 30, horizontal: 20),
+                      child: Text(
+                        'Capture Front Side',
+                        style: TextStyle(fontSize: 23),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 30,
@@ -78,7 +85,14 @@ class _IdSelectionAndScanningScreenState
                           context: context);
                       // _initializeCamera(isfront: false);
                     },
-                    child: Text('Capture Back Side'),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 30, horizontal: 20),
+                      child: Text(
+                        'Capture Back Side',
+                        style: TextStyle(fontSize: 23),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 30,
@@ -257,7 +271,7 @@ class _IdSelectionAndScanningScreenState
                     hoverColor: Colors.transparent,
                     onTap: pngcon.regPage > 0
                         ? () {
-                            pngcon.changeDashboardPage(pngcon.regPage - 1);
+                            pngcon.setmainpageindex(ind: 1);
                           }
                         : null,
                     child: Transform.flip(
@@ -292,7 +306,7 @@ class _IdSelectionAndScanningScreenState
                     splashColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     onTap: () {
-                      pngcon.changeDashboardPage(pngcon.regPage + 1);
+                      pngcon.setmainpageindex(ind: 3);
                     },
                     child: Image.asset(
                       'assets/images/next2.png',

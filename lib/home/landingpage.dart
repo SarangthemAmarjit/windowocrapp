@@ -28,7 +28,7 @@ class LandingPage extends StatelessWidget {
                   children: [
                     Image.asset(
                       'assets/images/kanglashaok.png',
-                      height: 50,
+                      height: 60,
                     ),
                     SizedBox(
                       width: 10,
