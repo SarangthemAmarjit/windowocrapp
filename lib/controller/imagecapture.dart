@@ -48,7 +48,7 @@ class Imagecontroller extends GetxController {
   bool get isBackcapturebuttonpress => _isBackcapturebuttonpress;
 
   MediaSettings _mediaSettings = const MediaSettings(
-    resolutionPreset: ResolutionPreset.veryHigh,
+    resolutionPreset: ResolutionPreset.ultraHigh,
     fps: 30,
     videoBitrate: 200000,
     audioBitrate: 32000,
@@ -428,8 +428,8 @@ class Imagecontroller extends GetxController {
 
     final croppedFile = await cropImageWithAspectRatio(
       File(file.path),
-      aspectRatio: 1.4,
-      defaultCrop: const Rect.fromLTRB(0.4, 0.4, 0.6, 0.6),
+      aspectRatio: 12.5 / 8.5, //,
+      defaultCrop: const Rect.fromLTRB(0.27, 0.3, 0.75, 0.72),
     );
 
     log(croppedFile.path);
