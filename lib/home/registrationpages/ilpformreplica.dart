@@ -1,8 +1,5 @@
-import 'dart:async';
-import 'dart:developer';
-import 'dart:io';
+
 import 'package:camera_windows_example/controller/managementcontroller.dart';
-import 'package:crop_image/crop_image.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
@@ -13,14 +10,14 @@ import 'package:get/get.dart';
 
 import '../../cons/constant.dart';
 
-class TemporaryILPForm extends StatefulWidget {
-  const TemporaryILPForm({super.key});
+class TemporaryILPFormReplica extends StatefulWidget {
+  const TemporaryILPFormReplica({super.key});
 
   @override
-  State<TemporaryILPForm> createState() => _TemporaryILPFormState();
+  State<TemporaryILPFormReplica> createState() => _TemporaryILPFormReplicaState();
 }
 
-class _TemporaryILPFormState extends State<TemporaryILPForm> {
+class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   final GlobalKey<FormState> _formkey = GlobalKey();
   final _nameController = TextEditingController();
   final _parentNameController = TextEditingController();
@@ -39,13 +36,6 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
   DateTime? _fromDate;
   DateTime? _dob;
   String? _selectedIdProof;
-
-  final List<String> idProofs = [
-    'Aadhaar',
-    'Voter ID',
-    'Driving License',
-    'Passport'
-  ];
   // final List<String> purposes = ['Business', 'Tourism', 'Medical', 'Other'];
   // final List<String> gates = ['Imphal Gate', 'Mao Gate', 'Moreh Gate'];
   // final List<String> states = states;
@@ -77,6 +67,21 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                     //         maximumImageSize: 500,
                     //       )
                     //     : SizedBox(),
+                    
+                         Row(
+                      children: [
+                        Expanded(
+                          child: _buildDropdownField(
+                             "ID Proof", [mngctrl.idCard??"Id Card"],  mngctrl.idCard??"", (value) {
+                           
+                          }),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(child: _buildTextField('ID No.', _idNoController)),
+                      ],
+                    ),
                     Row(
                       children: [
                         // Expanded(
@@ -144,22 +149,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                         // ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildDropdownField(
-                              'ID Proof', idProofs, _selectedIdProof, (value) {
-                            setState(() {
-                              _selectedIdProof = value;
-                            });
-                          }),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(child: _buildTextField('ID No.', _idNoController)),
-                      ],
-                    ),
+               
                     Row(
                       children: [
                         Expanded(
@@ -175,6 +165,29 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                         ),
                       ],
                     ),
+
+                                 Row(
+                      children: [
+                        Expanded(
+                          child: _buildDateField('Date of Birth', _dob, (value) {
+                            setState(() {
+                              _dob = value;
+                            });
+                          }),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child:SizedBox()
+                        ),
+                      ],
+                    ),
+
+                     _buildRadioGroup(
+                              'Gender', genders,mngctrl.gender, (value) {
+                     mngctrl.changeGender(value!);
+                          }),
                     Row(
                       children: [
                         Expanded(
@@ -194,42 +207,39 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                       ],
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          child: _buildDropdownField(
-                              'Purpose of Visit', purposes,mngctrl.purpose,
-                              (value) {
-                                  mngctrl.changePurpose(value!);
-                          }),
+                          child: AnimatedContainer(
+                            height: mngctrl.purpose=="Others"?150:80,
+                            duration:Duration(milliseconds:800),
+                            child: Column(
+                              children: [
+                                _buildDropdownField(
+                                    'Purpose of Visit', purposes,mngctrl.purpose,
+                                    (value) {
+                                        mngctrl.changePurpose(value!);
+                                }),
+                                mngctrl.purpose=="Others"? AnimatedOpacity(
+                                  duration: Duration(milliseconds: 600),
+                                  opacity: mngctrl.purpose=="Others"?1:0,
+                                  child: _buildTextField(
+                                    padding: EdgeInsets.only(bottom:15),
+                                    'Purpose', _visitPurposeController),
+                                ):SizedBox(),
+                                 
+                              ],
+                            ),
+                          ),
                         ),
                         SizedBox(
                           width: 20,
                         ),
                         Expanded(
-                            child: _buildTextField(
-                                'Purpose (if other)', _visitPurposeController)),
+                            child:_buildTextField('Village/Street', _villageController),),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildDateField('Date of Birth', _dob, (value) {
-                            setState(() {
-                              _dob = value;
-                            });
-                          }),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: _buildRadioGroup(
-                              'Gender', genders,mngctrl.gender, (value) {
-                     mngctrl.changeGender(value!);
-                          }),
-                        ),
-                      ],
-                    ),
+       
                     Row(
                       children: [
                         Expanded(
@@ -245,7 +255,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                             child: _buildTextField('District', _villageController)),
                       ],
                     ),
-                    _buildTextField('Village/Street', _villageController),
+                    
                     Row(
                       children: [
                         Expanded(
@@ -292,14 +302,19 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
   }
 
   Widget _buildTextField(String label, TextEditingController controller,
-      {String? Function(String?)? validator}) {
+      {String? Function(String?)? validator,EdgeInsets? padding}) {
+        
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
+      padding: padding??const EdgeInsets.symmetric(vertical: 15),
       child: TextFormField(
+      
         controller: controller,
         decoration: InputDecoration(
+          labelStyle: TextStyle(fontSize: 18),
           labelText: label,
+          
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+        
         ),
         validator: validator??(v){
           if(v!.isEmpty){
@@ -320,13 +335,22 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         ),
         child: DropdownButtonHideUnderline(
+
           child: DropdownButton<String>(
+            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+
+            // dropdownColor: Colors.green,
+            // iconEnabledColor: Colors.green,
+            // focusColor: Colors.green,
             isDense: true,
+            
             value: selectedValue,
             isExpanded: false,
             onChanged: onChanged,
             items: items
-                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+                .map((item) => DropdownMenuItem(
+                  
+                  value: item, child: Text(item)))
                 .toList(),
           ),
         ),
@@ -352,8 +376,12 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
         },
         child: InputDecorator(
           decoration: InputDecoration(
-            labelText: label,
             
+            label: Text(label),
+            prefix: Padding(
+              padding: const EdgeInsets.only (right:  8.0),
+              child: Icon(Icons.date_range,size: 14,),
+            ),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
             focusedBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide(color: Colors.green)
@@ -369,6 +397,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
 
   Widget _buildRadioGroup(String label, List<String> options,
       String? selectedValue, ValueChanged<String?> onChanged) {
+        Managementcontroller mngctrl = Get.find<Managementcontroller>();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
@@ -380,12 +409,30 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
           Row(
             children: options
                 .map((option) => Expanded(
-                      child: RadioListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(option),
-                        value: option,
-                        groupValue: selectedValue,
-                        onChanged: onChanged,
+                      child: InkWell(
+                        onTap:(){
+                            mngctrl.changeGender(option);
+                        },
+                        child: AnimatedContainer(
+                          
+                          margin: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+                          duration: Duration(milliseconds: 800),
+                          height: 80,
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          color: selectedValue == option?Colors.green:Colors.grey[200],
+                          ),
+                          child: Center(child: Text(option,style: TextStyle(fontSize: 18,color:selectedValue == option?Colors.white:null ),)),
+                         
+                          // child: RadioListTile(
+                          //   contentPadding: EdgeInsets.zero,
+                          //   title: Text(option),
+                          //   value: option,
+                          //   groupValue: selectedValue,
+                          //   onChanged: onChanged,
+                          // ),
+                        ),
                       ),
                     ))
                 .toList(),

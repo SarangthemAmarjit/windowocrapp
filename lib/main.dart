@@ -32,6 +32,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.robotoCondensedTextTheme(),
+        colorSchemeSeed: Colors.green),
+
       home: LandingPage(),
     );
   }

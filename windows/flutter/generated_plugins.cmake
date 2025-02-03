@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   flutter_doc_scanner
   flutter_ocr_sdk
+  printing
   webview_windows
 )
 

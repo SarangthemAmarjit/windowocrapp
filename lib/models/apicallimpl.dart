@@ -15,5 +15,19 @@ class ApicallImpl extends ApiCall{
       throw Exception("Failed to load data");
     }
   }
+  
+  @override
+  Future<Map<String, dynamic>> addPermit() async {
+      final response = await http.post(Uri.parse(baseUrl));
+  print("In response");
+    if (response.statusCode == 200) {
+      print(response.body);
+      return jsonDecode(response.body); // Parsing JSON
+    } else {
+      throw Exception("Failed to load data");
+    }
+  }
+
+
 
   }

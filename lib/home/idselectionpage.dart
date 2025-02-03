@@ -1,4 +1,5 @@
 import 'package:camera_windows_example/cons/constant.dart';
+import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -73,10 +74,11 @@ class DocumentScanPage extends StatelessWidget {
 
   Widget _buildButton(BuildContext context, String text) {
     PagenavControllers pagecon = Get.put(PagenavControllers());
-
+    Managementcontroller mngctrl = Get.find<Managementcontroller>();
     return ElevatedButton(
       onPressed: () {
         pagecon.setmainpageindex(ind: 2);
+        mngctrl.getIdCard(text);
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 0, 66, 234),

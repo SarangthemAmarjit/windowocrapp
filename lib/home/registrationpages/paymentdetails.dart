@@ -1,3 +1,4 @@
+import 'package:camera_windows_example/home/printpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
@@ -117,7 +118,8 @@ class PaymentDetails extends StatelessWidget {
                                 InkWell(
                                   onTap: (){
                                     // controller.changePage(1);
-                                    Get.to(()=>ExampleBrowser());
+                                    // Get.to(()=>ExampleBrowser());
+                                    Get.to(()=>ReceiptPreviewPage() );
                                   },
                                   child: Container(
                                     margin: EdgeInsets.symmetric(horizontal: 16,vertical: 8),

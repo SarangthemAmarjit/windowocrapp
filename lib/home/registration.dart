@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/pagecontroller.dart';
 import 'registrationpages/addressdetails.dart';
+import 'registrationpages/ilpformreplica.dart';
 import 'registrationpages/paymentdetails.dart';
 import 'registrationpages/permittypes.dart';
 import 'registrationpages/ilpform.dart';
@@ -35,12 +36,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   focusColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   hoverColor: Colors.transparent,
-                  onTap: controller.regPage > 0
-                      ? () {
-                          controller
+                  onTap: 
+                       () {
+                     
+                              if(controller.regPage==0){
+                                  controller.setmainpageindex(ind: 0);
+                              }else{
+                              controller
                               .changeDashboardPage(controller.regPage - 1);
-                        }
-                      : null,
+                              }
+                        },
+                    
                   child: Transform.flip(
                     flipX: true,
                     child: Image.asset(
@@ -136,17 +142,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
             // SizedBox(
             //   height: 20,
             // ),
-            Expanded(
-                child: SingleChildScrollView(
-                    child: controller.page == 1
-                        ? TemporaryILPForm()
-                        : controller.page == 2
-                            ? AddressDetails()
-                            : controller.page == 3
-                                ? PermitDetails()
-                                : controller.page == 4
-                                    ? PhotoSignaturePage()
-                                    : PaymentDetails()))
+            controller.page == 1
+                ? TemporaryILPFormReplica()
+                // : controller.page == 2
+                //     ? AddressDetails()
+                //     : controller.page == 3
+                //         ? PermitDetails()
+                //         : controller.page == 4
+                //             ? PhotoSignaturePage()()
+                            : PaymentDetails()
           ],
         ),
       );
