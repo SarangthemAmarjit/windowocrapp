@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:uuid/uuid.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:crop_image/crop_image.dart';
@@ -184,6 +185,104 @@ class Imagecontroller extends GetxController {
     );
   }
 
+  void showimageconfirmdialog() {
+    PagenavControllers pngcon = Get.put(PagenavControllers());
+    Get.dialog(
+      AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        content: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 300,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all()),
+                // constraints: const BoxConstraints(
+                //     maxHeight: 120, maxWidth: 160),
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.file(
+                      fit: BoxFit.contain,
+                      File(_frontImage!.path),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      icon: Icon(
+                        Icons.repeat,
+                      ),
+                      onPressed: () {
+                        // disposeCurrentCamera();
+                        Get.back(); // Close the dialog
+                      },
+                      label: const Text("ReTake"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Get.back(); // Close the dialog
+
+                        if (_isBackcapturebuttonpress) {
+                          log('is back is ok');
+                          pngcon.setmainpageindex(ind: 3);
+                        } else {
+                          initializeCamera(
+                            isfront: false,
+                            isback: true,
+                            isprofilecam: false,
+                          );
+                        }
+
+                        // try {
+                        //   // Capture the image using the camera
+                        //   final XFile file =
+                        //       await CameraPlatform.instance.takePicture(_cameraId);
+
+                        //   // Load the captured image as a File object
+                        //   final imageFile = File(file.path);
+
+                        //   // Crop the image based on aspectRatio and defaultCrop
+                        //   final croppedFile = await cropImageWithAspectRatio(
+                        //     imageFile,
+                        //     aspectRatio: 0.9,
+                        //     defaultCrop: const Rect.fromLTRB(0.3, 0.1, 0.9, 0.9),
+                        //   );
+
+                        //   updateProfileImage(XFile(croppedFile.path));
+                        //   disposeCurrentCamera();
+                        //   Get.back(); // Close the dialog
+                        //   log('done capture');
+                        // } catch (e) {
+                        //   // Handle any errors
+                        //   print("Error capturing or cropping image: $e");
+                        // }
+                      },
+                      child: const Text("Confirm"),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible:
+          false, // Prevent the dialog from closing when tapping outside
+    );
+  }
+
   // Update profile image method
   void updateProfileImage(XFile file) {
     _profileimage = file;
@@ -191,11 +290,11 @@ class Imagecontroller extends GetxController {
   }
 
   /// Initializes the camera on the device.
-  Future<void> initializeCamera(
-      {required bool isfront,
-      required bool isback,
-      required bool isprofilecam,
-      required BuildContext context}) async {
+  Future<void> initializeCamera({
+    required bool isfront,
+    required bool isback,
+    required bool isprofilecam,
+  }) async {
     int cameraIndex = 0;
 
     _isFrontcapturebuttonpress = isfront
@@ -222,9 +321,12 @@ class Imagecontroller extends GetxController {
               ele.name.toString().toLowerCase().contains('integrated camera'));
           update();
         } else {
-          cameraIndex = _allavailablecameras.indexWhere(
-              (ele) => ele.name.toString().toLowerCase().contains('czur'));
+          cameraIndex = _allavailablecameras.indexWhere((ele) =>
+              ele.name.toString().toLowerCase().contains('czur') ||
+              ele.name.toString().toLowerCase().contains('sg-vp'));
           update();
+
+          log("cameraIndex : " + cameraIndex.toString());
         }
 
         final CameraDescription camera = _allavailablecameras[cameraIndex];
@@ -442,6 +544,8 @@ class Imagecontroller extends GetxController {
       ;
       update();
     }
+
+    showimageconfirmdialog();
   }
 
   Future<void> takeprofilePicture() async {

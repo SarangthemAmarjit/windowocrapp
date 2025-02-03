@@ -1,4 +1,5 @@
 import 'package:camera_windows_example/cons/constant.dart';
+import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,7 +40,7 @@ class DocumentScanPage extends StatelessWidget {
                 ),
                 itemCount: documentTypes.length,
                 itemBuilder: (context, index) {
-                  return _buildButton(context, documentTypes[index]);
+                  return _buildButton(context, documentTypes[index], index);
                 },
               ),
               const SizedBox(height: 100),
@@ -71,12 +72,19 @@ class DocumentScanPage extends StatelessWidget {
     });
   }
 
-  Widget _buildButton(BuildContext context, String text) {
+  Widget _buildButton(BuildContext context, String text, int docindex) {
     PagenavControllers pagecon = Get.put(PagenavControllers());
+    Imagecontroller imgcon = Get.put(Imagecontroller());
 
     return ElevatedButton(
       onPressed: () {
+        pagecon.setdocindex(ind: docindex);
         pagecon.setmainpageindex(ind: 2);
+        imgcon.initializeCamera(
+          isfront: true,
+          isback: false,
+          isprofilecam: false,
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 0, 66, 234),

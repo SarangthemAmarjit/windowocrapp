@@ -81,10 +81,10 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                     child: InkWell(
                       onTap: () {
                         imgcon.initializeCamera(
-                            isfront: false,
-                            isback: false,
-                            isprofilecam: true,
-                            context: context);
+                          isfront: false,
+                          isback: false,
+                          isprofilecam: true,
+                        );
                       },
                       child: Container(
                         height: 130,
