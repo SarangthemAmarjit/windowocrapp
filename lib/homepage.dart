@@ -269,11 +269,10 @@ class _IdSelectionAndScanningScreenState
                     focusColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     hoverColor: Colors.transparent,
-                    onTap: pngcon.regPage > 0
-                        ? () {
-                            pngcon.setmainpageindex(ind: 1);
-                          }
-                        : null,
+                    onTap: () {
+                      pngcon.setmainpageindex(ind: 1);
+                    },
+
                     child: Transform.flip(
                       flipX: true,
                       child: Image.asset(

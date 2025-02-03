@@ -58,226 +58,229 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
     Imagecontroller imgcon = Get.put(Imagecontroller());
     return GetBuilder<Imagecontroller>(builder: (_) {
       return GetBuilder<PagenavControllers>(builder: (controller) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // imgcon.profileimage != null
-                //     ? CropImage(
-                //         controller: imgcon.crcontroller,
-                //         image: Image.file(
-                //           File(imgcon.profileimage!.path),
-                //         ),
-                //         paddingSize: 25.0,
-                //         alwaysMove: false,
-                //         minimumImageSize: 500,
-                //         maximumImageSize: 500,
-                //       )
-                //     : SizedBox(),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: InkWell(
-                        onTap: () {
-                          imgcon.initializeCamera(
-                              isfront: false,
-                              isback: false,
-                              isprofilecam: true,
-                              context: context);
-                        },
-                        child: Container(
-                          height: 130,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey[700]!,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
+        return Form(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // imgcon.profileimage != null
+              //     ? CropImage(
+              //         controller: imgcon.crcontroller,
+              //         image: Image.file(
+              //           File(imgcon.profileimage!.path),
+              //         ),
+              //         paddingSize: 25.0,
+              //         alwaysMove: false,
+              //         minimumImageSize: 500,
+              //         maximumImageSize: 500,
+              //       )
+              //     : SizedBox(),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () {
+                        imgcon.initializeCamera(
+                            isfront: false,
+                            isback: false,
+                            isprofilecam: true,
+                            context: context);
+                      },
+                      child: Container(
+                        height: 130,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey[700]!,
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: imgcon.profileimage != null
-                                ? Transform.flip(
-                                    flipX: true,
-                                    child: Image.file(
-                                      fit: BoxFit.cover,
-                                      File(imgcon.profileimage!.path),
-                                    ),
-                                  )
-                                : Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.add_a_photo_rounded),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Text("Capture a Profile Photo")
-                                    ],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: imgcon.profileimage != null
+                              ? Transform.flip(
+                                  flipX: true,
+                                  child: Image.file(
+                                    fit: BoxFit.cover,
+                                    File(imgcon.profileimage!.path),
                                   ),
-                          ),
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add_a_photo_rounded),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Text(
+                                        "Capture a Profile Photo",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ],
+                                ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          _buildTextField('Applicant Name', _nameController),
-                          _buildTextField(
-                              'Parent/Guardian Name', _parentNameController),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildDropdownField(
-                          'ID Proof', idProofs, _selectedIdProof, (value) {
-                        setState(() {
-                          _selectedIdProof = value;
-                        });
-                      }),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(child: _buildTextField('ID No.', _idNoController)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildTextField('Email', _emailController,
-                          validator: _emailValidator),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: _buildTextField('Mobile No.', _mobileController,
-                          validator: _phoneValidator),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildDateField('Period of Stay (From)', _fromDate,
-                          (value) {
-                        setState(() {
-                          _fromDate = value;
-                        });
-                      }),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: _buildTextField(
-                            'Place of Stay in Manipur', _placeStayController)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildDropdownField(
-                          'Purpose of Visit', purposes, _selectedPurpose,
-                          (value) {
-                        setState(() {
-                          _selectedPurpose = value;
-                        });
-                      }),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: _buildTextField(
-                            'Purpose (if other)', _visitPurposeController)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildDateField('Date of Birth', _dob, (value) {
-                        setState(() {
-                          _dob = value;
-                        });
-                      }),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: _buildRadioGroup(
-                          'Gender', genders, _selectedGender, (value) {
-                        setState(() {
-                          _selectedGender = value;
-                        });
-                      }),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildDropdownField(
-                          'State', states, _selectedState, (value) {
-                        setState(() {
-                          _selectedState = value;
-                        });
-                      }),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: _buildTextField('District', _villageController)),
-                  ],
-                ),
-                _buildTextField('Village/Street', _villageController),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildTextField(
-                          'Nearest Police Station', _nearestpliceController),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: _buildTextField('Tehsil', _tehsilController)),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                InkWell(
-                  onTap: () {
-                    controller.changePage(2);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(8)),
-                    clipBehavior: Clip.antiAlias,
-                    child: Center(
-                        child: Text(
-                      "Next",
-                      style: TextStyle(color: Colors.white),
-                    )),
                   ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Column(
+                      children: [
+                        _buildTextField('Applicant Name', _nameController),
+                        _buildTextField(
+                            'Parent/Guardian Name', _parentNameController),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDropdownField(
+                        'ID Proof', idProofs, _selectedIdProof, (value) {
+                      setState(() {
+                        _selectedIdProof = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(child: _buildTextField('ID No.', _idNoController)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildTextField('Email', _emailController,
+                        validator: _emailValidator),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: _buildTextField('Mobile No.', _mobileController,
+                        validator: _phoneValidator),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDateField('Period of Stay (From)', _fromDate,
+                        (value) {
+                      setState(() {
+                        _fromDate = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: _buildTextField(
+                          'Place of Stay in Manipur', _placeStayController)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDropdownField(
+                        'Purpose of Visit', purposes, _selectedPurpose,
+                        (value) {
+                      setState(() {
+                        _selectedPurpose = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: _buildTextField(
+                          'Purpose (if other)', _visitPurposeController)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDateField('Date of Birth', _dob, (value) {
+                      setState(() {
+                        _dob = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: _buildRadioGroup('Gender', genders, _selectedGender,
+                        (value) {
+                      setState(() {
+                        _selectedGender = value;
+                      });
+                    }),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDropdownField('State', states, _selectedState,
+                        (value) {
+                      setState(() {
+                        _selectedState = value;
+                      });
+                    }),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: _buildTextField('District', _villageController)),
+                ],
+              ),
+              _buildTextField('Village/Street', _villageController),
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildTextField(
+                        'Nearest Police Station', _nearestpliceController),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(child: _buildTextField('Tehsil', _tehsilController)),
+                ],
+              ),
+              const SizedBox(height: 20),
+              InkWell(
+                onTap: () {
+                  controller.changePage(2);
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8)),
+                  clipBehavior: Clip.antiAlias,
+                  child: Center(
+                      child: Text(
+                    "Next",
+                    style: TextStyle(color: Colors.white),
+                  )),
                 ),
-              ],
-            ).animate().fadeIn(duration: const Duration(milliseconds: 500)),
-          ),
+              ),
+            ],
+          ).animate().fadeIn(duration: const Duration(milliseconds: 500)),
         );
       });
     });
