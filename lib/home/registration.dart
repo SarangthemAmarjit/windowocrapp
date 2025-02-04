@@ -1,3 +1,4 @@
+import 'package:camera_windows_example/home/registrationpages/facedetect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/pagecontroller.dart';
@@ -144,12 +145,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
             // ),
             controller.page == 1
                 ? TemporaryILPFormReplica()
-                // : controller.page == 2
-                //     ? AddressDetails()
+             
                 //     : controller.page == 3
                 //         ? PermitDetails()
-                //         : controller.page == 4
-                //             ? PhotoSignaturePage()()
+                        : controller.page == 2
+                            ? PhotoSignaturePage()
+                            // ?FaceDetectionPage()
                             : PaymentDetails()
           ],
         ),

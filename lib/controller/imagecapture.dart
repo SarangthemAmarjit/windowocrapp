@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:crop_image/crop_image.dart';
@@ -82,7 +84,7 @@ class Imagecontroller extends GetxController {
     int cameraIndex = 0;
     try {
       var availablecameras = await CameraPlatform.instance.availableCameras();
-      log("All Cameras : " + availablecameras.toString());
+      // log("All Cameras : " + availablecameras.toString());
       if (availablecameras.isEmpty) {
         cameraInfo = 'No available cameras';
       } else {
@@ -166,7 +168,7 @@ class Imagecontroller extends GetxController {
                       updateProfileImage(XFile(croppedFile.path));
                       disposeCurrentCamera();
                       Get.back(); // Close the dialog
-                      log('done capture');
+                      // log('done capture');
                     } catch (e) {
                       // Handle any errors
                       print("Error capturing or cropping image: $e");
@@ -264,9 +266,9 @@ class Imagecontroller extends GetxController {
         _cameraIndex = cameraIndex;
         _profileimage = null;
         update();
-        if (isprofilecam) {
-          showProfileCameraDialog();
-        }
+        // if (isprofilecam) {
+        //   showProfileCameraDialog();
+        // }
       } on CameraException catch (e) {
         try {
           if (cameraId >= 0) {
@@ -425,14 +427,14 @@ class Imagecontroller extends GetxController {
 
   Future<void> takePicture() async {
     final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
-
+    
     final croppedFile = await cropImageWithAspectRatio(
       File(file.path),
       aspectRatio: 12.5 / 8.5, //,
       defaultCrop: const Rect.fromLTRB(0.27, 0.3, 0.75, 0.72),
     );
 
-    log(croppedFile.path);
+    // log(croppedFile.path);
 
     if (isFrontcapturebuttonpress) {
       _frontImage = XFile(croppedFile.path);
@@ -445,9 +447,54 @@ class Imagecontroller extends GetxController {
   }
 
   Future<void> takeprofilePicture() async {
+
     final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
 
-    _profileimage = file;
+final _imagefile = await file.readAsBytes();
+    // 3) Decode the image so we get the width and height
+    final decoded = await decodeImageFromList(_imagefile);
+    // _imageWidth = decoded.width;
+    // _imageHeight = decoded.height;
+  // Step 2: Calculate the center of the image
+  int width = decoded.width;
+  int height = decoded.height;
+  print("width: $width  height: $height");
+  // Define the size of the cropping area (400x400)
+  int cropSize = 400;
+
+  // Calculate the top-left corner of the crop
+  int startX = (width - cropSize) ~/ 2;
+  int startY = (height - cropSize) ~/ 2;
+
+  // Ensure that the crop is within bounds
+  startX = startX < 0 ? 0 : startX;
+  startY = startY < 0 ? 0 : startY;
+
+  // Step 3: Crop the image from the middle (400x400)
+        final cropped = img.copyCrop(
+          img.decodeImage(_imagefile)!,
+        x: 250,
+        y: 0,
+        width: 700,
+        height: 700,
+      );
+ final croppedBytes = img.encodePng(cropped);
+  Directory directory = await getApplicationDocumentsDirectory();
+
+  // Create a unique file path in the temporary directory
+  String filePath = '${directory.path}//face${Random().nextInt(100)}.png';
+
+  // Create a File and write the bytes to it
+  File files = File(filePath);
+  await files.writeAsBytes(croppedBytes);
+  print(files.path);  
+     _profileimage = XFile(files.path);
+
+    update();
+  }
+
+  void retakeImage(){
+        _profileimage = null;
     update();
   }
 

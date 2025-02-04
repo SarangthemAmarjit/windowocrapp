@@ -1,5 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:camera_windows_example/models/apicall.dart';
 import 'package:camera_windows_example/models/apicallimpl.dart';
+import 'package:camera_windows_example/models/permit.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../cons/constant.dart';
@@ -36,5 +40,20 @@ class Managementcontroller extends GetxController{
       idCard = id;
       update();
     }
+
+    Future<void> addtemporaryPermit(VisitorEntry permit) async {
+        String passportpath = 'assets/images/Kanglashanew1.png';
+        String idcardpath = 'assets/images/Kanglashanew1.png';
+        Uint8List passport = await getImageAssetBytes(passportpath);
+        Uint8List idcard = await getImageAssetBytes(idcardpath);
+        Map<String,dynamic> d =  await apicall.addPermit(permit,passport,idcard);
+        print(d);
+   }
+
+    Future<Uint8List> getImageAssetBytes(String assetPath) async {
+  // Load the asset as bytes from memory
+  ByteData byteData = await rootBundle.load(assetPath);
+  return byteData.buffer.asUint8List();
+}
 
 }

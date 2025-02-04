@@ -211,8 +211,13 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                       children: [
                         Expanded(
                           child: AnimatedContainer(
-                            height: mngctrl.purpose=="Others"?150:80,
-                            duration:Duration(milliseconds:800),
+                            height: mngctrl.purpose=="Others"?160:80,
+                           padding:mngctrl.purpose=="Others"?EdgeInsets.all(8):null,
+                                                       duration:Duration(milliseconds:800),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                               color: mngctrl.purpose=="Others"?Colors.green.withValues(alpha: 0.4): Colors.white,
+                            ),
                             child: Column(
                               children: [
                                 _buildDropdownField(
