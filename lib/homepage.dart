@@ -64,14 +64,14 @@ class _IdSelectionAndScanningScreenState
             //           ),
             //         ),
             //       ),
-            //       pngcon.docindex == 3 || pngcon.docindex == 1
+            //       pngcon.docindex == 3
             //           ? SizedBox()
             //           : SizedBox(
             //               width: 30,
             //             ),
             //       // Csizebapture back side of the ID card
 
-            //       pngcon.docindex == 3 || pngcon.docindex == 1
+            //       pngcon.docindex == 3
             //           ? SizedBox()
             //           : ElevatedButton(
             //               style: ButtonStyle(
@@ -134,6 +134,9 @@ class _IdSelectionAndScanningScreenState
                                       ),
                                     )
                                   : SizedBox(),
+                              SizedBox(
+                                height: 30,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -148,8 +151,8 @@ class _IdSelectionAndScanningScreenState
                                         child: Container(
                                           constraints: BoxConstraints(
                                               maxHeight: pngcon.docindex == 1
-                                                  ? 180
-                                                  : 160,
+                                                  ? 195
+                                                  : 180,
                                               maxWidth: pngcon.docindex == 1
                                                   ? 600
                                                   : 500
@@ -159,8 +162,8 @@ class _IdSelectionAndScanningScreenState
                                             flipX: true,
                                             child: AspectRatio(
                                               aspectRatio: pngcon.docindex == 1
-                                                  ? 12.5 / 7.5
-                                                  : 12.5 / 7,
+                                                  ? 12.5 / 8
+                                                  : 2.5 / 2,
 
                                               // Passport photo ratio
                                               child: Center(
@@ -170,16 +173,16 @@ class _IdSelectionAndScanningScreenState
                                                     maxWidth:
                                                         pngcon.docindex == 1
                                                             ? 500
-                                                            : 600,
+                                                            : 500,
                                                     maxHeight:
                                                         pngcon.docindex == 1
                                                             ? 300
-                                                            : 420,
+                                                            : 330,
                                                     // maxWidth: 600,
                                                     // maxHeight: 420,
                                                     child: FittedBox(
                                                       fit: BoxFit
-                                                          .contain, // Ensure it covers the entire aspect ratio
+                                                          .cover, // Ensure it covers the entire aspect ratio
                                                       child: SizedBox(
                                                         width: imgcon
                                                             .previewsize!.width,
@@ -225,9 +228,13 @@ class _IdSelectionAndScanningScreenState
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 10),
                                             child: Text(
-                                              imgcon.isFrontcapturebuttonpress
-                                                  ? 'Capture Front Side'
-                                                  : 'Capture Back Side',
+                                              pngcon.docindex == 1
+                                                  ? imgcon.isFrontcapturebuttonpress
+                                                      ? 'Capture Page 1'
+                                                      : 'Capture Page 2'
+                                                  : imgcon.isFrontcapturebuttonpress
+                                                      ? 'Capture Front Side'
+                                                      : 'Capture Back Side',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(fontSize: 18),
                                             ),
@@ -264,7 +271,7 @@ class _IdSelectionAndScanningScreenState
               ),
             ),
             Row(
-              mainAxisAlignment: pngcon.docindex == 3 || pngcon.docindex == 1
+              mainAxisAlignment: pngcon.docindex == 3
                   ? MainAxisAlignment.center
                   : MainAxisAlignment.spaceAround,
               children: [
@@ -293,7 +300,7 @@ class _IdSelectionAndScanningScreenState
                         constraints:
                             const BoxConstraints(maxHeight: 120, maxWidth: 160),
                       ),
-                pngcon.docindex == 3 || pngcon.docindex == 1
+                pngcon.docindex == 3
                     ? SizedBox()
                     : Row(
                         children: [
