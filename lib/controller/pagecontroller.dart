@@ -15,6 +15,9 @@ class PagenavControllers extends GetxController {
   }
 
   void setmainpageindex({required int ind}) {
+    if(page!=1){
+      page=1;
+    }
     _mainpageindex = ind;
     update();
   }

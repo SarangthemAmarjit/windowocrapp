@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
@@ -48,12 +50,13 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       builder: (mngctrl) {
         return GetBuilder<Imagecontroller>(builder: (_) {
           return GetBuilder<PagenavControllers>(builder: (controller) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Form(
                 key: _formkey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // imgcon.profileimage != null
                     //     ? CropImage(
@@ -165,7 +168,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         ),
                       ],
                     ),
-
+                            
                                  Row(
                       children: [
                         Expanded(
@@ -183,7 +186,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         ),
                       ],
                     ),
-
+                            
                      _buildRadioGroup(
                               'Gender', genders,mngctrl.gender, (value) {
                      mngctrl.changeGender(value!);
@@ -211,12 +214,12 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                       children: [
                         Expanded(
                           child: AnimatedContainer(
-                            height: mngctrl.purpose=="Others"?160:80,
+                            height: mngctrl.purpose=="Others"?180:80,
                            padding:mngctrl.purpose=="Others"?EdgeInsets.all(8):null,
                                                        duration:Duration(milliseconds:800),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                               color: mngctrl.purpose=="Others"?Colors.green.withValues(alpha: 0.4): Colors.white,
+                               color: mngctrl.purpose=="Others"?Colors.yellow.withValues(alpha: 0.2): Colors.white,
                             ),
                             child: Column(
                               children: [
@@ -228,9 +231,15 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 mngctrl.purpose=="Others"? AnimatedOpacity(
                                   duration: Duration(milliseconds: 600),
                                   opacity: mngctrl.purpose=="Others"?1:0,
-                                  child: _buildTextField(
-                                    padding: EdgeInsets.only(bottom:15),
-                                    'Purpose', _visitPurposeController),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildTextField(
+                                        padding: EdgeInsets.only(bottom:4),
+                                        'Purpose', _visitPurposeController),
+                                        Text("Please provide a purpose.")
+                                    ],
+                                  ),
                                 ):SizedBox(),
                                  
                               ],
@@ -244,7 +253,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                             child:_buildTextField('Village/Street', _villageController),),
                       ],
                     ),
-       
+                   
                     Row(
                       children: [
                         Expanded(
@@ -279,7 +288,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                       onTap: () {
                         // if(_formkey.currentState!.validate()){
                         controller.changePage(2);
-        
+                    
                         // }
                       },
                       child: Container(
@@ -292,7 +301,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         child: Center(
                             child: Text(
                           "Next",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white,fontSize: 20),
                         )),
                       ),
                     ),
@@ -312,12 +321,12 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     return Padding(
       padding: padding??const EdgeInsets.symmetric(vertical: 15),
       child: TextFormField(
-      
+        
         controller: controller,
         decoration: InputDecoration(
-          labelStyle: TextStyle(fontSize: 18),
+          labelStyle: TextStyle(fontSize: 20),
           labelText: label,
-          
+          floatingLabelStyle:TextStyle(fontSize: 20),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         
         ),
@@ -422,7 +431,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                           
                           margin: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
                           duration: Duration(milliseconds: 800),
-                          height: 80,
+                          height: 60,
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),

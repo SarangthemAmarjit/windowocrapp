@@ -50,5 +50,33 @@ Future<Map<String,dynamic>> addPermit(VisitorEntry permit, Uint8List passportPho
       return {"Failed":0};
 }
 
+  @override
+  Future<Map<String, dynamic>> detectFaces(Uint8List profileImage) async {
+   var request = http.MultipartRequest('POST', Uri.parse('http://127.0.0.1:8000/detect_faces/'));
+try {
+  request.files.add(await http.MultipartFile.fromBytes('file',profileImage, filename: 'passportPhoto.jpg'));
+  
+  http.StreamedResponse response = await request.send();
+  
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+    return  jsonDecode( response.stream.first.toString());
+  }
+  else {
+    print(response.reasonPhrase);
+    return {"Failed":0};
+  }
+} on Exception catch (e) {
+  // TODO
+  print("Error in detect face api: $e");
+  return {"error":0};
+}
+  }
+
+
+
+  
+
+
 
   }

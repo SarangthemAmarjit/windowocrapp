@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
+import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
@@ -290,6 +291,107 @@ class Imagecontroller extends GetxController {
     }
   }
 
+
+
+  Future<void> initializeCameraAgain(
+      {required bool isfront,
+      required bool isback,
+      required bool isprofilecam,
+      required BuildContext context}) async {
+    int cameraIndex = 0;
+
+    // _isFrontcapturebuttonpress = isfront
+    //     ? isfront
+    //     : isprofilecam
+    //         ? true
+    //         : false;
+    // _isBackcapturebuttonpress = isback;
+    // update();
+
+    if (isprofilecam) {
+      assert(!isinitialized);
+      print("isinitialized " + isinitialized.toString());
+      if (_allavailablecameras.isEmpty) {
+        return;
+      }
+
+      int cameraId = -1;
+      try {
+        if (isprofilecam) {
+          cameraIndex = _allavailablecameras.indexWhere((ele) =>
+              ele.name.toString().toLowerCase().contains('webcam') ||
+              ele.name.toString().toLowerCase().contains('logi') ||
+              ele.name.toString().toLowerCase().contains('integrated camera'));
+          update();
+        } else {
+          cameraIndex = _allavailablecameras.indexWhere(
+              (ele) => ele.name.toString().toLowerCase().contains('czur'));
+          update();
+        }
+
+        final CameraDescription camera = _allavailablecameras[cameraIndex];
+
+        cameraId = await CameraPlatform.instance.createCameraWithSettings(
+          camera,
+          _mediaSettings,
+        );
+
+        unawaited(_errorStreamSubscription?.cancel());
+        _errorStreamSubscription = CameraPlatform.instance
+            .onCameraError(cameraId)
+            .listen(_onCameraError);
+
+        unawaited(_cameraClosingStreamSubscription?.cancel());
+        _cameraClosingStreamSubscription = CameraPlatform.instance
+            .onCameraClosing(cameraId)
+            .listen(_onCameraClosing);
+
+        final Future<CameraInitializedEvent> initialized =
+            CameraPlatform.instance.onCameraInitialized(cameraId).first;
+
+        await CameraPlatform.instance.initializeCamera(
+          cameraId,
+        );
+
+        final CameraInitializedEvent event = await initialized;
+
+// Adjust the preview size to match the passport photo aspect ratio (7:9)
+        _previewSize = Size(event.previewWidth, event.previewHeight
+            // Adjust height based on the 7:9 aspect ratio
+            );
+
+        _isinitialized = true;
+        _cameraId = cameraId;
+        _iscamerashown = true;
+        _cameraIndex = cameraIndex;
+        _profileimage = null;
+        update();
+        // if (isprofilecam) {
+        //   showProfileCameraDialog();
+        // }
+      } on CameraException catch (e) {
+        try {
+          if (cameraId >= 0) {
+            await CameraPlatform.instance.dispose(cameraId);
+          }
+        } on CameraException catch (e) {
+          debugPrint('Failed to dispose camera: ${e.code}: ${e.description}');
+        }
+
+        // Reset state.
+
+        _isinitialized = false;
+        _iscamerashown = false;
+        _cameraId = -1;
+        _cameraIndex = 0;
+        _previewSize = null;
+        update();
+      }
+    }
+  }
+
+
+
   Future<File> cropImageID(
     File imageFile, {
     required double aspectRatio,
@@ -478,7 +580,11 @@ final _imagefile = await file.readAsBytes();
         width: 700,
         height: 700,
       );
+ 
+
  final croppedBytes = img.encodePng(cropped);
+ print("Capturing and checking datas: Entering ===>");
+  // Get.find<Managementcontroller>().detectFaces(croppedBytes);
   Directory directory = await getApplicationDocumentsDirectory();
 
   // Create a unique file path in the temporary directory
@@ -506,4 +612,9 @@ final _imagefile = await file.readAsBytes();
     _navindex = navin;
     update();
   }
+
+
+
+
+
 }

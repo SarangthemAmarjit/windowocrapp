@@ -14,6 +14,8 @@ class Managementcontroller extends GetxController{
     final ApiCall apicall = ApicallImpl();
   String? state;
   String? purpose;
+  bool isCheckFaces = false;
+  String facesDetect = "";
 
     void changeGender(String gen){
         gender = gen;
@@ -55,5 +57,18 @@ class Managementcontroller extends GetxController{
   ByteData byteData = await rootBundle.load(assetPath);
   return byteData.buffer.asUint8List();
 }
+
+
+  Future<void> detectFaces(Uint8List face) async {
+     print("Capturing and checking datas . Sending API");
+      isCheckFaces = true;
+      facesDetect = "";
+      update();
+
+      Map<String,dynamic> res = await apicall.detectFaces(face);
+      facesDetect = res.entries.first.value.toString();
+      isCheckFaces = false;
+      update();
+  }
 
 }
