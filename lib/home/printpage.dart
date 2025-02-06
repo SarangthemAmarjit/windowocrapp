@@ -14,8 +14,14 @@ class ReceiptPreviewPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Receipt Preview'),
       ),
-      body: PdfPreview(
-        build: (format) => generatePdf(format),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 400,maxHeight: 700),
+          child: PdfPreview(
+            
+            build: (format) => generatePdf(format),
+          ),
+        ),
       ),
     );
   }

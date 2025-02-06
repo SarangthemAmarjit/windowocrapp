@@ -4,6 +4,9 @@ class PagenavControllers extends GetxController {
   int _mainpageindex = 0;
   int get mainpageindex => _mainpageindex;
 
+  int _docindex = 0;
+  int get docindex => _docindex;
+
   int page = 1;
   int regPage = 0;
 
@@ -11,6 +14,11 @@ class PagenavControllers extends GetxController {
 
   void changePage(int index) {
     page = index;
+    update();
+  }
+
+  void setdocindex({required int ind}) {
+    _docindex = ind;
     update();
   }
 

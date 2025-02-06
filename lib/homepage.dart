@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_windows_example/cons/constant.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
@@ -32,81 +33,84 @@ class _IdSelectionAndScanningScreenState
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
-              child: const Text(
-                'Scan Your ID Card',
+              child: Text(
+                'Scan Your ${documentTypes[pngcon.docindex]} ID',
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(10))),
-                        backgroundColor: WidgetStatePropertyAll(
-                            imgcon.isFrontcapturebuttonpress
-                                ? const Color.fromARGB(255, 216, 236, 217)
-                                : Colors.white)),
-                    onPressed: () {
-                      imgcon.initializeCamera(
-                          isfront: true,
-                          isback: false,
-                          isprofilecam: false,
-                          context: context);
-                      // _initializeCamera(isfront: true);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 30, horizontal: 20),
-                      child: Text(
-                        'Capture Front Side',
-                        style: TextStyle(fontSize: 23),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  // Csizebapture back side of the ID card
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 50),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       ElevatedButton(
+            //         style: ButtonStyle(
+            //             shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+            //                 side: BorderSide(color: Colors.green),
+            //                 borderRadius: BorderRadius.circular(10))),
+            //             backgroundColor: WidgetStatePropertyAll(
+            //                 imgcon.isFrontcapturebuttonpress
+            //                     ? const Color.fromARGB(255, 216, 236, 217)
+            //                     : Colors.white)),
+            //         onPressed: () {
+            //           imgcon.initializeCamera(
+            //               isfront: true,
+            //               isback: false,
+            //               isprofilecam: false,
+            //               context: context);
+            //           // _initializeCamera(isfront: true);
+            //         },
+            //         child: Padding(
+            //           padding: const EdgeInsets.symmetric(
+            //               vertical: 30, horizontal: 20),
+            //           child: Text(
+            //             'Capture Front Side',
+            //             style: TextStyle(fontSize: 23),
+            //           ),
+            //         ),
+            //       ),
+            //       pngcon.docindex == 3
+            //           ? SizedBox()
+            //           : SizedBox(
+            //               width: 30,
+            //             ),
+            //       // Csizebapture back side of the ID card
 
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(10))),
-                        backgroundColor: WidgetStatePropertyAll(
-                            imgcon.isBackcapturebuttonpress
-                                ? const Color.fromARGB(255, 216, 236, 217)
-                                : Colors.white)),
-                    onPressed: () {
-                      imgcon.initializeCamera(
-                          isfront: false,
-                          isback: true,
-                          isprofilecam: false,
-                          context: context);
-                      // _initializeCamera(isfront: false);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 30, horizontal: 20),
-                      child: Text(
-                        'Capture Back Side',
-                        style: TextStyle(fontSize: 23),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  // Csizebapture back side of the ID card
-                ],
-              ),
-            ),
+            //       pngcon.docindex == 3
+            //           ? SizedBox()
+            //           : ElevatedButton(
+            //               style: ButtonStyle(
+            //                   shape: WidgetStatePropertyAll(
+            //                       RoundedRectangleBorder(
+            //                           side: BorderSide(color: Colors.green),
+            //                           borderRadius: BorderRadius.circular(10))),
+            //                   backgroundColor: WidgetStatePropertyAll(
+            //                       imgcon.isBackcapturebuttonpress
+            //                           ? const Color.fromARGB(255, 216, 236, 217)
+            //                           : Colors.white)),
+            //               onPressed: () {
+            //                 imgcon.initializeCamera(
+            //                     isfront: false,
+            //                     isback: true,
+            //                     isprofilecam: false,
+            //                     context: context);
+            //                 // _initializeCamera(isfront: false);
+            //               },
+            //               child: Padding(
+            //                 padding: const EdgeInsets.symmetric(
+            //                     vertical: 30, horizontal: 20),
+            //                 child: Text(
+            //                   'Capture Back Side',
+            //                   style: TextStyle(fontSize: 23),
+            //                 ),
+            //               ),
+            //             ),
+
+            //       // Csizebapture back side of the ID card
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.only(bottom: 50, left: 40, right: 40),
               child: Container(
@@ -115,7 +119,7 @@ class _IdSelectionAndScanningScreenState
                     : const BoxConstraints(maxHeight: 250, maxWidth: 500),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all()),
+                    border: Border.all(color: Colors.white)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -136,35 +140,66 @@ class _IdSelectionAndScanningScreenState
                                       ),
                                     )
                                   : SizedBox(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10,
-                                ),
-                                child: Align(
-                                  child: Container(
-                                    constraints: const BoxConstraints(
-                                        maxHeight: 160, maxWidth: 500),
-                                    child: Transform.flip(
-                                      flipX: true,
-                                      child: AspectRatio(
-                                        aspectRatio:
-                                            12.5 / 7, // Passport photo ratio
-                                        child: Center(
-                                          child: ClipRect(
-                                            child: OverflowBox(
-                                              alignment: Alignment.center,
-                                              maxWidth: 600,
-                                              maxHeight: 420,
-                                              child: FittedBox(
-                                                fit: BoxFit
-                                                    .contain, // Ensure it covers the entire aspect ratio
-                                                child: SizedBox(
-                                                  width:
-                                                      imgcon.previewsize!.width,
-                                                  height: imgcon
-                                                      .previewsize!.height,
-                                                  child: imgcon
-                                                      .buildPreview(), // Your camera preview
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Container(
+                                          constraints: BoxConstraints(
+                                              maxHeight: pngcon.docindex == 1
+                                                  ? 195
+                                                  : 180,
+                                              maxWidth: pngcon.docindex == 1
+                                                  ? 600
+                                                  : 500
+                                              // maxHeight: 160, maxWidth: 500
+                                              ),
+                                          child: Transform.flip(
+                                            flipX: true,
+                                            child: AspectRatio(
+                                              aspectRatio: pngcon.docindex == 1
+                                                  ? 12.5 / 8
+                                                  : 2.5 / 2,
+
+                                              // Passport photo ratio
+                                              child: Center(
+                                                child: ClipRect(
+                                                  child: OverflowBox(
+                                                    alignment: Alignment.center,
+                                                    maxWidth:
+                                                        pngcon.docindex == 1
+                                                            ? 500
+                                                            : 500,
+                                                    maxHeight:
+                                                        pngcon.docindex == 1
+                                                            ? 300
+                                                            : 330,
+                                                    // maxWidth: 600,
+                                                    // maxHeight: 420,
+                                                    child: FittedBox(
+                                                      fit: BoxFit
+                                                          .cover, // Ensure it covers the entire aspect ratio
+                                                      child: SizedBox(
+                                                        width: imgcon
+                                                            .previewsize!.width,
+                                                        height: imgcon
+                                                            .previewsize!
+                                                            .height,
+                                                        child: imgcon
+                                                            .buildPreview(), // Your camera preview
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -173,7 +208,46 @@ class _IdSelectionAndScanningScreenState
                                       ),
                                     ),
                                   ),
-                                ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 40),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            imgcon.takePicture();
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    255, 0, 66, 234),
+                                            foregroundColor: Colors.white,
+                                            textStyle: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text(
+                                              pngcon.docindex == 1
+                                                  ? imgcon.isFrontcapturebuttonpress
+                                                      ? 'Capture Page 1'
+                                                      : 'Capture Page 2'
+                                                  : imgcon.isFrontcapturebuttonpress
+                                                      ? 'Capture Front Side'
+                                                      : 'Capture Back Side',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                          ),
+                                        )),
+                                  ),
+                                ],
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
@@ -182,18 +256,16 @@ class _IdSelectionAndScanningScreenState
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
                                       onPressed: () {
                                         imgcon.disposeCurrentCamera();
                                       },
                                       child: Text('Cancel'),
                                     ),
                                     const SizedBox(width: 5),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        imgcon.takePicture();
-                                      },
-                                      child: const Text('Capture ID'),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -205,14 +277,16 @@ class _IdSelectionAndScanningScreenState
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: pngcon.docindex == 3
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.spaceAround,
               children: [
                 imgcon.frontimage != null
                     ? Container(
                         height: 120,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all()),
+                            border: Border.all(color: Colors.white)),
                         // constraints: const BoxConstraints(
                         //     maxHeight: 120, maxWidth: 160),
                         child: Center(
@@ -228,98 +302,64 @@ class _IdSelectionAndScanningScreenState
                     : Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all()),
+                            border: Border.all(color: Colors.white)),
                         constraints:
                             const BoxConstraints(maxHeight: 120, maxWidth: 160),
                       ),
-                SizedBox(
-                  height: 40,
-                ),
-                imgcon.backImage != null
-                    ? Container(
-                        height: 120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all()),
-                        // constraints: const BoxConstraints(
-                        //     maxHeight: 120, maxWidth: 160),
-                        child: Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.file(
-                              File(imgcon.backImage!.path),
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all()),
-                        constraints:
-                            const BoxConstraints(maxHeight: 120, maxWidth: 160),
+                pngcon.docindex == 3
+                    ? SizedBox()
+                    : Row(
+                        children: [
+                          imgcon.backImage != null
+                              ? Container(
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(color: Colors.white)),
+                                  // constraints: const BoxConstraints(
+                                  //     maxHeight: 120, maxWidth: 160),
+                                  child: Center(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.file(
+                                        File(imgcon.backImage!.path),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(color: Colors.white)),
+                                  constraints: const BoxConstraints(
+                                      maxHeight: 120, maxWidth: 160),
+                                ),
+                        ],
                       ),
               ],
             ),
             SizedBox(
               height: 70,
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 50, right: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                    // overlayColor:
-                    //     WidgetStateProperty.all(Colors.transparent),
-                    focusColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    onTap: pngcon.regPage > 0
-                        ? () {
-                            pngcon.setmainpageindex(ind: 1);
-                          }
-                        : null,
-                    child: Transform.flip(
-                      flipX: true,
-                      child: Image.asset(
-                        'assets/images/next2.png',
-                        height: 60,
-                      ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 50, right: 50),
+                child: ElevatedButton(
+                  onPressed: () {
+                    pngcon.setmainpageindex(ind: 1);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 0, 183, 234),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 60, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-
-                  SizedBox(
-                    width: 20,
-                  ),
-
-                  // ElevatedButton(
-                  //     onPressed: () {},
-                  //     style: ElevatedButton.styleFrom(
-                  //       backgroundColor: Colors.grey.shade300,
-                  //     ),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Text(
-                  //         'Back',
-                  //         style: TextStyle(fontSize: 18),
-                  //       ),
-                  //     )),
-                  InkWell(
-                    // overlayColor:
-                    //     WidgetStateProperty.all(Colors.transparent),
-                    focusColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    onTap: () {
-                      pngcon.setmainpageindex(ind: 3);
-                    },
-                    child: Image.asset(
-                      'assets/images/next2.png',
-                      height: 60,
-                    ),
-                  )
-                ],
+                  child: const Text('Back', style: TextStyle(fontSize: 20)),
+                ),
               ),
             ),
           ],
