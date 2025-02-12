@@ -16,7 +16,7 @@ class Managementcontroller extends GetxController{
   String? purpose;
   bool isCheckFaces = false;
   String facesDetect = "";
-
+  VisitorEntry? visitorEntry;
     void changeGender(String gen){
         gender = gen;
         update();
@@ -51,6 +51,17 @@ class Managementcontroller extends GetxController{
         Map<String,dynamic> d =  await apicall.addPermit(permit,passport,idcard);
         print(d);
    }
+
+
+    void addPermit (VisitorEntry? permits){
+        visitorEntry = permits;
+        update();
+    }
+    
+  void removePermits(){
+    visitorEntry = null;
+  }
+
 
     Future<Uint8List> getImageAssetBytes(String assetPath) async {
   // Load the asset as bytes from memory

@@ -5,6 +5,7 @@ import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
+import 'package:camera_windows_example/models/permit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -30,6 +31,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   final _visitPurposeController = TextEditingController();
   final _nearestpliceController = TextEditingController();
   final _villageController = TextEditingController();
+  final _districtController = TextEditingController();
   final _tehsilController = TextEditingController();
   final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
   String? selectedCardType;
@@ -38,10 +40,6 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   DateTime? _fromDate;
   DateTime? _dob;
   String? _selectedIdProof;
-  // final List<String> purposes = ['Business', 'Tourism', 'Medical', 'Other'];
-  // final List<String> gates = ['Imphal Gate', 'Mao Gate', 'Moreh Gate'];
-  // final List<String> states = states;
-  // final List<String> genders = ['Male', 'Female', 'Others'];
 
   @override
   Widget build(BuildContext context) {
@@ -61,18 +59,6 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // imgcon.profileimage != null
-                        //     ? CropImage(
-                        //         controller: imgcon.crcontroller,
-                        //         image: Image.file(
-                        //           File(imgcon.profileimage!.path),
-                        //         ),
-                        //         paddingSize: 25.0,
-                        //         alwaysMove: false,
-                        //         minimumImageSize: 500,
-                        //         maximumImageSize: 500,
-                        //       )
-                        //     : SizedBox(),
                         
                              Row(
                           children: [
@@ -140,16 +126,47 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                             SizedBox(
                               width: 20,
                             ),
-                            Expanded(
-                              child:SizedBox()
-                            ),
+                          Expanded(
+                                child:_buildTextField('Village/Street', _villageController),),
                           ],
                         ).animate().fadeIn(delay: Duration(milliseconds: 600)),
-                                
+
+
+                          Row(
+                          children: [
+                            Expanded(
+                              child: _buildDropdownField(
+                                  'State', states, mngctrl.state, (value) {
+                                      mngctrl.changeState(value!);
+                              }),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                                child: _buildTextField('District', _districtController)),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 800)),
+
+                          //
+
+                             Row(
+                          children: [
+                            Expanded(
+                              child: _buildTextField(
+                                  'Nearest Police Station', _nearestpliceController),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                                child: _buildTextField('Tehsil', _tehsilController)),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 1000)),
                          _buildRadioGroup(
                                   'Gender', genders,mngctrl.gender, (value) {
                          mngctrl.changeGender(value!);
-                              }).animate().fadeIn(delay: Duration(milliseconds: 800)),
+                              }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
                         Row(
                           children: [
                             Expanded(
@@ -167,13 +184,13 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 child: _buildTextField(
                                     'Place of Stay in Manipur', _placeStayController)),
                           ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 1000)),
+                        ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child: AnimatedContainer(
-                                height: mngctrl.purpose=="Others"?180:80,
+                                height: mngctrl.purpose=="Others"?190:80,
                                padding:mngctrl.purpose=="Others"?EdgeInsets.all(8):null,
                                                            duration:Duration(milliseconds:800),
                                 decoration: BoxDecoration(
@@ -208,47 +225,42 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                             SizedBox(
                               width: 20,
                             ),
-                            Expanded(
-                                child:_buildTextField('Village/Street', _villageController),),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 1200)),
-                       
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildDropdownField(
-                                  'State', states, mngctrl.state, (value) {
-                                      mngctrl.changeState(value!);
-                              }),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                                child: _buildTextField('District', _villageController)),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
-                        
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildTextField(
-                                  'Nearest Police Station', _nearestpliceController),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                                child: _buildTextField('Tehsil', _tehsilController)),
+                            Expanded(child: SizedBox())
                           ],
                         ).animate().fadeIn(delay: Duration(milliseconds: 1600)),
+                       
+                        
+                        
+                     
                         const SizedBox(height: 20),
                         InkWell(
                           onTap: () {
-                            // if(_formkey.currentState!.validate()){
+                            if(_formkey.currentState!.validate()){
+                             VisitorEntry permits = VisitorEntry(
+                              applcntName: _nameController.text,
+                              applcntAddress:_villageController.text,
+                              applcntDOB: _dob!.toIso8601String(),
+                              applcntDistrict: _districtController.text,
+                              applcntEmail: _emailController.text,
+                              applcntGender: mngctrl.gender,
+                              applcntMobile: _mobileController.text,
+                              applcntParent: _parentNameController.text,
+                              applcntPoliceStation: _nearestpliceController.text,
+                              applcntState: mngctrl.state,
+                              idNo: _idNoController.text,
+                              applcntTehsil: _tehsilController.text,
+                              applcntVillage: _villageController.text,
+                              gateID: "Airport ",
+                              idProof:mngctrl.idCard,
+                              visitDate: _fromDate!.toIso8601String(),
+                              purposeVisit:mngctrl.purpose=="Others"?_visitPurposeController.text:mngctrl.purpose, 
+                              
+                              );
+                            
+                            mngctrl.addPermit(permits);
                             controller.changePage(2);
-                        
-                            // }
+
+                            }
                           },
                           child: Container(
                             width: double.infinity,
@@ -396,9 +408,34 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                          color: selectedValue == option?Colors.green:Colors.grey[200],
+                          color: selectedValue == option?Colors.blue:Colors.grey[200],
                           ),
-                          child: Center(child: Text(option,style: TextStyle(fontSize: 18,color:selectedValue == option?Colors.white:null ),)),
+                          child: Center(child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(4),
+                                height: 20,
+                                width: 20,
+                                
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                border: Border.all(width: 1,
+                                color: selectedValue == option?Colors.white:Colors.grey
+                                ),
+                              
+                              ),
+                              child: selectedValue == option? Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+
+                              ),
+                              ):SizedBox(),
+                              ),
+                              SizedBox(width: 10,),
+                              Text(option,style: TextStyle(fontSize: 18,color:selectedValue == option?Colors.white:null ),),
+                            ],
+                          )),
                          
                           // child: RadioListTile(
                           //   contentPadding: EdgeInsets.zero,
@@ -418,14 +455,10 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   }
 
   String? _emailValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email cannot be empty';
-    }
-    final emailRegex =
-        RegExp(r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Enter a valid email';
-    }
+    // if (value == null || value.isEmpty) {
+    //   return 'Email cannot be empty';
+    // }
+
     return null;
   }
 
@@ -433,8 +466,8 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     if (value == null || value.isEmpty) {
       return 'Mobile number cannot be empty';
     }
-    final phoneRegex = RegExp(r'^\d{10}\$');
-    if (!phoneRegex.hasMatch(value)) {
+     
+    if (!value.isNum || value.length!=10) {
       return 'Enter a valid 10-digit mobile number';
     }
     return null;
