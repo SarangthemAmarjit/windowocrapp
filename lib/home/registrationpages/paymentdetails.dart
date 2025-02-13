@@ -2,15 +2,12 @@ import 'dart:io';
 
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
-import 'package:camera_windows_example/home/printpage.dart';
 import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-
 import '../../cons/constant.dart';
 import '../../controller/pagecontroller.dart';
-import 'linkpage.dart';
 
 class PaymentDetails extends StatelessWidget {
   const PaymentDetails({super.key});
@@ -57,8 +54,11 @@ class PaymentDetails extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
+                                    height: 120,
+                                    width: 120,
                                     clipBehavior: Clip.antiAlias,
                                     decoration: BoxDecoration(
+                                       color: Colors.grey[300],
                                         borderRadius: BorderRadius.circular(8)),
                                     child: imgcon.profileimage != null
                                         ? Transform.flip(
@@ -70,7 +70,9 @@ class PaymentDetails extends StatelessWidget {
                                               File(imgcon.profileimage!.path),
                                             ),
                                           )
-                                        : SizedBox(),
+                                        : Center(
+                                          child:   Icon(Icons.photo,color: Colors.grey,size: 40,),
+                                        ),
                                   ),
                                   SizedBox(
                                     width: 20,
@@ -80,7 +82,7 @@ class PaymentDetails extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        mngctrl.visitorEntry?.applcntName ?? "",
+                                        mngctrl.visitorEntry?.applcntName ?? "NA",
                                         style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold),
@@ -97,13 +99,13 @@ class PaymentDetails extends StatelessWidget {
                                               TextLabel(
                                                   text: (mngctrl.visitorEntry
                                                           ?.idProof ??
-                                                      "")),
+                                                      "NA")),
                                               BannerContainer(
                                                   padding: EdgeInsets.all(8),
                                                   margin: EdgeInsets.zero,
                                                   text: mngctrl
                                                           .visitorEntry?.idNo ??
-                                                      "",
+                                                      "NA",
                                                   color: Colors.green),
                                             ],
                                           ),
@@ -118,7 +120,7 @@ class PaymentDetails extends StatelessWidget {
                                               TextSubtitle(
                                                 text: mngctrl.visitorEntry
                                                         ?.applcntGender ??
-                                                    "",
+                                                    "NA",
                                               ),
                                             ],
                                           ),
@@ -133,7 +135,7 @@ class PaymentDetails extends StatelessWidget {
                                               TextSubtitle(
                                                 text: mngctrl.visitorEntry
                                                         ?.applcntDOB ??
-                                                    "",
+                                                    "NA",
                                               ),
                                             ],
                                           ),
@@ -155,7 +157,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextSubtitle(
                                           text: mngctrl.visitorEntry
                                                   ?.applcntParent ??
-                                              "",
+                                              "NA",
                                         ),
                                       ],
                                     ),
@@ -183,7 +185,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextSubtitle(
                                             text: mngctrl.visitorEntry
                                                     ?.applcntMobile ??
-                                                ""),
+                                                "NA"),
                                       ],
                                     ),
                                   ),
@@ -203,7 +205,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextSubtitle(
                                           text: mngctrl
                                                   .visitorEntry?.applcntState ??
-                                              "",
+                                              "NA",
                                         ),
                                       ],
                                     ),
@@ -217,7 +219,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextSubtitle(
                                           text: mngctrl.visitorEntry
                                                   ?.applcntAddress ??
-                                              "",
+                                              "NA",
                                         ),
                                       ],
                                     ),
@@ -231,7 +233,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextSubtitle(
                                           text: mngctrl.visitorEntry
                                                   ?.applcntTehsil ??
-                                              "",
+                                              "NA",
                                         ),
                                       ],
                                     ),
@@ -264,7 +266,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextSubtitle(
                                           text:
                                               mngctrl.visitorEntry?.visitDate ??
-                                                  "",
+                                                  "NA",
                                         ),
                                       ],
                                     ),
@@ -278,7 +280,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextSubtitle(
                                           text: mngctrl
                                                   .visitorEntry?.purposeVisit ??
-                                              "",
+                                              "NA",
                                         ),
                                       ],
                                     ),
@@ -507,7 +509,7 @@ class PaymentCard extends StatelessWidget {
 
               showDialog(context: context, builder: (c){
                 return  AlertDialog(
-                  
+                  insetPadding: EdgeInsets.all(16),
                   content: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -520,12 +522,20 @@ class PaymentCard extends StatelessWidget {
                   actions: [
                         ButtonCard(
                           padding: EdgeInsets.symmetric(vertical: 8),
-                          title: "Pay Cash ", onpress: (){}) ,
+                          icon: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal:8.0),
+                            child: Icon(Icons.currency_rupee_outlined,color: Colors.white,),
+                          ),
+                          title: "Pay with Cash ", onpress: (){}) ,
                         ButtonCard(
+                               icon: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal:8.0),
+                            child: Icon(Icons.money_sharp,color: Colors.white,),
+                          ),
                              padding: EdgeInsets.symmetric(vertical: 8),
                           title: "Pay Online", onpress: (){}) ,
                   ],
-                );
+                ).animate().scaleXY(begin: 0.5,end: 1).fadeIn();
               });
 
 
@@ -540,11 +550,12 @@ class PaymentCard extends StatelessWidget {
 
 class ButtonCard extends StatelessWidget {
   const ButtonCard({
-    super.key, required this.title, required this.onpress, this.padding,
+    super.key, required this.title, required this.onpress, this.padding, this.icon,
   });
   final String title;
   final VoidCallback onpress;
   final EdgeInsets? padding;
+  final Widget? icon;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -558,11 +569,16 @@ class ButtonCard extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.green, borderRadius: BorderRadius.circular(8)),
           clipBehavior: Clip.antiAlias,
-          child: Center(
-              child: Text(
-            title,
-            style: TextStyle(color: Colors.white, fontSize: 26),
-          )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              icon??SizedBox(),
+              Text(
+                          title,
+                          style: TextStyle(color: Colors.white, fontSize: 26),
+                        ),
+            ],
+          ),
         ),
       ),
     );

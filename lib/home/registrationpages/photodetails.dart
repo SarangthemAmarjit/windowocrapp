@@ -19,10 +19,10 @@ class PhotoSignaturePage extends StatefulWidget {
 }
 
 class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
+
   var _scheduler;
 
   Uint8List? image;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -95,10 +95,12 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 700),
               child: Container(
-                
+                clipBehavior: Clip.antiAlias,
                 margin: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                 color: Colors.white,
+
+                borderRadius: BorderRadius.circular(8),
                 border: Border.all(),
                   boxShadow: [
                     BoxShadow(color: Colors.black.withValues(alpha: 0.2),blurRadius: 5)
@@ -118,16 +120,20 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                         : Container(
                             padding: EdgeInsets.all(32),
                             margin: EdgeInsets.all(16),
-                            child: imgcon.initialized
-                                ? Text(
+                            child:
+                            //  imgcon.isinitialized
+                            //     ? 
+                                Text(
                                     "Please look at the Camera and stand still.",
                                     style: TextStyle(fontSize: 26),
                                   )
-                                : Text(
-                                    "Initializing Camera. Please Wait",
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.green),
-                                  )),
+                                // : Text(
+                                //     "Initializing Camera. Please Wait",
+                                //     style: TextStyle(
+                                //         fontSize: 20, color: Colors.green),
+                                //   )
+                                  
+                                  ),
                     timer <= 1
                         ? SizedBox(
                             height: 20,
@@ -148,13 +154,14 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           height: 500,
                           margin: EdgeInsets.all(16),
                           decoration: BoxDecoration(
+                            color: Colors.grey[300],
                             border: Border.all(
                               width: 2,
-                              color: Colors.grey[900]!,
+                              color: Colors.grey[400]!,
                             ),
-                            //  borderRadius: BorderRadius.circular(10),
+                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: ClipRRect(
+                          child:imgcon.isinitialized?ClipRRect(
                               //  borderRadius: BorderRadius.circular(10),
                               child: imgcon.profileimage != null
                                   ? Transform.flip(
@@ -164,7 +171,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                         File(imgcon.profileimage!.path),
                                       ),
                                     )
-                                  : imgcon.buildPreview()),
+                                  : imgcon.buildPreview()):Center(child:  Icon(Icons.camera,color: Colors.grey,size:60,).animate(onComplete: (controller) {
+                                        controller.repeat();
+                                      },).rotate(duration: Duration(seconds: 2),),),
                         ),
                         Positioned(
                           top: 0,
@@ -191,7 +200,10 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                       height: 20,
                     ),
                           
-                    Row(
+                    // imgcon.isinitialized?
+                    
+                    
+                     Row(
                       children: [
                         Expanded(
                           child: InkWell(
@@ -257,7 +269,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           ),
                         ),
                       ],
-                    ).animate().fadeIn(duration: Duration(milliseconds: 1200),delay: Duration(milliseconds: 400)) ,
+                    ).animate().fadeIn(duration: Duration(milliseconds: 1200),delay: Duration(milliseconds: 400))
+                    
+                    // :SizedBox(),
                   ],
                 ),
               ).animate().scaleXY(begin: 0.7,end: 1,curve: Curves.easeInCubic,duration: Duration(milliseconds: 600)).fadeIn(duration: Duration(milliseconds: 500)),
