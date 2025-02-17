@@ -112,7 +112,7 @@ class GetxTapController extends GetxController {
   // P A Y M E N T   GATEWAY
 
   // merchant configuration data
-  final String login = "317159"; //"445842"; //mandatory
+  final String login = "317157"; //"445842"; //mandatory
   final String password = 'Test@123'; //mandatory
   final String prodid = 'NSE'; //mandatory
   final String requestHashKey = 'KEY123657234'; //mandatory
