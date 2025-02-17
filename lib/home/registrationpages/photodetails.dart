@@ -270,7 +270,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                         ),
                       ],
                     ).animate().fadeIn(duration: Duration(milliseconds: 1200),delay: Duration(milliseconds: 400))
-                    
+                      
                     // :SizedBox(),
                   ],
                 ),

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:camera_windows_example/models/apicall.dart';
 import 'package:camera_windows_example/models/apicallimpl.dart';
 import 'package:camera_windows_example/models/permit.dart';
@@ -9,14 +7,18 @@ import 'package:get/get.dart';
 import '../cons/constant.dart';
 
 class Managementcontroller extends GetxController{
-    String? idCard;
-    String gender = genders[0];
-    final ApiCall apicall = ApicallImpl();
+  
+  String gender = genders[0];
+  final ApiCall apicall = ApicallImpl();
   String? state;
   String? purpose;
   bool isCheckFaces = false;
   String facesDetect = "";
-  VisitorEntry? visitorEntry;
+  bool isLoading = false;
+
+  VisitorEntry? _permit;
+  VisitorEntry? get getPermit=> _permit;
+
     void changeGender(String gen){
         gender = gen;
         update();
@@ -38,10 +40,18 @@ class Managementcontroller extends GetxController{
 
     }
 
-    void getIdCard(String id){
-      idCard = id;
+
+    //get document verification details from api
+    Future<void>  getDocumentDetails({required String docID,required String docType})async{
+      isLoading = true;
       update();
+      //fetch doc from api
+      _permit = VisitorEntry(idProof: docType,idNo: docID);  
+      isLoading = false;
+      update();
+
     }
+
 
     Future<void> addtemporaryPermit(VisitorEntry permit) async {
         String passportpath = 'assets/images/Kanglashanew1.png';
@@ -54,12 +64,12 @@ class Managementcontroller extends GetxController{
 
 
     void addPermit (VisitorEntry? permits){
-        visitorEntry = permits;
+        _permit = permits;
         update();
     }
     
   void removePermits(){
-    visitorEntry = null;
+    _permit = null;
   }
 
 

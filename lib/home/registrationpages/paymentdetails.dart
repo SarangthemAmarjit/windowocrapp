@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/widgets/bannercard.dart';
@@ -82,7 +83,7 @@ class PaymentDetails extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        mngctrl.visitorEntry?.applcntName ?? "NA",
+                                        mngctrl.getPermit?.applcntName ?? "NA",
                                         style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold),
@@ -97,14 +98,14 @@ class PaymentDetails extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               TextLabel(
-                                                  text: (mngctrl.visitorEntry
+                                                  text: (mngctrl.getPermit
                                                           ?.idProof ??
                                                       "NA")),
                                               BannerContainer(
                                                   padding: EdgeInsets.all(8),
                                                   margin: EdgeInsets.zero,
                                                   text: mngctrl
-                                                          .visitorEntry?.idNo ??
+                                                          .getPermit?.idNo ??
                                                       "NA",
                                                   color: Colors.green),
                                             ],
@@ -118,7 +119,7 @@ class PaymentDetails extends StatelessWidget {
                                             children: [
                                               TextLabel(text: "Gender"),
                                               TextSubtitle(
-                                                text: mngctrl.visitorEntry
+                                                text: mngctrl.getPermit
                                                         ?.applcntGender ??
                                                     "NA",
                                               ),
@@ -133,9 +134,9 @@ class PaymentDetails extends StatelessWidget {
                                             children: [
                                               TextLabel(text: "D.O.B"),
                                               TextSubtitle(
-                                                text: mngctrl.visitorEntry
-                                                        ?.applcntDOB ??
-                                                    "NA",
+                                                text:getDate(dateTime:  mngctrl.getPermit
+                                                        ?.applcntDOB ??"")
+                                                    
                                               ),
                                             ],
                                           ),
@@ -155,7 +156,7 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Parent's Name"),
                                         TextSubtitle(
-                                          text: mngctrl.visitorEntry
+                                          text: mngctrl.getPermit
                                                   ?.applcntParent ??
                                               "NA",
                                         ),
@@ -170,7 +171,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextLabel(text: "Email"),
                                         TextSubtitle(
                                           text: mngctrl
-                                                  .visitorEntry?.applcntEmail ??
+                                                  .getPermit?.applcntEmail ??
                                               "NA",
                                         ),
                                       ],
@@ -183,7 +184,7 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Phone"),
                                         TextSubtitle(
-                                            text: mngctrl.visitorEntry
+                                            text: mngctrl.getPermit
                                                     ?.applcntMobile ??
                                                 "NA"),
                                       ],
@@ -201,10 +202,24 @@ class PaymentDetails extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        TextLabel(text: "State"),
+                                        TextLabel(text:"State"),
                                         TextSubtitle(
                                           text: mngctrl
-                                                  .visitorEntry?.applcntState ??
+                                                  .getPermit?.applcntState ??
+                                              "NA",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextLabel(text: "District"),
+                                        TextSubtitle(
+                                          text: mngctrl.getPermit
+                                                  ?.district ??
                                               "NA",
                                         ),
                                       ],
@@ -217,22 +232,8 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Address"),
                                         TextSubtitle(
-                                          text: mngctrl.visitorEntry
+                                          text: mngctrl.getPermit
                                                   ?.applcntAddress ??
-                                              "NA",
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        TextLabel(text: "Tehsil"),
-                                        TextSubtitle(
-                                          text: mngctrl.visitorEntry
-                                                  ?.applcntTehsil ??
                                               "NA",
                                         ),
                                       ],
@@ -240,9 +241,46 @@ class PaymentDetails extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                                SizedBox(
                                 height: 20,
                               ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextLabel(text:"Nearest Police Station"),
+                                        TextSubtitle(
+                                          text: mngctrl
+                                                  .getPermit?.applcntPoliceStation ??
+                                              "NA",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                       Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextLabel(text:"Tehsil"),
+                                        TextSubtitle(
+                                          text: mngctrl.getPermit
+                                                  ?.applcntTehsil ??
+                                              "NA",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(),
+                                  ),
+                             
+                                ],
+                              ),
+                              Divider(),
                               Row(
                                 children: [
                                   Expanded(
@@ -264,9 +302,9 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Starting Date"),
                                         TextSubtitle(
-                                          text:
-                                              mngctrl.visitorEntry?.visitDate ??
-                                                  "NA",
+                                          text:getDate(dateTime:
+                                              mngctrl.getPermit?.visitDate??"")
+                                                 
                                         ),
                                       ],
                                     ),
@@ -279,7 +317,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextLabel(text: "Purpose"),
                                         TextSubtitle(
                                           text: mngctrl
-                                                  .visitorEntry?.purposeVisit ??
+                                                  .getPermit?.purposeVisit ??
                                               "NA",
                                         ),
                                       ],
@@ -287,6 +325,21 @@ class PaymentDetails extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                                   Column(
+                                     crossAxisAlignment:
+                                         CrossAxisAlignment.start,
+                                     children: [
+                                       TextLabel(text: "Place of Stay"),
+                                       TextSubtitle(
+                                         text: mngctrl
+                                                 .getPermit?.placeOfStay ??
+                                             "NA",
+                                       ),
+                                     ],
+                                   ),
                             ],
                           ),
                         ],
@@ -298,7 +351,7 @@ class PaymentDetails extends StatelessWidget {
                       height: 20,
                     ),
                     Divider(),
-                    PaymentCard().animate().fadeIn(
+                    PaymentCard(mngctrl: mngctrl,).animate().fadeIn(
                         duration: Duration(milliseconds: 1200),
                         delay: Duration(milliseconds: 600)),
                   ],
@@ -321,9 +374,9 @@ class PaymentDetails extends StatelessWidget {
 
 class PaymentCard extends StatelessWidget {
   const PaymentCard({
-    super.key,
+    super.key, required this.mngctrl,
   });
-
+  final Managementcontroller mngctrl;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -437,7 +490,7 @@ class PaymentCard extends StatelessWidget {
                         )),
                     Expanded(
                         child: Text(
-                      "22/1/2025",
+                      getDate(dateTime: mngctrl.getPermit?.visitDate??""),
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     )),
@@ -462,7 +515,7 @@ class PaymentCard extends StatelessWidget {
                         )),
                     Expanded(
                         child: Text(
-                      "22/2/2025",
+                    getDate(dateTime: mngctrl.getPermit?.visitDate??"",duration: 15),
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     )),

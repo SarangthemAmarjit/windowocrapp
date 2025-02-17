@@ -1,13 +1,9 @@
-
-import 'dart:ui';
-
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
@@ -36,11 +32,31 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
   String? selectedCardType;
   XFile? profileimage;
-
   DateTime? _fromDate;
   DateTime? _dob;
-  String? _selectedIdProof;
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    VisitorEntry? d = Get.find<Managementcontroller>().getPermit;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+          if(d!=null){
+
+              _nameController.text = d.applcntName??"";
+              _parentNameController.text = d.applcntParent??"";
+              _idNoController.text = d.idNo??"";
+              _districtController.text = d.district??"";
+
+          } 
+
+    },);
+  }
+  
+  
+  
   @override
   Widget build(BuildContext context) {
     Imagecontroller imgcon = Get.put(Imagecontroller());
@@ -63,10 +79,10 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                              Row(
                           children: [
                             Expanded(
-                              child: _buildDropdownField(
-                                 "ID Proof", [mngctrl.idCard??"Id Card"],  mngctrl.idCard??"", (value) {
+                              child:mngctrl.getPermit?.idProof!=null? _buildDropdownField(
+                                 "ID Proof", [mngctrl.getPermit?.idProof??"Id Card"],  mngctrl.getPermit?.idProof??"", (value) {
                                
-                              }),
+                              }):SizedBox(),
                             ),
                             SizedBox(
                               width: 20,
@@ -168,27 +184,19 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                          mngctrl.changeGender(value!);
                               }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: _buildDateField('Period of Stay (From)', _fromDate,
-                                  (value) {
-                                setState(() {
-                                  _fromDate = value;
-                                });
-                              }),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
+                        
+                           
                             Expanded(
                                 child: _buildTextField(
                                     'Place of Stay in Manipur', _placeStayController)),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
+
+ SizedBox(
+                              width: 20,
+                            ),
+
+                                      Expanded(
                               child: AnimatedContainer(
                                 height: mngctrl.purpose=="Others"?190:80,
                                padding:mngctrl.purpose=="Others"?EdgeInsets.all(8):null,
@@ -222,12 +230,9 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(child: SizedBox())
                           ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 1600)),
+                        ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
+                    
                        
                         
                         
@@ -251,7 +256,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               applcntTehsil: _tehsilController.text,
                               applcntVillage: _villageController.text,
                               gateID: "Airport ",
-                              idProof:mngctrl.idCard,
+                  
                               visitDate: _fromDate!.toIso8601String(),
                               purposeVisit:mngctrl.purpose=="Others"?_visitPurposeController.text:mngctrl.purpose, 
                               
@@ -291,25 +296,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   Widget _buildTextField(String label, TextEditingController controller,
       {String? Function(String?)? validator,EdgeInsets? padding}) {
         
-    return Padding(
-      padding: padding??const EdgeInsets.symmetric(vertical: 15),
-      child: TextFormField(
-        
-        controller: controller,
-        decoration: InputDecoration(
-          labelStyle: TextStyle(fontSize: 20),
-          labelText: label,
-          floatingLabelStyle:TextStyle(fontSize: 20),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-        
-        ),
-        validator: validator??(v){
-          if(v!.isEmpty){
-            return "$label is empty";
-          }
-        },
-      ),
-    );
+    return TextFieldWidget(controller: controller,label: label,validator: validator,);
   }
 
   Widget _buildDropdownField(String label, List<String> items,
@@ -471,5 +458,38 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       return 'Enter a valid 10-digit mobile number';
     }
     return null;
+  }
+}
+
+class TextFieldWidget extends StatelessWidget {
+  const TextFieldWidget({
+    super.key, this.padding, required this.controller, required this.label, this.validator,
+  });
+
+  final EdgeInsets? padding;
+  final TextEditingController controller;
+  final String label;
+  final String? Function(String?)?  validator;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding??const EdgeInsets.symmetric(vertical: 15),
+      child: TextFormField(
+        
+        controller: controller,
+        decoration: InputDecoration(
+          labelStyle: TextStyle(fontSize: 20),
+          labelText: label,
+          floatingLabelStyle:TextStyle(fontSize: 20),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+        
+        ),
+        validator: validator??(v){
+          if(v!.isEmpty){
+            return "$label is empty";
+          }
+        },
+      ),
+    );
   }
 }
