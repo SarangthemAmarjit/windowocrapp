@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:camera_windows_example/models/gate.dart';
 import 'package:http/http.dart' as http;
 import 'apicall.dart';
 import 'permit.dart';
@@ -71,6 +72,32 @@ try {
   print("Error in detect face api: $e");
   return {"error":0};
 }
+  }
+
+  @override
+  Future<List<Gate>> getAllGates() async {
+     final response = await http.get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getactivegates"));
+  print("In response");
+    if (response.statusCode == 200) {
+      print(response.body);
+      final respo = jsonDecode(response.body )as List<dynamic>;
+      return respo.map((e) => Gate.fromJson(e)).toList(); // Parsing JSON
+    } else {
+      throw Exception("Failed to load data");
+    }
+  }
+
+  @override
+  Future<List<String>> getDocumentType() async {
+     final response = await http.get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getallidtype"));
+  print("In response");
+    if (response.statusCode == 200) {
+      print(response.body);
+      final respo = jsonDecode( response.body) as List<dynamic>;
+      return respo.map((e) => e.toString()).toList(); // Parsing JSON
+    } else {
+      throw Exception("Failed to load data");
+    }
   }
 
 

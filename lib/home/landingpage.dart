@@ -1,5 +1,4 @@
 import 'package:camera_windows_example/controller/pagecontroller.dart';
-import 'package:camera_windows_example/home/dashboard.dart';
 import 'package:camera_windows_example/home/idselectionpage.dart';
 import 'package:camera_windows_example/home/registration.dart';
 import 'package:camera_windows_example/home/welcomepage.dart';

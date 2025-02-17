@@ -7,101 +7,116 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
-class DocumentScanPage extends StatelessWidget {
+class DocumentScanPage extends StatefulWidget {
   const DocumentScanPage({super.key});
 
+  @override
+  State<DocumentScanPage> createState() => _DocumentScanPageState();
+}
+
+class _DocumentScanPageState extends State<DocumentScanPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Get.put(Managementcontroller());
+  }
   @override
   Widget build(BuildContext context) {
     PagenavControllers pagecon = Get.put(PagenavControllers());
 
-    return GetBuilder<PagenavControllers>(builder: (_) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Text(
-                'Document Type Selection for Scanning',
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ).animate().fadeIn(),
-              const SizedBox(height: 8),
-              Text(
-                'Choose the type of ID document you want to scan for verification.',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 100),
-              pagecon.IdSelection
-                  ? GetDocumentId()
-                  : GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 50,
-                        mainAxisSpacing: 100,
-                        childAspectRatio: 3.8,
-                      ),
-                      itemCount: documentTypes.length,
-                      itemBuilder: (context, index) {
-                        return _buildButton(
-                                context, documentTypes[index], index)
-                            .animate()
-                            .fadeIn(delay: Duration(milliseconds: index * 200))
-                            .scaleXY(begin: 0.5, end: 1);
+    return GetBuilder<Managementcontroller>(
+      builder: (mngctrl) {
+        return GetBuilder<PagenavControllers>(builder: (_) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Document Type Selection for Scanning',
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ).animate().fadeIn(),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Choose the type of ID document you want to scan for verification.',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 100),
+                  pagecon.IdSelection
+                      ? GetDocumentId()
+                      :  GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 50,
+                            mainAxisSpacing: 100,
+                            childAspectRatio: 3.8,
+                          ),
+                          itemCount: mngctrl.getDocNames.length,
+                          itemBuilder: (context, index) {
+                            return _buildButton(
+                                    context, mngctrl.getDocNames[index], index)
+                                .animate()
+                                .fadeIn(delay: Duration(milliseconds: index * 200))
+                                .scaleXY(begin: 0.5, end: 1);
+                          },
+                        ),
+        
+                  // const SizedBox(height: 100),
+                  // const Text(
+                  //   'Place the selected document on the scanning pad, ensuring it is clear and fully visible for a successful scan.',
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  //   textAlign: TextAlign.center,
+                  // ),
+                  const SizedBox(height: 100),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+        
+                        if(pagecon.IdSelection){
+                            pagecon.changeIdSelection();
+                        }else{
+        
+                        pagecon.setmainpageindex(ind: 0);
+                        }
                       },
-                    ),
-
-              // const SizedBox(height: 100),
-              // const Text(
-              //   'Place the selected document on the scanning pad, ensuring it is clear and fully visible for a successful scan.',
-              //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              //   textAlign: TextAlign.center,
-              // ),
-              const SizedBox(height: 100),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-
-                    if(pagecon.IdSelection){
-                        pagecon.changeIdSelection();
-                    }else{
-
-                    pagecon.setmainpageindex(ind: 0);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 183, 234),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60, vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 0, 183, 234),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 60, vertical: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          const Text('Back', style: TextStyle(fontSize: 20)),
+                        ],
+                      ),
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      const Text('Back', style: TextStyle(fontSize: 20)),
-                    ],
-                  ),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
-      );
-    });
+            ),
+          );
+        });
+      }
+    );
   }
 
   Widget _buildButton(BuildContext context, String text, int docindex) {
@@ -165,10 +180,10 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 Colors.blue.withValues(alpha: 0.2),
                 Colors.blue.withValues(alpha: 0.0)
               ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-              border: Border(
-                  top: BorderSide(color: Colors.white.withValues(alpha: 0.5)),
-                  right: BorderSide(color: Colors.white.withValues(alpha: 0.5)),
-                  left: BorderSide(color: Colors.white.withValues(alpha: 0.5))),
+              // border: Border(
+              //     top: BorderSide(color: Colors.white.withValues(alpha: 0.5)),
+              //     right: BorderSide(color: Colors.white.withValues(alpha: 0.5)),
+              //     left: BorderSide(color: Colors.white.withValues(alpha: 0.5))),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16))),
           child: Padding(
@@ -234,7 +249,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
               ],
             ),
           ),
-        );
+        ).animate().fadeIn();
       });
     });
   }

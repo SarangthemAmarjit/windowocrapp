@@ -49,7 +49,10 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   @override
   void dispose() {
     Get.find<Imagecontroller>().disposeCurrentCamera();
+    if(_scheduler!=null){
     _scheduler.cancel();
+
+    }
     super.dispose();
   }
 

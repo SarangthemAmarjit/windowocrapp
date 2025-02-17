@@ -3,8 +3,10 @@ import 'package:camera_windows_example/models/apicallimpl.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 import '../cons/constant.dart';
+import '../models/gate.dart';
 
 class Managementcontroller extends GetxController{
   
@@ -18,7 +20,21 @@ class Managementcontroller extends GetxController{
 
   VisitorEntry? _permit;
   VisitorEntry? get getPermit=> _permit;
+  List<String> _docnames = [];
+  List<String> get getDocNames =>_docnames;
+  Gate? _selectedGate;
+  Gate? get selectedGate=>_selectedGate;
+  List<Gate> _allGates = [];
+  List<Gate>  get getAllgate => _allGates;
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+getallGates();
+getallDocs();
+
+  }
     void changeGender(String gen){
         gender = gen;
         update();
@@ -41,6 +57,25 @@ class Managementcontroller extends GetxController{
     }
 
 
+  
+
+    Future<void> getallGates()async{
+        _allGates = await apicall.getAllGates();
+        if(_allGates.isNotEmpty){
+
+          _selectedGate = _allGates.firstWhereOrNull((element) => element.name =="Imphal Airport",);
+        }
+
+        update();
+    } 
+
+
+
+
+    Future<void> getallDocs()async{
+        _docnames = await apicall.getDocumentType();
+        update();
+    } 
     //get document verification details from api
     Future<void>  getDocumentDetails({required String docID,required String docType})async{
       isLoading = true;

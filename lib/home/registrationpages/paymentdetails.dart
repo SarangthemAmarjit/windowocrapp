@@ -99,7 +99,7 @@ class PaymentDetails extends StatelessWidget {
                                             children: [
                                               TextLabel(
                                                   text: (mngctrl.getPermit
-                                                          ?.idProof ??
+                                                          ?.idProof??
                                                       "NA")),
                                               BannerContainer(
                                                   padding: EdgeInsets.all(8),
@@ -219,7 +219,7 @@ class PaymentDetails extends StatelessWidget {
                                         TextLabel(text: "District"),
                                         TextSubtitle(
                                           text: mngctrl.getPermit
-                                                  ?.district ??
+                                                  ?. applcntDistrict ??
                                               "NA",
                                         ),
                                       ],
@@ -328,15 +328,38 @@ class PaymentDetails extends StatelessWidget {
                               SizedBox(
                                 height: 20,
                               ),
-                                   Column(
-                                     crossAxisAlignment:
-                                         CrossAxisAlignment.start,
+                                   Row(
                                      children: [
-                                       TextLabel(text: "Place of Stay"),
-                                       TextSubtitle(
-                                         text: mngctrl
-                                                 .getPermit?.placeOfStay ??
-                                             "NA",
+                                       Expanded(
+                                         child: Column(
+                                           crossAxisAlignment:
+                                               CrossAxisAlignment.start,
+                                           children: [
+                                             TextLabel(text: "Place of Stay"),
+                                             TextSubtitle(
+                                               text: mngctrl
+                                                       .getPermit?.placeOfStay ??
+                                                   "NA",
+                                             ),
+                                           ],
+                                         ),
+                                       ),
+                                             Expanded(
+                                         child: Column(
+                                           crossAxisAlignment:
+                                               CrossAxisAlignment.start,
+                                           children: [
+                                             TextLabel(text: "Entry Gate"),
+                                             TextSubtitle(
+                                               text: mngctrl
+                                                       .selectedGate?.name??
+                                                   "NA",
+                                             ),
+                                           ],
+                                         ),
+                                       ),
+                                             Expanded(
+                                         child: SizedBox()
                                        ),
                                      ],
                                    ),

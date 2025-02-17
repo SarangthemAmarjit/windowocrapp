@@ -240,10 +240,12 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         const SizedBox(height: 20),
                         InkWell(
                           onTap: () {
-                            if(_formkey.currentState!.validate()){
+                            if(_formkey.currentState!.validate() ){
                              VisitorEntry permits = VisitorEntry(
                               applcntName: _nameController.text,
                               applcntAddress:_villageController.text,
+                              idProof:  mngctrl.getPermit?.idProof??"",
+                              
                               applcntDOB: _dob!.toIso8601String(),
                               applcntDistrict: _districtController.text,
                               applcntEmail: _emailController.text,
@@ -255,9 +257,9 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               idNo: _idNoController.text,
                               applcntTehsil: _tehsilController.text,
                               applcntVillage: _villageController.text,
-                              gateID: "Airport ",
-                  
-                              visitDate: _fromDate!.toIso8601String(),
+                              gateID: mngctrl.selectedGate?.id??"",
+                              placeOfStay: _placeStayController.text,
+                              visitDate: DateTime.now().toIso8601String(),
                               purposeVisit:mngctrl.purpose=="Others"?_visitPurposeController.text:mngctrl.purpose, 
                               
                               );
