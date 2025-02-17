@@ -1,12 +1,9 @@
-
-import 'dart:ui';
-
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
+import 'package:camera_windows_example/models/permit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
@@ -30,286 +27,267 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   final _visitPurposeController = TextEditingController();
   final _nearestpliceController = TextEditingController();
   final _villageController = TextEditingController();
+  final _districtController = TextEditingController();
   final _tehsilController = TextEditingController();
   final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
   String? selectedCardType;
   XFile? profileimage;
-
   DateTime? _fromDate;
   DateTime? _dob;
-  String? _selectedIdProof;
-  // final List<String> purposes = ['Business', 'Tourism', 'Medical', 'Other'];
-  // final List<String> gates = ['Imphal Gate', 'Mao Gate', 'Moreh Gate'];
-  // final List<String> states = states;
-  // final List<String> genders = ['Male', 'Female', 'Others'];
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    VisitorEntry? d = Get.find<Managementcontroller>().getPermit;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+          if(d!=null){
+
+              _nameController.text = d.applcntName??"";
+              _parentNameController.text = d.applcntParent??"";
+              _idNoController.text = d.idNo??"";
+              _districtController.text = d.district??"";
+
+          } 
+
+    },);
+  }
+  
+  
+  
   @override
   Widget build(BuildContext context) {
     Imagecontroller imgcon = Get.put(Imagecontroller());
     return GetBuilder<Managementcontroller>(
       builder: (mngctrl) {
         return GetBuilder<Imagecontroller>(builder: (_) {
-          return GetBuilder<PagenavControllers>(builder: (controller) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formkey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // imgcon.profileimage != null
-                    //     ? CropImage(
-                    //         controller: imgcon.crcontroller,
-                    //         image: Image.file(
-                    //           File(imgcon.profileimage!.path),
-                    //         ),
-                    //         paddingSize: 25.0,
-                    //         alwaysMove: false,
-                    //         minimumImageSize: 500,
-                    //         maximumImageSize: 500,
-                    //       )
-                    //     : SizedBox(),
-                    
-                         Row(
-                      children: [
-                        Expanded(
-                          child: _buildDropdownField(
-                             "ID Proof", [mngctrl.idCard??"Id Card"],  mngctrl.idCard??"", (value) {
-                           
-                          }),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(child: _buildTextField('ID No.', _idNoController)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        // Expanded(
-                        //   flex: 1,
-                        //   child: InkWell(
-                        //     onTap: () {
-                        //       imgcon.initializeCamera(
-                        //           isfront: false,
-                        //           isback: false,
-                        //           isprofilecam: true,
-                        //           context: context);
-                        //     },
-                        //     child: Container(
-                        //       height: 130,
-                        //       decoration: BoxDecoration(
-                        //         border: Border.all(
-                        //           color: Colors.grey[700]!,
-                        //         ),
-                        //         borderRadius: BorderRadius.circular(10),
-                        //       ),
-                        //       child: ClipRRect(
-                        //         borderRadius: BorderRadius.circular(10),
-                        //         child: imgcon.profileimage != null
-                        //             ? Transform.flip(
-                        //                 flipX: true,
-                        //                 child: Image.file(
-                        //                   fit: BoxFit.cover,
-                        //                   File(imgcon.profileimage!.path),
-                        //                 ),
-                        //               )
-                        //             : Column(
-                        //                 mainAxisAlignment: MainAxisAlignment.center,
-                        //                 children: [
-                        //                   Icon(Icons.add_a_photo_rounded),
-                        //                   SizedBox(
-                        //                     height: 16,
-                        //                   ),
-                        //                   Text("Capture a Profile Photo")
-                        //                 ],
-                        //               ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   width: 20,
-                        // ),
-                           Expanded(child: _buildTextField('Applicant Name', _nameController)),
-                                     SizedBox(
-                          width: 20,
-                        ),
-                              Expanded(
-                                child: _buildTextField(
-                                    'Parent/Guardian Name', _parentNameController),
-                              )
-                        // Expanded(
-                        //   flex: 4,
-                        //   child: Column(
-                        //     children: [
-                        //       _buildTextField('Applicant Name', _nameController),
-                        //       _buildTextField(
-                        //           'Parent/Guardian Name', _parentNameController),
-                        //     ],
-                        //   ),
-                        // ),
-                      ],
-                    ),
-               
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildTextField('Email', _emailController,
-                              validator: _emailValidator),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: _buildTextField('Mobile No.', _mobileController,
-                              validator: _phoneValidator),
-                        ),
-                      ],
-                    ),
-                            
-                                 Row(
-                      children: [
-                        Expanded(
-                          child: _buildDateField('Date of Birth', _dob, (value) {
-                            setState(() {
-                              _dob = value;
-                            });
-                          }),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child:SizedBox()
-                        ),
-                      ],
-                    ),
-                            
-                     _buildRadioGroup(
-                              'Gender', genders,mngctrl.gender, (value) {
-                     mngctrl.changeGender(value!);
-                          }),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildDateField('Period of Stay (From)', _fromDate,
-                              (value) {
-                            setState(() {
-                              _fromDate = value;
-                            });
-                          }),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                            child: _buildTextField(
-                                'Place of Stay in Manipur', _placeStayController)),
-                      ],
-                    ),
-                    Row(
+          return Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 800),
+              child: GetBuilder<PagenavControllers>(builder: (controller) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formkey,
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: AnimatedContainer(
-                            height: mngctrl.purpose=="Others"?180:80,
-                           padding:mngctrl.purpose=="Others"?EdgeInsets.all(8):null,
-                                                       duration:Duration(milliseconds:800),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                               color: mngctrl.purpose=="Others"?Colors.yellow.withValues(alpha: 0.2): Colors.white,
+                        
+                             Row(
+                          children: [
+                            Expanded(
+                              child:mngctrl.getPermit?.idProof!=null? _buildDropdownField(
+                                 "ID Proof", [mngctrl.getPermit?.idProof??"Id Card"],  mngctrl.getPermit?.idProof??"", (value) {
+                               
+                              }):SizedBox(),
                             ),
-                            child: Column(
-                              children: [
-                                _buildDropdownField(
-                                    'Purpose of Visit', purposes,mngctrl.purpose,
-                                    (value) {
-                                        mngctrl.changePurpose(value!);
-                                }),
-                                mngctrl.purpose=="Others"? AnimatedOpacity(
-                                  duration: Duration(milliseconds: 600),
-                                  opacity: mngctrl.purpose=="Others"?1:0,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      _buildTextField(
-                                        padding: EdgeInsets.only(bottom:4),
-                                        'Purpose', _visitPurposeController),
-                                        Text("Please provide a purpose.")
-                                    ],
-                                  ),
-                                ):SizedBox(),
-                                 
-                              ],
+                            SizedBox(
+                              width: 20,
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                            child:_buildTextField('Village/Street', _villageController),),
-                      ],
-                    ),
+                            Expanded(child: _buildTextField('ID No.', _idNoController)),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 0)),
+                        Row(
+                          children: [
+                      
+                               Expanded(child: _buildTextField('Applicant Name', _nameController)),
+                                         SizedBox(
+                              width: 20,
+                            ),
+                                  Expanded(
+                                    child: _buildTextField(
+                                        'Parent/Guardian Name', _parentNameController),
+                                  )
+                            // Expanded(
+                            //   flex: 4,
+                            //   child: Column(
+                            //     children: [
+                            //       _buildTextField('Applicant Name', _nameController),
+                            //       _buildTextField(
+                            //           'Parent/Guardian Name', _parentNameController),
+                            //     ],
+                            //   ),
+                            // ),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 300)),
                    
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildDropdownField(
-                              'State', states, mngctrl.state, (value) {
-                                  mngctrl.changeState(value!);
-                          }),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                            child: _buildTextField('District', _villageController)),
-                      ],
-                    ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildTextField('Email', _emailController,
+                                  validator: _emailValidator),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: _buildTextField('Mobile No.', _mobileController,
+                                  validator: _phoneValidator),
+                            ),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 400)),
+                                
+                                     Row(
+                          children: [
+                            Expanded(
+                              child: _buildDateField('Date of Birth', _dob, (value) {
+                                setState(() {
+                                  _dob = value;
+                                });
+                              }),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                          Expanded(
+                                child:_buildTextField('Village/Street', _villageController),),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 600)),
+
+
+                          Row(
+                          children: [
+                            Expanded(
+                              child: _buildDropdownField(
+                                  'State', states, mngctrl.state, (value) {
+                                      mngctrl.changeState(value!);
+                              }),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                                child: _buildTextField('District', _districtController)),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 800)),
+
+                          //
+
+                             Row(
+                          children: [
+                            Expanded(
+                              child: _buildTextField(
+                                  'Nearest Police Station', _nearestpliceController),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                                child: _buildTextField('Tehsil', _tehsilController)),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 1000)),
+                         _buildRadioGroup(
+                                  'Gender', genders,mngctrl.gender, (value) {
+                         mngctrl.changeGender(value!);
+                              }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        
+                           
+                            Expanded(
+                                child: _buildTextField(
+                                    'Place of Stay in Manipur', _placeStayController)),
+
+ SizedBox(
+                              width: 20,
+                            ),
+
+                                      Expanded(
+                              child: AnimatedContainer(
+                                height: mngctrl.purpose=="Others"?190:80,
+                               padding:mngctrl.purpose=="Others"?EdgeInsets.all(8):null,
+                                                           duration:Duration(milliseconds:800),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                   color: mngctrl.purpose=="Others"?Colors.yellow.withValues(alpha: 0.2): Colors.white,
+                                ),
+                                child: Column(
+                                  children: [
+                                    _buildDropdownField(
+                                        'Purpose of Visit', purposes,mngctrl.purpose,
+                                        (value) {
+                                            mngctrl.changePurpose(value!);
+                                    }),
+                                    mngctrl.purpose=="Others"? AnimatedOpacity(
+                                      duration: Duration(milliseconds: 600),
+                                      opacity: mngctrl.purpose=="Others"?1:0,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          _buildTextField(
+                                            padding: EdgeInsets.only(bottom:4),
+                                            'Purpose', _visitPurposeController),
+                                            Text("Please provide a purpose.")
+                                        ],
+                                      ),
+                                    ):SizedBox(),
+                                     
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
                     
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildTextField(
-                              'Nearest Police Station', _nearestpliceController),
+                       
+                        
+                        
+                     
+                        const SizedBox(height: 20),
+                        InkWell(
+                          onTap: () {
+                            if(_formkey.currentState!.validate()){
+                             VisitorEntry permits = VisitorEntry(
+                              applcntName: _nameController.text,
+                              applcntAddress:_villageController.text,
+                              applcntDOB: _dob!.toIso8601String(),
+                              applcntDistrict: _districtController.text,
+                              applcntEmail: _emailController.text,
+                              applcntGender: mngctrl.gender,
+                              applcntMobile: _mobileController.text,
+                              applcntParent: _parentNameController.text,
+                              applcntPoliceStation: _nearestpliceController.text,
+                              applcntState: mngctrl.state,
+                              idNo: _idNoController.text,
+                              applcntTehsil: _tehsilController.text,
+                              applcntVillage: _villageController.text,
+                              gateID: "Airport ",
+                  
+                              visitDate: _fromDate!.toIso8601String(),
+                              purposeVisit:mngctrl.purpose=="Others"?_visitPurposeController.text:mngctrl.purpose, 
+                              
+                              );
+                            
+                            mngctrl.addPermit(permits);
+                            controller.changePage(2);
+
+                            }
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(32),
+                            decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(8)),
+                            clipBehavior: Clip.antiAlias,
+                            child: Center(
+                                child: Text(
+                              "Next",
+                              style: TextStyle(color: Colors.white,fontSize: 20),
+                            )),
+                          ).animate().scaleXY(begin: 0.6,end: 1,delay: Duration(milliseconds: 1800),duration: Duration(milliseconds: 600),curve: Curves.easeIn). fadeIn(delay: Duration(milliseconds: 1800)),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                            child: _buildTextField('Tehsil', _tehsilController)),
                       ],
-                    ),
-                    const SizedBox(height: 20),
-                    InkWell(
-                      onTap: () {
-                        // if(_formkey.currentState!.validate()){
-                        controller.changePage(2);
-                    
-                        // }
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(8)),
-                        clipBehavior: Clip.antiAlias,
-                        child: Center(
-                            child: Text(
-                          "Next",
-                          style: TextStyle(color: Colors.white,fontSize: 20),
-                        )),
-                      ),
-                    ),
-                  ],
-                ).animate().fadeIn(duration: const Duration(milliseconds: 500)),
-              ),
-            );
-          });
+                    ).animate().fadeIn(duration: const Duration(milliseconds: 500)),
+                  ),
+                );
+              }),
+            ),
+          );
         });
       }
     );
@@ -318,25 +296,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   Widget _buildTextField(String label, TextEditingController controller,
       {String? Function(String?)? validator,EdgeInsets? padding}) {
         
-    return Padding(
-      padding: padding??const EdgeInsets.symmetric(vertical: 15),
-      child: TextFormField(
-        
-        controller: controller,
-        decoration: InputDecoration(
-          labelStyle: TextStyle(fontSize: 20),
-          labelText: label,
-          floatingLabelStyle:TextStyle(fontSize: 20),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-        
-        ),
-        validator: validator??(v){
-          if(v!.isEmpty){
-            return "$label is empty";
-          }
-        },
-      ),
-    );
+    return TextFieldWidget(controller: controller,label: label,validator: validator,);
   }
 
   Widget _buildDropdownField(String label, List<String> items,
@@ -435,9 +395,34 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                          color: selectedValue == option?Colors.green:Colors.grey[200],
+                          color: selectedValue == option?Colors.blue:Colors.grey[200],
                           ),
-                          child: Center(child: Text(option,style: TextStyle(fontSize: 18,color:selectedValue == option?Colors.white:null ),)),
+                          child: Center(child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(4),
+                                height: 20,
+                                width: 20,
+                                
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                border: Border.all(width: 1,
+                                color: selectedValue == option?Colors.white:Colors.grey
+                                ),
+                              
+                              ),
+                              child: selectedValue == option? Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+
+                              ),
+                              ):SizedBox(),
+                              ),
+                              SizedBox(width: 10,),
+                              Text(option,style: TextStyle(fontSize: 18,color:selectedValue == option?Colors.white:null ),),
+                            ],
+                          )),
                          
                           // child: RadioListTile(
                           //   contentPadding: EdgeInsets.zero,
@@ -457,14 +442,10 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   }
 
   String? _emailValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email cannot be empty';
-    }
-    final emailRegex =
-        RegExp(r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Enter a valid email';
-    }
+    // if (value == null || value.isEmpty) {
+    //   return 'Email cannot be empty';
+    // }
+
     return null;
   }
 
@@ -472,10 +453,43 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     if (value == null || value.isEmpty) {
       return 'Mobile number cannot be empty';
     }
-    final phoneRegex = RegExp(r'^\d{10}\$');
-    if (!phoneRegex.hasMatch(value)) {
+     
+    if (!value.isNum || value.length!=10) {
       return 'Enter a valid 10-digit mobile number';
     }
     return null;
+  }
+}
+
+class TextFieldWidget extends StatelessWidget {
+  const TextFieldWidget({
+    super.key, this.padding, required this.controller, required this.label, this.validator,
+  });
+
+  final EdgeInsets? padding;
+  final TextEditingController controller;
+  final String label;
+  final String? Function(String?)?  validator;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding??const EdgeInsets.symmetric(vertical: 15),
+      child: TextFormField(
+        
+        controller: controller,
+        decoration: InputDecoration(
+          labelStyle: TextStyle(fontSize: 20),
+          labelText: label,
+          floatingLabelStyle:TextStyle(fontSize: 20),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+        
+        ),
+        validator: validator??(v){
+          if(v!.isEmpty){
+            return "$label is empty";
+          }
+        },
+      ),
+    );
   }
 }

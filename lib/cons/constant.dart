@@ -5,6 +5,9 @@ List<String> genders =  [
   "Female",
   "Others"
 ];
+
+String gate = "Imphal Airport";
+String rupee = "₹";
   final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
 final List<String> purposes = ["Tourist", "Official", "Business", "Others"];
 List<String> states = [

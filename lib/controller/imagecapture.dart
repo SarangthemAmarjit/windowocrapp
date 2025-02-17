@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'package:camera_windows_example/controller/pagecontroller.dart';
+
+import 'dart:developer' as dev;
+import 'package:camera_windows_example/controller/managementcontroller.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:crop_image/crop_image.dart';
@@ -9,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
+
+import 'pagecontroller.dart';
 
 class Imagecontroller extends GetxController {
   Size? _previewSize;
@@ -240,7 +245,7 @@ class Imagecontroller extends GetxController {
                         Get.back(); // Close the dialog
 
                         if (_isBackcapturebuttonpress) {
-                          log('is back is ok');
+                          dev.log('is back is ok');
                           pngcon.setmainpageindex(ind: 3);
                         } else {
                           initializeCamera(
@@ -331,7 +336,7 @@ class Imagecontroller extends GetxController {
               ele.name.toString().toLowerCase().contains('sg-vp'));
           update();
 
-          log("cameraIndex : " + cameraIndex.toString());
+          dev.log("cameraIndex : " + cameraIndex.toString());
         }
 
         final CameraDescription camera = _allavailablecameras[cameraIndex];
@@ -489,6 +494,64 @@ class Imagecontroller extends GetxController {
         _previewSize = null;
         update();
       }
+    }
+  }
+
+  Future<File> cropImageID(
+    File imageFile, {
+    required double aspectRatio,
+  }) async {
+    // Read the image as bytes
+    final bytes = await imageFile.readAsBytes();
+
+    // Decode the image using the `image` package
+    final originalImage = img.decodeImage(bytes);
+
+    if (originalImage != null) {
+      // Get image dimensions
+      final imageWidth = originalImage.width;
+      final imageHeight = originalImage.height;
+
+      // Calculate maximum possible crop size while maintaining aspect ratio
+      int cropWidth, cropHeight;
+      int x, y;
+
+      if (imageWidth / imageHeight > aspectRatio) {
+        // Image is wider than target aspect ratio - limit by height
+        cropHeight = imageHeight;
+        cropWidth = (cropHeight * aspectRatio).toInt();
+        x = (imageWidth - cropWidth) ~/ 2; // Center horizontally
+        y = 0;
+      } else {
+        // Image is taller than target aspect ratio - limit by width
+        cropWidth = imageWidth;
+        cropHeight = (cropWidth / aspectRatio).toInt();
+        x = 0;
+        y = (imageHeight - cropHeight) ~/ 2; // Center vertically
+      }
+
+      // Crop the image from center
+      final cropped = img.copyCrop(
+        originalImage,
+        x: x,
+        y: y,
+        width: cropWidth,
+        height: cropHeight,
+      );
+
+      // Encode the cropped image back to PNG
+      final croppedBytes = img.encodePng(cropped);
+
+      // Generate a unique file name
+      final uniqueFileName = 'cropped_id_${Uuid().v4()}.png';
+      final tempDir = Directory.systemTemp;
+      final croppedFile = File('${tempDir.path}/$uniqueFileName');
+
+      // Save and return the cropped image
+      await croppedFile.writeAsBytes(croppedBytes);
+      return croppedFile;
+    } else {
+      throw Exception("Failed to decode image.");
     }
   }
 

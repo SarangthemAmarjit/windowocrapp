@@ -12,11 +12,21 @@ class PagenavControllers extends GetxController {
 
   String? cardtype;
 
+  /// for changing between id card and id number enter fields in ID Selection page
+  bool IdSelection = false;
+
+
   void changePage(int index) {
     page = index;
     update();
   }
 
+  void changeIdSelection(){
+    IdSelection = !IdSelection;
+    update();
+  }
+  
+  
   void setdocindex({required int ind}) {
     _docindex = ind;
     update();
@@ -39,5 +49,10 @@ class PagenavControllers extends GetxController {
   void selectCard(String cardtypes) {
     cardtype = cardtypes;
     update();
+  }
+
+
+  void reset(){
+    IdSelection = false;
   }
 }

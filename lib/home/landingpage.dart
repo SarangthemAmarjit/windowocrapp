@@ -40,39 +40,26 @@ class LandingPage extends StatelessWidget {
                   ],
                 ),
               ),
-              pagenav.mainpageindex == 3
-                  ? Expanded(
-                      child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  alignment: Alignment.bottomCenter,
-                                  image: AssetImage(
-                                    'assets/images/Untitled21.png',
-                                  ))),
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 330),
-                            child: RegistrationPage(),
-                          )),
-                    )
-                  : Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                alignment: Alignment.bottomCenter,
-                                image: AssetImage(
-                                  'assets/images/Untitled21.png',
-                                ))),
-                        width: MediaQuery.of(context).size.width,
-                        child: pagenav.mainpageindex == 0
-                            ? WelcomeScreen()
-                            : pagenav.mainpageindex == 1
-                                ? DocumentScanPage()
-                                : pagenav.mainpageindex == 2
-                                    ? IdSelectionAndScanningScreen()
-                                    : SizedBox(),
-                      ),
-                    ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          alignment: Alignment.bottomCenter,
+                          image: AssetImage(
+                            'assets/images/Untitled21.png',
+                          ))),
+                  width: MediaQuery.of(context).size.width,
+                  child: pagenav.mainpageindex == 0
+                      ? WelcomeScreen()
+                      : pagenav.mainpageindex == 1
+                          ? DocumentScanPage()
+                          : pagenav.mainpageindex == 2
+                              ? IdSelectionAndScanningScreen()
+                              : pagenav.mainpageindex == 3
+                                  ? Center(child: RegistrationPage())
+                                  : SizedBox(),
+                ),
+              ),
             ],
           ),
         );
