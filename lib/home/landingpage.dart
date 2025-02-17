@@ -18,7 +18,7 @@ class LandingPage extends StatelessWidget {
           width: double.infinity,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding:

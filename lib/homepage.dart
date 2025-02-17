@@ -1,12 +1,10 @@
-import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/cons/constant.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
+import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class IdSelectionAndScanningScreen extends StatefulWidget {
@@ -17,6 +15,18 @@ class IdSelectionAndScanningScreen extends StatefulWidget {
 
 class _IdSelectionAndScanningScreenState
     extends State<IdSelectionAndScanningScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Get.find<Imagecontroller>().disposeCurrentCamera();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Imagecontroller imgcon = Get.put(Imagecontroller());
@@ -243,26 +253,29 @@ class _IdSelectionAndScanningScreenState
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 50, bottom: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                      onPressed: () {
-                                        imgcon.disposeCurrentCamera();
-                                      },
-                                      child: Text('Cancel'),
-                                    ),
-                                    const SizedBox(width: 5),
-                                  ],
-                                ),
-                              ),
+                              SizedBox(
+                                height: 30,
+                              )
+                              // Padding(
+                              //   padding: const EdgeInsets.only(
+                              //       right: 50, bottom: 20),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.end,
+                              //     children: [
+                              //       ElevatedButton(
+                              //         style: ElevatedButton.styleFrom(
+                              //             shape: RoundedRectangleBorder(
+                              //                 borderRadius:
+                              //                     BorderRadius.circular(10))),
+                              //         onPressed: () {
+                              //           imgcon.disposeCurrentCamera();
+                              //         },
+                              //         child: Text('Cancel'),
+                              //       ),
+                              //       const SizedBox(width: 5),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           )
                         : Center(child: Text('Camera Preview Area'))

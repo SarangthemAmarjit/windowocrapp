@@ -1,7 +1,9 @@
+import 'package:camera_windows_example/home/registrationpages/facedetect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/pagecontroller.dart';
 import 'registrationpages/addressdetails.dart';
+import 'registrationpages/ilpformreplica.dart';
 import 'registrationpages/paymentdetails.dart';
 import 'registrationpages/permittypes.dart';
 import 'registrationpages/ilpform.dart';
@@ -21,17 +23,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Container(
           // padding: EdgeInsets.all(32),
-
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.4),
-              borderRadius: BorderRadius.circular(20)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
                   children: [
                     InkWell(
                       // overlayColor:
@@ -40,8 +42,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       splashColor: Colors.transparent,
                       hoverColor: Colors.transparent,
                       onTap: () {
-                        controller.setmainpageindex(ind: 2);
+                        if (controller.regPage == 0) {
+                          controller.setmainpageindex(ind: 0);
+                        } else {
+                          controller
+                              .changeDashboardPage(controller.regPage - 1);
+                        }
                       },
+
                       child: Transform.flip(
                         flipX: true,
                         child: Image.asset(
@@ -59,95 +67,95 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        controller.changePage(1);
+                      },
+                      child: Center(
+                          child: Text(
+                        "Personal Details",
+                        style: TextStyle(
+                            fontSize: controller.page == 1 ? 30 : 16,
+                            color: controller.page >= 1 ? Colors.green : null),
+                      )),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        controller.changePage(2);
+                      },
+                      child: Center(
+                          child: Text(
+                        "Profile Image",
+                        style: TextStyle(
+                            fontSize: controller.page == 2 ? 30 : 16,
+                            // fontSize: 16,
 
-                SizedBox(
-                  height: 20,
-                ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //         child: Center(
-                //             child: Text(
-                //       "Personal Details",
-                //       style: TextStyle(
-                //           fontSize: controller.page == 1 ? 30 : 16,
-                //           color: controller.page >= 1 ? Colors.green : null),
-                //     ))),
-                //     Expanded(
-                //         child: Center(
-                //             child: Text(
-                //       "Address Details",
-                //       style: TextStyle(
-                //           fontSize: controller.page == 2 ? 30 : 16,
-                //           // fontSize: 16,
+                            color: controller.page >= 2 ? Colors.green : null),
+                      )),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        controller.changePage(3);
+                      },
+                      child: Center(
+                          child: Text(
+                        "Payment",
+                        style: TextStyle(
+                            fontSize: controller.page == 3 ? 30 : 16,
+                            // fontSize: 16,
 
-                //           color: controller.page >= 2 ? Colors.green : null),
-                //     ))),
-                //     Expanded(
-                //         child: Center(
-                //             child: Text(
-                //       "Permit Details",
-                //       style: TextStyle(
-                //           fontSize: controller.page == 3 ? 30 : 16,
-                //           color: controller.page >= 3 ? Colors.green : null),
-                //     ))),
-                //     Expanded(
-                //         child: Center(
-                //             child: Text(
-                //       "Photo & Sign",
-                //       style: TextStyle(
-                //           fontSize: controller.page == 4 ? 30 : 16,
-                //           // fontSize: 16,
+                            color: controller.page >= 3 ? Colors.green : null),
+                      )),
+                    ),
+                  ),
+                ],
+              ),
+              LayoutBuilder(builder: (context, s) {
+                double x = ((controller.page / 3) * s.maxWidth);
+                return AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  height: 5,
+                  width: x,
+                  color: Colors.green,
+                );
+              }),
+              SizedBox(
+                height: 10,
+              ),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      "Completed: ${controller.page}/3",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              controller.page == 1
+                  ? TemporaryILPFormReplica()
 
-                //           color: controller.page >= 4 ? Colors.green : null),
-                //     ))),
-                //     Expanded(
-                //         child: Center(
-                //             child: Text(
-                //       "Payment",
-                //       style: TextStyle(
-                //           fontSize: controller.page == 5 ? 30 : 16,
-                //           // fontSize: 16,
-
-                //           color: controller.page >= 5 ? Colors.green : null),
-                //     ))),
-                //   ],
-                // ),
-                SizedBox(
-                  height: 10,
-                ),
-                // LayoutBuilder(builder: (context, s) {
-                //   double x = ((controller.page / 5) * s.maxWidth);
-                //   return AnimatedContainer(
-                //     duration: Duration(milliseconds: 300),
-                //     height: 5,
-                //     width: x,
-                //     color: Colors.green,
-                //   );
-                // }),
-                // SizedBox(
-                //   height: 10,
-                // ),
-                // Align(
-                //     alignment: Alignment.centerRight,
-                //     child: Text(
-                //       "Completed: ${controller.page}/5",
-                //       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                //     )),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                controller.page == 1
-                    ? TemporaryILPForm()
-                    : controller.page == 2
-                        ? AddressDetails()
-                        : controller.page == 3
-                            ? PermitDetails()
-                            : controller.page == 4
-                                ? PhotoSignaturePage()
-                                : PaymentDetails()
-              ],
-            ),
+                  //     : controller.page == 3
+                  //         ? PermitDetails()
+                  : controller.page == 2
+                      ? PhotoSignaturePage()
+                      // ?FaceDetectionPage()
+                      : PaymentDetails()
+            ],
           ),
         ),
       );

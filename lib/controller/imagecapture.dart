@@ -205,10 +205,15 @@ class Imagecontroller extends GetxController {
                 child: Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.file(
-                      fit: BoxFit.contain,
-                      File(_frontImage!.path),
-                    ),
+                    child: _isBackcapturebuttonpress
+                        ? Image.file(
+                            fit: BoxFit.contain,
+                            File(_backImage!.path),
+                          )
+                        : Image.file(
+                            fit: BoxFit.contain,
+                            File(_frontImage!.path),
+                          ),
                   ),
                 ),
               ),
@@ -306,7 +311,7 @@ class Imagecontroller extends GetxController {
     update();
 
     if (_isFrontcapturebuttonpress) {
-      assert(!isinitialized);
+      // assert(!isinitialized);
       print("isinitialized " + isinitialized.toString());
       if (_allavailablecameras.isEmpty) {
         return;
@@ -366,9 +371,106 @@ class Imagecontroller extends GetxController {
         _cameraIndex = cameraIndex;
         _profileimage = null;
         update();
-        if (isprofilecam) {
-          showProfileCameraDialog();
+        // if (isprofilecam) {
+        //   showProfileCameraDialog();
+        // }
+      } on CameraException catch (e) {
+        try {
+          if (cameraId >= 0) {
+            await CameraPlatform.instance.dispose(cameraId);
+          }
+        } on CameraException catch (e) {
+          debugPrint('Failed to dispose camera: ${e.code}: ${e.description}');
         }
+
+        // Reset state.
+
+        _isinitialized = false;
+        _iscamerashown = false;
+        _cameraId = -1;
+        _cameraIndex = 0;
+        _previewSize = null;
+        update();
+      }
+    }
+  }
+
+  Future<void> initializeCameraAgain(
+      {required bool isfront,
+      required bool isback,
+      required bool isprofilecam,
+      required BuildContext context}) async {
+    int cameraIndex = 0;
+
+    // _isFrontcapturebuttonpress = isfront
+    //     ? isfront
+    //     : isprofilecam
+    //         ? true
+    //         : false;
+    // _isBackcapturebuttonpress = isback;
+    // update();
+
+    if (isprofilecam) {
+      assert(!isinitialized);
+      print("isinitialized " + isinitialized.toString());
+      if (_allavailablecameras.isEmpty) {
+        return;
+      }
+
+      int cameraId = -1;
+      try {
+        if (isprofilecam) {
+          cameraIndex = _allavailablecameras.indexWhere((ele) =>
+              ele.name.toString().toLowerCase().contains('webcam') ||
+              ele.name.toString().toLowerCase().contains('logi') ||
+              ele.name.toString().toLowerCase().contains('integrated camera'));
+          update();
+        } else {
+          cameraIndex = _allavailablecameras.indexWhere(
+              (ele) => ele.name.toString().toLowerCase().contains('czur'));
+          update();
+        }
+
+        final CameraDescription camera = _allavailablecameras[cameraIndex];
+
+        cameraId = await CameraPlatform.instance.createCameraWithSettings(
+          camera,
+          _mediaSettings,
+        );
+
+        unawaited(_errorStreamSubscription?.cancel());
+        _errorStreamSubscription = CameraPlatform.instance
+            .onCameraError(cameraId)
+            .listen(_onCameraError);
+
+        unawaited(_cameraClosingStreamSubscription?.cancel());
+        _cameraClosingStreamSubscription = CameraPlatform.instance
+            .onCameraClosing(cameraId)
+            .listen(_onCameraClosing);
+
+        final Future<CameraInitializedEvent> initialized =
+            CameraPlatform.instance.onCameraInitialized(cameraId).first;
+
+        await CameraPlatform.instance.initializeCamera(
+          cameraId,
+        );
+
+        final CameraInitializedEvent event = await initialized;
+
+// Adjust the preview size to match the passport photo aspect ratio (7:9)
+        _previewSize = Size(event.previewWidth, event.previewHeight
+            // Adjust height based on the 7:9 aspect ratio
+            );
+
+        _isinitialized = true;
+        _cameraId = cameraId;
+        _iscamerashown = true;
+        _cameraIndex = cameraIndex;
+        _profileimage = null;
+        update();
+        // if (isprofilecam) {
+        //   showProfileCameraDialog();
+        // }
       } on CameraException catch (e) {
         try {
           if (cameraId >= 0) {
@@ -451,6 +553,7 @@ class Imagecontroller extends GetxController {
 
   Future<void> disposeCurrentCamera() async {
     if (_cameraId >= 0 && isinitialized) {
+      log('Dispose Camera');
       try {
         await CameraPlatform.instance.dispose(_cameraId);
 
@@ -463,7 +566,9 @@ class Imagecontroller extends GetxController {
         _cameraId = -1;
         _previewSize = null;
         update();
-      } on CameraException catch (e) {}
+      } on CameraException catch (e) {
+        log(e.toString());
+      }
     }
   }
 
@@ -500,6 +605,11 @@ class Imagecontroller extends GetxController {
     final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
 
     _profileimage = file;
+    update();
+  }
+
+  void retakeImage() {
+    _profileimage = null;
     update();
   }
 
