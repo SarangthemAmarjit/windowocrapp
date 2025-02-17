@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 
-List<String> genders =  [
-  "Male",
-  "Female",
-  "Others"
-];
+List<String> genders = ["Male", "Female", "Others"];
 
 String gate = "Imphal Airport";
 String rupee = "₹";
-  final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
+final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
 final List<String> purposes = ["Tourist", "Official", "Business", "Others"];
 List<String> states = [
   "Andaman and Nicobar Islands",
@@ -62,3 +58,16 @@ List<String> termcondition = [
   "c)I shall furnish my whereabouts if called upon.",
   "d)In the event of any default on my part, I shall be liable for prosecutation by competent court."
 ];
+
+Map<String, dynamic> paymentmethod = {
+  "DC": "Debit Card",
+  "NB": "Net Banking",
+  "CC": "Credit Card",
+  "MW": "Wallet",
+  "PP": "PhonePe",
+  "PW": "Paytm Wallet",
+  "EM": "EMI",
+  "NR": "Challan",
+  "BQ": "BharatQR",
+  "UP": "Unified Payment Interface",
+};

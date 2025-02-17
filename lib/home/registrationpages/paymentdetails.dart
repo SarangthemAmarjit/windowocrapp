@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
+import 'package:camera_windows_example/controller/paymentcontroller.dart';
 import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -59,7 +60,7 @@ class PaymentDetails extends StatelessWidget {
                                     width: 120,
                                     clipBehavior: Clip.antiAlias,
                                     decoration: BoxDecoration(
-                                       color: Colors.grey[300],
+                                        color: Colors.grey[300],
                                         borderRadius: BorderRadius.circular(8)),
                                     child: imgcon.profileimage != null
                                         ? Transform.flip(
@@ -72,8 +73,12 @@ class PaymentDetails extends StatelessWidget {
                                             ),
                                           )
                                         : Center(
-                                          child:   Icon(Icons.photo,color: Colors.grey,size: 40,),
-                                        ),
+                                            child: Icon(
+                                              Icons.photo,
+                                              color: Colors.grey,
+                                              size: 40,
+                                            ),
+                                          ),
                                   ),
                                   SizedBox(
                                     width: 20,
@@ -98,15 +103,15 @@ class PaymentDetails extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               TextLabel(
-                                                  text: (mngctrl.getPermit
-                                                          ?.idProof ??
+                                                  text: (mngctrl
+                                                          .getPermit?.idProof ??
                                                       "NA")),
                                               BannerContainer(
                                                   padding: EdgeInsets.all(8),
                                                   margin: EdgeInsets.zero,
-                                                  text: mngctrl
-                                                          .getPermit?.idNo ??
-                                                      "NA",
+                                                  text:
+                                                      mngctrl.getPermit?.idNo ??
+                                                          "NA",
                                                   color: Colors.green),
                                             ],
                                           ),
@@ -134,10 +139,11 @@ class PaymentDetails extends StatelessWidget {
                                             children: [
                                               TextLabel(text: "D.O.B"),
                                               TextSubtitle(
-                                                text:getDate(dateTime:  mngctrl.getPermit
-                                                        ?.applcntDOB ??"")
-                                                    
-                                              ),
+                                                  text: getDate(
+                                                      dateTime: mngctrl
+                                                              .getPermit
+                                                              ?.applcntDOB ??
+                                                          "")),
                                             ],
                                           ),
                                         ],
@@ -156,8 +162,8 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Parent's Name"),
                                         TextSubtitle(
-                                          text: mngctrl.getPermit
-                                                  ?.applcntParent ??
+                                          text: mngctrl
+                                                  .getPermit?.applcntParent ??
                                               "NA",
                                         ),
                                       ],
@@ -170,9 +176,9 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Email"),
                                         TextSubtitle(
-                                          text: mngctrl
-                                                  .getPermit?.applcntEmail ??
-                                              "NA",
+                                          text:
+                                              mngctrl.getPermit?.applcntEmail ??
+                                                  "NA",
                                         ),
                                       ],
                                     ),
@@ -184,8 +190,8 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Phone"),
                                         TextSubtitle(
-                                            text: mngctrl.getPermit
-                                                    ?.applcntMobile ??
+                                            text: mngctrl
+                                                    .getPermit?.applcntMobile ??
                                                 "NA"),
                                       ],
                                     ),
@@ -202,11 +208,11 @@ class PaymentDetails extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        TextLabel(text:"State"),
+                                        TextLabel(text: "State"),
                                         TextSubtitle(
-                                          text: mngctrl
-                                                  .getPermit?.applcntState ??
-                                              "NA",
+                                          text:
+                                              mngctrl.getPermit?.applcntState ??
+                                                  "NA",
                                         ),
                                       ],
                                     ),
@@ -218,8 +224,7 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "District"),
                                         TextSubtitle(
-                                          text: mngctrl.getPermit
-                                                  ?.district ??
+                                          text: mngctrl.getPermit?.district ??
                                               "NA",
                                         ),
                                       ],
@@ -232,8 +237,8 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Address"),
                                         TextSubtitle(
-                                          text: mngctrl.getPermit
-                                                  ?.applcntAddress ??
+                                          text: mngctrl
+                                                  .getPermit?.applcntAddress ??
                                               "NA",
                                         ),
                                       ],
@@ -241,7 +246,7 @@ class PaymentDetails extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                                SizedBox(
+                              SizedBox(
                                 height: 20,
                               ),
                               Row(
@@ -251,24 +256,25 @@ class PaymentDetails extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        TextLabel(text:"Nearest Police Station"),
+                                        TextLabel(
+                                            text: "Nearest Police Station"),
                                         TextSubtitle(
-                                          text: mngctrl
-                                                  .getPermit?.applcntPoliceStation ??
+                                          text: mngctrl.getPermit
+                                                  ?.applcntPoliceStation ??
                                               "NA",
                                         ),
                                       ],
                                     ),
                                   ),
-                                       Expanded(
+                                  Expanded(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        TextLabel(text:"Tehsil"),
+                                        TextLabel(text: "Tehsil"),
                                         TextSubtitle(
-                                          text: mngctrl.getPermit
-                                                  ?.applcntTehsil ??
+                                          text: mngctrl
+                                                  .getPermit?.applcntTehsil ??
                                               "NA",
                                         ),
                                       ],
@@ -277,7 +283,6 @@ class PaymentDetails extends StatelessWidget {
                                   Expanded(
                                     child: SizedBox(),
                                   ),
-                             
                                 ],
                               ),
                               Divider(),
@@ -302,10 +307,10 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Starting Date"),
                                         TextSubtitle(
-                                          text:getDate(dateTime:
-                                              mngctrl.getPermit?.visitDate??"")
-                                                 
-                                        ),
+                                            text: getDate(
+                                                dateTime: mngctrl
+                                                        .getPermit?.visitDate ??
+                                                    "")),
                                       ],
                                     ),
                                   ),
@@ -316,9 +321,9 @@ class PaymentDetails extends StatelessWidget {
                                       children: [
                                         TextLabel(text: "Purpose"),
                                         TextSubtitle(
-                                          text: mngctrl
-                                                  .getPermit?.purposeVisit ??
-                                              "NA",
+                                          text:
+                                              mngctrl.getPermit?.purposeVisit ??
+                                                  "NA",
                                         ),
                                       ],
                                     ),
@@ -328,18 +333,16 @@ class PaymentDetails extends StatelessWidget {
                               SizedBox(
                                 height: 20,
                               ),
-                                   Column(
-                                     crossAxisAlignment:
-                                         CrossAxisAlignment.start,
-                                     children: [
-                                       TextLabel(text: "Place of Stay"),
-                                       TextSubtitle(
-                                         text: mngctrl
-                                                 .getPermit?.placeOfStay ??
-                                             "NA",
-                                       ),
-                                     ],
-                                   ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TextLabel(text: "Place of Stay"),
+                                  TextSubtitle(
+                                    text:
+                                        mngctrl.getPermit?.placeOfStay ?? "NA",
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ],
@@ -351,7 +354,9 @@ class PaymentDetails extends StatelessWidget {
                       height: 20,
                     ),
                     Divider(),
-                    PaymentCard(mngctrl: mngctrl,).animate().fadeIn(
+                    PaymentCard(
+                      mngctrl: mngctrl,
+                    ).animate().fadeIn(
                         duration: Duration(milliseconds: 1200),
                         delay: Duration(milliseconds: 600)),
                   ],
@@ -374,11 +379,13 @@ class PaymentDetails extends StatelessWidget {
 
 class PaymentCard extends StatelessWidget {
   const PaymentCard({
-    super.key, required this.mngctrl,
+    super.key,
+    required this.mngctrl,
   });
   final Managementcontroller mngctrl;
   @override
   Widget build(BuildContext context) {
+    GetxTapController gcontroller = Get.put(GetxTapController());
     return Container(
       width: double.infinity,
       //  height: 500,
@@ -490,7 +497,7 @@ class PaymentCard extends StatelessWidget {
                         )),
                     Expanded(
                         child: Text(
-                      getDate(dateTime: mngctrl.getPermit?.visitDate??""),
+                      getDate(dateTime: mngctrl.getPermit?.visitDate ?? ""),
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     )),
@@ -515,7 +522,9 @@ class PaymentCard extends StatelessWidget {
                         )),
                     Expanded(
                         child: Text(
-                    getDate(dateTime: mngctrl.getPermit?.visitDate??"",duration: 15),
+                      getDate(
+                          dateTime: mngctrl.getPermit?.visitDate ?? "",
+                          duration: 15),
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     )),
@@ -558,43 +567,69 @@ class PaymentCard extends StatelessWidget {
               ],
             ),
           ),
-        ButtonCard(title: "Pay Now", onpress:(){
+          ButtonCard(
+              title: "Pay Now",
+              onpress: () {
+                showDialog(
+                    context: context,
+                    builder: (c) {
+                      return AlertDialog(
+                        insetPadding: EdgeInsets.all(16),
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Payment Options",
+                              style: TextStyle(fontSize: 24),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                icon: Icon(Icons.close))
+                          ],
+                        ),
+                        actions: [
+                          ButtonCard(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              icon: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  Icons.currency_rupee_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              title: "Pay with Cash ",
+                              onpress: () {}),
+                          ButtonCard(
+                              icon: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  Icons.money_sharp,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              title: "Pay Online",
+                              onpress: () {
+                                gcontroller.initNdpsPayment(
+                                  context: context,
+                                  responseHashKey: gcontroller.responseHashKey,
+                                  responseDecryptionKey:
+                                      gcontroller.responseDecryptionKey,
+                                  amount: '200',
+                                  address: 'fsdfsdf',
+                                  name: 'amarjit',
+                                );
+                              }),
+                        ],
+                      ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();
+                    });
 
-              showDialog(context: context, builder: (c){
-                return  AlertDialog(
-                  insetPadding: EdgeInsets.all(16),
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Payment Options",style: TextStyle(fontSize: 24),),
-                     IconButton(onPressed: (){
-                      Get.back();
-                     }, icon: Icon(Icons.close))
-                    ],
-                  ),
-                  actions: [
-                        ButtonCard(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          icon: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal:8.0),
-                            child: Icon(Icons.currency_rupee_outlined,color: Colors.white,),
-                          ),
-                          title: "Pay with Cash ", onpress: (){}) ,
-                        ButtonCard(
-                               icon: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal:8.0),
-                            child: Icon(Icons.money_sharp,color: Colors.white,),
-                          ),
-                             padding: EdgeInsets.symmetric(vertical: 8),
-                          title: "Pay Online", onpress: (){}) ,
-                  ],
-                ).animate().scaleXY(begin: 0.5,end: 1).fadeIn();
-              });
-
-
-
-              // Get.to(() => ReceiptPreviewPage());
-        })
+                // Get.to(() => ReceiptPreviewPage());
+              })
         ],
       ),
     );
@@ -603,7 +638,11 @@ class PaymentCard extends StatelessWidget {
 
 class ButtonCard extends StatelessWidget {
   const ButtonCard({
-    super.key, required this.title, required this.onpress, this.padding, this.icon,
+    super.key,
+    required this.title,
+    required this.onpress,
+    this.padding,
+    this.icon,
   });
   final String title;
   final VoidCallback onpress;
@@ -612,11 +651,10 @@ class ButtonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding??EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: InkWell(
         onTap: onpress,
         child: Container(
-         
           width: double.infinity,
           padding: EdgeInsets.all(32),
           decoration: BoxDecoration(
@@ -625,11 +663,11 @@ class ButtonCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              icon??SizedBox(),
+              icon ?? SizedBox(),
               Text(
-                          title,
-                          style: TextStyle(color: Colors.white, fontSize: 26),
-                        ),
+                title,
+                style: TextStyle(color: Colors.white, fontSize: 26),
+              ),
             ],
           ),
         ),

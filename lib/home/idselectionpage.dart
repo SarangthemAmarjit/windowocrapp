@@ -64,7 +64,11 @@ class DocumentScanPage extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    pagecon.setmainpageindex(ind: 0);
+                    if (pagecon.IdSelection) {
+                      pagecon.changeIdSelection();
+                    } else {
+                      pagecon.setmainpageindex(ind: 0);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 0, 183, 234),
@@ -108,7 +112,7 @@ class DocumentScanPage extends StatelessWidget {
         pagecon.changeIdSelection();
         pagecon.setdocindex(ind: docindex);
         // pagecon.setmainpageindex(ind: 3);
-        // mngctrl.getDocumentDetails(docID: "12034885", docType: text);
+        mngctrl.getDocumentDetails(docID: "12034885", docType: text);
         // imgcon.initializeCamera(
         //   isfront: true,
         //   isback: false,
@@ -143,13 +147,14 @@ class GetDocumentId extends StatefulWidget {
 
 class _GetDocumentIdState extends State<GetDocumentId> {
   final TextEditingController docId = TextEditingController();
+  bool? isEmpty;
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PagenavControllers>(builder: (pagectrl) {
-      return GetBuilder<Managementcontroller>(builder: (context) {
+      return GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return AnimatedContainer(
-          duration: Duration(milliseconds: 800),
+          duration: Duration(milliseconds: 1000),
           height: pagectrl.IdSelection ? 300 : 0,
           width: double.maxFinite,
           decoration: BoxDecoration(
@@ -173,7 +178,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   height: 30,
                 ),
                 Text(
-                  "Enter Doucment Number",
+                  "Enter ${mngctrl.getPermit?.idProof ?? "Doucment"} Number",
                   style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
                 SizedBox(
@@ -183,11 +188,37 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     width: 300,
                     child: TextFieldWidget(
                       controller: docId,
-                      label: "Doc Id",
+                      label: mngctrl.getPermit?.idProof ?? "Doc Id",
                     )),
+                isEmpty == true
+                    ? Text(
+                        "Please enter a Valid Id Number",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      )
+                    : SizedBox(),
+                SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
                   onPressed: () {
-                    pagectrl.changeIdSelection();
+                    if (docId.text.isEmpty) {
+                      setState(() {
+                        isEmpty = true;
+                      });
+                    } else {
+                      setState(() {
+                        isEmpty = false;
+                      });
+
+                      mngctrl.getDocumentDetails(
+                          docID: docId.text,
+                          docType: mngctrl.getPermit?.idProof ?? "");
+                      pagectrl.setmainpageindex(ind: 3);
+                      pagectrl.changeIdSelection();
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
