@@ -195,7 +195,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   height: 30,
                 ),
                 Text(
-                  "Enter ${mngctrl.getPermit?.idProof??"Doucment"} Number",
+                  "Enter ${mngctrl.getPermit?.idProof ?? "Doucment"} Number",
                   style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
                 SizedBox(
@@ -205,10 +205,18 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     width: 300,
                     child: TextFieldWidget(
                       controller: docId,
-                      label: mngctrl.getPermit?.idProof??"Doc Id",
+                      label: mngctrl.getPermit?.idProof ?? "Doc Id",
                     )),
-                isEmpty==true ? Text("Please enter a Valid Id Number",style: TextStyle(color: Colors.redAccent,fontSize: 16, fontWeight: FontWeight.bold),) : SizedBox(),
-                 SizedBox(
+                isEmpty == true
+                    ? Text(
+                        "Please enter a Valid Id Number",
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      )
+                    : SizedBox(),
+                SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
@@ -222,15 +230,12 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                         isEmpty = false;
                       });
 
-                       mngctrl.getDocumentDetails(
-                        docID: docId.text,
-                        docType: mngctrl.getPermit?.idProof ?? "");
-                          pagectrl.setmainpageindex(ind: 3);
-                        pagectrl.changeIdSelection();
-
+                      mngctrl.getDocumentDetails(
+                          docID: docId.text,
+                          docType: mngctrl.getPermit?.idProof ?? "");
+                      pagectrl.setmainpageindex(ind: 3);
+                      pagectrl.changeIdSelection();
                     }
-
-        
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),

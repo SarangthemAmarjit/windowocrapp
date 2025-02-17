@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:camera_windows_example/models/gate.dart';
+import 'package:camera_windows_example/models/permitprice.dart';
 import 'package:http/http.dart' as http;
 import 'apicall.dart';
 import 'permit.dart';
@@ -101,6 +102,22 @@ try {
   }
 
 
+  @override
+  Future<String> getallpremitprice() async {
+    var request = http.Request(
+        'GET', Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/getallfees'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String alldata = await response.stream.bytesToString();
+
+      return alldata;
+    } else {
+      print(response.reasonPhrase);
+      return 'Error';
+    }
+  }
 
   
 

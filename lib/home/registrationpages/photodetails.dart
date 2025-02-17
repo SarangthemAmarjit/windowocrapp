@@ -19,7 +19,6 @@ class PhotoSignaturePage extends StatefulWidget {
 }
 
 class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
-
   var _scheduler;
 
   Uint8List? image;
@@ -31,7 +30,6 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     // loadcascade();
 
     initialise();
-
   }
 
   void initialise() async {
@@ -101,19 +99,19 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                 clipBehavior: Clip.antiAlias,
                 margin: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                color: Colors.white,
-
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(),
-                  boxShadow: [
-                    BoxShadow(color: Colors.black.withValues(alpha: 0.2),blurRadius: 5)
-                  ]
-                ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 5)
+                    ]),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Text("Profile Photo",style: TextStyle(fontSize: 30,color: Colors.green),),
-                          
+
                     imgcon.profileimage != null
                         ? BannerContainer(
                             color: Colors.blue,
@@ -124,19 +122,19 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                             padding: EdgeInsets.all(32),
                             margin: EdgeInsets.all(16),
                             child:
-                            //  imgcon.isinitialized
-                            //     ? 
+                                //  imgcon.isinitialized
+                                //     ?
                                 Text(
-                                    "Please look at the Camera and stand still.",
-                                    style: TextStyle(fontSize: 26),
-                                  )
-                                // : Text(
-                                //     "Initializing Camera. Please Wait",
-                                //     style: TextStyle(
-                                //         fontSize: 20, color: Colors.green),
-                                //   )
-                                  
-                                  ),
+                              "Please look at the Camera and stand still.",
+                              style: TextStyle(fontSize: 26),
+                            )
+                            // : Text(
+                            //     "Initializing Camera. Please Wait",
+                            //     style: TextStyle(
+                            //         fontSize: 20, color: Colors.green),
+                            //   )
+
+                            ),
                     timer <= 1
                         ? SizedBox(
                             height: 20,
@@ -149,7 +147,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                     SizedBox(
                       height: 10,
                     ),
-                          
+
                     Stack(
                       children: [
                         Container(
@@ -162,21 +160,33 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                               width: 2,
                               color: Colors.grey[400]!,
                             ),
-                             borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          child:imgcon.isinitialized?ClipRRect(
-                              //  borderRadius: BorderRadius.circular(10),
-                              child: imgcon.profileimage != null
-                                  ? Transform.flip(
-                                      flipX: true,
-                                      child: Image.file(
-                                        fit: BoxFit.contain,
-                                        File(imgcon.profileimage!.path),
-                                      ),
-                                    )
-                                  : imgcon.buildPreview()):Center(child:  Icon(Icons.camera,color: Colors.grey,size:60,).animate(onComplete: (controller) {
-                                        controller.repeat();
-                                      },).rotate(duration: Duration(seconds: 2),),),
+                          child: imgcon.isinitialized
+                              ? ClipRRect(
+                                  //  borderRadius: BorderRadius.circular(10),
+                                  child: imgcon.profileimage != null
+                                      ? Transform.flip(
+                                          flipX: true,
+                                          child: Image.file(
+                                            fit: BoxFit.contain,
+                                            File(imgcon.profileimage!.path),
+                                          ),
+                                        )
+                                      : imgcon.buildPreview())
+                              : Center(
+                                  child: Icon(
+                                    Icons.camera,
+                                    color: Colors.grey,
+                                    size: 60,
+                                  ).animate(
+                                    onComplete: (controller) {
+                                      controller.repeat();
+                                    },
+                                  ).rotate(
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                ),
                         ),
                         Positioned(
                           top: 0,
@@ -194,19 +204,20 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                     color: Colors.green.withValues(alpha: 0.6)),
                               ).animate().fadeIn())),
                         ),
-                                
+
                         // Draw bounding boxes on top of the image
                       ],
-                    ).animate().fadeIn(duration: Duration(),delay: Duration(milliseconds: 200)) ,
-                          
+                    ).animate().fadeIn(
+                        duration: Duration(),
+                        delay: Duration(milliseconds: 200)),
+
                     SizedBox(
                       height: 20,
                     ),
-                          
+
                     // imgcon.isinitialized?
-                    
-                    
-                     Row(
+
+                    Row(
                       children: [
                         Expanded(
                           child: InkWell(
@@ -225,17 +236,22 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                               clipBehavior: Clip.antiAlias,
                               child: Center(
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.camera_sharp,color: Colors.white,),
-                                      SizedBox(width: 20,),
-                                      Text(
-                                                                      "Retake",
-                                                                      style:
-                                        TextStyle(color: Colors.white, fontSize: 24),
-                                                                    ),
-                                    ],
-                                  )),
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.camera_sharp,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "Retake",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ),
+                                ],
+                              )),
                             ),
                           ),
                         ),
@@ -253,31 +269,43 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                 //  borderRadius: BorderRadius.circular(8)
                               ),
                               clipBehavior: Clip.antiAlias,
-                              child:  Center(
+                              child: Center(
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                    
-                                   
-                                      Text(
-                                                                      "Proceed",
-                                                                      style:
-                                        TextStyle(color: Colors.white, fontSize: 24),
-                                                                    ),
-                                                                       SizedBox(width: 20,),
-                                                                         Icon(Icons.check,color: Colors.white,),
-                                    ],
-                                  )),
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Proceed",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              )),
                             ),
                           ),
                         ),
                       ],
-                    ).animate().fadeIn(duration: Duration(milliseconds: 1200),delay: Duration(milliseconds: 400))
-                      
+                    ).animate().fadeIn(
+                        duration: Duration(milliseconds: 1200),
+                        delay: Duration(milliseconds: 400))
+
                     // :SizedBox(),
                   ],
                 ),
-              ).animate().scaleXY(begin: 0.7,end: 1,curve: Curves.easeInCubic,duration: Duration(milliseconds: 600)).fadeIn(duration: Duration(milliseconds: 500)),
+              )
+                  .animate()
+                  .scaleXY(
+                      begin: 0.7,
+                      end: 1,
+                      curve: Curves.easeInCubic,
+                      duration: Duration(milliseconds: 600))
+                  .fadeIn(duration: Duration(milliseconds: 500)),
             ),
           );
         });

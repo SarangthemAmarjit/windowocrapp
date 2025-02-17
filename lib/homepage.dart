@@ -15,12 +15,16 @@ class IdSelectionAndScanningScreen extends StatefulWidget {
 
 class _IdSelectionAndScanningScreenState
     extends State<IdSelectionAndScanningScreen> {
-
-      @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Managementcontroller().readPermit();
+  }
+
+  @override
+  void dispose() {
+    Get.find<Imagecontroller>().disposeCurrentCamera();
+    super.dispose();
   }
 
   @override
@@ -249,26 +253,29 @@ class _IdSelectionAndScanningScreenState
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 50, bottom: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                      onPressed: () {
-                                        imgcon.disposeCurrentCamera();
-                                      },
-                                      child: Text('Cancel'),
-                                    ),
-                                    const SizedBox(width: 5),
-                                  ],
-                                ),
-                              ),
+                              SizedBox(
+                                height: 30,
+                              )
+                              // Padding(
+                              //   padding: const EdgeInsets.only(
+                              //       right: 50, bottom: 20),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.end,
+                              //     children: [
+                              //       ElevatedButton(
+                              //         style: ElevatedButton.styleFrom(
+                              //             shape: RoundedRectangleBorder(
+                              //                 borderRadius:
+                              //                     BorderRadius.circular(10))),
+                              //         onPressed: () {
+                              //           imgcon.disposeCurrentCamera();
+                              //         },
+                              //         child: Text('Cancel'),
+                              //       ),
+                              //       const SizedBox(width: 5),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           )
                         : Center(child: Text('Camera Preview Area'))

@@ -8,6 +8,7 @@ import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/dashboard.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:camera_windows_example/homepage.dart';
+import 'package:camera_windows_example/webviewdemo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -17,12 +18,13 @@ import 'controller/pagecontroller.dart';
 import 'home/dashboard.dart';
 
 void main() {
-   HttpOverrides.global = MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
+
   runApp(MyApp());
-  
+
   Get.put(Imagecontroller());
   Get.put(PagenavControllers());
-  Get.put(Managementcontroller());  
+  Get.put(Managementcontroller());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,9 +35,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: GoogleFonts.robotoCondensedTextTheme(),
-        colorSchemeSeed: Colors.green),
-
+          textTheme: GoogleFonts.robotoCondensedTextTheme(),
+          colorSchemeSeed: Colors.green),
       home: LandingPage(),
     );
   }
@@ -501,10 +502,6 @@ class _ActualCameraPageState extends State<ActualCameraPage> {
     );
   }
 }
-
-
-
-
 
 class MyHttpOverrides extends HttpOverrides {
   @override
