@@ -244,8 +244,8 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                       const SizedBox(height: 20),
                       InkWell(
                         onTap: () {
-                          if (_formkey.currentState!.validate() && _dob!=null && mngctrl.state!=null) {
-                            VisitorEntry permits = VisitorEntry(
+                          if (_formkey.currentState!.validate() && _dob!=null && mngctrl.state!=null) {             
+                         VisitorEntry permits = VisitorEntry(
                               applcntName: _nameController.text,
                               applcntAddress: _villageController.text,
                               idProof: mngctrl.getPermit?.idProof ?? "",

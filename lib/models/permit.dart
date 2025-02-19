@@ -97,7 +97,7 @@ class VisitorEntry {
   Map<String,String> toJson() {
     return {
       'ID_Proof': idProof??"NA",
-      'ID_No': idNo??"",
+      'ID_No': idNo??"NA",
       'Category': category??"NA",
       'Purpose_Visit': purposeVisit??"NA",
       'PlaceOfStay': placeOfStay??"NA",

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:camera_windows_example/models/gate.dart';
 import 'package:http/http.dart' as http;
+import '../cons/constant.dart';
 import 'apicall.dart';
 import 'permit.dart';
 
@@ -22,44 +23,69 @@ class ApicallImpl extends ApiCall{
 
 
 @override
-Future<Map<String,dynamic>> addPermit(VisitorEntry permit, Uint8List passportPhotoBytes, Uint8List idCardBytes) async {
+Future<Map<String,dynamic>> addPermit( Uint8List passportPhotoBytes, Uint8List idCardBytes,
+// {required String idProofs,
+//       required String idno,
+//       required String purposeVisits,
+//       required String placestay,
+//       required String visitDates,
+//       required String name,
+//       required String parentname,
+//       required String gender,
+//       required String dob,
+//       required String email,
+//       required String mobile,
+//       required String address,
+//       required String state,
+//       required String polstation,
+//       required String district,
+//       required String village,
+//       required String tehsl,
+//       required String applydistrict,
+//       required String pincode}
+VisitorEntry permit
+      
+      ) async {
   var headers = {
     'X-Key': 'hfuygf765r76yu',
   };
 
-  var request = http.MultipartRequest('POST', Uri.parse('https://ilpdemo.cubeten.com/api/Kiosk/submit'));
+  var request = http.MultipartRequest('POST', Uri.parse('$api/api/Kiosk/submit'));
   
 
- 
- 
- request.fields.addAll({
-  'ID_Proof': "Aadhar" ?? '',
-  'ID_No': permit.idNo ?? '',
-  'Category': permit.category ?? '',
-  'Purpose_Visit': permit.purposeVisit ?? '',
-  'PlaceOfStay': permit.placeOfStay ?? '',
-  'VisitDate': permit.visitDate ?? '',
-  'Applcnt_Name': permit.applcntName ?? '',
-  'Applcnt_Parent': permit.applcntParent ?? '',
-  'Applcnt_Gender': permit.applcntGender ?? '',
-  'Applcnt_DOB': permit.applcntDOB ?? '',
-  'Applcnt_Email': permit.applcntEmail ?? '',
-  'Applcnt_Mobile': permit.applcntMobile ?? '',
-  'Applcnt_Address': permit.applcntAddress ?? '',
-  'Applcnt_State': permit.applcntState ?? '',
-  'Applcnt_PoliceStation': permit.applcntPoliceStation ?? '',
-  'Applcnt_District': permit.applcntDistrict ?? '',
-  'Applcnt_Village': permit.applcntVillage ?? '',
-  'Applcnt_HNo': permit.applcntHNo ?? '',
-  'Applcnt_Tehsil': permit.applcntTehsil ?? '',
-  'Gate_ID': permit.gateID ?? '',
-  'EntryType': permit.entryType ?? '',
-  'Apply_District_ID': permit.applyDistrictID ?? '',
-  'ResidingPeriod': permit.residingPeriod ?? '',
-  'Landmark': permit.landmark ?? '',
-  'District': permit.district ?? '',
-  'PinCode': permit.pinCode ?? '',
-});
+
+//  request.fields.addAll({
+//   'ID_Proof': idProofs,
+//   'ID_No': idno,
+//   'Category': "",
+//   'Purpose_Visit': purposeVisits,
+//   'PlaceOfStay': placestay,
+//   'VisitDate': visitDates,
+//   'Applcnt_Name': name,
+//   'Applcnt_Parent': parentname,
+//   'Applcnt_Gender': gender,
+//   'Applcnt_DOB': dob,
+//   'Applcnt_Email': email,
+//   'Applcnt_Mobile': mobile,
+//   'Applcnt_Address': address,
+//   'Applcnt_State': state,
+//   'Applcnt_PoliceStation': polstation,
+//   'Applcnt_District': district,
+//   'Applcnt_Village': village,
+//   'Applcnt_HNo':"",
+//   'Applcnt_Tehsil': tehsl,
+//   'Gate_ID': gate,
+//   'EntryType': "Temporary Permit",
+//   'Apply_District_ID': applydistrict,
+//   'ResidingPeriod':"15",
+//   'Landmark': "",
+//   'District': applydistrict,
+//   'PinCode':pincode,
+// });
+  print("Permit in apicallfinctions:\n\n ${permit.toJson().toString()}");
+  
+  request.fields.addAll(permit.toJson());
+
   request.files.add(http.MultipartFile.fromBytes('PassportPhoto', passportPhotoBytes, filename: 'passportPhoto.jpg'));
   request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes, filename: 'idCard.jpg'));
 
@@ -76,7 +102,7 @@ Future<Map<String,dynamic>> addPermit(VisitorEntry permit, Uint8List passportPho
     return {json["message"]??"message":applicant};
     // return  {jsonDecode( response.stream.bytesToString().toString())["message"]??"message":jsonDecode( response.stream.first.toString())["applicationId"]??null};
   } else {
-    print(response.reasonPhrase);
+    print("${response.reasonPhrase} ${response.statusCode}");
   }
       return {"Failed":0};
 }
@@ -106,7 +132,7 @@ try {
 
   @override
   Future<List<Gate>> getAllGates() async {
-     final response = await http.get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getactivegates"));
+     final response = await http.get(Uri.parse("$api/api/kiosk/getactivegates"));
   print("In response");
     if (response.statusCode == 200) {
       print(response.body);
@@ -119,7 +145,7 @@ try {
 
   @override
   Future<List<String>> getDocumentType() async {
-     final response = await http.get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getallidtype"));
+     final response = await http.get(Uri.parse("$api/api/kiosk/getallidtype"));
   print("In response");
     if (response.statusCode == 200) {
       print(response.body);
@@ -134,7 +160,7 @@ try {
   @override
   Future<String> getallpremitprice() async {
     var request = http.Request(
-        'GET', Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/getallfees'));
+        'GET', Uri.parse('$api/api/kiosk/getallfees'));
 
     http.StreamedResponse response = await request.send();
 

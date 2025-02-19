@@ -4,7 +4,6 @@ import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
-import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -653,7 +652,28 @@ class PaymentCard extends StatelessWidget {
                                               isload = true;
                                             });
                                        
-                                             await mngctrl.addtemporaryPermit(true);
+                                             await mngctrl.addtemporaryPermit(true,
+                                             address: mngctrl.getPermit?.applcntAddress??"",
+                                             applydistrict: mngctrl.getPermit?.district??"",
+                                             districtss: mngctrl.getPermit?.applcntDistrict??"",
+                                             dob: mngctrl.getPermit?.applcntDOB??"",
+                                             email: mngctrl.getPermit?.applcntEmail??"",
+                                             gender: mngctrl.getPermit?.applcntGender??"",
+                                             idProofs: mngctrl.getPermit?.idProof??"",
+                                             idno: mngctrl.getPermit?.idNo??"",
+                                             mobile: mngctrl.getPermit?.applcntMobile??"",
+                                             name: mngctrl.getPermit?.applcntName??"",
+                                             parentname: mngctrl.getPermit?.applcntParent??"",
+                                             pincode: mngctrl.getPermit?.pinCode??"",
+                                             placestay: mngctrl.getPermit?.placeOfStay??"",
+                                             polstation: mngctrl.getPermit?.applcntPoliceStation??"",
+                                             purposeVisits: mngctrl.getPermit?.purposeVisit??"",
+                                             state: mngctrl.getPermit?.applcntState??"",
+                                             tehsl: mngctrl.getPermit?.applcntTehsil??"",
+                                             village: mngctrl.getPermit?.applcntVillage??"",
+                                             visitDates: DateTime.now(),
+
+                                             );
                                           sta((){
                                               isload = false;
         

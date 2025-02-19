@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 List<String> genders = ["Male", "Female", "Others"];
-
+String api = "https://ilpdemo.cubeten.com";
 String gate = "Imphal Airport";
 String rupee = "₹";
 final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];

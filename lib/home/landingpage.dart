@@ -15,32 +15,32 @@ class LandingPage extends StatelessWidget {
       body: GetBuilder<PagenavControllers>(builder: (_) {
         return Container(
           width: double.infinity,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Image.asset(
-                      'assets/images/kanglashaok.png',
-                      height: 60,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Image.asset(
-                      'assets/images/ilplogo2.png',
-                      height: 60,
-                    )
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Image.asset(
+                        'assets/images/kanglashaok.png',
+                        height: 60,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Image.asset(
+                        'assets/images/ilplogo2.png',
+                        height: 60,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(
+                Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           alignment: Alignment.bottomCenter,
@@ -58,8 +58,8 @@ class LandingPage extends StatelessWidget {
                                   ? Center(child: RegistrationPage())
                                   : SizedBox(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       }),
