@@ -1,10 +1,11 @@
+import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/models/apicall.dart';
 import 'package:camera_windows_example/models/apicallimpl.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/models/permitprice.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 import '../cons/constant.dart';
 import '../models/gate.dart';
@@ -90,20 +91,75 @@ getallDocs();
     }
 
 
-    Future<void> addtemporaryPermit(VisitorEntry permit) async {
+    Future<void> addtemporaryPermit(bool isCash) async {
+  
+//       VisitorEntry dummyVisitor = VisitorEntry(
+//   // idProof: "Aadhar",
+//   idProof:"sdsfd",
+//   idNo: "1234-5678-91992",
+//   category: "General",
+//   purposeVisit: "Tourism",
+//   placeOfStay: "Hotel XYZ",
+//   visitDate: "2025-02-19",
+//   applcntName: "John Doe",
+//   applcntParent: "Robert Doe",
+//   applcntGender: "Male",
+//   applcntDOB: DateTime.now().toIso8601String(),
+//   applcntEmail: "johndoe@example.com",
+//   applcntMobile: "9876543210",
+//   applcntAddress: "123 Main Street",
+//   applcntState: "Manipur",
+//   applcntPoliceStation: "Imphal PS",
+//   applcntDistrict: "Imphal West",
+//   applcntVillage: "Nagamapal",
+//   applcntHNo: "12A",
+//   applcntTehsil: "Imphal",
+//   gateID: "7",
+//   entryType: "Visitor",
+//   applyDistrictID: "D123",
+//   residingPeriod: "7 Days",
+//   landmark: "Near City Tower",
+//   district: "Imphal West",
+//   pinCode: "",
+//   amount: '100',
+//   // transactionId:"Cash" 
+//     transactionId:generateRandomString(12)
+// );
+//   // print("Permits : ${permit.toJson().toString() }");
+ 
+
+
+_permit?.amount = "100";
+_permit?.transactionId = generateRandomString(12);
+print(" permit to post: ${_permit!.toJson().toString()}");
+
+        String passportpath = 'assets/images/Kanglashanew1.png';
+        String idcardpath = 'assets/images/Kanglashanew1.png';
+        Uint8List passport = await getImageAssetBytes(passportpath);
+        Uint8List idcard = await getImageAssetBytes(idcardpath);
+        Map<String?,dynamic> d =  await apicall.addPermit(_permit!,passport,idcard);
+       
+ 
+         print('$d $isLoading');
+
+         Get.dialog(AlertDialog(content: Text(d.entries.first.key??"no messae"),));
+        
+   }
+
+   Future<void> paywithcash(VisitorEntry permit) async {
         String passportpath = 'assets/images/Kanglashanew1.png';
         String idcardpath = 'assets/images/Kanglashanew1.png';
         Uint8List passport = await getImageAssetBytes(passportpath);
         Uint8List idcard = await getImageAssetBytes(idcardpath);
         Map<String,dynamic> d =  await apicall.addPermit(permit,passport,idcard);
-        print(d);
-   }
+        print('$d $isLoading');
+    }
+    
 
-
-    void addPermit (VisitorEntry? permits){
+  void addPermit (VisitorEntry? permits){
         _permit = permits;
         update();
-    }
+  }
     
   void removePermits(){
     _permit = null;

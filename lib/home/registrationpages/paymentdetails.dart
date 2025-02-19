@@ -4,6 +4,7 @@ import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
+import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -432,258 +433,273 @@ class PaymentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GetxTapController gcontroller = Get.put(GetxTapController());
-    return GetBuilder<GetxTapController>(builder: (_) {
-      return Container(
-        width: double.infinity,
-        //  height: 500,
-        //  clipBehavior:Clip.antiAlias,
-        // decoration: BoxDecoration(
-        // // image: DecorationImage(image: AssetImage('assets/images/bg.png')),
-        // color: Colors.green,
-        // gradient: LinearGradient(colors: [Colors.green,Colors.green[900]!],
-        // begin: Alignment.topLeft,
-        // end: Alignment.bottomRight
-        // )
-
-        // ),
-        child: Column(
-          children: [
-            // Container(
-            //   width: double.infinity,
-            //   height: 200,
-
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-
-            //       children: [
-
-            //         Text("Rs 2000",style: TextStyle(fontSize: 40,fontWeight: FontWeight.bold),),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BannerContainer(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    margin: EdgeInsets.zero,
-                    text: "Payments",
-                    color: Colors.green,
-                  ),
-                  // Divider(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GetBuilder<Managementcontroller>(
+      builder: (mngctrl) {
+        return GetBuilder<GetxTapController>(builder: (_) {
+          return Container(
+            width: double.infinity,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                          child: Text(
-                        "Permit Type",
-                        style: TextStyle(fontSize: 18),
-                      )),
-                      Expanded(
-                          flex: 3,
-                          child: Divider(
-                            endIndent: 80,
-                            indent: 80,
+                      BannerContainer(
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        margin: EdgeInsets.zero,
+                        text: "Payments",
+                        color: Colors.green,
+                      ),
+                      // Divider(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            "Permit Type",
+                            style: TextStyle(fontSize: 18),
                           )),
-                      Expanded(
+                          Expanded(
+                              flex: 3,
+                              child: Divider(
+                                endIndent: 80,
+                                indent: 80,
+                              )),
+                          Expanded(
+                              child: Text(
+                            "Temporary Permit",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            "Permit Validity",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          Expanded(
+                              flex: 3,
+                              child: Divider(
+                                endIndent: 80,
+                                indent: 80,
+                              )),
+                          Expanded(
+                              child: Text("15 Days",
+                                  style: TextStyle(
+                                      fontSize: 20, fontWeight: FontWeight.bold))),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            "From",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          Expanded(
+                              flex: 3,
+                              child: Divider(
+                                endIndent: 80,
+                                indent: 80,
+                              )),
+                          Expanded(
+                              child: Text(
+                            getDate(dateTime: mngctrl.getPermit?.visitDate ?? ""),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            "To",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          Expanded(
+                              flex: 3,
+                              child: Divider(
+                                endIndent: 80,
+                                indent: 80,
+                              )),
+                          Expanded(
+                              child: Text(
+                            getDate(
+                                dateTime: mngctrl.getPermit?.visitDate ?? "",
+                                duration: 15),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            "Amount",
+                            style: TextStyle(fontSize: 18),
+                          )),
+                          Expanded(
+                              flex: 3,
+                              child: Divider(
+                                endIndent: 80,
+                                indent: 80,
+                              )),
+                          Expanded(
+                              child: Text(
+                            "$rupee 100",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )),
+                        ],
+                      ),
+                      Divider(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Center(
                           child: Text(
-                        "Temporary Permit",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                        "Total: $rupee 100",
+                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                       )),
                     ],
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: Text(
-                        "Permit Validity",
-                        style: TextStyle(fontSize: 18),
-                      )),
-                      Expanded(
-                          flex: 3,
-                          child: Divider(
-                            endIndent: 80,
-                            indent: 80,
-                          )),
-                      Expanded(
-                          child: Text("15 Days",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold))),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: Text(
-                        "From",
-                        style: TextStyle(fontSize: 18),
-                      )),
-                      Expanded(
-                          flex: 3,
-                          child: Divider(
-                            endIndent: 80,
-                            indent: 80,
-                          )),
-                      Expanded(
-                          child: Text(
-                        getDate(dateTime: mngctrl.getPermit?.visitDate ?? ""),
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: Text(
-                        "To",
-                        style: TextStyle(fontSize: 18),
-                      )),
-                      Expanded(
-                          flex: 3,
-                          child: Divider(
-                            endIndent: 80,
-                            indent: 80,
-                          )),
-                      Expanded(
-                          child: Text(
-                        getDate(
-                            dateTime: mngctrl.getPermit?.visitDate ?? "",
-                            duration: 15),
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: Text(
-                        "Amount",
-                        style: TextStyle(fontSize: 18),
-                      )),
-                      Expanded(
-                          flex: 3,
-                          child: Divider(
-                            endIndent: 80,
-                            indent: 80,
-                          )),
-                      Expanded(
-                          child: Text(
-                        "$rupee 100",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
-                    ],
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                      child: Text(
-                    "Total: $rupee 100",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  )),
-                ],
-              ),
+                ),
+                ButtonCard(
+                    title: "Pay Now",
+                    onpress: () {
+                     bool isload = false;
+                      showDialog(
+                          context: context,
+                          builder: (c) {
+                            return StatefulBuilder(
+                              builder: (context,sta) {
+                                return AlertDialog(
+                                
+                                  insetPadding: EdgeInsets.all(16),
+                                  content: Container(
+                                    width: 600,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Payment Options",
+                                              style: TextStyle(fontSize: 24),
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                icon: Icon(Icons.close))
+                                          ],
+                                        ),
+                                    
+                                     isload?Padding(
+                                       padding: const EdgeInsets.all(32.0),
+                                       child: Column(
+                                         children: [
+                                           CircularProgressIndicator(),
+                                           SizedBox(height: 20,),
+                                           Text("Creating Permit. Please Wait",style: TextStyle(fontSize: 20),)
+                                         ],
+                                       ),
+                                     ):SizedBox()
+                                      ],
+                                    ),
+                                  ),
+                                  
+                                  
+                                  actions: isload?null: [
+                                    ButtonCard(
+                                        padding: EdgeInsets.symmetric(vertical: 8),
+                                        icon: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Icon(
+                                            Icons.currency_rupee_outlined,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        title: "Pay with Cash ",
+                                        onpress: () async {
+                                            sta((){
+                                              isload = true;
+                                            });
+                                       
+                                             await mngctrl.addtemporaryPermit(true);
+                                          sta((){
+                                              isload = false;
+        
+                                          });
+                                              // send permit to api
+                                
+                                        }),
+                                    ButtonCard(
+                                        icon: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Icon(
+                                            Icons.money_sharp,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        padding: EdgeInsets.symmetric(vertical: 8),
+                                        title: "Pay Online",
+                                        onpress: () {
+                                          Get.back();
+                                          gcontroller.initNdpsPayment(
+                                            context: context,
+                                            responseHashKey:
+                                                gcontroller.responseHashKey,
+                                            responseDecryptionKey:
+                                                gcontroller.responseDecryptionKey,
+                                            amount: mngctrl.allpermitprices[0].fee
+                                                .toString(),
+                                            address: 'fsdfsdf',
+                                            name: 'amarjit',
+                                          );
+                                        }),
+                                  ],
+                                ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();
+                              }
+                            );
+                          });
+        
+                      // Get.to(() => ReceiptPreviewPage());
+                    })
+              ],
             ),
-            ButtonCard(
-                title: "Pay Now",
-                onpress: () {
-                  showDialog(
-                      context: context,
-                      builder: (c) {
-                        return AlertDialog(
-                          insetPadding: EdgeInsets.all(16),
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Payment Options",
-                                style: TextStyle(fontSize: 24),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  icon: Icon(Icons.close))
-                            ],
-                          ),
-                          actions: [
-                            ButtonCard(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                icon: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Icon(
-                                    Icons.currency_rupee_outlined,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                title: "Pay with Cash ",
-                                onpress: () {}),
-                            ButtonCard(
-                                icon: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Icon(
-                                    Icons.money_sharp,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                title: "Pay Online",
-                                onpress: () {
-                                  Get.back();
-                                  gcontroller.initNdpsPayment(
-                                    context: context,
-                                    responseHashKey:
-                                        gcontroller.responseHashKey,
-                                    responseDecryptionKey:
-                                        gcontroller.responseDecryptionKey,
-                                    amount: mngctrl.allpermitprices[0].fee
-                                        .toString(),
-                                    address: 'fsdfsdf',
-                                    name: 'amarjit',
-                                  );
-                                }),
-                          ],
-                        ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();
-                      });
-
-                  // Get.to(() => ReceiptPreviewPage());
-                })
-          ],
-        ),
-      );
-    });
+          );
+        });
+      }
+    );
   }
 }
 
