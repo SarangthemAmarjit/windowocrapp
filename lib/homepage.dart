@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
-import 'package:camera_windows_example/cons/constant.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
+import 'package:camera_windows_example/home/registrationpages/signatureclass.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
 class IdSelectionAndScanningScreen extends StatefulWidget {
@@ -15,6 +16,8 @@ class IdSelectionAndScanningScreen extends StatefulWidget {
 
 class _IdSelectionAndScanningScreenState
     extends State<IdSelectionAndScanningScreen> {
+
+      bool signaturePage = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -27,6 +30,14 @@ class _IdSelectionAndScanningScreenState
     super.dispose();
   }
 
+
+  void changepages(){
+    setState(() {
+      
+      signaturePage = !signaturePage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Imagecontroller imgcon = Get.put(Imagecontroller());
@@ -34,7 +45,7 @@ class _IdSelectionAndScanningScreenState
     Managementcontroller mngcon = Get.put(Managementcontroller());
     return GetBuilder<PagenavControllers>(builder: (_) {
       return GetBuilder<Imagecontroller>(builder: (_) {
-        return Column(
+        return signaturePage? PaintCanvas():Column(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
@@ -124,7 +135,7 @@ class _IdSelectionAndScanningScreenState
                     : const BoxConstraints(maxHeight: 250, maxWidth: 500),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.white)),
+                    border: Border.all(color: Colors.grey[700]!)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -349,29 +360,151 @@ class _IdSelectionAndScanningScreenState
             SizedBox(
               height: 70,
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 50, right: 50),
-                child: ElevatedButton(
-                  onPressed: () {
-                    pngcon.setmainpageindex(ind: 1);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 183, 234),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60, vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text('Back', style: TextStyle(fontSize: 20)),
+            Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 800),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child:
+
+                      Row(
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap:(){
+
+                                    // changing page in registration going back to image page
+                            pngcon.changePage(2);
+                                  },
+                                   
+                                  child: Container(
+                                    // margin: EdgeInsets.symmetric(horizontal: 16),
+                                    width: double.infinity,
+                                    padding: EdgeInsets.all(32),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      // borderRadius: BorderRadius.circular(8)
+                                    ),
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Center(
+                                        child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.replay,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text(
+                                          "Back",
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 24),
+                                        ),
+                                      ],
+                                    )),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: InkWell(
+                                  onTap:() {
+                  //going to payment after success
+                  //         //  pngcon.changePage(4);
+                          changepages();
+                                  
+                                  },
+                                  child: Container(
+                                    //  margin: EdgeInsets.symmetric(horizontal: 16),
+                                    width: double.infinity,
+                                    padding: EdgeInsets.all(32),
+                                    decoration: BoxDecoration(
+                                      color:Colors.green,
+                                      //  borderRadius: BorderRadius.circular(8)
+                                    ),
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Center(
+                                        child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Save & Proceed",
+                                          style: TextStyle(
+                                              color: Colors.white, fontSize: 24),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    )),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ).animate().fadeIn(
+                              duration: Duration(milliseconds: 1200),
+                              delay: Duration(milliseconds: 400))
+                  //  Row(
+                  //   children: [
+                  // Expanded(
+                  //   child: ElevatedButton(
+                  //         onPressed: () {
+                  //           //changing page in registration going back to image page
+                  //           pngcon.changePage(2);
+                  //         },
+                  //         style: ElevatedButton.styleFrom(
+                  //           backgroundColor: const Color.fromARGB(255, 0, 183, 234),
+                  //           foregroundColor: Colors.white,
+                  //           padding: const EdgeInsets.symmetric(
+                  //               horizontal: 60, vertical: 30),
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(8),
+                  //           ),
+                  //         ),
+                  //         child: const Text('Back', style: TextStyle(fontSize: 20)),
+                  //       ),
+                  // ),
+                  //   SizedBox(width: 20,),
+                  // Expanded(
+                  //   child: ElevatedButton(
+                  //         onPressed: () {
+                  //         
+                  //         },
+                  //         style: ElevatedButton.styleFrom(
+                  //           backgroundColor:Colors.green,
+                  //           foregroundColor: Colors.white,
+                  //           padding: const EdgeInsets.symmetric(
+                  //               horizontal: 60, vertical: 30),
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(8),
+                  //           ),
+                  //         ),
+                  //         child: const Text('Next', style: TextStyle(fontSize: 20)),
+                  //       ),
+                  // ),
+                  //   ],
+                  // ),
+
+
+
+                  
                 ),
               ),
-            ),
+            )
+     
           ],
-        );
+        ).animate()
+                  .scaleXY(
+                      begin: 0.7,
+                      end: 1,
+                      curve: Curves.easeInCubic,
+                      duration: Duration(milliseconds: 600))
+                  .fadeIn(duration: Duration(milliseconds: 500));
       });
     });
   }

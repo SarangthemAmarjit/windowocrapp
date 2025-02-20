@@ -5,13 +5,23 @@ import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:window_manager/window_manager.dart';
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
 
-void main() {
+Future<void> main()async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize window_manager
+  await windowManager.ensureInitialized();
+
+  // Set fullscreen mode
+  windowManager.waitUntilReadyToShow().then((_) async {
+    await windowManager.setFullScreen(true);
+  });
   HttpOverrides.global = MyHttpOverrides();
 
   runApp(MyApp());

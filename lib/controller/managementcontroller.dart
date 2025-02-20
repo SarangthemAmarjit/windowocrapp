@@ -104,14 +104,77 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<void> addtemporaryPermit(VisitorEntry permit) async {
+  Future<bool> addtemporaryPermit(bool isCash,
+      {required String idProofs,
+      required String idno,
+      required String purposeVisits,
+      required String placestay,
+      required DateTime visitDates,
+      required String name,
+      required String parentname,
+      required String gender,
+      required String dob,
+      required String email,
+      required String mobile,
+      required String address,
+      required String state,
+      required String polstation,
+      required String districtss,
+      required String village,
+      required String tehsl,
+      required String applydistrict,
+      required String pincode}) async {
+      VisitorEntry dummyVisitor = VisitorEntry(
+  // idProof: "Aadhar",
+  idProof:idProofs,
+  idNo: idno,
+  category: "General",
+  purposeVisit: purposeVisits,
+  placeOfStay: placestay,
+  visitDate: "2025-02-19",
+  // visitDate: visitDates,
+  applcntName: name,
+  applcntParent: parentname,
+  applcntGender: gender,
+  applcntDOB: DateTime.now().toIso8601String(),
+  applcntEmail: email,
+  applcntMobile: mobile,
+  applcntAddress: address,
+  applcntState: state,
+  applcntPoliceStation: polstation,
+  applcntDistrict: districtss,
+  applcntVillage:village,
+  applcntHNo: "",
+  applcntTehsil: tehsl,
+  gateID:_selectedGate?.id??"",
+  entryType: "Temporary Visit",
+  applyDistrictID: "",
+  residingPeriod: "15",
+  landmark: "",
+  district:districtss,
+  pinCode: "",
+  amount: '100',
+  // transactionId:"Cash" 
+    transactionId:isCash?"Cash":generateRandomString(12)
+);
+    print(" permit to post: ${dummyVisitor.toJson().toString()}");
+
     String passportpath = 'assets/images/Kanglashanew1.png';
     String idcardpath = 'assets/images/Kanglashanew1.png';
     Uint8List passport = await getImageAssetBytes(passportpath);
     Uint8List idcard = await getImageAssetBytes(idcardpath);
-    Map<String, dynamic> d = await apicall.addPermit(permit, passport, idcard);
-    print(d);
+    Map<String?, dynamic> ds =  await apicall.addPermit(passport, idcard,dummyVisitor);
+    print('$ds $isLoading');
+    if(isCash){
+      //dialog for printing cash payments and going to counter
+  Get.dialog(AlertDialog(
+      content: Text(ds.entries.first.value ?? "no messae"),
+    ));
+    }
+  
+    return ds.entries.first.value!=null;
   }
+
 
   void addPermit(VisitorEntry? permits) {
     _permit = permits;

@@ -60,6 +60,9 @@ class Imagecontroller extends GetxController {
   StreamSubscription<CameraErrorEvent>? _errorStreamSubscription;
   StreamSubscription<CameraClosingEvent>? _cameraClosingStreamSubscription;
 
+  Uint8List? signature; 
+
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -76,6 +79,13 @@ class Imagecontroller extends GetxController {
     _cameraClosingStreamSubscription?.cancel();
     _cameraClosingStreamSubscription = null;
     super.dispose();
+  }
+
+
+
+  void saveImage(Uint8List image){
+      signature = image;
+      update();
   }
 
   /// Fetches list of available cameras from camera_windows plugin.
@@ -194,6 +204,9 @@ class Imagecontroller extends GetxController {
           false, // Prevent the dialog from closing when tapping outside
     );
   }
+
+
+
 
   void showimageconfirmdialog() {
     PagenavControllers pngcon = Get.put(PagenavControllers());

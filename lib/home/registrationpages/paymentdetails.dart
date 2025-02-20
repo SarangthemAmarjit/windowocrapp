@@ -326,6 +326,51 @@ class PaymentDetails extends StatelessWidget {
                                         ],
                                       ),
                                       Divider(),
+                                      TextLabel( text: "Documents"),
+                                      SizedBox(height: 10,),
+                                        Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(
+                                                    text: "Signature"),
+                                                  SizedBox(height: 10,), 
+                                               imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
+                                                
+                                                 decoration: BoxDecoration(color: Colors.grey),
+                                                 height: 100,
+                                                 width: 300,
+                                                 child: Center(child: Text("sig empty"),),
+                                               )
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                          
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(),
+
+                                    
                                       Row(
                                         children: [
                                           Expanded(
@@ -336,7 +381,7 @@ class PaymentDetails extends StatelessWidget {
                                                 TextLabel(
                                                     text: "Period Of Stay"),
                                                 TextSubtitle(
-                                                  text: '15',
+                                                  text: '30 days',
                                                 ),
                                               ],
                                             ),
@@ -494,7 +539,7 @@ class PaymentCard extends StatelessWidget {
                               indent: 80,
                             )),
                         Expanded(
-                            child: Text("15 Days",
+                            child: Text("30 Days",
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold))),

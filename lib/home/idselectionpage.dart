@@ -162,7 +162,21 @@ class GetDocumentId extends StatefulWidget {
 
 class _GetDocumentIdState extends State<GetDocumentId> {
   final TextEditingController docId = TextEditingController();
+  final FocusNode docFocus = FocusNode();
   bool? isEmpty;
+  @override
+  void initState(){
+    super.initState();
+    docFocus.requestFocus();
+  }
+
+  @override
+  void dispose(){
+    docId.dispose();
+  
+    super.dispose();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,8 +215,12 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   height: 20,
                 ),
                 SizedBox(
-                    width: 300,
+                    width: 600,
                     child: TextFieldWidget(
+                    
+                      fontSize: 30,
+                      contentpadding: EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                      focusnode: docFocus,
                       controller: docId,
                       label: mngctrl.getPermit?.idProof ?? "Doc Id",
                     )),
