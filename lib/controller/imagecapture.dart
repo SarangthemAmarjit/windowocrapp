@@ -54,11 +54,8 @@ class Imagecontroller extends GetxController {
   bool get isBackcapturebuttonpress => _isBackcapturebuttonpress;
 
   MediaSettings _mediaSettings = const MediaSettings(
-    resolutionPreset: ResolutionPreset.ultraHigh,
+    resolutionPreset: ResolutionPreset.max,
     fps: 30,
-    videoBitrate: 200000,
-    audioBitrate: 32000,
-    enableAudio: true,
   );
   StreamSubscription<CameraErrorEvent>? _errorStreamSubscription;
   StreamSubscription<CameraClosingEvent>? _cameraClosingStreamSubscription;
@@ -118,30 +115,38 @@ class Imagecontroller extends GetxController {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              constraints: const BoxConstraints(maxHeight: 250),
-              child: AspectRatio(
-                aspectRatio: 7 / 9, // Passport photo ratio
-                child: Center(
-                  child: ClipRect(
-                    child: OverflowBox(
-                      alignment: Alignment.center,
-                      maxWidth: 400,
-                      maxHeight: 600,
-                      child: FittedBox(
-                        fit: BoxFit
-                            .fill, // Ensure it covers the entire aspect ratio
-                        child: SizedBox(
-                          width: _previewSize!.width,
-                          height: _previewSize!.width,
-                          child: buildPreview(), // Your camera preview
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+            FittedBox(
+              fit: BoxFit.fill, // Ensure it covers the entire aspect ratio
+              child: SizedBox(
+                width: _previewSize!.width,
+                height: _previewSize!.width,
+                child: buildPreview(), // Your camera preview
               ),
             ),
+            // Container(
+            //   constraints: const BoxConstraints(maxHeight: 200),
+            //   child: AspectRatio(
+            //     aspectRatio: 9 / 12, // Passport photo ratio
+            //     child: Center(
+            //       child: ClipRect(
+            //         child: OverflowBox(
+            //           alignment: Alignment.center,
+            //           maxWidth: 400,
+            //           maxHeight: 500,
+            //           child: FittedBox(
+            //             fit: BoxFit
+            //                 .fill, // Ensure it covers the entire aspect ratio
+            //             child: SizedBox(
+            //               width: _previewSize!.width,
+            //               height: _previewSize!.width,
+            //               child: buildPreview(), // Your camera preview
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

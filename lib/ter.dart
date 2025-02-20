@@ -6,7 +6,7 @@
 // import 'package:textify/textify.dart';
 
 // /// The entry point of the application. Runs the [MainApp] widget.
-// void main() async {
+// void main() async {'
 //   WidgetsFlutterBinding.ensureInitialized();
 
 //   // load your image

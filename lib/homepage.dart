@@ -31,6 +31,7 @@ class _IdSelectionAndScanningScreenState
   Widget build(BuildContext context) {
     Imagecontroller imgcon = Get.put(Imagecontroller());
     PagenavControllers pngcon = Get.put(PagenavControllers());
+    Managementcontroller mngcon = Get.put(Managementcontroller());
     return GetBuilder<PagenavControllers>(builder: (_) {
       return GetBuilder<Imagecontroller>(builder: (_) {
         return Column(
@@ -38,7 +39,7 @@ class _IdSelectionAndScanningScreenState
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: Text(
-                'Scan Your ${documentTypes[pngcon.docindex]} ID',
+                'Scan Your ${mngcon.getDocNames[pngcon.docindex]} ID',
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),

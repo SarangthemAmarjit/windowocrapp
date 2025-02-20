@@ -56,7 +56,9 @@ class LandingPage extends StatelessWidget {
                               ? IdSelectionAndScanningScreen()
                               : pagenav.mainpageindex == 3
                                   ? Center(child: RegistrationPage())
-                                  : SizedBox(),
+                                  : pagenav.mainpageindex == 4
+                                      ? IdSelectionAndScanningScreen()
+                                      : SizedBox(),
                 ),
               ),
             ],
