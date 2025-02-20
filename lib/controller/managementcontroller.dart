@@ -1,6 +1,7 @@
 import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/models/apicall.dart';
 import 'package:camera_windows_example/models/apicallimpl.dart';
+import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/models/permitprice.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class Managementcontroller extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    getpermitprice();
     getallGates();
     getallDocs();
   }
@@ -72,6 +74,12 @@ class Managementcontroller extends GetxController {
     update();
   }
 
+  getpermitprice() async {
+    var allprice = await apicall.getallpremitprice();
+    _allpermitprices = permitPriceModelFromJson(allprice);
+    update();
+  }
+
   //get document verification details from api
   Future<void> getDocumentDetails(
       {required String docID, required String docType}) async {
@@ -83,92 +91,18 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<void> addtemporaryPermit(bool isCash,
-      {required String idProofs,
-      required String idno,
-      required String purposeVisits,
-      required String placestay,
-      required DateTime visitDates,
-      required String name,
-      required String parentname,
-      required String gender,
-      required String dob,
-      required String email,
-      required String mobile,
-      required String address,
-      required String state,
-      required String polstation,
-      required String districtss,
-      required String village,
-      required String tehsl,
-      required String applydistrict,
-      required String pincode}) async {
-      VisitorEntry dummyVisitor = VisitorEntry(
-  // idProof: "Aadhar",
-  idProof:idProofs,
-  idNo: idno,
-  category: "General",
-  purposeVisit: purposeVisits,
-  placeOfStay: placestay,
-  // visitDate: "2025-02-19",
-  visitDate: visitDates.toIso8601String(),
-  applcntName: name,
-  applcntParent: parentname,
-  applcntGender: gender,
-  applcntDOB: DateTime.now().toIso8601String(),
-  applcntEmail: email,
-  applcntMobile: mobile,
-  applcntAddress: address,
-  applcntState: state,
-  applcntPoliceStation: polstation,
-  applcntDistrict: districtss,
-  applcntVillage:village,
-  applcntHNo: "",
-  applcntTehsil: tehsl,
-  gateID:_selectedGate?.id??"",
-  entryType: "Temporary Visit",
-  applyDistrictID: "",
-  residingPeriod: "15",
-  landmark: "",
-  district:districtss,
-  pinCode: "",
-  amount: '100',
-  // transactionId:"Cash" 
-    transactionId:generateRandomString(12)
-);
-    print(" permit to post: ${dummyVisitor.toJson().toString()}");
-
+  Future<void> addtemporaryPermit(VisitorEntry permit) async {
     String passportpath = 'assets/images/Kanglashanew1.png';
     String idcardpath = 'assets/images/Kanglashanew1.png';
     Uint8List passport = await getImageAssetBytes(passportpath);
     Uint8List idcard = await getImageAssetBytes(idcardpath);
-    Map<String?, dynamic> ds =  await apicall.addPermit(passport, idcard,dummyVisitor);
-    print('$ds $isLoading');
-
-    Get.dialog(AlertDialog(
-      content: Text(ds.entries.first.key ?? "no messae"),
-    ));
+    Map<String, dynamic> d = await apicall.addPermit(permit, passport, idcard);
+    print(d);
   }
 
-  String getOrNA(dynamic value) {
-    if (value == null) return "NA";
-    if (value is String && value.isEmpty) return "NA";
-    return value.toString();
-  }
-
-  Future<void> paywithcash(VisitorEntry permit) async {
-    String passportpath = 'assets/images/Kanglashanew1.png';
-    String idcardpath = 'assets/images/Kanglashanew1.png';
-    Uint8List passport = await getImageAssetBytes(passportpath);
-    Uint8List idcard = await getImageAssetBytes(idcardpath);
-    // Map<String, dynamic> d = await apicall.addPermit(permit, passport, idcard);
-    // print('$ds $isLoading');
-  }
-
-  
-  void addPermit (VisitorEntry? permits){
-        _permit = permits;
-        update();
+  void addPermit(VisitorEntry? permits) {
+    _permit = permits;
+    update();
   }
 
   void removePermits() {
@@ -191,5 +125,23 @@ class Managementcontroller extends GetxController {
     facesDetect = res.entries.first.value.toString();
     isCheckFaces = false;
     update();
+  }
+
+  void fetchPermitById(String permitnnum) async {
+    // isFetchPermit = true;
+    // currentPermit = permit;
+    update();
+    Map<String, IlPmodel?> x = await apicall.fetchPermitData(permitnnum);
+    // _currentPermitData = x.entries.first.value;
+
+    // fetchPermitmessage = x.entries.first.key;
+    // isFetchPermit = false;
+    // _addressloc = await getAddressFromLatLng(
+    //     double.tryParse(permit.latitude ?? '') ?? 0,
+    //     double.tryParse(permit.longitude ?? '') ?? 0);
+
+    update();
+    // log("_currentPermitData : " +
+    //     _currentPermitData!.applicantCategory.toString());
   }
 }

@@ -114,6 +114,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
             ),
             onWebViewCreated: (controller) {
               _controller = controller;
+              gcontroller.resetloading();
             },
 
             onConsoleMessage: (controller, consoleMessage) {

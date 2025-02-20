@@ -1,4 +1,6 @@
+import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
+import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +21,7 @@ class SuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PagenavControllers pgcon = Get.put(PagenavControllers());
     GetxTapController gcontroller = Get.put(GetxTapController());
     return Scaffold(
       backgroundColor: Colors.white,
@@ -71,68 +74,52 @@ class SuccessPage extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
-                              FittedBox(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      'Your Gazzette File is Generated :',
-                                      style: TextStyle(fontSize: 18),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        // gcontroller.getDownloadfile(
-                                        //     trnxid: transactionid);
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ElevatedButton(
+                                      style: ButtonStyle(
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          18.0),
+                                                  side: const BorderSide(
+                                                      color: Colors.grey)))),
+                                      onPressed: () {
+                                        pgcon.setmainpageindex(ind: 0);
+                                        Get.offAll(LandingPage());
+                                        // context.router.replaceNamed('/');
                                       },
-                                      //              child: const SizedBox(
-                                      //   height: 20,
-                                      //   child: SizedBox(
-                                      //       width: 20, child: CircularProgressIndicator()),
-                                      // ),
-                                      child: SizedBox(
-                                        height: 30,
-                                        child: gcontroller.isdownloadedfile ==
-                                                null
-                                            ? Image.asset(
-                                                'assets/images/download.gif',
-                                              )
-                                            : gcontroller.isdownloadedfile!
-                                                ? Image.asset(
-                                                    'assets/images/check.gif')
-                                                : const SizedBox(
-                                                    width: 20,
-                                                    child:
-                                                        CircularProgressIndicator()),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                      child: const Text('Back to Home')),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  ElevatedButton(
+                                      style: ButtonStyle(
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          18.0),
+                                                  side: const BorderSide(
+                                                      color: Colors.grey)))),
+                                      onPressed: () {
+                                        // gcontroller.getDownloadReciept(
+                                        //     paymentname: paymentmethodname,
+                                        //     amount: totalamount);
+                                      },
+                                      child: const Text('Get PDF Receipt')),
+                                ],
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              ElevatedButton(
-                                  style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(18.0),
-                                              side: const BorderSide(
-                                                  color: Colors.grey)))),
-                                  onPressed: () {
-                                    // gcontroller.getDownloadReciept(
-                                    //     paymentname: paymentmethodname,
-                                    //     amount: totalamount);
-                                  },
-                                  child: const Text('Get PDF Receipt')),
                               gcontroller.isdownloadedfile != null &&
                                       gcontroller.isdownloadedfile!
                                   ? ElevatedButton(
                                       onPressed: () {
+                                        pgcon.setmainpageindex(ind: 0);
+                                        Get.offAll(LandingPage());
                                         // context.router.replaceNamed('/');
                                       },
                                       child: const Text('Back to Home'))

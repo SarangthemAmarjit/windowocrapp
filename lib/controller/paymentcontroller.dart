@@ -109,6 +109,10 @@ class GetxTapController extends GetxController {
     update();
   }
 
+  resetloading() {
+    _ispaymentprocessstarted = false;
+    update();
+  }
   // P A Y M E N T   GATEWAY
 
   // merchant configuration data

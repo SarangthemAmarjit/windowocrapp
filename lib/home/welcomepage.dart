@@ -1,13 +1,17 @@
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/home/dashboard.dart';
+import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
+import 'package:camera_windows_example/home/registrationpages/paymentdetails.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({
+  WelcomeScreen({
     super.key,
   });
 
+  TextEditingController mobilecon = TextEditingController();
   @override
   Widget build(BuildContext context) {
     PagenavControllers pagecon = Get.put(PagenavControllers());
@@ -94,7 +98,95 @@ class WelcomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (c) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 150),
+                      child: AlertDialog(
+                        insetPadding: EdgeInsets.all(50),
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                icon: Icon(Icons.close)),
+                          ],
+                        ),
+                        actions: [
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Center(
+                            child: Text(
+                              "Enter Your Registered Mobile Number",
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 35),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            child: TextFormField(
+                              style: TextStyle(fontSize: 22),
+                              controller: mobilecon,
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(fontSize: 25),
+                                labelText: 'Mobile Number',
+                                floatingLabelStyle: TextStyle(fontSize: 20),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 25,
+                                    horizontal: 12), // Increases height
+                              ),
+                              validator: (v) {
+                                if (v == null || v.isEmpty) {
+                                  return "Mobile Number is empty";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(8)),
+                              clipBehavior: Clip.antiAlias,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.navigate_next_outlined,
+                                    size: 30,
+                                  ),
+                                  Text(
+                                    'Proceed',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 26),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ).animate().scaleXY(begin: 0.5, end: 1).fadeIn(),
+                    );
+                  });
+            },
             child: const Text(
               'Existing Permit holder',
               style: TextStyle(fontSize: 25, color: Colors.white),

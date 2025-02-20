@@ -730,19 +730,24 @@ class ButtonCard extends StatelessWidget {
     required this.onpress,
     this.padding,
     this.icon,
+    this.ver,
+    this.conwidth,
   });
   final String title;
   final VoidCallback onpress;
   final EdgeInsets? padding;
   final Widget? icon;
+  final double? ver;
+  final double? conwidth;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      padding:
+          padding ?? EdgeInsets.symmetric(horizontal: 16, vertical: ver ?? 16),
       child: InkWell(
         onTap: onpress,
         child: Container(
-          width: double.infinity,
+          width: conwidth ?? double.infinity,
           padding: EdgeInsets.all(32),
           decoration: BoxDecoration(
               color: Colors.green, borderRadius: BorderRadius.circular(8)),
