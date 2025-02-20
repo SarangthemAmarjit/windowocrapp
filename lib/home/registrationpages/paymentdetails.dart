@@ -178,9 +178,9 @@ class PaymentDetails extends StatelessWidget {
                                                       TextSubtitle(
                                                           text: getDate(
                                                               dateTime: mngctrl
-                                                                      .getPermit
-                                                                      ?.applcntDOB ??
-                                                                  "")),
+                                                                      .getPermit!
+                                                                      .applcntDOB
+                                                                  )),
                                                     ],
                                                   ),
                                                 ],
@@ -352,8 +352,8 @@ class PaymentDetails extends StatelessWidget {
                                                     text: getDate(
                                                         dateTime: mngctrl
                                                                 .getPermit
-                                                                ?.visitDate ??
-                                                            "")),
+                                                                ?.visitDate??""
+                                                          )),
                                               ],
                                             ),
                                           ),
@@ -494,7 +494,7 @@ class PaymentCard extends StatelessWidget {
                                 indent: 80,
                               )),
                           Expanded(
-                              child: Text("15 Days",
+                              child: Text("30 Days",
                                   style: TextStyle(
                                       fontSize: 20, fontWeight: FontWeight.bold))),
                         ],
@@ -518,7 +518,7 @@ class PaymentCard extends StatelessWidget {
                               )),
                           Expanded(
                               child: Text(
-                            getDate(dateTime: mngctrl.getPermit?.visitDate ?? ""),
+                            getDate(dateTime: mngctrl.getPermit?.visitDate??"NA"),
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           )),
@@ -544,7 +544,7 @@ class PaymentCard extends StatelessWidget {
                           Expanded(
                               child: Text(
                             getDate(
-                                dateTime: mngctrl.getPermit?.visitDate ?? "",
+                                dateTime: mngctrl.getPermit?.visitDate??"NA",
                                 duration: 15),
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
@@ -656,7 +656,7 @@ class PaymentCard extends StatelessWidget {
                                              address: mngctrl.getPermit?.applcntAddress??"",
                                              applydistrict: mngctrl.getPermit?.district??"",
                                              districtss: mngctrl.getPermit?.applcntDistrict??"",
-                                             dob: mngctrl.getPermit?.applcntDOB??"",
+                                             dob: mngctrl.getPermit?.applcntDOB.toString()??"Na",
                                              email: mngctrl.getPermit?.applcntEmail??"",
                                              gender: mngctrl.getPermit?.applcntGender??"",
                                              idProofs: mngctrl.getPermit?.idProof??"",
@@ -674,6 +674,8 @@ class PaymentCard extends StatelessWidget {
                                              visitDates: DateTime.now(),
 
                                              );
+
+                                             
                                           sta((){
                                               isload = false;
         
@@ -692,9 +694,47 @@ class PaymentCard extends StatelessWidget {
                                         ),
                                         padding: EdgeInsets.symmetric(vertical: 8),
                                         title: "Pay Online",
-                                        onpress: () {
+                                        onpress: () async {
+                                           sta((){
+                                              isload = true;
+                                            });
+                                       
+                                             final bool res = await mngctrl.addtemporaryPermit(false,
+                                             address: mngctrl.getPermit?.applcntAddress??"",
+                                             applydistrict: mngctrl.getPermit?.district??"",
+                                             districtss: mngctrl.getPermit?.applcntDistrict??"",
+                                             dob: mngctrl.getPermit?.applcntDOB.toString()??"Na",
+                                             email: mngctrl.getPermit?.applcntEmail??"",
+                                             gender: mngctrl.getPermit?.applcntGender??"",
+                                             idProofs: mngctrl.getPermit?.idProof??"",
+                                             idno: mngctrl.getPermit?.idNo??"",
+                                             mobile: mngctrl.getPermit?.applcntMobile??"",
+                                             name: mngctrl.getPermit?.applcntName??"",
+                                             parentname: mngctrl.getPermit?.applcntParent??"",
+                                             pincode: mngctrl.getPermit?.pinCode??"",
+                                             placestay: mngctrl.getPermit?.placeOfStay??"",
+                                             polstation: mngctrl.getPermit?.applcntPoliceStation??"",
+                                             purposeVisits: mngctrl.getPermit?.purposeVisit??"",
+                                             state: mngctrl.getPermit?.applcntState??"",
+                                             tehsl: mngctrl.getPermit?.applcntTehsil??"",
+                                             village: mngctrl.getPermit?.applcntVillage??"",
+                                             visitDates: DateTime.now(),
+
+                                             );
+
+                                             
+                                          sta((){
+                                              isload = false;
+        
+                                          });
+                                          
                                           Get.back();
-                                          gcontroller.initNdpsPayment(
+
+
+
+
+                                          if(res){
+                                            gcontroller.initNdpsPayment(
                                             context: context,
                                             responseHashKey:
                                                 gcontroller.responseHashKey,
@@ -705,6 +745,14 @@ class PaymentCard extends StatelessWidget {
                                             address: 'fsdfsdf',
                                             name: 'amarjit',
                                           );
+
+                                          }else{
+
+                                            Get.dialog(AlertDialog(
+                                              content: Text("Failed to create data"),
+                                            ));
+                                          }
+                                    
                                         }),
                                   ],
                                 ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();

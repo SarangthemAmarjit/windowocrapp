@@ -123,7 +123,7 @@ class _IdSelectionAndScanningScreenState
                     : const BoxConstraints(maxHeight: 250, maxWidth: 500),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.white)),
+                    border: Border.all(color: Colors.grey[700]!)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -348,27 +348,56 @@ class _IdSelectionAndScanningScreenState
             SizedBox(
               height: 70,
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 50, right: 50),
-                child: ElevatedButton(
-                  onPressed: () {
-                    pngcon.setmainpageindex(ind: 1);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 183, 234),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60, vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+            Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 800),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                  Expanded(
+                    child: ElevatedButton(
+                          onPressed: () {
+                            //changing page in registration going back to image page
+                            pngcon.changePage(2);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(255, 0, 183, 234),
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 60, vertical: 30),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text('Back', style: TextStyle(fontSize: 20)),
+                        ),
                   ),
-                  child: const Text('Back', style: TextStyle(fontSize: 20)),
+                    SizedBox(width: 20,),
+                  Expanded(
+                    child: ElevatedButton(
+                          onPressed: () {
+                            //going to payment after success
+                           pngcon.changePage(4);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:Colors.green,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 60, vertical: 30),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text('Next', style: TextStyle(fontSize: 20)),
+                        ),
+                  ),
+                    ],
+                  ),
                 ),
               ),
-            ),
+            )
+     
           ],
         );
       });

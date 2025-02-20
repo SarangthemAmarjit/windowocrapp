@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:camera_windows_example/cons/apis.dart';
 import 'package:camera_windows_example/models/gate.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
-import 'package:camera_windows_example/models/permitprice.dart';
 import 'package:http/http.dart' as http;
 import '../cons/constant.dart';
 import 'apicall.dart';
@@ -25,40 +24,62 @@ class ApicallImpl extends ApiCall {
     }
   }
 
-  @override
-  Future<Map<String, dynamic>> addPermit(VisitorEntry permit,
-      Uint8List passportPhotoBytes, Uint8List idCardBytes) async {
-    var headers = {
-      'X-Key': 'hfuygf765r76yu',
-    };
+@override
+Future<Map<String,dynamic>> addPermit( Uint8List passportPhotoBytes, Uint8List idCardBytes,
+// {required String idProofs,
+//       required String idno,
+//       required String purposeVisits,
+//       required String placestay,
+//       required String visitDates,
+//       required String name,
+//       required String parentname,
+//       required String gender,
+//       required String dob,
+//       required String email,
+//       required String mobile,
+//       required String address,
+//       required String state,
+//       required String polstation,
+//       required String district,
+//       required String village,
+//       required String tehsl,
+//       required String applydistrict,
+//       required String pincode}
+VisitorEntry permit
+      
+      ) async {
+  var headers = {
+    'X-Key': 'hfuygf765r76yu',
+  };
 
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('https://ilpdemo.cubeten.com/api/Kiosk/submit'));
+  var request = http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/submit'));
+  
+  print("Permit in apicallfinctions:\n\n ${permit.toJson().toString()}");
+  
+  request.fields.addAll(permit.toJson());
 
-    // Adding fields from the Admission model to the request
-    request.fields.addAll(permit.toJson());
-    // Add files to the request using bytes instead of path
-    request.files.add(http.MultipartFile.fromBytes(
-        'PassportPhoto', passportPhotoBytes,
-        filename: 'passportPhoto.jpg'));
-    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes,
-        filename: 'idCard.jpg'));
+  request.files.add(http.MultipartFile.fromBytes('PassportPhoto', passportPhotoBytes, filename: 'passportPhoto.jpg'));
+  request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes, filename: 'idCard.jpg'));
 
-    // Adding headers
-    request.headers.addAll(headers);
+  // Adding headers
+  request.headers.addAll(headers);
 
-    // Sending the request
-    http.StreamedResponse response = await request.send();
+  // Sending the request
+  http.StreamedResponse response = await request.send();
 
-    // Handling the response
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-      return {"Added": 200};
-    } else {
-      print(response.reasonPhrase);
-    }
-    return {"Failed": 0};
+  // Handling the response
+  if (response.statusCode == 200) {
+    var json = jsonDecode(await response.stream.bytesToString());
+    String? applicant = json["applicationId"];
+    return {json["message"]??"message":applicant};
+    // return  {jsonDecode( response.stream.bytesToString().toString())["message"]??"message":jsonDecode( response.stream.first.toString())["applicationId"]??null};
+  } else {
+    print("${response.reasonPhrase} ${response.statusCode}");
   }
+      return {"Failed":0};
+}
+
+
 
   @override
   Future<Map<String, dynamic>> detectFaces(Uint8List profileImage) async {
@@ -115,13 +136,12 @@ class ApicallImpl extends ApiCall {
   @override
   Future<String> getallpremitprice() async {
     var request = http.Request(
-        'GET', Uri.parse('$api/api/kiosk/getallfees'));
+        'GET', Uri.parse('$localapi/api/kiosk/getallfees'));
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       String alldata = await response.stream.bytesToString();
-
       return alldata;
     } else {
       print(response.reasonPhrase);

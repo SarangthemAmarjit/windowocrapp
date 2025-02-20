@@ -249,7 +249,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               applcntName: _nameController.text,
                               applcntAddress: _villageController.text,
                               idProof: mngctrl.getPermit?.idProof ?? "",
-                              applcntDOB: _dob!.toIso8601String(),
+                              applcntDOB: _dob?.toIso8601String(),
                               applcntDistrict: _districtController.text,
                               applcntEmail: _emailController.text,
                               applcntGender: mngctrl.gender,
@@ -271,7 +271,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               category: "NA",
                               district: "NA",
                               landmark: "NA",
-                              visitDate: DateTime.now().toIso8601String(),
+                              visitDate:DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day).toIso8601String(),
                               purposeVisit: mngctrl.purpose == "Others"
                                   ? _visitPurposeController.text
                                   : mngctrl.purpose,
@@ -551,9 +551,9 @@ class TextFieldWidget extends StatelessWidget {
     required this.controller,
     required this.label,
     this.validator,
-    this.counter,
+    this.counter, this.focusnode,
   });
-
+  final FocusNode? focusnode;
   final EdgeInsets? padding;
   final TextEditingController controller;
   final String label;
@@ -564,6 +564,7 @@ class TextFieldWidget extends StatelessWidget {
     return Padding(
       padding: padding ?? const EdgeInsets.symmetric(vertical: 15),
       child: TextFormField(
+        focusNode: focusnode,
         maxLength: counter ?? 40,
         controller: controller,
         buildCounter: (context,

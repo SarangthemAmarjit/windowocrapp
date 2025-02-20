@@ -1,12 +1,11 @@
 import 'package:camera_windows_example/home/registrationpages/facedetect.dart';
+import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/pagecontroller.dart';
 import 'registrationpages/addressdetails.dart';
 import 'registrationpages/ilpformreplica.dart';
 import 'registrationpages/paymentdetails.dart';
-import 'registrationpages/permittypes.dart';
-import 'registrationpages/ilpform.dart';
 import 'registrationpages/photodetails.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -100,14 +99,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     )),
                   ),
                 ),
-                Expanded(
+                         Expanded(
                   child: InkWell(
                     onTap: () {
                       controller.changePage(3);
                     },
                     child: Center(
                         child: Text(
-                      "Payment",
+                      "Card  & Signature",
                       style: TextStyle(
                           fontSize: controller.page == 3 ? 30 : 16,
                           // fontSize: 16,
@@ -116,10 +115,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     )),
                   ),
                 ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      controller.changePage(4);
+                    },
+                    child: Center(
+                        child: Text(
+                      "Payment",
+                      style: TextStyle(
+                          fontSize: controller.page == 4 ? 30 : 16,
+                          // fontSize: 16,
+
+                          color: controller.page >= 4 ? Colors.green : null),
+                    )),
+                  ),
+                ),
               ],
             ),
             LayoutBuilder(builder: (context, s) {
-              double x = ((controller.page / 3) * s.maxWidth);
+              double x = ((controller.page / 4) * s.maxWidth);
               return AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 height: 5,
@@ -135,7 +150,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    "Completed: ${controller.page}/3",
+                    "Completed: ${controller.page}/4",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 )),
@@ -150,7 +165,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 : controller.page == 2
                     ? PhotoSignaturePage()
                     // ?FaceDetectionPage()
-                    : PaymentDetails()
+                    :controller.page==3? IdSelectionAndScanningScreen():PaymentDetails()
           ],
         ),
       );
