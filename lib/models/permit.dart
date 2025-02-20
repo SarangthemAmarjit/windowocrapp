@@ -1,37 +1,39 @@
 
 class VisitorEntry {
-  final String? idProof;
-  final String? idNo;
-  final String? category;
-  final String? purposeVisit;
-  final String? placeOfStay;
-  final String? visitDate;
-  final String? applcntName;
-  final String? applcntParent;
-  final String? applcntGender;
-  final String? applcntDOB;
-  final String? applcntEmail;
-  final String? applcntMobile;
-  final String? applcntAddress;
-  final String? applcntState;
-  final String? applcntPoliceStation;
-  final String? applcntDistrict;
-  final String? applcntVillage;
-  final String? applcntHNo;
-  final String? applcntTehsil;
-  final String? gateID;
-  final String? entryType;
-  final String? applyDistrictID;
-  final String? residingPeriod;
-  final String? landmark;
-  final String? district;
-  final String? pinCode;
+ String? idProof;
+ String? idNo;
+ String? category;
+ String? purposeVisit;
+ String? placeOfStay;
+ String? visitDate;
+ String? applcntName;
+ String? applcntParent;
+ String? applcntGender;
+ String? applcntDOB;
+ String? applcntEmail;
+ String? applcntMobile;
+ String? applcntAddress;
+ String? applcntState;
+ String? applcntPoliceStation;
+ String? applcntDistrict;
+ String? applcntVillage;
+ String? applcntHNo;
+ String? applcntTehsil;
+ String? gateID;
+ String? entryType;
+ String? applyDistrictID;
+ String? residingPeriod;
+ String? landmark;
+ String? district;
+ String? pinCode;
+ String? amount;
+  String? transactionId;
 
-  VisitorEntry({
+  VisitorEntry( {
     this.idProof,
     this.idNo,
     this.category,
-    this.purposeVisit,
+    this.purposeVisit, 
     this.placeOfStay,
     this.visitDate,
     this.applcntName,
@@ -54,6 +56,9 @@ class VisitorEntry {
     this.landmark,
     this.district,
     this.pinCode,
+    this.amount,
+     this.transactionId,
+    
   });
 
   factory VisitorEntry.fromJson(Map<String, dynamic> json) {
@@ -84,37 +89,41 @@ class VisitorEntry {
       landmark: json['Landmark'] as String?,
       district: json['District'] as String?,
       pinCode: json['PinCode'] as String?,
+      amount: json['Amount'] as String?,
+      transactionId: json["TransactionId"] as String?
     );
   }
 
   Map<String,String> toJson() {
     return {
-      'ID_Proof': idProof.toString(),
-      'ID_No': idNo.toString(),
-      'Category': category.toString(),
-      'Purpose_Visit': purposeVisit.toString(),
-      'PlaceOfStay': placeOfStay.toString(),
-      'VisitDate': visitDate.toString(),
-      'Applcnt_Name': applcntName.toString(),
-      'Applcnt_Parent': applcntParent.toString(),
-      'Applcnt_Gender': applcntGender.toString(),
-      'Applcnt_DOB': applcntDOB.toString(),
-      'Applcnt_Email': applcntEmail.toString(),
-      'Applcnt_Mobile': applcntMobile.toString(),
-      'Applcnt_Address': applcntAddress.toString(),
-      'Applcnt_State': applcntState.toString(),
-      'Applcnt_PoliceStation': applcntPoliceStation.toString(),
-      'Applcnt_District': applcntDistrict.toString(),
-      'Applcnt_Village': applcntVillage.toString(),
-      'Applcnt_HNo': applcntHNo.toString(),
-      'Applcnt_Tehsil': applcntTehsil.toString(),
-      'Gate_ID': gateID.toString(),
-      'EntryType': entryType.toString(),
-      'Apply_District_ID': applyDistrictID.toString(),
-      'ResidingPeriod': residingPeriod.toString(),
-      'Landmark': landmark.toString(),
-      'District': district.toString(),
-      'PinCode': pinCode.toString(),
+      'ID_Proof': idProof??"NA",
+      'ID_No': idNo??"NA",
+      'Category': category??"NA",
+      'Purpose_Visit': purposeVisit??"NA",
+      'PlaceOfStay': placeOfStay??"NA",
+      'VisitDate': visitDate??"NA",
+      'Applcnt_Name': applcntName??"NA",
+      'Applcnt_Parent': applcntParent??"NA",
+      'Applcnt_Gender': applcntGender??"NA",
+      'Applcnt_DOB': applcntDOB??"NA",
+      'Applcnt_Email': applcntEmail??"NA",
+      'Applcnt_Mobile': applcntMobile??"NA",
+      'Applcnt_Address': applcntAddress??"NA",
+      'Applcnt_State': applcntState??"NA",
+      'Applcnt_PoliceStation': applcntPoliceStation??"NA",
+      'Applcnt_District': applcntDistrict??"NA",
+      'Applcnt_Village': applcntVillage??"NA",
+      'Applcnt_HNo': applcntHNo??"NA",
+      'Applcnt_Tehsil': applcntTehsil??"NA",
+      'Gate_ID': gateID??"NA",
+      'EntryType': entryType??"NA",
+      'Apply_District_ID': applyDistrictID??"NA",
+      'ResidingPeriod': residingPeriod??"NA",
+      'Landmark': landmark??"NA",
+      'District': district??"NA",
+      'PinCode': pinCode??"NA",
+      'Amount':amount??"NA",
+      'TransactionId':transactionId??"NA"
     };
   }
 }

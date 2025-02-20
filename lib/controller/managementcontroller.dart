@@ -1,11 +1,12 @@
+import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/models/apicall.dart';
 import 'package:camera_windows_example/models/apicallimpl.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/models/permitprice.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 import '../cons/constant.dart';
 import '../models/gate.dart';
@@ -22,10 +23,13 @@ class Managementcontroller extends GetxController {
   List<PermitPriceModel> get allpermitprices => _allpermitprices;
   VisitorEntry? _permit;
   VisitorEntry? get getPermit => _permit;
+
   List<String> _docnames = [];
   List<String> get getDocNames => _docnames;
+
   Gate? _selectedGate;
   Gate? get selectedGate => _selectedGate;
+
   List<Gate> _allGates = [];
   List<Gate> get getAllgate => _allGates;
 
@@ -63,6 +67,16 @@ class Managementcontroller extends GetxController {
       _selectedGate = _allGates.firstWhereOrNull(
         (element) => element.name == "Imphal Airport",
       );
+    }
+    Future<void> getallGates() async {
+      _allGates = await apicall.getAllGates();
+      if (_allGates.isNotEmpty) {
+        _selectedGate = _allGates.firstWhereOrNull(
+          (element) => element.name == "Imphal Airport",
+        );
+      }
+
+      update();
     }
 
     update();

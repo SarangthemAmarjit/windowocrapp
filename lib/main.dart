@@ -1,21 +1,15 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-//import 'dart:io';
 import 'dart:async';
 import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
-import 'package:camera_windows_example/home/dashboard.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
-import 'package:camera_windows_example/homepage.dart';
-import 'package:camera_windows_example/webviewdemo.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
-import 'home/dashboard.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();

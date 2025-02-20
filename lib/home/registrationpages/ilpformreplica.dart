@@ -13,7 +13,8 @@ class TemporaryILPFormReplica extends StatefulWidget {
   const TemporaryILPFormReplica({super.key});
 
   @override
-  State<TemporaryILPFormReplica> createState() => _TemporaryILPFormReplicaState();
+  State<TemporaryILPFormReplica> createState() =>
+      _TemporaryILPFormReplicaState();
 }
 
 class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
@@ -32,301 +33,356 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
   String? selectedCardType;
   XFile? profileimage;
-  DateTime? _fromDate;
   DateTime? _dob;
-
-
+  String? datenullText;
+  String? statenullText;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     VisitorEntry? d = Get.find<Managementcontroller>().getPermit;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-
-          if(d!=null){
-
-              _nameController.text = d.applcntName??"";
-              _parentNameController.text = d.applcntParent??"";
-              _idNoController.text = d.idNo??"";
-              _districtController.text = d.district??"";
-
-          } 
-
-    },);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        if (d != null) {
+          _nameController.text = d.applcntName ?? "";
+          _parentNameController.text = d.applcntParent ?? "";
+          _idNoController.text = d.idNo ?? "";
+          _districtController.text = d.district ?? "";
+        }
+      },
+    );
   }
-  
-  
-  
+
   @override
   Widget build(BuildContext context) {
-    Imagecontroller imgcon = Get.put(Imagecontroller());
-    return GetBuilder<Managementcontroller>(
-      builder: (mngctrl) {
-        return GetBuilder<Imagecontroller>(builder: (_) {
-          return Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 800),
-              child: GetBuilder<PagenavControllers>(builder: (controller) {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Form(
-                    key: _formkey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        
-                             Row(
-                          children: [
-                            Expanded(
-                              child:mngctrl.getPermit?.idProof!=null? _buildDropdownField(
-                                 "ID Proof", [mngctrl.getPermit?.idProof??"Id Card"],  mngctrl.getPermit?.idProof??"", (value) {
-                               
-                              }):SizedBox(),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(child: _buildTextField('ID No.', _idNoController)),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 0)),
-                        Row(
-                          children: [
-                      
-                               Expanded(child: _buildTextField('Applicant Name', _nameController)),
-                                         SizedBox(
-                              width: 20,
-                            ),
-                                  Expanded(
-                                    child: _buildTextField(
-                                        'Parent/Guardian Name', _parentNameController),
-                                  )
-                            // Expanded(
-                            //   flex: 4,
-                            //   child: Column(
-                            //     children: [
-                            //       _buildTextField('Applicant Name', _nameController),
-                            //       _buildTextField(
-                            //           'Parent/Guardian Name', _parentNameController),
-                            //     ],
-                            //   ),
-                            // ),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 300)),
-                   
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildTextField('Email', _emailController,
-                                  validator: _emailValidator),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: _buildTextField('Mobile No.', _mobileController,
-                                  validator: _phoneValidator),
-                            ),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 400)),
-                                
-                                     Row(
-                          children: [
-                            Expanded(
-                              child: _buildDateField('Date of Birth', _dob, (value) {
-                                setState(() {
-                                  _dob = value;
-                                });
-                              }),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
+    return GetBuilder<Managementcontroller>(builder: (mngctrl) {
+      return GetBuilder<Imagecontroller>(builder: (imgcon) {
+        return Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 800),
+            child: GetBuilder<PagenavControllers>(builder: (controller) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
                           Expanded(
-                                child:_buildTextField('Village/Street', _villageController),),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 600)),
-
-
-                          Row(
-                          children: [
-                            Expanded(
-                              child: _buildDropdownField(
-                                  'State', states, mngctrl.state, (value) {
-                                      mngctrl.changeState(value!);
-                              }),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                                child: _buildTextField('District', _districtController)),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 800)),
-
-                          //
-
-                             Row(
-                          children: [
-                            Expanded(
+                            child: mngctrl.getPermit?.idProof != null
+                                ? _buildDropdownField(
+                                    "ID Proof",
+                                    [mngctrl.getPermit?.idProof ?? "Id Card"],
+                                    mngctrl.getPermit?.idProof ?? "",
+                                    (value) {},null)
+                                : SizedBox(),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                              child:
+                                  _buildTextField('ID No.', _idNoController)),
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 0)),
+                      Row(
+                        children: [
+                          Expanded(
                               child: _buildTextField(
-                                  'Nearest Police Station', _nearestpliceController),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                                child: _buildTextField('Tehsil', _tehsilController)),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 1000)),
-                         _buildRadioGroup(
-                                  'Gender', genders,mngctrl.gender, (value) {
-                         mngctrl.changeGender(value!);
-                              }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                        
-                           
-                            Expanded(
-                                child: _buildTextField(
-                                    'Place of Stay in Manipur', _placeStayController)),
+                                  'Applicant Name', _nameController)),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: _buildTextField(
+                                'Parent/Guardian Name', _parentNameController),
+                          )
+                          // Expanded(
+                          //   flex: 4,
+                          //   child: Column(
+                          //     children: [
+                          //       _buildTextField('Applicant Name', _nameController),
+                          //       _buildTextField(
+                          //           'Parent/Guardian Name', _parentNameController),
+                          //     ],
+                          //   ),
+                          // ),
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 300)),
 
- SizedBox(
-                              width: 20,
-                            ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildTextField('Email', _emailController,
+                                validator: _emailValidator),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: _buildTextField(
+                                'Mobile No.', _mobileController,
+                                counter: 10, validator: _phoneValidator),
+                          ),
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 400)),
 
-                                      Expanded(
-                              child: AnimatedContainer(
-                                height: mngctrl.purpose=="Others"?190:80,
-                               padding:mngctrl.purpose=="Others"?EdgeInsets.all(8):null,
-                                                           duration:Duration(milliseconds:800),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                   color: mngctrl.purpose=="Others"?Colors.yellow.withValues(alpha: 0.2): Colors.white,
-                                ),
-                                child: Column(
-                                  children: [
-                                    _buildDropdownField(
-                                        'Purpose of Visit', purposes,mngctrl.purpose,
-                                        (value) {
-                                            mngctrl.changePurpose(value!);
-                                    }),
-                                    mngctrl.purpose=="Others"? AnimatedOpacity(
-                                      duration: Duration(milliseconds: 600),
-                                      opacity: mngctrl.purpose=="Others"?1:0,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          _buildTextField(
-                                            padding: EdgeInsets.only(bottom:4),
-                                            'Purpose', _visitPurposeController),
-                                            Text("Please provide a purpose.")
-                                        ],
-                                      ),
-                                    ):SizedBox(),
-                                     
-                                  ],
-                                ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child:
+                                _buildDateField('Date of Birth', _dob, (value) {
+                              setState(() {
+                                _dob = value;
+                              });
+                            },datenullText),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: _buildTextField(
+                                'Village/Street', _villageController),
+                          ),
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 600)),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildDropdownField(
+                                'State', states, mngctrl.state, (value) {
+                              mngctrl.changeState(value!);
+                            },statenullText),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                              child: _buildTextField(
+                                  'District', _districtController)),
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 800)),
+
+                      //
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _buildTextField('Nearest Police Station',
+                                _nearestpliceController),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                              child:
+                                  _buildTextField('Tehsil', _tehsilController)),
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 1000)),
+                      _buildRadioGroup('Gender', genders, mngctrl.gender,
+                          (value) {
+                        mngctrl.changeGender(value!);
+                      }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              child: _buildTextField('Place of Stay in Manipur',
+                                  _placeStayController)),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: AnimatedContainer(
+                              height: mngctrl.purpose == "Others" ? 220 : 80,
+                              padding: mngctrl.purpose == "Others"
+                                  ? EdgeInsets.all(8)
+                                  : null,
+                              duration: Duration(milliseconds: 800),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: mngctrl.purpose == "Others"
+                                    ? Colors.blue.withValues(alpha: 0.2)
+                                    : Colors.white,
+                              ),
+                              child: Column(
+                                children: [
+                                  _buildDropdownField('Purpose of Visit',
+                                      purposes, mngctrl.purpose, (value) {
+                                    mngctrl.changePurpose(value!);
+                                  },null),
+                                  mngctrl.purpose == "Others"
+                                      ? AnimatedOpacity(
+                                          duration: Duration(milliseconds: 600),
+                                          opacity: mngctrl.purpose == "Others"
+                                              ? 1
+                                              : 0,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              _buildTextField(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 4),
+                                                  'Purpose',
+                                                  _visitPurposeController),
+                                              Text("Please provide a purpose.")
+                                            ],
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                ],
                               ),
                             ),
-                          ],
-                        ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
-                    
-                       
-                        
-                        
-                     
-                        const SizedBox(height: 20),
-                        InkWell(
-                          onTap: () {
-                            if(_formkey.currentState!.validate() ){
-                             VisitorEntry permits = VisitorEntry(
+                          ),
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
+
+                      const SizedBox(height: 20),
+                      InkWell(
+                        onTap: () {
+                          if (_formkey.currentState!.validate() && _dob!=null && mngctrl.state!=null) {             
+                         VisitorEntry permits = VisitorEntry(
                               applcntName: _nameController.text,
-                              applcntAddress:_villageController.text,
-                              idProof:  mngctrl.getPermit?.idProof??"",
-                              
+                              applcntAddress: _villageController.text,
+                              idProof: mngctrl.getPermit?.idProof ?? "",
                               applcntDOB: _dob!.toIso8601String(),
                               applcntDistrict: _districtController.text,
                               applcntEmail: _emailController.text,
                               applcntGender: mngctrl.gender,
                               applcntMobile: _mobileController.text,
                               applcntParent: _parentNameController.text,
-                              applcntPoliceStation: _nearestpliceController.text,
+                              applcntPoliceStation:
+                                  _nearestpliceController.text,
                               applcntState: mngctrl.state,
                               idNo: _idNoController.text,
                               applcntTehsil: _tehsilController.text,
                               applcntVillage: _villageController.text,
-                              gateID: mngctrl.selectedGate?.id??"",
+                              gateID: mngctrl.selectedGate?.id ?? "",
                               placeOfStay: _placeStayController.text,
+                              pinCode: "NA",
+                              residingPeriod: "15",
+                              entryType: "Temporary Permit",
+                              applcntHNo: "NA",
+                              applyDistrictID: "NA",
+                              category: "NA",
+                              district: "NA",
+                              landmark: "NA",
                               visitDate: DateTime.now().toIso8601String(),
-                              purposeVisit:mngctrl.purpose=="Others"?_visitPurposeController.text:mngctrl.purpose, 
-                              
-                              );
-                            
+                              purposeVisit: mngctrl.purpose == "Others"
+                                  ? _visitPurposeController.text
+                                  : mngctrl.purpose,
+                           
+                            );
+
                             mngctrl.addPermit(permits);
                             controller.changePage(2);
+                                  setState(() {
+                                  datenullText =null;
+                                  statenullText = null;
+                                });
 
-                            }
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(32),
-                            decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(8)),
-                            clipBehavior: Clip.antiAlias,
-                            child: Center(
-                                child: Text(
-                              "Next",
-                              style: TextStyle(color: Colors.white,fontSize: 20),
-                            )),
-                          ).animate().scaleXY(begin: 0.6,end: 1,delay: Duration(milliseconds: 1800),duration: Duration(milliseconds: 600),curve: Curves.easeIn). fadeIn(delay: Duration(milliseconds: 1800)),
-                        ),
-                      ],
-                    ).animate().fadeIn(duration: const Duration(milliseconds: 500)),
-                  ),
-                );
-              }),
-            ),
-          );
-        });
-      }
-    );
+
+
+                          }else{
+                            
+                              if(_dob==null){
+                                setState(() {
+                                  datenullText = "DOB cannot be empty";
+                                });
+                              }else{
+                                              setState(() {
+                                  datenullText = null;
+                                });
+                              }
+
+
+                              if(mngctrl.state==null){
+                                  setState(() {
+                                    statenullText = "State Cannot be empty";
+                                  });
+                              }else{
+                                    setState(() {
+                                      statenullText = null;
+                                    });
+                              }
+                            
+                          }
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(32),
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(8)),
+                          clipBehavior: Clip.antiAlias,
+                          child: Center(
+                              child: Text(
+                            "Next",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          )),
+                        )
+                            .animate()
+                            .scaleXY(
+                                begin: 0.6,
+                                end: 1,
+                                delay: Duration(milliseconds: 1800),
+                                duration: Duration(milliseconds: 600),
+                                curve: Curves.easeIn)
+                            .fadeIn(delay: Duration(milliseconds: 1800)),
+                      ),
+                    ],
+                  )
+                      .animate()
+                      .fadeIn(duration: const Duration(milliseconds: 500)),
+                ),
+              );
+            }),
+          ),
+        );
+      });
+    });
   }
 
   Widget _buildTextField(String label, TextEditingController controller,
-      {String? Function(String?)? validator,EdgeInsets? padding}) {
-        
-    return TextFieldWidget(controller: controller,label: label,validator: validator,);
+      {String? Function(String?)? validator,
+      EdgeInsets? padding,
+      int? counter}) {
+    return TextFieldWidget(
+      controller: controller,
+      label: label,
+      validator: validator,
+      counter: counter,
+    );
   }
 
   Widget _buildDropdownField(String label, List<String> items,
-      String? selectedValue, ValueChanged<String?> onChanged) {
+      String? selectedValue, ValueChanged<String?> onChanged,String? errorText) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: label,
+          errorText: errorText,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         ),
         child: DropdownButtonHideUnderline(
-
           child: DropdownButton<String>(
-            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
 
             // dropdownColor: Colors.green,
             // iconEnabledColor: Colors.green,
             // focusColor: Colors.green,
             isDense: true,
-            
+
             value: selectedValue,
             isExpanded: false,
             onChanged: onChanged,
             items: items
-                .map((item) => DropdownMenuItem(
-                  
-                  value: item, child: Text(item)))
+                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
                 .toList(),
           ),
         ),
@@ -335,7 +391,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   }
 
   Widget _buildDateField(String label, DateTime? selectedDate,
-      ValueChanged<DateTime?> onDateSelected) {
+      ValueChanged<DateTime?> onDateSelected,String? errorText) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
@@ -351,18 +407,24 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
           }
         },
         child: InputDecorator(
+
+          
           decoration: InputDecoration(
-            
-            label: Text(label),
-            prefix: Padding(
-              padding: const EdgeInsets.only (right:  8.0),
-              child: Icon(Icons.date_range,size: 14,),
-            ),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-            focusedBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: Colors.green)
-            )
-          ),
+          
+              label: Text(label),
+              prefix: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Icon(
+                  Icons.date_range,
+                  size: 14,
+                ),
+              ),
+              errorText: errorText,    
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(color: Colors.green))),
           child: Text(selectedDate != null
               ? '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}'
               : 'Select Date'),
@@ -373,7 +435,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
 
   Widget _buildRadioGroup(String label, List<String> options,
       String? selectedValue, ValueChanged<String?> onChanged) {
-        Managementcontroller mngctrl = Get.find<Managementcontroller>();
+    Managementcontroller mngctrl = Get.find<Managementcontroller>();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
@@ -386,46 +448,59 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
             children: options
                 .map((option) => Expanded(
                       child: InkWell(
-                        onTap:(){
-                            mngctrl.changeGender(option);
+                        onTap: () {
+                          mngctrl.changeGender(option);
                         },
                         child: AnimatedContainer(
-                          
-                          margin: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+                          margin:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                           duration: Duration(milliseconds: 800),
                           height: 60,
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                          color: selectedValue == option?Colors.blue:Colors.grey[200],
+                            color: selectedValue == option
+                                ? Colors.blue
+                                : Colors.grey[200],
                           ),
-                          child: Center(child: Row(
+                          child: Center(
+                              child: Row(
                             children: [
                               Container(
                                 padding: EdgeInsets.all(4),
                                 height: 20,
                                 width: 20,
-                                
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                border: Border.all(width: 1,
-                                color: selectedValue == option?Colors.white:Colors.grey
+                                  border: Border.all(
+                                      width: 1,
+                                      color: selectedValue == option
+                                          ? Colors.white
+                                          : Colors.grey),
                                 ),
-                              
+                                child: selectedValue == option
+                                    ? Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      )
+                                    : SizedBox(),
                               ),
-                              child: selectedValue == option? Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-
+                              SizedBox(
+                                width: 10,
                               ),
-                              ):SizedBox(),
+                              Text(
+                                option,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: selectedValue == option
+                                        ? Colors.white
+                                        : null),
                               ),
-                              SizedBox(width: 10,),
-                              Text(option,style: TextStyle(fontSize: 18,color:selectedValue == option?Colors.white:null ),),
                             ],
                           )),
-                         
+
                           // child: RadioListTile(
                           //   contentPadding: EdgeInsets.zero,
                           //   title: Text(option),
@@ -447,7 +522,13 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     // if (value == null || value.isEmpty) {
     //   return 'Email cannot be empty';
     // }
-
+    if (value != null) {
+      return RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(value)
+          ? null
+          : "Email doesnt match";
+    }
     return null;
   }
 
@@ -455,8 +536,8 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     if (value == null || value.isEmpty) {
       return 'Mobile number cannot be empty';
     }
-     
-    if (!value.isNum || value.length!=10) {
+
+    if (!value.isNum || value.length != 10) {
       return 'Enter a valid 10-digit mobile number';
     }
     return null;
@@ -465,32 +546,43 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
 
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
-    super.key, this.padding, required this.controller, required this.label, this.validator,
+    super.key,
+    this.padding,
+    required this.controller,
+    required this.label,
+    this.validator,
+    this.counter,
   });
 
   final EdgeInsets? padding;
   final TextEditingController controller;
   final String label;
-  final String? Function(String?)?  validator;
+  final String? Function(String?)? validator;
+  final int? counter;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding??const EdgeInsets.symmetric(vertical: 15),
+      padding: padding ?? const EdgeInsets.symmetric(vertical: 15),
       child: TextFormField(
-        
+        maxLength: counter ?? 40,
         controller: controller,
+        buildCounter: (context,
+                {required currentLength,
+                required isFocused,
+                required maxLength}) =>
+            SizedBox(),
         decoration: InputDecoration(
           labelStyle: TextStyle(fontSize: 20),
           labelText: label,
-          floatingLabelStyle:TextStyle(fontSize: 20),
+          floatingLabelStyle: TextStyle(fontSize: 20),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-        
         ),
-        validator: validator??(v){
-          if(v!.isEmpty){
-            return "$label is empty";
-          }
-        },
+        validator: validator ??
+            (v) {
+              if (v!.isEmpty) {
+                return "$label is empty";
+              }
+            },
       ),
     );
   }

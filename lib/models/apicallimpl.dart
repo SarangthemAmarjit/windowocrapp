@@ -6,6 +6,7 @@ import 'package:camera_windows_example/models/gate.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:camera_windows_example/models/permitprice.dart';
 import 'package:http/http.dart' as http;
+import '../cons/constant.dart';
 import 'apicall.dart';
 import 'permit.dart';
 
@@ -113,8 +114,7 @@ class ApicallImpl extends ApiCall {
 
   @override
   Future<String> getallpremitprice() async {
-    var request = http.Request(
-        'GET', Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/getallfees'));
+    var request = http.Request('GET', Uri.parse('$api/api/kiosk/getallfees'));
 
     http.StreamedResponse response = await request.send();
 
