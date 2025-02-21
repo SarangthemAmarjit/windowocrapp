@@ -173,11 +173,11 @@ class _PaintCanvasState extends State<PaintCanvas> {
             await image.toByteData(format: ui.ImageByteFormat.png);
              Uint8List pngBytes = byteData!.buffer.asUint8List();
           
-             final tempDir = await getTemporaryDirectory();
-             final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
-             await file.writeAsBytes(pngBytes);
+            //  final tempDir = await getTemporaryDirectory();
+            //  final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
+            //  await file.writeAsBytes(pngBytes);
               imgcon.saveImage(pngBytes);
-              printImageDirectly("Microsoft Print to PDF", "C:/path/to/your/image.png",pngBytes);
+              printImageDirectly("Microsoft Print to PDF", pngBytes,Sizes(80, 180));
          
          
                                         controller.changePage(4);

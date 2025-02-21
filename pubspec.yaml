@@ -35,6 +35,8 @@ dependencies:
   cryptography: ^2.7.0
   window_manager: ^0.4.3
   win32: ^5.10.1
+  barcode_widget: ^2.0.4
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   async: ^2.5.0

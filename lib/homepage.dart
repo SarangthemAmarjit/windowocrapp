@@ -16,7 +16,7 @@ class IdSelectionAndScanningScreen extends StatefulWidget {
 
 class _IdSelectionAndScanningScreenState
     extends State<IdSelectionAndScanningScreen> {
-
+      final GlobalKey _key = GlobalKey();
       bool signaturePage = false;
   @override
   void initState() {
@@ -26,6 +26,7 @@ class _IdSelectionAndScanningScreenState
 
   @override
   void dispose() {
+    
     Get.find<Imagecontroller>().disposeCurrentCamera();
     super.dispose();
   }
@@ -295,67 +296,79 @@ class _IdSelectionAndScanningScreenState
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: pngcon.docindex == 3
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.spaceAround,
-              children: [
-                imgcon.frontimage != null
-                    ? Container(
-                        height: 120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.white)),
-                        // constraints: const BoxConstraints(
-                        //     maxHeight: 120, maxWidth: 160),
-                        child: Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.file(
-                              fit: BoxFit.contain,
-                              File(imgcon.frontimage!.path),
+            RepaintBoundary(
+              key: _key,
+              child: Container(
+                width: 320,
+                padding: EdgeInsets.all(16),
+                color: Colors.grey[800],
+                child: Column(
+                  // mainAxisAlignment: pngcon.docindex == 3
+                  //     ? MainAxisAlignment.center
+                  //     : MainAxisAlignment.spaceAround,
+                  children: [
+                    imgcon.frontimage != null
+                        ? Container(
+                            height: 120,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.white)),
+                            // constraints: const BoxConstraints(
+                            //     maxHeight: 120, maxWidth: 160),
+                            child: Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(
+                                  fit: BoxFit.contain,
+                                  File(imgcon.frontimage!.path),
+                                ),
+                              ),
                             ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                                     image: DecorationImage(image: AssetImage('assets/images/aadhar.jpeg')),
+                                // borderRadius: BorderRadius.circular(10),
+                                // border: Border.all(color: Colors.black)
+                                
+                                ),
+                            constraints:
+                                const BoxConstraints(maxHeight: 200, maxWidth: 300),
                           ),
-                        ),
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.white)),
-                        constraints:
-                            const BoxConstraints(maxHeight: 120, maxWidth: 160),
-                      ),
-                pngcon.docindex == 3
-                    ? SizedBox()
-                    : Row(
-                        children: [
-                          imgcon.backImage != null
-                              ? Container(
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Colors.white)),
-                                  // constraints: const BoxConstraints(
-                                  //     maxHeight: 120, maxWidth: 160),
-                                  child: Center(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.file(
-                                        File(imgcon.backImage!.path),
-                                      ),
+                          Divider(),
+                    pngcon.docindex == 3
+                        ? SizedBox()
+                        : imgcon.backImage != null
+                            ? Container(
+                                height: 120,
+                                decoration: BoxDecoration(
+                
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.black)),
+                                // constraints: const BoxConstraints(
+                                //     maxHeight: 120, maxWidth: 160),
+                                child: Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.file(
+                                      File(imgcon.backImage!.path),
                                     ),
                                   ),
-                                )
-                              : Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Colors.white)),
-                                  constraints: const BoxConstraints(
-                                      maxHeight: 120, maxWidth: 160),
                                 ),
-                        ],
-                      ),
-              ],
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('assets/images/aadhar.jpeg')),
+                                    // borderRadius: BorderRadius.circular(10),
+                                    // border: Border.all(color: Colors.black  )
+                                    
+                                    ),
+                                constraints: const BoxConstraints(
+                                    maxHeight: 200, maxWidth: 300),
+                              ),
+                  ],
+                ),
+              ),
             ),
             SizedBox(
               height: 70,
@@ -375,6 +388,10 @@ class _IdSelectionAndScanningScreenState
 
                                     // changing page in registration going back to image page
                             pngcon.changePage(2);
+
+                            
+
+
                                   },
                                    
                                   child: Container(
@@ -412,15 +429,18 @@ class _IdSelectionAndScanningScreenState
                                   onTap:() {
                   //going to payment after success
                   //         //  pngcon.changePage(4);
+                          //
+                          imgcon.saveCard(_key);   
+                         
                           changepages();
-                                  
+                               
                                   },
                                   child: Container(
                                     //  margin: EdgeInsets.symmetric(horizontal: 16),
                                     width: double.infinity,
                                     padding: EdgeInsets.all(32),
                                     decoration: BoxDecoration(
-                                      color:Colors.green,
+                                      color:imgcon.frontimage!=null && imgcon.backImage!=null?Colors.green:Colors.green[300],
                                       //  borderRadius: BorderRadius.circular(8)
                                     ),
                                     clipBehavior: Clip.antiAlias,

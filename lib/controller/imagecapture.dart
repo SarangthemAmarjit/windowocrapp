@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'dart:developer' as dev;
-import 'package:camera_windows_example/controller/managementcontroller.dart';
-import 'package:path_provider/path_provider.dart';
+import 'dart:ui' as ui;
+import 'package:flutter/rendering.dart';
+
 import 'package:uuid/uuid.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:crop_image/crop_image.dart';
@@ -32,7 +33,8 @@ class Imagecontroller extends GetxController {
 
   XFile? _backImage;
   XFile? get backImage => _backImage;
-
+  Uint8List? idCardimage;
+  bool iscardProcess = false;
   List<CameraDescription> _allavailablecameras = <CameraDescription>[];
   List<CameraDescription> get allavailablecameras => _allavailablecameras;
   int _cameraIndex = 0;
@@ -61,11 +63,11 @@ class Imagecontroller extends GetxController {
   StreamSubscription<CameraClosingEvent>? _cameraClosingStreamSubscription;
 
   Uint8List? signature; 
+  Uint8List? receipt; 
 
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
     _fetchCameras();
@@ -86,6 +88,70 @@ class Imagecontroller extends GetxController {
   void saveImage(Uint8List image){
       signature = image;
       update();
+  }
+
+
+    void saveCard(GlobalKey _globalKey) async {
+      iscardProcess = true;
+      update();
+    try {
+  RenderRepaintBoundary boundary =
+      _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+  ui.Image image = await boundary.toImage();
+  ByteData? byteData =
+      await image.toByteData(format: ui.ImageByteFormat.png);
+    idCardimage = byteData!.buffer.asUint8List();
+    
+   Get.back();
+} on Exception catch (e) {
+  print("failed to save card image");
+  // TODO
+} 
+
+  
+
+      iscardProcess = false;
+      update();
+
+
+    // final tempDir = await getTemporaryDirectory();
+    
+    // final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
+    
+    // await file.writeAsBytes(pngBytes);
+
+
+  }
+
+
+  
+    Future<void> saveReceipt(GlobalKey _globalKey,GlobalKey<NavigatorState> navkeys) async {
+      iscardProcess = true;
+      update();
+    try {
+  RenderRepaintBoundary boundary =
+      _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+  ui.Image image = await boundary.toImage();
+  print("nav Keys image in save receipt");
+  ByteData? byteData =
+      await image.toByteData(format: ui.ImageByteFormat.png);
+    receipt = byteData!.buffer.asUint8List();
+} on Exception catch (e) {
+  print("failed to save card image");
+  // TODO
+}
+
+      iscardProcess = false;
+      update();
+
+
+    // final tempDir = await getTemporaryDirectory();
+    
+    // final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
+    
+    // await file.writeAsBytes(pngBytes);
+
+
   }
 
   /// Fetches list of available cameras from camera_windows plugin.

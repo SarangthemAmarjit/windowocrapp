@@ -1,3 +1,4 @@
+import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/models/apicall.dart';
 import 'package:camera_windows_example/models/apicallimpl.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 
 import '../cons/constant.dart';
 import '../models/gate.dart';
+import '../widgets/receiptpermit.dart';
 
 class Managementcontroller extends GetxController {
   String gender = genders[0];
@@ -170,6 +172,11 @@ class Managementcontroller extends GetxController {
   Get.dialog(AlertDialog(
       content: Text(ds.entries.first.value ?? "no messae"),
     ));
+  
+  //ffhdjf
+
+      // printImageDirectly("Microsoft Print to PDF",);
+      
     }
   
     return ds.entries.first.value!=null;
