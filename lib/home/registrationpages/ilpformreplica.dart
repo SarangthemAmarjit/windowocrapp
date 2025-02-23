@@ -3,6 +3,7 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/models/permit.dart';
+import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
@@ -30,12 +31,22 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   final _villageController = TextEditingController();
   final _districtController = TextEditingController();
   final _tehsilController = TextEditingController();
+  
+  
+  final _localpincodeController = TextEditingController();
+  final _localpolicestationController = TextEditingController();
+  final _localresidencename = TextEditingController();
+
+
   final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
   String? selectedCardType;
   XFile? profileimage;
   DateTime? _dob;
   String? datenullText;
   String? statenullText;
+  String district = "Imphal West";
+  String? purposevisitnulltext;
+  String? districtnulltext;
   @override
   void initState() {
     super.initState();
@@ -68,6 +79,14 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Center(child: SizedBox(
+                        width: double.maxFinite,
+                        child: BannerContainer(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          margin: EdgeInsets.zero,
+                          text: "All fields with * are mandatory", color: Colors.orange,isCenter: true,))).animate().fadeIn(delay: Duration(milliseconds: 0)),
+                          SizedBox(height: 20,),
+
                       Row(
                         children: [
                           Expanded(
@@ -116,6 +135,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         children: [
                           Expanded(
                             child: _buildTextField('Email', _emailController,
+                            mandatory: false,
                                 validator: _emailValidator),
                           ),
                           SizedBox(
@@ -171,7 +191,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                       Row(
                         children: [
                           Expanded(
-                            child: _buildTextField('Nearest Police Station',
+                            child: _buildTextField('Police Station',
                                 _nearestpliceController),
                           ),
                           SizedBox(
@@ -186,6 +206,45 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                           (value) {
                         mngctrl.changeGender(value!);
                       }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
+                              Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                             Expanded(
+                            child: _buildDropdownField('* District',
+                                districts , district, (value) {
+                                  setState(() {
+                                    if(value!=null){
+
+                                    district = value;
+                                    } 
+                                  });
+                                                        
+                            },null),
+                          ),
+                               SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                              child: _buildTextField('PinCode',
+                                  _localpincodeController,
+                                  mandatory: false,
+                                  validator: (p0) {
+                                    if(p0!=null && p0.isNotEmpty){
+                                      if(p0.isNumericOnly && p0.length==6){
+                                        return null;
+                                      }
+                                      return "Pincode must be 6 digits";
+                                    }
+                                    return null;
+                                  },
+                                  ),
+                                  
+                                  ),
+                     
+                       
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -195,9 +254,27 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                           SizedBox(
                             width: 20,
                           ),
-                          Expanded(
+                                              Expanded(
+                              child: _buildTextField('Nearest Police Station',
+                              validator: (p){
+                                return null;
+                              },
+                                  _localpolicestationController,
+                                  mandatory: false,
+                               
+                                  ),
+                                  
+                                  ),
+                         
+                        ],
+                      ).animate().fadeIn(delay: Duration(milliseconds: 1600)),
+                  
+                        Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                     Expanded(
                             child: AnimatedContainer(
-                              height: mngctrl.purpose == "Others" ? 220 : 80,
+                              height: mngctrl.purpose == "Others" ? 220 : 100,
                               padding: mngctrl.purpose == "Others"
                                   ? EdgeInsets.all(8)
                                   : null,
@@ -210,10 +287,12 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               ),
                               child: Column(
                                 children: [
-                                  _buildDropdownField('Purpose of Visit',
+                                  _buildDropdownField('* Purpose of Visit',
                                       purposes, mngctrl.purpose, (value) {
                                     mngctrl.changePurpose(value!);
-                                  },null),
+
+                                  },purposevisitnulltext),
+                                
                                   mngctrl.purpose == "Others"
                                       ? AnimatedOpacity(
                                           duration: Duration(milliseconds: 600),
@@ -228,6 +307,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                                   padding: EdgeInsets.only(
                                                       bottom: 4),
                                                   'Purpose',
+                                                
                                                   _visitPurposeController),
                                               Text("Please provide a purpose.")
                                             ],
@@ -238,13 +318,28 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               ),
                             ),
                           ),
+                               SizedBox(
+                            width: 20,
+                          ),
+                                                    Expanded(
+                              child: _buildTextField('Local Residence',
+                              validator: (p){
+                                return null;
+                              },
+                                  _localresidencename,
+                                  mandatory: false,
+                               
+                                  ),
+                                  
+                                  ),
+                     
+                       
                         ],
-                      ).animate().fadeIn(delay: Duration(milliseconds: 1400)),
-
+                      ).animate().fadeIn(delay: Duration(milliseconds: 1600)),
                       const SizedBox(height: 20),
                       InkWell(
                         onTap: () {
-                          if (_formkey.currentState!.validate() && _dob!=null && mngctrl.state!=null) {             
+                          if (_formkey.currentState!.validate() && _dob!=null && mngctrl.state!=null && mngctrl.purpose!=null) {             
                          VisitorEntry permits = VisitorEntry(
                               applcntName: _nameController.text,
                               applcntAddress: _villageController.text,
@@ -263,14 +358,16 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               applcntVillage: _villageController.text,
                               gateID: mngctrl.selectedGate?.id ?? "",
                               placeOfStay: _placeStayController.text,
-                              pinCode: "NA",
-                              residingPeriod: "15",
-                              entryType: "Temporary Permit",
+                              pinCode: _localpincodeController.text,
+                              residingPeriod: "30",
+                              entryType: "ONLINE",
                               applcntHNo: "NA",
                               applyDistrictID: "NA",
                               category: "NA",
-                              district: "NA",
+                              district: district,
                               landmark: "NA",
+                              nearestPS: _nearestpliceController.text,
+                              lrName: _localresidencename.text,
                               visitDate:DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day).toIso8601String(),
                               purposeVisit: mngctrl.purpose == "Others"
                                   ? _visitPurposeController.text
@@ -307,6 +404,16 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               }else{
                                     setState(() {
                                       statenullText = null;
+                                    });
+                              }
+
+                                    if(mngctrl.purpose==null){
+                                  setState(() {
+                                    purposevisitnulltext = "Purpose cannot be empty";
+                                  });
+                              }else{
+                                    setState(() {
+                                      purposevisitnulltext = null;
                                     });
                               }
                             
@@ -350,12 +457,15 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   Widget _buildTextField(String label, TextEditingController controller,
       {String? Function(String?)? validator,
       EdgeInsets? padding,
-      int? counter}) {
+      int? counter,
+      bool mandatory = true
+      }) {
     return TextFieldWidget(
       controller: controller,
       label: label,
       validator: validator,
       counter: counter,
+      mandatory: mandatory,
     );
   }
 
@@ -519,17 +629,16 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   }
 
   String? _emailValidator(String? value) {
-    // if (value == null || value.isEmpty) {
-    //   return 'Email cannot be empty';
-    // }
-    if (value != null) {
+    if (value == null || value.isEmpty) {
+      return null;
+    }
+   
       return RegExp(
                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
               .hasMatch(value)
           ? null
-          : "Email doesnt match";
-    }
-    return null;
+          : "Email doesnt match";  
+   
   }
 
   String? _phoneValidator(String? value) {
@@ -551,7 +660,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.controller,
     required this.label,
     this.validator,
-    this.counter, this.focusnode, this.fontSize, this.contentpadding,
+    this.counter, this.focusnode, this.fontSize, this.contentpadding, this.mandatory = true,
 
   });
   final double? fontSize;
@@ -562,6 +671,7 @@ class TextFieldWidget extends StatelessWidget {
   final String label;
   final String? Function(String?)? validator;
   final int? counter;
+  final bool mandatory;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -580,7 +690,7 @@ class TextFieldWidget extends StatelessWidget {
         decoration: InputDecoration(
            contentPadding:contentpadding,
           labelStyle: TextStyle(fontSize: 20),
-          labelText: label,
+          labelText:mandatory? "* $label":label,
        
           floatingLabelStyle: TextStyle(fontSize: 20),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),

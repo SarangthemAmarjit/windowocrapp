@@ -69,3 +69,23 @@ Map<String, dynamic> paymentmethod = {
   "BQ": "BharatQR",
   "UP": "Unified Payment Interface",
 };
+
+
+List<String> districts = [
+  "Senapati",
+  "Imphal East",
+  "Thoubal",
+  "Bishnupur",
+  "Churachandpur",
+  "Pherzawl",
+  "Chandel",
+  "Tengnoupal",
+  "Ukhrul",
+  "Tamenglong",
+  "Noney",
+  "Jiribam",
+  "Imphal West",
+  "Kangpokpi",
+  "Kakching",
+  "Kamjong",
+];

@@ -107,7 +107,9 @@ class Managementcontroller extends GetxController {
   }
 
   Future<bool> addtemporaryPermit(bool isCash,
-      {required String idProofs,
+      
+      {
+        required String idProofs,
       required String idno,
       required String purposeVisits,
       required String placestay,
@@ -125,6 +127,7 @@ class Managementcontroller extends GetxController {
       required String village,
       required String tehsl,
       required String applydistrict,
+      
       required String pincode}) async {
       VisitorEntry dummyVisitor = VisitorEntry(
   // idProof: "Aadhar",
@@ -165,7 +168,7 @@ class Managementcontroller extends GetxController {
     String idcardpath = 'assets/images/Kanglashanew1.png';
     Uint8List passport = await getImageAssetBytes(passportpath);
     Uint8List idcard = await getImageAssetBytes(idcardpath);
-    Map<String?, dynamic> ds =  await apicall.addPermit(passport, idcard,dummyVisitor);
+    Map<String?, dynamic> ds =  await apicall.addPermit(passport, idcard,idcard,dummyVisitor);
     print('$ds $isLoading');
     if(isCash){
       //dialog for printing cash payments and going to counter

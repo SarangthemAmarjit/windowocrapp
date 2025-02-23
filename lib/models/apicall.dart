@@ -10,7 +10,7 @@ abstract class ApiCall {
   Future<List<String>> getDocumentType();
   Future<List<Gate>> getAllGates();
   Future<Map<String, dynamic>> addPermit(
-     Uint8List passportPhotoBytes, Uint8List idCardBytes, VisitorEntry permit);
+     Uint8List passportPhotoBytes, Uint8List idCardBytes,Uint8List signPhoto, VisitorEntry permit);
   Future<Map<String, dynamic>> detectFaces(Uint8List profileImage);
 
   Future<String> getallpremitprice();

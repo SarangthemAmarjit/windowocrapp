@@ -1,4 +1,3 @@
-
 class VisitorEntry {
  String? idProof;
  String? idNo;
@@ -27,7 +26,9 @@ class VisitorEntry {
  String? district;
  String? pinCode;
  String? amount;
-  String? transactionId;
+ String? transactionId;
+ String? lrName;
+ String? nearestPS;
 
   VisitorEntry( {
     this.idProof,
@@ -57,8 +58,9 @@ class VisitorEntry {
     this.district,
     this.pinCode,
     this.amount,
-     this.transactionId,
-    
+    this.transactionId,
+    this.lrName,
+    this.nearestPS,
   });
 
   factory VisitorEntry.fromJson(Map<String, dynamic> json) {
@@ -90,7 +92,9 @@ class VisitorEntry {
       district: json['District'] as String?,
       pinCode: json['PinCode'] as String?,
       amount: json['Amount'] as String?,
-      transactionId: json["TransactionId"] as String?
+      transactionId: json['TransactionId'] as String?,
+      lrName: json['LRName'] as String?,
+      nearestPS: json['NearestPS'] as String?,
     );
   }
 
@@ -122,8 +126,10 @@ class VisitorEntry {
       'Landmark': landmark??"NA",
       'District': district??"NA",
       'PinCode': pinCode??"NA",
-      'Amount':amount??"NA",
-      'TransactionId':transactionId??"NA"
+      'Amount': amount??"NA",
+      'TransactionId': transactionId??"NA",
+      'LRName': lrName??"NA",
+      'NearestPS': nearestPS??"NA",
     };
   }
 }

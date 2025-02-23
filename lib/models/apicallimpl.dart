@@ -25,26 +25,7 @@ class ApicallImpl extends ApiCall {
   }
 
 @override
-Future<Map<String,dynamic>> addPermit( Uint8List passportPhotoBytes, Uint8List idCardBytes,
-// {required String idProofs,
-//       required String idno,
-//       required String purposeVisits,
-//       required String placestay,
-//       required String visitDates,
-//       required String name,
-//       required String parentname,
-//       required String gender,
-//       required String dob,
-//       required String email,
-//       required String mobile,
-//       required String address,
-//       required String state,
-//       required String polstation,
-//       required String district,
-//       required String village,
-//       required String tehsl,
-//       required String applydistrict,
-//       required String pincode}
+Future<Map<String,dynamic>> addPermit( Uint8List passportPhotoBytes, Uint8List idCardBytes,Uint8List SignPhoto,
 VisitorEntry permit
       
       ) async {
@@ -60,6 +41,7 @@ VisitorEntry permit
 
   request.files.add(http.MultipartFile.fromBytes('PassportPhoto', passportPhotoBytes, filename: 'passportPhoto.jpg'));
   request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes, filename: 'idCard.jpg'));
+  request.files.add(http.MultipartFile.fromBytes('SignPhoto', idCardBytes, filename: 'idCard.jpg'));
 
   // Adding headers
   request.headers.addAll(headers);

@@ -13,7 +13,7 @@ import 'controller/pagecontroller.dart';
 Future<void> main()async {
 
   WidgetsFlutterBinding.ensureInitialized();
-   getPrinterPaperSizes("Microsoft Print to PDF"); 
+  //  getPrinterPaperSizes("Microsoft Print to PDF"); 
   // Initialize window_manager
   await windowManager.ensureInitialized();
 
