@@ -6,6 +6,7 @@
 
 #include "generated_plugin_registrant.h"
 
+#include <audioplayers_windows/audioplayers_windows_plugin.h>
 #include <camera_windows/camera_windows.h>
 #include <file_selector_windows/file_selector_windows.h>
 #include <flutter_doc_scanner/flutter_doc_scanner_plugin_c_api.h>
@@ -19,6 +20,8 @@
 #include <window_manager/window_manager_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
+  AudioplayersWindowsPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("AudioplayersWindowsPlugin"));
   CameraWindowsRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("CameraWindows"));
   FileSelectorWindowsRegisterWithRegistrar(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class PhotoSignaturePage extends StatefulWidget {
 
 class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   var _scheduler;
-
+ final player = AudioPlayer();
   Uint8List? image;
   @override
   void initState() {
@@ -31,6 +32,13 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
 
     initialise();
   }
+
+void playTimerSound(String audio) {
+   
+  player.play(AssetSource(audio)); // Plays the sound once
+  }
+
+  
 
   void initialise() async {
     if (Get.find<Imagecontroller>().isinitialized) {
@@ -51,6 +59,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     _scheduler.cancel();
 
     }
+    player.dispose();
     super.dispose();
   }
 
@@ -74,10 +83,12 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     _sched = Timer.periodic(
       Duration(seconds: 1),
       (TabController) {
+      playTimerSound('dng.mp3');
         setState(() {
           timer--;
           if (timer <= 1) {
             if (_sched != null) {
+               playTimerSound('camera.mp3');
               Get.find<Imagecontroller>().takeprofilePicture();
               _sched.cancel();
             }
