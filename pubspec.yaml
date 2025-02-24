@@ -37,6 +37,8 @@ dependencies:
   win32: ^5.10.1
   barcode_widget: ^2.0.4
   qr_flutter: ^4.1.0
+  video_player_win: ^3.1.1
+  video_player: ^2.9.3
 
 dev_dependencies:
   async: ^2.5.0

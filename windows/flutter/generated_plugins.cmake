@@ -11,6 +11,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   printing
   screen_retriever_windows
   url_launcher_windows
+  video_player_win
   webview_windows
   window_manager
 )
