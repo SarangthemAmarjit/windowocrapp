@@ -681,109 +681,52 @@ class _PaymentCardState extends State<PaymentCard> {
                     ),
                   ),
                   ButtonCard(
-                      title: "Pay Now",
-                      onpress: () {
-                        bool isload = false;
-                        showDialog(
-                            context: context,
-                            builder: (c) {
-                              return StatefulBuilder(builder: (context, sta) {
-                                return AlertDialog(
-                                  insetPadding: EdgeInsets.all(16),
-                                  content: Container(
-                                    width: 600,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Payment Options",
-                                              style: TextStyle(fontSize: 24),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                                icon: Icon(Icons.close))
-                                          ],
-                                        ),
-                                        isload
-                                            ? Padding(
-                                                padding: const EdgeInsets.all(32.0),
-                                                child: Column(
-                                                  children: [
-                                                    CircularProgressIndicator(),
-                                                    SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    Text(
-                                                      "Creating Permit. Please Wait",
-                                                      style:
-                                                          TextStyle(fontSize: 20),
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            : SizedBox()
-                                      ],
-                                    ),
-                                  ),
-                                  actions: isload
-                                      ? null
-                                      : [
-                                          ButtonCard(
-                                              padding:
-                                                  EdgeInsets.symmetric(vertical: 8),
-                                              icon: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 8.0),
-                                                child: Icon(
-                                                  Icons.currency_rupee_outlined,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              title: "Pay with Cash ",
-                                              onpress: () async {
-                                                sta(() {
-                                                  isload = true;
-                                                });
+                      title: "Register Permit",
+                      onpress: () async {
+
+
+
+
+
+                        // bool isload = false;
+
+
+                        //  setState(() {
+                        //                           isload = true;
+                        //                         });
         
-                                                 await mngctrl.addtemporaryPermit(true,
-                                                 address: mngctrl.getPermit?.applcntAddress??"",
-                                                 applydistrict: mngctrl.getPermit?.district??"",
-                                                 districtss: mngctrl.getPermit?.applcntDistrict??"",
-                                                 dob: mngctrl.getPermit?.applcntDOB??"",
-                                                 email: mngctrl.getPermit?.applcntEmail??"",
-                                                 gender: mngctrl.getPermit?.applcntGender??"",
-                                                 idProofs: mngctrl.getPermit?.idProof??"",
-                                                 idno: mngctrl.getPermit?.idNo??"",
-                                                 mobile: mngctrl.getPermit?.applcntMobile??"",
-                                                 name: mngctrl.getPermit?.applcntName??"",
-                                                 parentname: mngctrl.getPermit?.applcntParent??"",
-                                                 pincode: mngctrl.getPermit?.pinCode??"",
-                                                 placestay: mngctrl.getPermit?.placeOfStay??"",
-                                                 polstation: mngctrl.getPermit?.applcntPoliceStation??"",
-                                                 purposeVisits: mngctrl.getPermit?.purposeVisit??"",
-                                                 state: mngctrl.getPermit?.applcntState??"",
-                                                 tehsl: mngctrl.getPermit?.applcntTehsil??"",
-                                                 village: mngctrl.getPermit?.applcntVillage??"",
-                                                 visitDates: DateTime.now(),
-                                                 );
+                        //                          await mngctrl.addtemporaryPermit(true,
+                        //                          address: mngctrl.getPermit?.applcntAddress??"",
+                        //                          applydistrict: mngctrl.getPermit?.district??"",
+                        //                          districtss: mngctrl.getPermit?.applcntDistrict??"",
+                        //                          dob: mngctrl.getPermit?.applcntDOB??"",
+                        //                          email: mngctrl.getPermit?.applcntEmail??"",
+                        //                          gender: mngctrl.getPermit?.applcntGender??"",
+                        //                          idProofs: mngctrl.getPermit?.idProof??"",
+                        //                          idno: mngctrl.getPermit?.idNo??"",
+                        //                          mobile: mngctrl.getPermit?.applcntMobile??"",
+                        //                          name: mngctrl.getPermit?.applcntName??"",
+                        //                          parentname: mngctrl.getPermit?.applcntParent??"",
+                        //                          pincode: mngctrl.getPermit?.pinCode??"",
+                        //                          placestay: mngctrl.getPermit?.placeOfStay??"",
+                        //                          polstation: mngctrl.getPermit?.applcntPoliceStation??"",
+                        //                          purposeVisits: mngctrl.getPermit?.purposeVisit??"",
+                        //                          state: mngctrl.getPermit?.applcntState??"",
+                        //                          tehsl: mngctrl.getPermit?.applcntTehsil??"",
+                        //                          village: mngctrl.getPermit?.applcntVillage??"",
+                        //                          visitDates: DateTime.now(),
+                        //                          );
                                           
-                                                sta(() {
-                                                  isload = false;
-                                                });
-                                                Get.back();
-                                                Get.back();
+                        //                         setState(() {
+                        //                           isload = false;
+                        //                         });
+                                              
                                               Get.dialog(
                                               
                                                 navigatorKey: navigatorKey,
-                                                Dialog(
+                                                AlertDialog(
                                                  
-                                             child:            RepaintBoundary(
+                                            content:            RepaintBoundary(
                                                 key: _globlkey,
         
                                                 child: ReceiptWidget(applicantName: "374873483748738", applicantId:"4783478347834")),
@@ -796,73 +739,188 @@ class _PaymentCardState extends State<PaymentCard> {
                                              
                                                 Get.back();
                                                 },);
+
+
+
+                        // showDialog(
+                        //     context: context,
+                        //     builder: (c) {
+                        //       return StatefulBuilder(builder: (context, sta) {
+                        //         return AlertDialog(
+                        //           insetPadding: EdgeInsets.all(16),
+                        //           content: Container(
+                        //             width: 600,
+                        //             child: Column(
+                        //               mainAxisSize: MainAxisSize.min,
+                        //               children: [
+                        //                 Row(
+                        //                   mainAxisAlignment:
+                        //                       MainAxisAlignment.spaceBetween,
+                        //                   children: [
+                        //                     Text(
+                        //                       "Payment Options",
+                        //                       style: TextStyle(fontSize: 24),
+                        //                     ),
+                        //                     IconButton(
+                        //                         onPressed: () {
+                        //                           Get.back();
+                        //                         },
+                        //                         icon: Icon(Icons.close))
+                        //                   ],
+                        //                 ),
+                        //                 isload
+                        //                     ? Padding(
+                        //                         padding: const EdgeInsets.all(32.0),
+                        //                         child: Column(
+                        //                           children: [
+                        //                             CircularProgressIndicator(),
+                        //                             SizedBox(
+                        //                               height: 20,
+                        //                             ),
+                        //                             Text(
+                        //                               "Creating Permit. Please Wait",
+                        //                               style:
+                        //                                   TextStyle(fontSize: 20),
+                        //                             )
+                        //                           ],
+                        //                         ),
+                        //                       )
+                        //                     : SizedBox()
+                        //               ],
+                        //             ),
+                        //           ),
+                        //           actions: isload
+                        //               ? null
+                        //               : [
+                        //                   ButtonCard(
+                        //                       padding:
+                        //                           EdgeInsets.symmetric(vertical: 8),
+                        //                       icon: Padding(
+                        //                         padding: const EdgeInsets.symmetric(
+                        //                             horizontal: 8.0),
+                        //                         child: Icon(
+                        //                           Icons.currency_rupee_outlined,
+                        //                           color: Colors.white,
+                        //                         ),
+                        //                       ),
+                        //                       title: "Pay with Cash ",
+                        //                       onpress: () async {
+                        //                         sta(() {
+                        //                           isload = true;
+                        //                         });
+        
+                        //                          await mngctrl.addtemporaryPermit(true,
+                        //                          address: mngctrl.getPermit?.applcntAddress??"",
+                        //                          applydistrict: mngctrl.getPermit?.district??"",
+                        //                          districtss: mngctrl.getPermit?.applcntDistrict??"",
+                        //                          dob: mngctrl.getPermit?.applcntDOB??"",
+                        //                          email: mngctrl.getPermit?.applcntEmail??"",
+                        //                          gender: mngctrl.getPermit?.applcntGender??"",
+                        //                          idProofs: mngctrl.getPermit?.idProof??"",
+                        //                          idno: mngctrl.getPermit?.idNo??"",
+                        //                          mobile: mngctrl.getPermit?.applcntMobile??"",
+                        //                          name: mngctrl.getPermit?.applcntName??"",
+                        //                          parentname: mngctrl.getPermit?.applcntParent??"",
+                        //                          pincode: mngctrl.getPermit?.pinCode??"",
+                        //                          placestay: mngctrl.getPermit?.placeOfStay??"",
+                        //                          polstation: mngctrl.getPermit?.applcntPoliceStation??"",
+                        //                          purposeVisits: mngctrl.getPermit?.purposeVisit??"",
+                        //                          state: mngctrl.getPermit?.applcntState??"",
+                        //                          tehsl: mngctrl.getPermit?.applcntTehsil??"",
+                        //                          village: mngctrl.getPermit?.applcntVillage??"",
+                        //                          visitDates: DateTime.now(),
+                        //                          );
+                                          
+                        //                         sta(() {
+                        //                           isload = false;
+                        //                         });
+                        //                         Get.back();
+                        //                         Get.back();
+                        //                       Get.dialog(
                                               
-                                                // Get.back();
-                                                // send permit to api
+                        //                         navigatorKey: navigatorKey,
+                        //                         Dialog(
+                                                 
+                        //                      child:            RepaintBoundary(
+                        //                         key: _globlkey,
+        
+                        //                         child: ReceiptWidget(applicantName: "374873483748738", applicantId:"4783478347834")),
+                                               
+                        //                         ));
+                        //                         Future.delayed(Duration(seconds: 3)).then((value) async {
+                        //                           print("nav Keys sdsd");
+                        //                          await imgcon.saveReceipt(_globlkey,navigatorKey);
+                        //                             print("nav Keys");
+                                             
+                        //                         Get.back();
+                        //                         },);
+                                              
+                        //                         // Get.back();
+                        //                         // send permit to api
                                                 
-                                              }),
+                        //                       }),
         
                                               
-                                          ButtonCard(
-                                              icon: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 8.0),
-                                                child: Icon(
-                                                  Icons.money_sharp,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              padding:
-                                                  EdgeInsets.symmetric(vertical: 8),
-                                              title: "Pay Online",
-                                              onpress: () async {
-                                                                   sta(() {
-                                                  isload = true;
-                                                });
+                        //                   ButtonCard(
+                        //                       icon: Padding(
+                        //                         padding: const EdgeInsets.symmetric(
+                        //                             horizontal: 8.0),
+                        //                         child: Icon(
+                        //                           Icons.money_sharp,
+                        //                           color: Colors.white,
+                        //                         ),
+                        //                       ),
+                        //                       padding:
+                        //                           EdgeInsets.symmetric(vertical: 8),
+                        //                       title: "Pay Online",
+                        //                       onpress: () async {
+                        //                                            sta(() {
+                        //                           isload = true;
+                        //                         });
         
-                                                 await mngctrl.addtemporaryPermit(true,
-                                                 address: mngctrl.getPermit?.applcntAddress??"",
-                                                 applydistrict: mngctrl.getPermit?.district??"",
-                                                 districtss: mngctrl.getPermit?.applcntDistrict??"",
-                                                 dob: mngctrl.getPermit?.applcntDOB??"",
-                                                 email: mngctrl.getPermit?.applcntEmail??"",
-                                                 gender: mngctrl.getPermit?.applcntGender??"",
-                                                 idProofs: mngctrl.getPermit?.idProof??"",
-                                                 idno: mngctrl.getPermit?.idNo??"",
-                                                 mobile: mngctrl.getPermit?.applcntMobile??"",
-                                                 name: mngctrl.getPermit?.applcntName??"",
-                                                 parentname: mngctrl.getPermit?.applcntParent??"",
-                                                 pincode: mngctrl.getPermit?.pinCode??"",
-                                                 placestay: mngctrl.getPermit?.placeOfStay??"",
-                                                 polstation: mngctrl.getPermit?.applcntPoliceStation??"",
-                                                 purposeVisits: mngctrl.getPermit?.purposeVisit??"",
-                                                 state: mngctrl.getPermit?.applcntState??"",
-                                                 tehsl: mngctrl.getPermit?.applcntTehsil??"",
-                                                 village: mngctrl.getPermit?.applcntVillage??"",
-                                                 visitDates: DateTime.now(),
+                        //                          await mngctrl.addtemporaryPermit(true,
+                        //                          address: mngctrl.getPermit?.applcntAddress??"",
+                        //                          applydistrict: mngctrl.getPermit?.district??"",
+                        //                          districtss: mngctrl.getPermit?.applcntDistrict??"",
+                        //                          dob: mngctrl.getPermit?.applcntDOB??"",
+                        //                          email: mngctrl.getPermit?.applcntEmail??"",
+                        //                          gender: mngctrl.getPermit?.applcntGender??"",
+                        //                          idProofs: mngctrl.getPermit?.idProof??"",
+                        //                          idno: mngctrl.getPermit?.idNo??"",
+                        //                          mobile: mngctrl.getPermit?.applcntMobile??"",
+                        //                          name: mngctrl.getPermit?.applcntName??"",
+                        //                          parentname: mngctrl.getPermit?.applcntParent??"",
+                        //                          pincode: mngctrl.getPermit?.pinCode??"",
+                        //                          placestay: mngctrl.getPermit?.placeOfStay??"",
+                        //                          polstation: mngctrl.getPermit?.applcntPoliceStation??"",
+                        //                          purposeVisits: mngctrl.getPermit?.purposeVisit??"",
+                        //                          state: mngctrl.getPermit?.applcntState??"",
+                        //                          tehsl: mngctrl.getPermit?.applcntTehsil??"",
+                        //                          village: mngctrl.getPermit?.applcntVillage??"",
+                        //                          visitDates: DateTime.now(),
         
-                                                 );
-                                                sta(() {
-                                                  isload = false;
-                                                });
-                                                Get.back();
-                                                gcontroller.initNdpsPayment(
-                                                  context: context,
-                                                  responseHashKey:
-                                                      gcontroller.responseHashKey,
-                                                  responseDecryptionKey: gcontroller
-                                                      .responseDecryptionKey,
-                                                  amount: mngctrl
-                                                      .allpermitprices[0].fee
-                                                      .toString(),
-                                                  address: 'fsdfsdf',
-                                                  name: 'amarjit',
-                                                );
-                                              }),
-                                        ],
-                                ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();
-                              });
-                            });
+                        //                          );
+                        //                         sta(() {
+                        //                           isload = false;
+                        //                         });
+                        //                         Get.back();
+                        //                         gcontroller.initNdpsPayment(
+                        //                           context: context,
+                        //                           responseHashKey:
+                        //                               gcontroller.responseHashKey,
+                        //                           responseDecryptionKey: gcontroller
+                        //                               .responseDecryptionKey,
+                        //                           amount: mngctrl
+                        //                               .allpermitprices[0].fee
+                        //                               .toString(),
+                        //                           address: 'fsdfsdf',
+                        //                           name: 'amarjit',
+                        //                         );
+                        //                       }),
+                        //                 ],
+                        //         ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();
+                        //       });
+                            // });
         
                         // Get.to(() => ReceiptPreviewPage());
                       })

@@ -5,7 +5,6 @@ import 'package:camera_windows_example/cons/apis.dart';
 import 'package:camera_windows_example/models/gate.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:http/http.dart' as http;
-import '../cons/constant.dart';
 import 'apicall.dart';
 import 'permit.dart';
 
@@ -158,4 +157,8 @@ VisitorEntry permit
       return {"Failed to fetch permit": null};
     }
   }
+
+
+  
+
 }
