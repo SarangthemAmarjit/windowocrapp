@@ -22,7 +22,7 @@ class PhotoSignaturePage extends StatefulWidget {
 class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   var _scheduler;
   GlobalKey _profilekey = GlobalKey();
-   final player = AudioPlayer();
+  final player = AudioPlayer();
   Uint8List? image;
   @override
   void initState() {
@@ -35,10 +35,8 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   }
 
   void playTimerSound(String audio) {
-   
-  player.play(AssetSource(audio)); // Plays the sound once
+    player.play(AssetSource(audio)); // Plays the sound once
   }
-
 
   void initialise() async {
     if (Get.find<Imagecontroller>().isinitialized) {
@@ -55,9 +53,8 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   @override
   void dispose() {
     Get.find<Imagecontroller>().disposeCurrentCamera();
-    if(_scheduler!=null){
-    _scheduler.cancel();
-
+    if (_scheduler != null) {
+      _scheduler.cancel();
     }
     player.dispose();
     super.dispose();
@@ -75,7 +72,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     });
   }
 
-    int timer = 0;
+  int timer = 0;
   var _sched;
   Future<void> countdownTimer() async {
     timer = 8;
@@ -83,13 +80,13 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     _sched = Timer.periodic(
       Duration(seconds: 1),
       (TabController) {
-      playTimerSound('dng.mp3');
+        playTimerSound('dng.mp3');
         setState(() {
           timer--;
           if (timer <= 1) {
             if (_sched != null) {
-               playTimerSound('camera.mp3');
-            Get.find<Imagecontroller>().takeprofilePicture(_profilekey);
+              playTimerSound('camera.mp3');
+              Get.find<Imagecontroller>().takeprofilePicture(_profilekey);
               _sched.cancel();
             }
           }
@@ -181,9 +178,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                     //  borderRadius: BorderRadius.circular(10),
                                     child: imgcon.profileImage != null
                                         ? Image.memory(
-                                          fit: BoxFit.cover,
-                                          imgcon.profileImage!,
-                                        )
+                                            fit: BoxFit.cover,
+                                            imgcon.profileImage!,
+                                          )
                                         : imgcon.buildPreview())
                                 : Center(
                                     child: Icon(
@@ -271,6 +268,12 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           child: InkWell(
                             onTap: () {
                               controller.changePage(3);
+
+                              imgcon.initializeCamera(
+                                isfront: true,
+                                isback: false,
+                                isprofilecam: false,
+                              );
                             },
                             child: Container(
                               //  margin: EdgeInsets.symmetric(horizontal: 16),

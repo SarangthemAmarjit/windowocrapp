@@ -261,30 +261,21 @@ class Imagecontroller extends GetxController {
   //   );
   // }
 
-  void disposeAll(){
+  void disposeAll() {
+    selectedCardType = null;
 
+    _frontImage = null;
 
+    _profileimage = null;
 
+    _backImage = null;
 
-selectedCardType =null;
+    idCardimage = null;
+    profileImage = null;
+    iscardProcess = false;
 
- _frontImage = null;
-
-
- _profileimage = null;
-
- _backImage  = null;
-
-idCardimage = null;
-profileImage = null;
- iscardProcess = false;
- 
-
-
-
- signature  = null;
-  receipt = null;
-
+    signature = null;
+    receipt = null;
   }
 
   void showimageconfirmdialog() {
@@ -402,6 +393,7 @@ profileImage = null;
     required bool isback,
     required bool isprofilecam,
   }) async {
+    disposeCurrentCamera();
     int cameraIndex = 0;
 
     _isFrontcapturebuttonpress = isfront
