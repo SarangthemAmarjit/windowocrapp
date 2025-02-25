@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
   camera_windows
+  connectivity_plus
   file_selector_windows
   flutter_doc_scanner
   flutter_inappwebview_windows

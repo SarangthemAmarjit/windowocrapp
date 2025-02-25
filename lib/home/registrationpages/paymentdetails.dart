@@ -91,17 +91,14 @@ final GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
                                                 color: Colors.grey[300],
                                                 borderRadius:
                                                     BorderRadius.circular(8)),
-                                            child: imgcon.profileimage != null
-                                                ? Transform.flip(
-                                                    flipX: true,
-                                                    child: Image.file(
-                                                      height: 120,
-                                                      width: 120,
-                                                      fit: BoxFit.contain,
-                                                      File(imgcon
-                                                          .profileimage!.path),
-                                                    ),
-                                                  )
+                                            child: imgcon.profileImage != null
+                                                ? Image.memory(
+                                                 imgcon.profileImage!,
+                                                  height: 120,
+                                                  width: 120,
+                                                  fit: BoxFit.contain,
+                                                 
+                                                )
                                                 : Center(
                                                     child: Icon(
                                                       Icons.photo,
@@ -780,7 +777,8 @@ class _PaymentCardState extends State<PaymentCard> {
             print("nav Keys");
         
         Get.back();
-       pagectrl.changePage(5);
+      
+       pagectrl.setmainpageindex(ind:4);
         },);
         }
         

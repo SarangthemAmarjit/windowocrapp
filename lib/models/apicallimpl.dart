@@ -136,18 +136,26 @@ class ApicallImpl extends ApiCall {
   @override
   Future<String> verifydoc(
       {required String doctype, required String idnumber}) async {
-    var headers = {'Content-Type': 'application/json'};
-    var request = http.Request('POST',
-        Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'));
-    request.body = json.encode({"IdType": doctype, "IdNumber": idnumber});
-    request.headers.addAll(headers);
+    // var headers = {'Content-Type': 'application/json'};
+    // var request = http.Request('POST',
+    //     Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'));
+    
+    // request.body = json.encode({"IdType": doctype, "IdNumber": idnumber});
+    
+    // request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
-
+    // http.StreamedResponse response = await request.send();
+  final response = await http.post(Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'),
+  body: json.encode({"IdType": doctype, "IdNumber": idnumber}),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+  );
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-      var appliid =
-          verifydocModelFromJson(await response.stream.bytesToString());
+      print("shfjfh");
+      print(response.body);
+      var appliid =verifydocModelFromJson(response.body);
+      print("application ID:${appliid.applicationId}");
       return appliid.applicationId;
     } else {
       print(response.reasonPhrase);

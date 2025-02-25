@@ -41,6 +41,8 @@ dependencies:
   audioplayers: ^6.2.0
   video_player_win: ^3.1.1
   video_player: ^2.9.3
+  lottie: ^3.3.0
+  connectivity_plus: ^6.1.0
   
 dev_dependencies:
   async: ^2.5.0
