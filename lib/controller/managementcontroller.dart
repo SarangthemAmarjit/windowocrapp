@@ -92,11 +92,17 @@ class Managementcontroller extends GetxController {
     update();
   }
 
+  void setverifybuttonbool(bool isfinish) {
+    _ispressverified = isfinish;
+    update();
+  }
+
   void verifydocid({required String doctype, required String docid}) async {
     var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
 
     _applicid = appid;
     update();
+    log("Application Id :" + _applicid);
   }
 
   Future<void> getallDocs() async {

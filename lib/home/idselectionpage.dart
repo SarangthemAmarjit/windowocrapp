@@ -188,7 +188,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
       return GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return AnimatedContainer(
           duration: Duration(milliseconds: 1000),
-          height: pagectrl.IdSelection ? 300 : 0,
+          height: pagectrl.IdSelection ? 340 : 0,
           width: double.maxFinite,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
@@ -262,44 +262,45 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                         pagectrl.setmainpageindex(ind: 4);
                         pagectrl.changeIdSelection();
                       } else {
-                        Get.dialog(AlertDialog(
-                          content: RepaintBoundary(
-                              key: _globlkey,
-                              child: ReceiptWidget(
-                                  applicantName: '',
-                                  applicantId: mngctrl.applicid)),
-                        ));
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(builder: (context, s) {
+                              return !mngctrl.ispressverified
+                                  ? AlertDialog(
+                                      content: RepaintBoundary(
+                                          key: _globlkey,
+                                          child: ReceiptWidget(
+                                              applicantName: '',
+                                              applicantId: mngctrl.applicid)))
+                                  : AlertDialog(
+                                      title: Text('Applicant Already Exist'),
+                                      content: Text(
+                                          'Please collect the receipt and proceed to the counter for further processing.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                            });
+                          },
+                        );
+
                         Future.delayed(Duration(seconds: 3)).then(
                           (value) async {
                             print("nav Keys sdsd");
                             await imgcon.saveReceipt(
                                 _globlkey, mngctrl.applicid);
                             print("nav Keys");
-
-                            Get.back();
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Applicant Already Exist'),
-                                  content: Text(
-                                      'Please collect the receipt and proceed to the counter for further processing.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                            mngctrl.setverifybuttonbool(true);
                           },
                         );
 
                         /////dsadsadasd
-                        log('already exist');
                       }
                     }
                   },
@@ -320,10 +321,12 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 SizedBox(
                   height: 20,
                 ),
-                RepaintBoundary(
-                    key: _globlkey,
-                    child: ReceiptWidget(
-                        applicantName: '', applicantId: mngctrl.applicid)),
+                // mngctrl.ispressverified
+                //     ? RepaintBoundary(
+                //         key: _globlkey,
+                //         child: ReceiptWidget(
+                //             applicantName: '', applicantId: mngctrl.applicid))
+                //     : SizedBox(),
               ],
             ),
           ),

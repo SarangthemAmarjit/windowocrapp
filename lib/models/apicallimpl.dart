@@ -134,24 +134,40 @@ class ApicallImpl extends ApiCall {
   }
 
   @override
-  Future<String> verifydoc(
-      {required String doctype, required String idnumber}) async {
-    var headers = {'Content-Type': 'application/json'};
-    var request = http.Request('POST',
-        Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'));
-    request.body = json.encode({"IdType": doctype, "IdNumber": idnumber});
-    request.headers.addAll(headers);
+  Future<String> verifydoc({
+    required String doctype,
+    required String idnumber,
+  }) async {
+    try {
+      log(doctype);
+      log(idnumber);
 
-    http.StreamedResponse response = await request.send();
+      var headers = {'Content-Type': 'application/json'};
+      var request = http.Request(
+        'POST',
+        Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'),
+      );
+      request.body = json.encode({"IdType": doctype, "IdNumber": idnumber});
+      request.headers.addAll(headers);
 
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-      var appliid =
-          verifydocModelFromJson(await response.stream.bytesToString());
-      return appliid.applicationId;
-    } else {
-      print(response.reasonPhrase);
-      return 'not found';
+      http.StreamedResponse response = await request.send();
+      log(response.statusCode.toString());
+
+      if (response.statusCode == 200) {
+        String responseBody = await response.stream.bytesToString();
+        print(responseBody);
+
+        // Assuming verifydocModelFromJson is your JSON parser
+        var appliid = verifydocModelFromJson(responseBody);
+        return appliid.applicationId;
+      } else {
+        log(response.reasonPhrase.toString());
+        return 'not found';
+      }
+    } catch (e, stackTrace) {
+      log('Error occurred: $e');
+      log('Stack trace: $stackTrace');
+      return 'error';
     }
   }
 
