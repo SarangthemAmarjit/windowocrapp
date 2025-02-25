@@ -43,489 +43,481 @@ class PaymentDetails extends StatelessWidget {
                       ),
                     ],
                   )
-                : Expanded(
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 800),
-                        child: Container(
-                          margin: EdgeInsets.all(16),
-                          // padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.2),
-                                  spreadRadius: 2,
-                                )
-                              ]),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Verify Details",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              height: 120,
-                                              width: 120,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.grey[300],
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                              child: imgcon.profileimage != null
-                                                  ? Transform.flip(
-                                                      flipX: true,
-                                                      child: Image.file(
-                                                        height: 120,
-                                                        width: 120,
-                                                        fit: BoxFit.contain,
-                                                        File(imgcon
-                                                            .profileimage!
-                                                            .path),
-                                                      ),
-                                                    )
-                                                  : Center(
-                                                      child: Icon(
-                                                        Icons.photo,
-                                                        color: Colors.grey,
-                                                        size: 40,
-                                                      ),
+                : Center(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 800),
+                      child: Container(
+                        margin: EdgeInsets.all(16),
+                        // padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.2),
+                                spreadRadius: 2,
+                              )
+                            ]),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Verify Details",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 120,
+                                            width: 120,
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey[300],
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
+                                            child: imgcon.profileimage != null
+                                                ? Transform.flip(
+                                                    flipX: true,
+                                                    child: Image.file(
+                                                      height: 120,
+                                                      width: 120,
+                                                      fit: BoxFit.contain,
+                                                      File(imgcon
+                                                          .profileimage!.path),
                                                     ),
-                                            ),
-                                            //            Container(
-                                            //   height: 120,
-                                            //   width: 120,
-                                            //   clipBehavior: Clip.antiAlias,
-                                            //   decoration: BoxDecoration(
-                                            //       color: Colors.grey[300],
-                                            //       borderRadius:
-                                            //           BorderRadius.circular(8)),
-                                            //   child: imgcon.idCardimage!= null
-                                            //       ? Image.memory(
-                                            //         imgcon.idCardimage!,
-                                            //         // height: 300,
-                                            //         // width:300,
-                                            //         fit: BoxFit.cover,
+                                                  )
+                                                : Center(
+                                                    child: Icon(
+                                                      Icons.photo,
+                                                      color: Colors.grey,
+                                                      size: 40,
+                                                    ),
+                                                  ),
+                                          ),
+                                          //            Container(
+                                          //   height: 120,
+                                          //   width: 120,
+                                          //   clipBehavior: Clip.antiAlias,
+                                          //   decoration: BoxDecoration(
+                                          //       color: Colors.grey[300],
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(8)),
+                                          //   child: imgcon.idCardimage!= null
+                                          //       ? Image.memory(
+                                          //         imgcon.idCardimage!,
+                                          //         // height: 300,
+                                          //         // width:300,
+                                          //         fit: BoxFit.cover,
 
-                                            //       )
-                                            //       : Center(
-                                            //           child: Icon(
-                                            //             Icons.photo,
-                                            //             color: Colors.grey,
-                                            //             size: 40,
-                                            //           ),
-                                            //         ),
-                                            // ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Column(
+                                          //       )
+                                          //       : Center(
+                                          //           child: Icon(
+                                          //             Icons.photo,
+                                          //             color: Colors.grey,
+                                          //             size: 40,
+                                          //           ),
+                                          //         ),
+                                          // ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                mngctrl.getPermit
+                                                        ?.applcntName ??
+                                                    "NA",
+                                                style: TextStyle(
+                                                    fontSize: 24,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      TextLabel(
+                                                          text: (mngctrl
+                                                                  .getPermit
+                                                                  ?.idProof ??
+                                                              "NA")),
+                                                      BannerContainer(
+                                                          padding:
+                                                              EdgeInsets.all(8),
+                                                          margin:
+                                                              EdgeInsets.zero,
+                                                          text: mngctrl
+                                                                  .getPermit
+                                                                  ?.idNo ??
+                                                              "NA",
+                                                          color: Colors.green),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: 40,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      TextLabel(text: "Gender"),
+                                                      TextSubtitle(
+                                                        text: mngctrl.getPermit
+                                                                ?.applcntGender ??
+                                                            "NA",
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: 60,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      TextLabel(text: "D.O.B"),
+                                                      TextSubtitle(
+                                                          text: getDate(
+                                                              dateTime: mngctrl
+                                                                      .getPermit
+                                                                      ?.applcntDOB ??
+                                                                  "")),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  mngctrl.getPermit
-                                                          ?.applcntName ??
+                                                TextLabel(
+                                                    text: "Parent's Name"),
+                                                TextSubtitle(
+                                                  text: mngctrl.getPermit
+                                                          ?.applcntParent ??
                                                       "NA",
-                                                  style: TextStyle(
-                                                      fontSize: 24,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        TextLabel(
-                                                            text: (mngctrl
-                                                                    .getPermit
-                                                                    ?.idProof ??
-                                                                "NA")),
-                                                        BannerContainer(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    8),
-                                                            margin:
-                                                                EdgeInsets.zero,
-                                                            text: mngctrl
-                                                                    .getPermit
-                                                                    ?.idNo ??
-                                                                "NA",
-                                                            color:
-                                                                Colors.green),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      width: 40,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        TextLabel(
-                                                            text: "Gender"),
-                                                        TextSubtitle(
-                                                          text: mngctrl
-                                                                  .getPermit
-                                                                  ?.applcntGender ??
-                                                              "NA",
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      width: 60,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        TextLabel(
-                                                            text: "D.O.B"),
-                                                        TextSubtitle(
-                                                            text: getDate(
-                                                                dateTime: mngctrl
-                                                                        .getPermit
-                                                                        ?.applcntDOB ??
-                                                                    "")),
-                                                      ],
-                                                    ),
-                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                        Divider(),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(
-                                                      text: "Parent's Name"),
-                                                  TextSubtitle(
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "Email"),
+                                                TextSubtitle(
+                                                  text: mngctrl.getPermit
+                                                          ?.applcntEmail ??
+                                                      "NA",
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "Phone"),
+                                                TextSubtitle(
                                                     text: mngctrl.getPermit
-                                                            ?.applcntParent ??
-                                                        "NA",
-                                                  ),
-                                                ],
-                                              ),
+                                                            ?.applcntMobile ??
+                                                        "NA"),
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "Email"),
-                                                  TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntEmail ??
-                                                        "NA",
-                                                  ),
-                                                ],
-                                              ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "State"),
+                                                TextSubtitle(
+                                                  text: mngctrl.getPermit
+                                                          ?.applcntState ??
+                                                      "NA",
+                                                ),
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "Phone"),
-                                                  TextSubtitle(
-                                                      text: mngctrl.getPermit
-                                                              ?.applcntMobile ??
-                                                          "NA"),
-                                                ],
-                                              ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "District"),
+                                                TextSubtitle(
+                                                  text: mngctrl.getPermit
+                                                          ?.district ??
+                                                      "NA",
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "State"),
-                                                  TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntState ??
-                                                        "NA",
-                                                  ),
-                                                ],
-                                              ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "Address"),
+                                                TextSubtitle(
+                                                  text: mngctrl.getPermit
+                                                          ?.applcntAddress ??
+                                                      "NA",
+                                                ),
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "District"),
-                                                  TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.district ??
-                                                        "NA",
-                                                  ),
-                                                ],
-                                              ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(
+                                                    text:
+                                                        "Nearest Police Station"),
+                                                TextSubtitle(
+                                                  text: mngctrl.getPermit
+                                                          ?.applcntPoliceStation ??
+                                                      "NA",
+                                                ),
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "Address"),
-                                                  TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntAddress ??
-                                                        "NA",
-                                                  ),
-                                                ],
-                                              ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "Tehsil"),
+                                                TextSubtitle(
+                                                  text: mngctrl.getPermit
+                                                          ?.applcntTehsil ??
+                                                      "NA",
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(
-                                                      text:
-                                                          "Nearest Police Station"),
-                                                  TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntPoliceStation ??
-                                                        "NA",
-                                                  ),
-                                                ],
-                                              ),
+                                          ),
+                                          Expanded(
+                                            child: SizedBox(),
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(),
+                                      TextLabel(text: "Documents"),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "Signature"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                imgcon.signature != null
+                                                    ? Image.memory(
+                                                        imgcon.signature!,
+                                                        width: 150,
+                                                        height: 70,
+                                                        fit: BoxFit.contain,
+                                                      )
+                                                    : Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Colors
+                                                                    .grey),
+                                                        height: 100,
+                                                        width: 300,
+                                                        child: Center(
+                                                          child:
+                                                              Text("sig empty"),
+                                                        ),
+                                                      )
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "Tehsil"),
-                                                  TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntTehsil ??
-                                                        "NA",
-                                                  ),
-                                                ],
-                                              ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "Receipt"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                imgcon.receipt != null
+                                                    ? Image.memory(
+                                                        imgcon.receipt!,
+                                                        width: 30,
+                                                        height: 70,
+                                                        fit: BoxFit.contain,
+                                                      )
+                                                    : Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Colors
+                                                                    .grey),
+                                                        height: 100,
+                                                        width: 300,
+                                                        child: Center(
+                                                          child: Text(
+                                                              "Receipt empty"),
+                                                        ),
+                                                      )
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: SizedBox(),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [],
                                             ),
-                                          ],
-                                        ),
-                                        Divider(),
-                                        TextLabel(text: "Documents"),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "Signature"),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  imgcon.signature != null
-                                                      ? Image.memory(
-                                                          imgcon.signature!,
-                                                          width: 150,
-                                                          height: 70,
-                                                          fit: BoxFit.contain,
-                                                        )
-                                                      : Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  color: Colors
-                                                                      .grey),
-                                                          height: 100,
-                                                          width: 300,
-                                                          child: Center(
-                                                            child: Text(
-                                                                "sig empty"),
-                                                          ),
-                                                        )
-                                                ],
-                                              ),
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(
+                                                    text: "Period Of Stay"),
+                                                TextSubtitle(
+                                                  text: '30 days',
+                                                ),
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "Receipt"),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  imgcon.receipt != null
-                                                      ? Image.memory(
-                                                          imgcon.receipt!,
-                                                          width: 30,
-                                                          height: 70,
-                                                          fit: BoxFit.contain,
-                                                        )
-                                                      : Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                                  color: Colors
-                                                                      .grey),
-                                                          height: 100,
-                                                          width: 300,
-                                                          child: Center(
-                                                            child: Text(
-                                                                "Receipt empty"),
-                                                          ),
-                                                        )
-                                                ],
-                                              ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(
+                                                    text: "Starting Date"),
+                                                TextSubtitle(
+                                                    text: getDate(
+                                                        dateTime: mngctrl
+                                                                .getPermit
+                                                                ?.visitDate ??
+                                                            "")),
+                                              ],
                                             ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [],
-                                              ),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                TextLabel(text: "Purpose"),
+                                                TextSubtitle(
+                                                  text: mngctrl.getPermit
+                                                          ?.purposeVisit ??
+                                                      "NA",
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                        Divider(),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(
-                                                      text: "Period Of Stay"),
-                                                  TextSubtitle(
-                                                    text: '30 days',
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(
-                                                      text: "Starting Date"),
-                                                  TextSubtitle(
-                                                      text: getDate(
-                                                          dateTime: mngctrl
-                                                                  .getPermit
-                                                                  ?.visitDate ??
-                                                              "")),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextLabel(text: "Purpose"),
-                                                  TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.purposeVisit ??
-                                                        "NA",
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            TextLabel(text: "Place of Stay"),
-                                            TextSubtitle(
-                                              text: mngctrl
-                                                      .getPermit?.placeOfStay ??
-                                                  "NA",
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ).animate().fadeIn(
-                                  duration: Duration(milliseconds: 900),
-                                  delay: Duration(milliseconds: 300)),
-                              SizedBox(
-                                height: 20,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          TextLabel(text: "Place of Stay"),
+                                          TextSubtitle(
+                                            text: mngctrl
+                                                    .getPermit?.placeOfStay ??
+                                                "NA",
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              Divider(),
-                              PaymentCard(
-                                mngctrl: mngctrl,
-                              ).animate().fadeIn(
-                                  duration: Duration(milliseconds: 1200),
-                                  delay: Duration(milliseconds: 600)),
-                            ],
-                          ),
-                        )
-                            .animate()
-                            .scaleXY(
-                                begin: 0.7,
-                                end: 1,
-                                curve: Curves.easeInCubic,
-                                duration: Duration(milliseconds: 600))
-                            .fadeIn(duration: Duration(milliseconds: 500)),
-                      ),
+                            ).animate().fadeIn(
+                                duration: Duration(milliseconds: 900),
+                                delay: Duration(milliseconds: 300)),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Divider(),
+                            PaymentCard(
+                              mngctrl: mngctrl,
+                            ).animate().fadeIn(
+                                duration: Duration(milliseconds: 1200),
+                                delay: Duration(milliseconds: 600)),
+                          ],
+                        ),
+                      )
+                          .animate()
+                          .scaleXY(
+                              begin: 0.7,
+                              end: 1,
+                              curve: Curves.easeInCubic,
+                              duration: Duration(milliseconds: 600))
+                          .fadeIn(duration: Duration(milliseconds: 500)),
                     ),
                   );
           });
