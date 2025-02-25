@@ -251,11 +251,11 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                       });
                       pagectrl.setmainpageindex(ind: 4);
                       pagectrl.changeIdSelection();
-                      // imgcon.initializeCamera(
-                      //   isfront: true,
-                      //   isback: false,
-                      //   isprofilecam: false,
-                      // );
+                      imgcon.initializeCamera(
+                        isfront: true,
+                        isback: false,
+                        isprofilecam: false,
+                      );
                       // mngctrl.verifydocid(
                       //     doctype: docId.text,
                       //     docid: mngctrl.getPermit?.idProof ?? "");

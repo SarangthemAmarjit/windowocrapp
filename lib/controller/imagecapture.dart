@@ -529,7 +529,7 @@ profileImage = null;
           update();
         } else {
           cameraIndex = _allavailablecameras.indexWhere(
-              (ele) => ele.name.toString().toLowerCase().contains('czur'));
+              (ele) => ele.name.toString().toLowerCase().contains('sg-vp-s200l'));
           update();
         }
 

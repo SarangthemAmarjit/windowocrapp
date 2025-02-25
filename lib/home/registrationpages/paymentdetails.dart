@@ -91,17 +91,14 @@ final GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
                                                 color: Colors.grey[300],
                                                 borderRadius:
                                                     BorderRadius.circular(8)),
-                                            child: imgcon.profileimage != null
-                                                ? Transform.flip(
-                                                    flipX: true,
-                                                    child: Image.file(
-                                                      height: 120,
-                                                      width: 120,
-                                                      fit: BoxFit.contain,
-                                                      File(imgcon
-                                                          .profileimage!.path),
-                                                    ),
-                                                  )
+                                            child: imgcon.profileImage != null
+                                                ? Image.memory(
+                                                  imgcon.profileImage!,
+                                                  height: 120,
+                                                  width: 120,
+                                                  fit: BoxFit.contain,
+                                                 
+                                                )
                                                 : Center(
                                                     child: Icon(
                                                       Icons.photo,
@@ -352,58 +349,58 @@ final GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
                                           ),
                                         ],
                                       ),
-                                      Divider(),
-                                      TextLabel( text: "Documents"),
-                                      SizedBox(height: 10,),
-                                        Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(
-                                                    text: "Signature"),
-                                                  SizedBox(height: 10,), 
-                                               imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
+                                      // Divider(),
+                                      // TextLabel( text: "Documents"),
+                                      // SizedBox(height: 10,),
+                                      //   Row(
+                                      //   children: [
+                                      //     Expanded(
+                                      //       child: Column(
+                                      //         crossAxisAlignment:
+                                      //             CrossAxisAlignment.start,
+                                      //         children: [
+                                      //           TextLabel(
+                                      //               text: "Signature"),
+                                      //             SizedBox(height: 10,), 
+                                      //          imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
                                                 
-                                                 decoration: BoxDecoration(color: Colors.grey),
-                                                 height: 100,
-                                                 width: 300,
-                                                 child: Center(child: Text("sig empty"),),
-                                               )
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                         TextLabel(
-                                                    text: "Receipt"),
-                                                  SizedBox(height: 10,), 
-                                               imgcon.receipt!=null? Image.memory(imgcon.receipt!,width: 30,height: 70,fit: BoxFit.contain,):Container(
+                                      //            decoration: BoxDecoration(color: Colors.grey),
+                                      //            height: 100,
+                                      //            width: 300,
+                                      //            child: Center(child: Text("sig empty"),),
+                                      //          )
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //     Expanded(
+                                      //       child: Column(
+                                      //         crossAxisAlignment:
+                                      //             CrossAxisAlignment.start,
+                                      //         children: [
+                                      //                    TextLabel(
+                                      //               text: "Receipt"),
+                                      //             SizedBox(height: 10,), 
+                                      //          imgcon.receipt!=null? Image.memory(imgcon.receipt!,width: 30,height: 70,fit: BoxFit.contain,):Container(
                                                 
-                                                 decoration: BoxDecoration(color: Colors.grey),
-                                                 height: 100,
-                                                 width: 300,
-                                                 child: Center(child: Text("Receipt empty"),),
-                                               )
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
+                                      //            decoration: BoxDecoration(color: Colors.grey),
+                                      //            height: 100,
+                                      //            width: 300,
+                                      //            child: Center(child: Text("Receipt empty"),),
+                                      //          )
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //     Expanded(
+                                      //       child: Column(
+                                      //         crossAxisAlignment:
+                                      //             CrossAxisAlignment.start,
+                                      //         children: [
                                           
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
                                       Divider(),
 
                                     
