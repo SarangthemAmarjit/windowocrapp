@@ -249,4 +249,14 @@ class Managementcontroller extends GetxController {
     // log("_currentPermitData : " +
     //     _currentPermitData!.applicantCategory.toString());
   }
+
+  void disposeAll() {
+    gender = genders[0];
+    state = null;
+    purpose = null;
+    isCheckFaces = false;
+    facesDetect = "";
+    isLoading = false;
+    _permit = null;
+  }
 }

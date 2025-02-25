@@ -173,7 +173,7 @@ void printUsbReceiptWindows(Uint8List d,String applicantID) async {
          bytes.addAll(generator.text('to complete the process',
       styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.feed(1));
-  bytes.addAll(generator.text('---------------------------------------------------------------'));
+  bytes.addAll(generator.text(' --------------------------------------------------------------------'));
 
   bytes.addAll(generator.text('Enjoy your stay!',
       styles: const PosStyles(align: PosAlign.center)));
