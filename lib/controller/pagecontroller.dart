@@ -54,5 +54,12 @@ class PagenavControllers extends GetxController {
 
   void reset(){
     IdSelection = false;
+    page = 1;
+    regPage = 0;
+    _docindex = 0;
+    cardtype  = null;
+     _mainpageindex = 0;
   }
+
+
 }

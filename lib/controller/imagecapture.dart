@@ -261,6 +261,32 @@ class Imagecontroller extends GetxController {
   //   );
   // }
 
+  void disposeAll(){
+
+
+
+
+selectedCardType =null;
+
+ _frontImage = null;
+
+
+ _profileimage = null;
+
+ _backImage  = null;
+
+idCardimage = null;
+profileImage = null;
+ iscardProcess = false;
+ 
+
+
+
+ signature  = null;
+  receipt = null;
+
+  }
+
   void showimageconfirmdialog() {
     PagenavControllers pngcon = Get.put(PagenavControllers());
     Get.dialog(

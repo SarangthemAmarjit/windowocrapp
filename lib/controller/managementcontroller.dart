@@ -92,6 +92,9 @@ class Managementcontroller extends GetxController {
     update();
   }
 
+
+
+
   void verifydocid({required String doctype, required String docid}) async {
     var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
 
@@ -243,4 +246,20 @@ class Managementcontroller extends GetxController {
     // log("_currentPermitData : " +
     //     _currentPermitData!.applicantCategory.toString());
   }
+
+
+ void disposeAll(){
+
+  gender = genders[0];
+state = null;
+ purpose = null;
+ isCheckFaces = false;
+facesDetect = "";
+ isLoading = false;
+   _permit =null;
+
+
+
+ }
+
 }

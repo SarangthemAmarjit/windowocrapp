@@ -1,5 +1,6 @@
 import 'package:camera_windows_example/home/printpage.dart';
 import 'package:camera_windows_example/home/registrationpages/facedetect.dart';
+import 'package:camera_windows_example/home/registrationpages/succespage.dart';
 import 'package:camera_windows_example/homepage.dart';
 import 'package:camera_windows_example/widgets/receiptpermit.dart';
 import 'package:flutter/material.dart';
@@ -167,8 +168,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 : controller.page == 2
                     ? PhotoSignaturePage()
                     // ?FaceDetectionPage()
-                    :controller.page==3? IdSelectionAndScanningScreen():
-                    PaymentDetails()
+                    :controller.page==3? IdSelectionAndScanningScreen():controller.page==4?
+                    PaymentDetails():Successpages()
                     // ReceiptWidget(applicantName: "Tomchou", applicantId: "2387587387837483")
           ],
         ),

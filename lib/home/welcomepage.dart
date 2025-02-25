@@ -19,24 +19,24 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   TextEditingController mobilecon = TextEditingController();
 
-  final String videoUrl =
-      'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
-  VideoPlayerController? controller;
+  // final String videoUrl =
+  //     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4';
+  // VideoPlayerController? controller;
 
   @override
   void initState() {
     super.initState();
-    controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
-      ..initialize().then((_) {
-        setState(() {});
-        controller!.play();
-        controller!.setLooping(true);
-      });
+    // controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
+    //   ..initialize().then((_) {
+    //     setState(() {});
+    //     controller!.play();
+    //     controller!.setLooping(true);
+    //   });
   }
 
   @override
   void dispose() {
-    controller!.dispose();
+    // controller!.dispose();
     super.dispose();
   }
 
@@ -120,38 +120,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
 
           const SizedBox(height: 30),
-          const Divider(thickness: 2),
-          const SizedBox(height: 20),
-          const Text(
-            '🎥 Watch Our Quick Tutorial!',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 70.0),
-            child: Text(
-              'Need help using the ILP System? Watch our step-by-step video guide to learn how to apply for your Inner Line Permit with ease.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22, color: Colors.black),
-            ),
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 300,
-            child: controller!.value.isInitialized
-                ? AspectRatio(
-                    aspectRatio: controller!.value.aspectRatio,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: VideoPlayer(controller!)),
-                  )
-                : const Center(child: CircularProgressIndicator()),
-          ),
+          // const Divider(thickness: 2),
+          // const SizedBox(height: 20),
+          // const Text(
+          //   '🎥 Watch Our Quick Tutorial!',
+          //   textAlign: TextAlign.center,
+          //   style: TextStyle(
+          //     fontSize: 32,
+          //     fontWeight: FontWeight.bold,
+          //     color: Colors.black,
+          //   ),
+          // ),
+          // const SizedBox(height: 10),
+          // const Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 70.0),
+          //   child: Text(
+          //     'Need help using the ILP System? Watch our step-by-step video guide to learn how to apply for your Inner Line Permit with ease.',
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(fontSize: 22, color: Colors.black),
+          //   ),
+          // ),
+          // const SizedBox(height: 20),
+          // SizedBox(
+          //   height: 300,
+          //   child: controller!.value.isInitialized
+          //       ? AspectRatio(
+          //           aspectRatio: controller!.value.aspectRatio,
+          //           child: ClipRRect(
+          //               borderRadius: BorderRadius.circular(10),
+          //               child: VideoPlayer(controller!)),
+          //         )
+          //       : const Center(child: CircularProgressIndicator()),
+          // ),
           // ElevatedButton(
           //   style: ElevatedButton.styleFrom(
           //     backgroundColor: Colors.red,
