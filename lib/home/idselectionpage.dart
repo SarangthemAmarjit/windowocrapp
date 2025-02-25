@@ -35,13 +35,13 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Text(
-                  'Document Type Selection for Scanning',
+                  'Document Type Selection for Registration',
                   style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ).animate().fadeIn(),
                 const SizedBox(height: 8),
                 Text(
-                  'Choose the type of ID document you want to scan for verification.',
+                  'Choose the type of ID document you want to use for registration.',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
@@ -165,17 +165,16 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   final FocusNode docFocus = FocusNode();
   bool? isEmpty;
   @override
-  void initState(){
+  void initState() {
     super.initState();
     docFocus.requestFocus();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     docId.dispose();
-  
-    super.dispose();
 
+    super.dispose();
   }
 
   @override
@@ -217,9 +216,9 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 SizedBox(
                     width: 600,
                     child: TextFieldWidget(
-                    
                       fontSize: 30,
-                      contentpadding: EdgeInsets.symmetric(vertical: 20,horizontal: 20),
+                      contentpadding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       focusnode: docFocus,
                       controller: docId,
                       label: mngctrl.getPermit?.idProof ?? "Doc Id",

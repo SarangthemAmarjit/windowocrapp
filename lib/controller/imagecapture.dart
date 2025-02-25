@@ -62,9 +62,8 @@ class Imagecontroller extends GetxController {
   StreamSubscription<CameraErrorEvent>? _errorStreamSubscription;
   StreamSubscription<CameraClosingEvent>? _cameraClosingStreamSubscription;
 
-  Uint8List? signature; 
-  Uint8List? receipt; 
-
+  Uint8List? signature;
+  Uint8List? receipt;
 
   @override
   void onInit() {
@@ -83,75 +82,63 @@ class Imagecontroller extends GetxController {
     super.dispose();
   }
 
-
-
-  void saveImage(Uint8List image){
-      signature = image;
-      update();
+  void saveImage(Uint8List image) {
+    signature = image;
+    update();
   }
 
-
-    void saveCard(GlobalKey _globalKey) async {
-      iscardProcess = true;
-      update();
+  void saveCard(GlobalKey _globalKey) async {
+    iscardProcess = true;
+    update();
     try {
-  RenderRepaintBoundary boundary =
-      _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-  ui.Image image = await boundary.toImage();
-  ByteData? byteData =
-      await image.toByteData(format: ui.ImageByteFormat.png);
-    idCardimage = byteData!.buffer.asUint8List();
-    
-   Get.back();
-} on Exception catch (e) {
-  print("failed to save card image");
-  // TODO
-} 
+      RenderRepaintBoundary boundary = _globalKey.currentContext!
+          .findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage();
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      idCardimage = byteData!.buffer.asUint8List();
 
-  
+      Get.back();
+    } on Exception catch (e) {
+      print("failed to save card image");
+      // TODO
+    }
 
-      iscardProcess = false;
-      update();
-
+    iscardProcess = false;
+    update();
 
     // final tempDir = await getTemporaryDirectory();
-    
+
     // final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
-    
+
     // await file.writeAsBytes(pngBytes);
-
-
   }
 
-
-  
-    Future<void> saveReceipt(GlobalKey _globalKey,GlobalKey<NavigatorState> navkeys) async {
-      iscardProcess = true;
-      update();
+  Future<void> saveReceipt(
+      GlobalKey _globalKey, GlobalKey<NavigatorState> navkeys) async {
+    iscardProcess = true;
+    update();
     try {
-  RenderRepaintBoundary boundary =
-      _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-  ui.Image image = await boundary.toImage();
-  print("nav Keys image in save receipt");
-  ByteData? byteData =
-      await image.toByteData(format: ui.ImageByteFormat.png);
-    receipt = byteData!.buffer.asUint8List();
-} on Exception catch (e) {
-  print("failed to save card image");
-  // TODO
-}
+      RenderRepaintBoundary boundary = _globalKey.currentContext!
+          .findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage();
+      print("nav Keys image in save receipt");
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      receipt = byteData!.buffer.asUint8List();
+    } on Exception catch (e) {
+      print("failed to save card image");
+      // TODO
+    }
 
-      iscardProcess = false;
-      update();
-
+    iscardProcess = false;
+    update();
 
     // final tempDir = await getTemporaryDirectory();
-    
+
     // final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
-    
+
     // await file.writeAsBytes(pngBytes);
-
-
   }
 
   /// Fetches list of available cameras from camera_windows plugin.
@@ -271,9 +258,6 @@ class Imagecontroller extends GetxController {
     );
   }
 
-
-
-
   void showimageconfirmdialog() {
     PagenavControllers pngcon = Get.put(PagenavControllers());
     Get.dialog(
@@ -330,7 +314,7 @@ class Imagecontroller extends GetxController {
 
                         if (_isBackcapturebuttonpress) {
                           dev.log('is back is ok');
-                          pngcon.setmainpageindex(ind: 3);
+                          // pngcon.setmainpageindex(ind: 3);
                         } else {
                           initializeCamera(
                             isfront: false,
