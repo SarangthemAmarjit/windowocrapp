@@ -16,9 +16,9 @@ Future<void> main() async {
   await windowManager.ensureInitialized();
 
   // Set fullscreen mode
-  windowManager.waitUntilReadyToShow().then((_) async {
-    await windowManager.setFullScreen(true);
-  });
+  // windowManager.waitUntilReadyToShow().then((_) async {
+  //   await windowManager.setFullScreen(true);
+  // });
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
   Get.put(Imagecontroller());

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/models/apicall.dart';
@@ -29,11 +31,17 @@ class Managementcontroller extends GetxController {
   List<String> _docnames = [];
   List<String> get getDocNames => _docnames;
 
+  String _applicid = '';
+  String get applicid => _applicid;
+
   Gate? _selectedGate;
   Gate? get selectedGate => _selectedGate;
 
   List<Gate> _allGates = [];
   List<Gate> get getAllgate => _allGates;
+
+  bool _ispressverified = false;
+  bool get ispressverified => _ispressverified;
 
   @override
   void onInit() {
@@ -84,6 +92,13 @@ class Managementcontroller extends GetxController {
     update();
   }
 
+  void verifydocid({required String doctype, required String docid}) async {
+    var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
+
+    _applicid = appid;
+    update();
+  }
+
   Future<void> getallDocs() async {
     _docnames = await apicall.getDocumentType();
     update();
@@ -106,11 +121,8 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<String?> addtemporaryPermit(bool isCash,
-  
-      Uint8List passport,
-      Uint8List idcard,
-      Uint8List signature,
+  Future<String?> addtemporaryPermit(
+      bool isCash, Uint8List passport, Uint8List idcard, Uint8List signature,
       {required String idProofs,
       required String idno,
       required String purposeVisits,
@@ -131,64 +143,61 @@ class Managementcontroller extends GetxController {
       required String applydistrict,
       required String pincode,
       required String localres,
-      required String localnearestpol
-      }
-      ) async {
-      VisitorEntry dummyVisitor = VisitorEntry(
-  // idProof: "Aadhar",
-  idProof:idProofs,
-  idNo: idno,
-  category: "General",
-  purposeVisit: purposeVisits,
-  placeOfStay: placestay,
-  visitDate: DateTime(visitDates.year,visitDates.month,visitDates.day).toIso8601String(),
-  // visitDate: visitDates,
-  applcntName: name,
-  applcntParent: parentname,
-  applcntGender: gender,
-  applcntDOB: DateTime.now().toIso8601String(),
-  applcntEmail: email,
-  applcntMobile: mobile,
-  applcntAddress: address,
-  applcntState: state,
-  applcntPoliceStation: polstation,
-  applcntDistrict: districtss,
-  applcntVillage:village,
-  applcntHNo: "",
-  applcntTehsil: tehsl,
-  gateID:_selectedGate?.id??"",
-  entryType: "Online",
-  applyDistrictID: "",
-  residingPeriod: "30",
-  landmark: "",
-  district:applydistrict,
-  pinCode: pincode,
-  amount: '100',
-  lrName: localres,
-  nearestPS: localnearestpol,
-  // transactionId:"Cash" 
-    transactionId:isCash?"CASH":generateRandomString(12)
-);
+      required String localnearestpol}) async {
+    VisitorEntry dummyVisitor = VisitorEntry(
+        // idProof: "Aadhar",
+        idProof: idProofs,
+        idNo: idno,
+        category: "General",
+        purposeVisit: purposeVisits,
+        placeOfStay: placestay,
+        visitDate: DateTime(visitDates.year, visitDates.month, visitDates.day)
+            .toIso8601String(),
+        // visitDate: visitDates,
+        applcntName: name,
+        applcntParent: parentname,
+        applcntGender: gender,
+        applcntDOB: DateTime.now().toIso8601String(),
+        applcntEmail: email,
+        applcntMobile: mobile,
+        applcntAddress: address,
+        applcntState: state,
+        applcntPoliceStation: polstation,
+        applcntDistrict: districtss,
+        applcntVillage: village,
+        applcntHNo: "",
+        applcntTehsil: tehsl,
+        gateID: _selectedGate?.id ?? "",
+        entryType: "Online",
+        applyDistrictID: "",
+        residingPeriod: "30",
+        landmark: "",
+        district: applydistrict,
+        pinCode: pincode,
+        amount: '100',
+        lrName: localres,
+        nearestPS: localnearestpol,
+        // transactionId:"Cash"
+        transactionId: isCash ? "CASH" : generateRandomString(12));
     print(" permit to post: ${dummyVisitor.toJson().toString()}");
 
- 
-    Map<String?, dynamic> ds =  await apicall.addPermit(passport, idcard,signature, dummyVisitor);
+    Map<String?, dynamic> ds =
+        await apicall.addPermit(passport, idcard, signature, dummyVisitor);
     print('$ds $isLoading');
-    if(isCash){
+    if (isCash) {
       //dialog for printing cash payments and going to counter
-  Get.dialog(AlertDialog(
-      content: Text(ds.entries.first.value ?? "no messae"),
-    ));
-  
-  //ffhdjf
+      Get.dialog(AlertDialog(
+        content: Text(ds.entries.first.value ?? "no messae"),
+      ));
+
+      //ffhdjf
 
       // printImageDirectly("Microsoft Print to PDF",);
       // printUsbReceiptWindows(passport,ds.entries.first.value);
     }
-  
+
     return ds.entries.first.value;
   }
-
 
   void addPermit(VisitorEntry? permits) {
     _permit = permits;
