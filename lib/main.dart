@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
-import 'cons/printimagessies.dart';
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
 
@@ -21,9 +20,7 @@ Future<void> main() async {
   //   await windowManager.setFullScreen(true);
   // });
   HttpOverrides.global = MyHttpOverrides();
-
   runApp(MyApp());
-
   Get.put(Imagecontroller());
   Get.put(PagenavControllers());
   Get.put(Managementcontroller());

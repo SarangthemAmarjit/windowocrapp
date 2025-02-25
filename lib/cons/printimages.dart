@@ -1,9 +1,10 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
+import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:win32/win32.dart';
-
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 class Sizes {
   final int width;
   final int height;
@@ -72,7 +73,7 @@ Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes 
     }
 
     // Convert image to BMP format (DIB)
-    final Uint8List bmpData = img.encodeBmp(image);
+    final Uint8List bmpData = Uint8List.fromList( img.encodeBmp(image));
     final written = calloc<DWORD>();
 
     final Pointer<Uint8> bmpPointer = malloc.allocate<Uint8>(bmpData.length);
@@ -97,3 +98,132 @@ Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes 
 
 // Example usage:
 // await printImageDirectly("Your Printer Name", imageBytes, Size(80, 180));
+
+// Future<List<int>> testTicket() async {
+
+//   // Using default profile
+//   final profile = await CapabilityProfile.load();
+//   final generator = Generator(PaperSize.mm80, profile);
+//   List<int> bytes = [];
+
+//   bytes += generator.text(
+//       'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
+//   bytes += generator.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
+//       styles: PosStyles(codeTable: PosCodeTable.westEur));
+//   bytes += generator.text('Special 2: blåbærgrød',
+//       styles: PosStyles(codeTable: PosCodeTable.westEur));
+
+//   bytes += generator.text('Bold text', styles: PosStyles(bold: true));
+//   bytes += generator.text('Reverse text', styles: PosStyles(reverse: true));
+//   bytes += generator.text('Underlined text',
+//       styles: PosStyles(underline: true), linesAfter: 1);
+//   bytes += generator.text('Align left', styles: PosStyles(align: PosAlign.left));
+//   bytes += generator.text('Align center', styles: PosStyles(align: PosAlign.center));
+//   bytes += generator.text('Align right',
+//       styles: PosStyles(align: PosAlign.right), linesAfter: 1);
+
+//   bytes += generator.text('Text size 200%',
+//       styles: PosStyles(
+//         height: PosTextSize.size2,
+//         width: PosTextSize.size2,
+//       ));
+
+//   bytes += generator.feed(2);
+//   bytes += generator.cut();
+//   return bytes;
+// }
+
+
+
+void printUsbReceiptWindows(Uint8List d,String applicantID) async {
+  final profile = await CapabilityProfile.load();
+  final generator = Generator(PaperSize.mm80, profile);
+  final List<int> bytes = [];
+
+  // Add text
+  bytes.addAll(generator.text(
+    'ILP MANIPUR',
+    styles: const PosStyles(
+      align: PosAlign.center,
+      height: PosTextSize.size2,
+      width: PosTextSize.size2,
+    ),
+  ));
+  bytes.addAll(generator.text('Date: ${DateTime.now()}',
+      styles: const PosStyles(align: PosAlign.center)));
+        bytes.addAll(generator.feed(2));
+
+ bytes.addAll(generator.text('Applicant ID',
+      styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.feed(1));
+  bytes.addAll(generator.text('$applicantID',
+      styles: const PosStyles(align: PosAlign.center,
+       height: PosTextSize.size3,
+      width: PosTextSize.size3,
+      )));
+  bytes.addAll(generator.feed(2));
+  
+  bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
+ 
+  bytes.addAll(generator.feed(2));
+ bytes.addAll(generator.text('',
+      styles: const PosStyles(align: PosAlign.center)));
+       bytes.addAll(generator.text('Please go at the counter',
+      styles: const PosStyles(align: PosAlign.center)));
+         bytes.addAll(generator.text('to complete the process',
+      styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.feed(1));
+  bytes.addAll(generator.text('---------------------------------------------------------------'));
+
+  bytes.addAll(generator.text('Enjoy your stay!',
+      styles: const PosStyles(align: PosAlign.center)));
+
+  bytes.addAll(generator.cut());
+
+  // Send raw bytes to USB printer
+  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes),Sizes(80,180));
+  // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
+}
+
+void printToWindowsPrinter(String printerName, Uint8List data,Sizes size) {
+  final hPrinter = calloc<HANDLE>();
+
+    
+
+  final pDocInfo = calloc<DOC_INFO_1>()
+    ..ref.pDocName = "Flutter Print sign".toNativeUtf16()
+    ..ref.pOutputFile = nullptr
+    ..ref.pDatatype = "RAW".toNativeUtf16();
+
+  // Open printer
+  if (OpenPrinter(printerName.toNativeUtf16(), hPrinter, nullptr) == 0) {
+    print("Failed to open printer: $printerName");
+    return;
+  }
+
+  // Start document
+  if (StartDocPrinter(hPrinter.value, 1, pDocInfo) == 0) {
+    print("Failed to start document.");
+    ClosePrinter(hPrinter.value);
+    return;
+  }
+
+  // Start page
+  if (StartPagePrinter(hPrinter.value) == 0) {
+    print("Failed to start page.");
+    ClosePrinter(hPrinter.value);
+    return;
+  }
+
+  // Write data
+  final written = calloc<DWORD>();
+  WritePrinter(hPrinter.value, data.allocatePointer(), data.length, written);
+
+  // End page and document
+  EndPagePrinter(hPrinter.value);
+  EndDocPrinter(hPrinter.value);
+  ClosePrinter(hPrinter.value);
+
+  calloc.free(hPrinter);
+  calloc.free(pDocInfo);
+}

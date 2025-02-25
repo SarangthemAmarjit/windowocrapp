@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:camera_windows_example/cons/constant.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
+import 'package:camera_windows_example/widgets/receiptpermit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
@@ -179,6 +182,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey _globlkey = GlobalKey();
     Imagecontroller imgcon = Get.put(Imagecontroller());
     return GetBuilder<PagenavControllers>(builder: (pagectrl) {
       return GetBuilder<Managementcontroller>(builder: (mngctrl) {
@@ -245,16 +249,58 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                       setState(() {
                         isEmpty = false;
                       });
-                      imgcon.initializeCamera(
-                        isfront: true,
-                        isback: false,
-                        isprofilecam: false,
-                      );
-                      mngctrl.getDocumentDetails(
-                          docID: docId.text,
-                          docType: mngctrl.getPermit?.idProof ?? "");
-                      pagectrl.setmainpageindex(ind: 4);
-                      pagectrl.changeIdSelection();
+                      // imgcon.initializeCamera(
+                      //   isfront: true,
+                      //   isback: false,
+                      //   isprofilecam: false,
+                      // );
+                      mngctrl.verifydocid(
+                          doctype: docId.text,
+                          docid: mngctrl.getPermit?.idProof ?? "");
+                      if (mngctrl.applicid.isNotEmpty &&
+                          mngctrl.applicid == 'not found') {
+                        pagectrl.setmainpageindex(ind: 4);
+                        pagectrl.changeIdSelection();
+                      } else {
+                        Get.dialog(AlertDialog(
+                          content: RepaintBoundary(
+                              key: _globlkey,
+                              child: ReceiptWidget(
+                                  applicantName: '',
+                                  applicantId: mngctrl.applicid)),
+                        ));
+                        Future.delayed(Duration(seconds: 3)).then(
+                          (value) async {
+                            print("nav Keys sdsd");
+                            await imgcon.saveReceipt(
+                                _globlkey, mngctrl.applicid);
+                            print("nav Keys");
+
+                            Get.back();
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Applicant Already Exist'),
+                                  content: Text(
+                                      'Please collect the receipt and proceed to the counter for further processing.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+
+                        /////dsadsadasd
+                        log('already exist');
+                      }
                     }
                   },
                   child: Padding(
@@ -270,7 +316,14 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                RepaintBoundary(
+                    key: _globlkey,
+                    child: ReceiptWidget(
+                        applicantName: '', applicantId: mngctrl.applicid)),
               ],
             ),
           ),

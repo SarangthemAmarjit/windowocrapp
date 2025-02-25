@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:camera_windows_example/cons/apis.dart';
 import 'package:camera_windows_example/models/gate.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
+import 'package:camera_windows_example/models/verifydoc.dart';
 import 'package:http/http.dart' as http;
 import '../cons/constant.dart';
 import 'apicall.dart';
@@ -24,44 +25,45 @@ class ApicallImpl extends ApiCall {
     }
   }
 
-@override
-Future<Map<String,dynamic>> addPermit( Uint8List passportPhotoBytes, Uint8List idCardBytes,Uint8List SignPhoto,
-VisitorEntry permit
-      
-      ) async {
-  var headers = {
-    'X-Key': 'hfuygf765r76yu',
-  };
+  @override
+  Future<Map<String, dynamic>> addPermit(Uint8List passportPhotoBytes,
+      Uint8List idCardBytes, Uint8List SignPhoto, VisitorEntry permit) async {
+    var headers = {
+      'X-Key': 'hfuygf765r76yu',
+    };
 
-  var request = http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/submit'));
-  
-  print("Permit in apicallfinctions:\n\n ${permit.toJson().toString()}");
-  
-  request.fields.addAll(permit.toJson());
+    var request =
+        http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/submit'));
 
-  request.files.add(http.MultipartFile.fromBytes('PassportPhoto', passportPhotoBytes, filename: 'passportPhoto.jpg'));
-  request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes, filename: 'idCard.jpg'));
-  request.files.add(http.MultipartFile.fromBytes('SignPhoto', idCardBytes, filename: 'idCard.jpg'));
+    print("Permit in apicallfinctions:\n\n ${permit.toJson().toString()}");
 
-  // Adding headers
-  request.headers.addAll(headers);
+    request.fields.addAll(permit.toJson());
 
-  // Sending the request
-  http.StreamedResponse response = await request.send();
+    request.files.add(http.MultipartFile.fromBytes(
+        'PassportPhoto', passportPhotoBytes,
+        filename: 'passportPhoto.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes,
+        filename: 'idCard.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('SignPhoto', idCardBytes,
+        filename: 'idCard.jpg'));
 
-  // Handling the response
-  if (response.statusCode == 200) {
-    var json = jsonDecode(await response.stream.bytesToString());
-    String? applicant = json["applicationId"];
-    return {json["message"]??"message":applicant};
-    // return  {jsonDecode( response.stream.bytesToString().toString())["message"]??"message":jsonDecode( response.stream.first.toString())["applicationId"]??null};
-  } else {
-    print("${response.reasonPhrase} ${response.statusCode}");
+    // Adding headers
+    request.headers.addAll(headers);
+
+    // Sending the request
+    http.StreamedResponse response = await request.send();
+
+    // Handling the response
+    if (response.statusCode == 200) {
+      var json = jsonDecode(await response.stream.bytesToString());
+      String? applicant = json["applicationId"];
+      return {json["message"] ?? "message": applicant};
+      // return  {jsonDecode( response.stream.bytesToString().toString())["message"]??"message":jsonDecode( response.stream.first.toString())["applicationId"]??null};
+    } else {
+      print("${response.reasonPhrase} ${response.statusCode}");
+    }
+    return {"Failed": 0};
   }
-      return {"Failed":0};
-}
-
-
 
   @override
   Future<Map<String, dynamic>> detectFaces(Uint8List profileImage) async {
@@ -117,8 +119,8 @@ VisitorEntry permit
 
   @override
   Future<String> getallpremitprice() async {
-    var request = http.Request(
-        'GET', Uri.parse('$localapi/api/kiosk/getallfees'));
+    var request =
+        http.Request('GET', Uri.parse('$localapi/api/kiosk/getallfees'));
 
     http.StreamedResponse response = await request.send();
 
@@ -128,6 +130,28 @@ VisitorEntry permit
     } else {
       print(response.reasonPhrase);
       return 'Error';
+    }
+  }
+
+  @override
+  Future<String> verifydoc(
+      {required String doctype, required String idnumber}) async {
+    var headers = {'Content-Type': 'application/json'};
+    var request = http.Request('POST',
+        Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'));
+    request.body = json.encode({"IdType": doctype, "IdNumber": idnumber});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      var appliid =
+          verifydocModelFromJson(await response.stream.bytesToString());
+      return appliid.applicationId;
+    } else {
+      print(response.reasonPhrase);
+      return 'not found';
     }
   }
 
