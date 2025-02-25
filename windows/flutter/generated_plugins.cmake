@@ -9,11 +9,9 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_doc_scanner
   flutter_inappwebview_windows
   flutter_ocr_sdk
-  printing
   screen_retriever_windows
   url_launcher_windows
   video_player_win
-  webview_windows
   window_manager
 )
 

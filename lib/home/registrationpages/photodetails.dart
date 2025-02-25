@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 import '../../controller/pagecontroller.dart';
 import '../../widgets/bannercard.dart';
@@ -21,7 +21,8 @@ class PhotoSignaturePage extends StatefulWidget {
 
 class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   var _scheduler;
- final player = AudioPlayer();
+  GlobalKey _profilekey = GlobalKey();
+   final player = AudioPlayer();
   Uint8List? image;
   @override
   void initState() {
@@ -33,12 +34,11 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     initialise();
   }
 
-void playTimerSound(String audio) {
+  void playTimerSound(String audio) {
    
   player.play(AssetSource(audio)); // Plays the sound once
   }
 
-  
 
   void initialise() async {
     if (Get.find<Imagecontroller>().isinitialized) {
@@ -67,7 +67,7 @@ void playTimerSound(String audio) {
     _scheduler = Timer.periodic(Duration(seconds: 2), (timer) async {
       print("In Scheduler");
       try {
-        Get.find<Imagecontroller>().takePicture();
+        // Get.find<Imagecontroller>().takeprofilePicture(_profilekey);
         // await _runFaceDetection(file);
       } catch (e) {
         print(e);
@@ -75,7 +75,7 @@ void playTimerSound(String audio) {
     });
   }
 
-  int timer = 0;
+    int timer = 0;
   var _sched;
   Future<void> countdownTimer() async {
     timer = 8;
@@ -89,7 +89,7 @@ void playTimerSound(String audio) {
           if (timer <= 1) {
             if (_sched != null) {
                playTimerSound('camera.mp3');
-              Get.find<Imagecontroller>().takeprofilePicture();
+            Get.find<Imagecontroller>().takeprofilePicture(_profilekey);
               _sched.cancel();
             }
           }
@@ -161,43 +161,44 @@ void playTimerSound(String audio) {
 
                     Stack(
                       children: [
-                        Container(
-                          width: 500,
-                          height: 500,
-                          margin: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.grey[400]!,
+                        RepaintBoundary(
+                          key: _profilekey,
+                          child: Container(
+                            width: 500,
+                            height: 500,
+                            margin: EdgeInsets.all(16),
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              border: Border.all(
+                                width: 2,
+                                color: Colors.grey[400]!,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: imgcon.isinitialized
-                              ? ClipRRect(
-                                  //  borderRadius: BorderRadius.circular(10),
-                                  child: imgcon.profileimage != null
-                                      ? Transform.flip(
-                                          flipX: true,
-                                          child: Image.file(
-                                            fit: BoxFit.contain,
-                                            File(imgcon.profileimage!.path),
-                                          ),
+                            child: imgcon.isinitialized
+                                ? ClipRRect(
+                                    //  borderRadius: BorderRadius.circular(10),
+                                    child: imgcon.profileImage != null
+                                        ? Image.memory(
+                                          fit: BoxFit.cover,
+                                          imgcon.profileImage!,
                                         )
-                                      : imgcon.buildPreview())
-                              : Center(
-                                  child: Icon(
-                                    Icons.camera,
-                                    color: Colors.grey,
-                                    size: 60,
-                                  ).animate(
-                                    onComplete: (controller) {
-                                      controller.repeat();
-                                    },
-                                  ).rotate(
-                                    duration: Duration(seconds: 2),
+                                        : imgcon.buildPreview())
+                                : Center(
+                                    child: Icon(
+                                      Icons.camera,
+                                      color: Colors.grey,
+                                      size: 60,
+                                    ).animate(
+                                      onComplete: (controller) {
+                                        controller.repeat();
+                                      },
+                                    ).rotate(
+                                      duration: Duration(seconds: 2),
+                                    ),
                                   ),
-                                ),
+                          ),
                         ),
                         Positioned(
                           top: 0,

@@ -246,11 +246,11 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                       setState(() {
                         isEmpty = false;
                       });
-                      imgcon.initializeCamera(
-                        isfront: true,
-                        isback: false,
-                        isprofilecam: false,
-                      );
+                      // imgcon.initializeCamera(
+                      //   isfront: true,
+                      //   isback: false,
+                      //   isprofilecam: false,
+                      // );
                       mngctrl.getDocumentDetails(
                           docID: docId.text,
                           docType: mngctrl.getPermit?.idProof ?? "");

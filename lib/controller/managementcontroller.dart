@@ -106,10 +106,12 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<bool> addtemporaryPermit(bool isCash,
-      
-      {
-        required String idProofs,
+  Future<String?> addtemporaryPermit(bool isCash,
+  
+      Uint8List passport,
+      Uint8List idcard,
+      Uint8List signature,
+      {required String idProofs,
       required String idno,
       required String purposeVisits,
       required String placestay,
@@ -127,8 +129,11 @@ class Managementcontroller extends GetxController {
       required String village,
       required String tehsl,
       required String applydistrict,
-      
-      required String pincode}) async {
+      required String pincode,
+      required String localres,
+      required String localnearestpol
+      }
+      ) async {
       VisitorEntry dummyVisitor = VisitorEntry(
   // idProof: "Aadhar",
   idProof:idProofs,
@@ -136,7 +141,7 @@ class Managementcontroller extends GetxController {
   category: "General",
   purposeVisit: purposeVisits,
   placeOfStay: placestay,
-  visitDate: "2025-02-19",
+  visitDate: DateTime(visitDates.year,visitDates.month,visitDates.day).toIso8601String(),
   // visitDate: visitDates,
   applcntName: name,
   applcntParent: parentname,
@@ -152,23 +157,22 @@ class Managementcontroller extends GetxController {
   applcntHNo: "",
   applcntTehsil: tehsl,
   gateID:_selectedGate?.id??"",
-  entryType: "Temporary Visit",
+  entryType: "Online",
   applyDistrictID: "",
-  residingPeriod: "15",
+  residingPeriod: "30",
   landmark: "",
-  district:districtss,
-  pinCode: "",
+  district:applydistrict,
+  pinCode: pincode,
   amount: '100',
+  lrName: localres,
+  nearestPS: localnearestpol,
   // transactionId:"Cash" 
-    transactionId:isCash?"Cash":generateRandomString(12)
+    transactionId:isCash?"CASH":generateRandomString(12)
 );
     print(" permit to post: ${dummyVisitor.toJson().toString()}");
 
-    String passportpath = 'assets/images/Kanglashanew1.png';
-    String idcardpath = 'assets/images/Kanglashanew1.png';
-    Uint8List passport = await getImageAssetBytes(passportpath);
-    Uint8List idcard = await getImageAssetBytes(idcardpath);
-    Map<String?, dynamic> ds =  await apicall.addPermit(passport, idcard,idcard,dummyVisitor);
+ 
+    Map<String?, dynamic> ds =  await apicall.addPermit(passport, idcard,signature, dummyVisitor);
     print('$ds $isLoading');
     if(isCash){
       //dialog for printing cash payments and going to counter
@@ -179,10 +183,10 @@ class Managementcontroller extends GetxController {
   //ffhdjf
 
       // printImageDirectly("Microsoft Print to PDF",);
-      
+      // printUsbReceiptWindows(passport,ds.entries.first.value);
     }
   
-    return ds.entries.first.value!=null;
+    return ds.entries.first.value;
   }
 
 
@@ -218,7 +222,16 @@ class Managementcontroller extends GetxController {
     // currentPermit = permit;
     update();
     Map<String, IlPmodel?> x = await apicall.fetchPermitData(permitnnum);
-    update();
+    // _currentPermitData = x.entries.first.value;
 
+    // fetchPermitmessage = x.entries.first.key;
+    // isFetchPermit = false;
+    // _addressloc = await getAddressFromLatLng(
+    //     double.tryParse(permit.latitude ?? '') ?? 0,
+    //     double.tryParse(permit.longitude ?? '') ?? 0);
+
+    update();
+    // log("_currentPermitData : " +
+    //     _currentPermitData!.applicantCategory.toString());
   }
 }

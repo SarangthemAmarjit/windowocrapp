@@ -517,6 +517,7 @@ class PaymentCard extends StatefulWidget {
 
 class _PaymentCardState extends State<PaymentCard> {
   final GlobalKey _globlkey = GlobalKey();
+             bool isload = false;
   @override
   Widget build(BuildContext context) {
     GetxTapController gcontroller = Get.put(GetxTapController());
@@ -683,62 +684,102 @@ class _PaymentCardState extends State<PaymentCard> {
                   ButtonCard(
                       title: "Register Permit",
                       onpress: () async {
+           
 
-
-
-
-
-                        // bool isload = false;
-
-
-                        //  setState(() {
-                        //                           isload = true;
-                        //                         });
+                         setState((){
+                                                  isload = true;
+                                                });
         
-                        //                          await mngctrl.addtemporaryPermit(true,
-                        //                          address: mngctrl.getPermit?.applcntAddress??"",
-                        //                          applydistrict: mngctrl.getPermit?.district??"",
-                        //                          districtss: mngctrl.getPermit?.applcntDistrict??"",
-                        //                          dob: mngctrl.getPermit?.applcntDOB??"",
-                        //                          email: mngctrl.getPermit?.applcntEmail??"",
-                        //                          gender: mngctrl.getPermit?.applcntGender??"",
-                        //                          idProofs: mngctrl.getPermit?.idProof??"",
-                        //                          idno: mngctrl.getPermit?.idNo??"",
-                        //                          mobile: mngctrl.getPermit?.applcntMobile??"",
-                        //                          name: mngctrl.getPermit?.applcntName??"",
-                        //                          parentname: mngctrl.getPermit?.applcntParent??"",
-                        //                          pincode: mngctrl.getPermit?.pinCode??"",
-                        //                          placestay: mngctrl.getPermit?.placeOfStay??"",
-                        //                          polstation: mngctrl.getPermit?.applcntPoliceStation??"",
-                        //                          purposeVisits: mngctrl.getPermit?.purposeVisit??"",
-                        //                          state: mngctrl.getPermit?.applcntState??"",
-                        //                          tehsl: mngctrl.getPermit?.applcntTehsil??"",
-                        //                          village: mngctrl.getPermit?.applcntVillage??"",
-                        //                          visitDates: DateTime.now(),
-                        //                          );
-                                          
-                        //                         setState(() {
-                        //                           isload = false;
-                        //                         });
+                                           String? s = await mngctrl.addtemporaryPermit(
+
+                                                true,
+                                                imgcon.profileImage!,
+                                                imgcon.idCardimage!,
+                                                imgcon.signature!,
+                                                address: mngctrl.getPermit
+                                                        ?.applcntAddress ??
+                                                    "",
+                                                applydistrict: mngctrl
+                                                        .getPermit?.district ??
+                                                    "",
+                                                districtss: mngctrl.getPermit
+                                                        ?.applcntDistrict ??
+                                                    "",
+                                                dob: mngctrl.getPermit
+                                                        ?.applcntDOB ??
+                                                    "",
+                                                email: mngctrl.getPermit
+                                                        ?.applcntEmail ??
+                                                    "",
+                                                gender: mngctrl.getPermit
+                                                        ?.applcntGender ??
+                                                    "",
+                                                idProofs: mngctrl
+                                                        .getPermit?.idProof ??
+                                                    "",
+                                                idno: mngctrl.getPermit?.idNo ??
+                                                    "",
+                                                mobile: mngctrl.getPermit
+                                                        ?.applcntMobile ??
+                                                    "",
+                                                name: mngctrl.getPermit
+                                                        ?.applcntName ??
+                                                    "",
+                                                parentname: mngctrl.getPermit
+                                                        ?.applcntParent ??
+                                                    "",
+                                                pincode: mngctrl
+                                                        .getPermit?.pinCode ??
+                                                    "",
+                                                placestay: mngctrl.getPermit
+                                                        ?.placeOfStay ??
+                                                    "",
+                                                polstation: mngctrl.getPermit
+                                                        ?.applcntPoliceStation ??
+                                                    "",
+                                                purposeVisits: mngctrl.getPermit
+                                                        ?.purposeVisit ??
+                                                    "",
+                                                state: mngctrl.getPermit
+                                                        ?.applcntState ??
+                                                    "",
+                                                tehsl: mngctrl.getPermit
+                                                        ?.applcntTehsil ??
+                                                    "",
+                                                village: mngctrl.getPermit
+                                                        ?.applcntVillage ??
+                                                    "",
+                                                visitDates: DateTime.now(),
+                                                localres:mngctrl.getPermit?.lrName ??'NA',
+                                                localnearestpol: mngctrl.getPermit?.nearestPS ??
+                                                    "NA",
+                                              );
+
+                                                setState(() {
+                                                  isload = false;
+                                                });
                                               
-                                              Get.dialog(
-                                              
-                                                navigatorKey: navigatorKey,
-                                                AlertDialog(
-                                                 
-                                            content:            RepaintBoundary(
-                                                key: _globlkey,
-        
-                                                child: ReceiptWidget(applicantName: "374873483748738", applicantId:"4783478347834")),
+                                              if (s!=null) {
+  Get.dialog(
+  
+ 
+    AlertDialog(
+     
+                                              content:            RepaintBoundary(
+    key: _globlkey,
+          
+    child: ReceiptWidget(applicantName: mngctrl.getPermit
+            ?.applcntName ??"NA", applicantId:s)),
+   
+    ));
+    Future.delayed(Duration(seconds: 3)).then((value) async {
+      print("nav Keys sdsd");
+     await imgcon.saveReceipt(_globlkey,s);
+        print("nav Keys");
                                                
-                                                ));
-                                                Future.delayed(Duration(seconds: 3)).then((value) async {
-                                                  print("nav Keys sdsd");
-                                                 await imgcon.saveReceipt(_globlkey,navigatorKey);
-                                                    print("nav Keys");
-                                             
-                                                Get.back();
-                                                },);
+    Get.back();
+    },);
+}
 
 
 

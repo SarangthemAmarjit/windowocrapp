@@ -232,7 +232,8 @@ class _IdSelectionAndScanningScreenState
                                             horizontal: 40),
                                         child: ElevatedButton(
                                           onPressed: () {
-                                            imgcon.takePicture();
+                                            
+                                            // imgcon.takePicture();
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
