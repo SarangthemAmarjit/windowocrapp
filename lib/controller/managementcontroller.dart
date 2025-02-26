@@ -71,6 +71,27 @@ class Managementcontroller extends GetxController {
     apicall.readPermit();
   }
 
+  String? validateAadhar(String? value) {
+    log(value.toString());
+    if (value == null || value.isEmpty) {
+      return 'Aadhar number is required';
+    }
+    if (!RegExp(r'^\d{12}$').hasMatch(value)) {
+      return 'Enter a valid 12-digit Aadhar number';
+    }
+    return null;
+  }
+
+  String? validatePAN(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'PAN number is required';
+    }
+    if (!RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$').hasMatch(value)) {
+      return 'Enter a valid PAN number (e.g., ABCDE1234F)';
+    }
+    return null;
+  }
+
   Future<void> getallGates() async {
     _allGates = await apicall.getAllGates();
     if (_allGates.isNotEmpty) {
@@ -97,12 +118,13 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  void verifydocid({required String doctype, required String docid}) async {
+  Future<String> verifydocid({required String doctype, required String docid}) async {
     var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
 
     _applicid = appid;
     update();
-    log("Application Id :" + _applicid);
+    return appid;
+  
   }
 
   Future<void> getallDocs() async {
