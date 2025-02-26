@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
-
+import 'dart:ui' as ui;
+import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/payment/PaymentPage.dart';
 import 'package:camera_windows_example/payment/atom_pay_helper.dart';
+import 'package:camera_windows_example/widgets/receiptpermit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:cryptography/cryptography.dart';
@@ -314,40 +317,58 @@ class GetxTapController extends GetxController {
     request.bodyFields = {'encData': authEncryptedString, 'merchId': login};
 
     http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
-      log('200');
-      var authApiResponse = await response.stream.bytesToString();
-      final split = authApiResponse.trim().split('&');
-      final Map<int, String> values = {
-        for (int i = 0; i < split.length; i++) i: split[i]
-      };
-      final splitTwo = values[1]!.split('=');
-      if (splitTwo[0] == 'encData') {
-        final encDataPart =
-            split.firstWhere((element) => element.startsWith('encData'));
-        final encryptedData = encDataPart.split('=')[1];
-        final extractedData = ['encData', encryptedData];
-        try {
-          final decryptedData = await decrypt(extractedData[1]);
-          debugPrint(decryptedData.toString()); // to read full response
-          var respJsonStr = decryptedData.toString();
-          Map<String, dynamic> jsonInput = jsonDecode(respJsonStr);
-          if (jsonInput["responseDetails"]["txnStatusCode"] == 'OTS0000') {
-            _atomTokenId = jsonInput["atomTokenId"].toString();
-            update();
-            debugPrint("atomTokenId: $_atomTokenId");
-            final String payDetails =
-                '{"atomTokenId" : "$_atomTokenId","merchId": "$login","emailId": "ffdsf@gmail.com","mobileNumber":"+913245672452", "returnUrl":"$returnUrl"}';
-            _openNdpsPG(
-                payDetails, context, responseHashKey, responseDecryptionKey);
-          } else {
-            debugPrint("Problem in auth API response");
-          }
-        } on PlatformException catch (e) {
-          debugPrint("Failed to decrypt: '${e.message}'.");
+    try {
+  if (response.statusCode == 200) {
+    log('200');
+    var authApiResponse = await response.stream.bytesToString();
+    final split = authApiResponse.trim().split('&');
+    final Map<int, String> values = {
+      for (int i = 0; i < split.length; i++) i: split[i]
+    };
+    try{
+  final splitTwo = values[1]!.split('=');
+    if (splitTwo[0] == 'encData') {
+      final encDataPart =
+          split.firstWhere((element) => element.startsWith('encData'));
+      final encryptedData = encDataPart.split('=')[1];
+      final extractedData = ['encData', encryptedData];
+      try {
+        final decryptedData = await decrypt(extractedData[1]);
+        debugPrint(decryptedData.toString()); // to read full response
+        var respJsonStr = decryptedData.toString();
+        Map<String, dynamic> jsonInput = jsonDecode(respJsonStr);
+        if (jsonInput["responseDetails"]["txnStatusCode"] == 'OTS0000') {
+          _atomTokenId = jsonInput["atomTokenId"].toString();
+          update();
+          debugPrint("atomTokenId: $_atomTokenId");
+          final String payDetails =
+              '{"atomTokenId" : "$_atomTokenId","merchId": "$login","emailId": "ffdsf@gmail.com","mobileNumber":"+913245672452", "returnUrl":"$returnUrl"}';
+          _openNdpsPG(
+              payDetails, context, responseHashKey, responseDecryptionKey);
+        } else {
+          debugPrint("Problem in auth API response");
         }
+      } on PlatformException catch (e) {
+        debugPrint("Failed to decrypt: '${e.message}'.");
       }
     }
+    }catch(e){
+     
+      Get.dialog(AlertDialog(content: Text("Failed to process online payment.Please Go at the counter",)));
+      Future.delayed(Duration(seconds: 3)).then((v){
+        Get.back();
+      });
+      paymnetFailedCallback();
+    debugPrint("Failed to decrypt data: '${e}'.");
+    }
+  
+  }
+} on Exception catch (e) {
+    paymnetFailedCallback();
+ 
+  debugPrint("Failed to decrypt data: '${e}'.");
+
+}
   }
 
   _openNdpsPG(payDetails, BuildContext context, responseHashKey,
@@ -359,6 +380,39 @@ class GetxTapController extends GetxController {
     //   update();
     // });
   }
+
+  Future<void> paymnetFailedCallback() async {
+
+
+      String? s = Get.find<Managementcontroller>().onlineAplicant;
+      if(s!= null){
+      GlobalKey key = GlobalKey();
+      Get.dialog(AlertDialog(content: RepaintBoundary(
+      key: key,
+      child: ReceiptWidget(applicantName: "", applicantId: s)),));
+      await Future.delayed(Duration(seconds: 2));
+      RenderRepaintBoundary boundary = key.currentContext!
+          .findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage();
+      print("nav Keys image in save receipt");
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List barcodes = byteData!.buffer.asUint8List();
+      Get.back();
+      try
+      {
+      printUsbReceiptWindows(barcodes, s);
+      }catch(e){
+        print("Printere Exception");
+     
+      }
+      _ispaymentprocessstarted = false;
+      update();
+    Get.find<PagenavControllers>().setmainpageindex(ind:6);
+    Get.offAll(()=>LandingPage());
+    }
+  }
+
 
   _getJsonPayloadData(
       {required String name, required String amount, required String address}) {

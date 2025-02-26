@@ -1,0 +1,8 @@
+set mainpage index
+
+4 permit generated after cash
+
+7 permit generated if there is existing user
+
+6 if online payment failed to process
+5 if paym

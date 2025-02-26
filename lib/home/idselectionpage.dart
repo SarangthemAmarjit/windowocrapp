@@ -140,7 +140,7 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
         pagecon.changeIdSelection();
         pagecon.setdocindex(ind: docindex);
         // pagecon.setmainpageindex(ind: 3);
-        mngctrl.getDocumentDetails(docID: "12034885", docType: text);
+        mngctrl.getDocumentDetails(docID: "", docType: text);
 
         //return to front page if not active for 30 seconds
         pagecon.listenPageChange();
@@ -237,6 +237,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     child: Form(
                       key: _formKey,
                       child: TextFieldWidget(
+                        errorSize: 24,
                         keytype: pagectrl.docindex == 0
                             ? TextInputType.number
                             : null,
@@ -321,7 +322,8 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
                                   Get.back();
                                   Get.back();
-                                  pagectrl.setmainpageindex(ind: 4);
+                                  
+                                  pagectrl.setmainpageindex(ind: 7);
                                 },
                               );
 

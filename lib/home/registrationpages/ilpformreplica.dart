@@ -55,7 +55,22 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
           _nameController.text = d.applcntName ?? "";
           _parentNameController.text = d.applcntParent ?? "";
           _idNoController.text = d.idNo ?? "";
-          _districtController.text = d.district ?? "";
+          _districtController.text = d.applcntDistrict ?? "";
+          _emailController.text = d.applcntEmail??"";
+          _mobileController.text = d.applcntMobile??"";
+          _placeStayController.text = d.placeOfStay??"";
+          _visitPurposeController.text =d.purposeVisit??"";
+          _nearestpliceController.text =d.applcntPoliceStation??"";
+          _villageController.text = d.applcntVillage??"";
+            _tehsilController.text = d.applcntTehsil??"";
+            _localpincodeController.text = d.pinCode??"";
+            _localpolicestationController.text = d.nearestPS??"";
+            _localresidencename.text = d.lrName??"";
+            _dob = DateTime.tryParse(d.applcntDOB??"");
+            if(d.district!=null ||  d.district!.isNotEmpty){
+
+              district  = d.district??"";
+            }
         }
       },
     );
@@ -374,6 +389,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
 
                             mngctrl.addPermit(permits);
                             controller.changePage(2);
+                            controller.pageIncremeter(2);
                             setState(() {
                               datenullText = null;
                               statenullText = null;
@@ -656,7 +672,7 @@ class TextFieldWidget extends StatelessWidget {
     this.focusnode,
     this.fontSize,
     this.contentpadding,
-    this.mandatory = true, this.keytype,
+    this.mandatory = true, this.keytype, this.errorSize,
   });
   final double? fontSize;
   final FocusNode? focusnode;
@@ -668,6 +684,7 @@ class TextFieldWidget extends StatelessWidget {
   final int? counter;
   final bool mandatory;
   final TextInputType? keytype;
+  final double? errorSize;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -687,8 +704,8 @@ class TextFieldWidget extends StatelessWidget {
           
           errorStyle: TextStyle(
             color: Colors.red, // Change error text color
-            fontSize: 24, // Change font size
-            fontWeight: FontWeight.bold, // Make it bold
+            fontSize: errorSize??null, // Change font size
+            // fontWeight: FontWeight.bold, // Make it bold
           ),
           contentPadding: contentpadding,
           labelStyle: TextStyle(fontSize: 20),

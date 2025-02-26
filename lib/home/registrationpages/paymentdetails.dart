@@ -912,7 +912,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                 print("nav Keys");
 
                                 Get.back();
-
+                                  pagectrl.pageIncremeter(4);
                                 pagectrl.setmainpageindex(ind: 4);
                               },
                             );

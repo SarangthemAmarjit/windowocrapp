@@ -17,7 +17,7 @@ class PagenavControllers extends GetxController {
   /// for changing between id card and id number enter fields in ID Selection page
   bool IdSelection = false;
   Timer? _timer;
-
+  int incrementPage = 1;
   void listenPageChange() {
     //     if(_mainpageindex!=0){
     //       if(_timer!=null){
@@ -41,6 +41,14 @@ class PagenavControllers extends GetxController {
     //         _timer!.cancel();
     //       }
     //     }
+  }
+
+  void pageIncremeter(int index){
+    if(index>incrementPage){
+
+      incrementPage = index;
+    }
+      update();
   }
 
   void changePage(int index) {
@@ -91,6 +99,7 @@ class PagenavControllers extends GetxController {
   void reset() {
     IdSelection = false;
     page = 1;
+    incrementPage = 1;
     regPage = 0;
     _docindex = 0;
     cardtype = null;

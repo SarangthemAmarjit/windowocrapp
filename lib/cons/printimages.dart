@@ -247,7 +247,7 @@ void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
 void printToWindowsPrinter(String printerName, Uint8List data,Sizes size) {
   final hPrinter = calloc<HANDLE>();
 
-    
+      print("open printer $printerName");
 
   final pDocInfo = calloc<DOC_INFO_1>()
     ..ref.pDocName = "Flutter Print sign".toNativeUtf16()

@@ -75,9 +75,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () {
+                    onTap:controller.incrementPage>0? () {
                       controller.changePage(1);
-                    },
+                    }:null,
                     child: Center(
                         child: Text(
                       "Personal Details",
@@ -89,9 +89,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () {
+                    onTap:controller.incrementPage>1? () {
                       controller.changePage(2);
-                    },
+                    }:null,
                     child: Center(
                         child: Text(
                       "Profile Image",
@@ -105,9 +105,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                          Expanded(
                   child: InkWell(
-                    onTap: () {
+                    onTap:controller.incrementPage>2? () {
                       controller.changePage(3);
-                    },
+                    }:null,
                     child: Center(
                         child: Text(
                       "Card  & Signature",
@@ -121,9 +121,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () {
+                    onTap:controller.incrementPage>3? () {
                       controller.changePage(4);
-                    },
+                    }:null,
                     child: Center(
                         child: Text(
                       "Payment",
