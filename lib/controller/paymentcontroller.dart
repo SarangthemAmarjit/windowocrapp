@@ -130,9 +130,7 @@ class GetxTapController extends GetxController {
   final String clientcode = "NAVIN"; //mandatory
   final String txncurr = "INR"; //mandatory
   final String mccCode = "5499"; //mandatory
-  final String merchType = "R"; //mandatory
-  // final String amount = "1.00"; //mandatory
-
+  final String merchType = "R"; //mandatory// final String amount = "1.00"; //mandat
   final String mode = "uat"; // change live for production
 
   // final String custFirstName = 'test'; //optional
@@ -270,11 +268,11 @@ class GetxTapController extends GetxController {
       required String responseHashKey,
       required String responseDecryptionKey,
       required String name,
+      required String transId,
       required String amount,
       required String address}) {
     _ispaymentprocessstarted = true;
-    gettransactionid();
-    update();
+     gettransactionid(transId);
     _getEncryptedPayUrl(
         context: context,
         responseHashKey: responseHashKey,
@@ -515,16 +513,10 @@ class GetxTapController extends GetxController {
 
   /// GENERATE RANDOM TRANSACTION ID
 
-  void gettransactionid() {
-    String generateRandomString(int length) {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      final random = math.Random();
-      return List.generate(
-              length, (index) => characters[random.nextInt(characters.length)])
-          .join();
-    }
+  void gettransactionid(String transId) {
 
-    _transacid = generateRandomString(10);
+
+    _transacid = transId;
     update();
     print(_transacid);
   }

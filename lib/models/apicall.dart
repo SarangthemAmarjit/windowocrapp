@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:camera_windows_example/models/gate.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
 
+import 'paymentresponse.dart';
 import 'permit.dart';
 
 abstract class ApiCall {
@@ -16,4 +17,5 @@ abstract class ApiCall {
   Future<String> getallpremitprice();
   Future<Map<String, IlPmodel?>> fetchPermitData(String permitnum);
   Future<String> verifydoc({required String doctype, required String idnumber});
+  Future<PaymentResponse?> sendPayment(Payment payment);
 }

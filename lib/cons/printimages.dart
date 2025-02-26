@@ -185,6 +185,65 @@ void printUsbReceiptWindows(Uint8List d,String applicantID) async {
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
 
+
+void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
+  final profile = await CapabilityProfile.load();
+  final generator = Generator(PaperSize.mm80, profile);
+  final List<int> bytes = [];
+
+  // Add text
+  bytes.addAll(generator.text(
+    'ILP MANIPUR',
+    styles: const PosStyles(
+      align: PosAlign.center,
+      height: PosTextSize.size2,
+      width: PosTextSize.size2,
+    ),
+  ));
+  bytes.addAll(generator.text('Date: ${DateTime.now()}',
+      styles: const PosStyles(align: PosAlign.center)));
+        bytes.addAll(generator.feed(2));
+
+ bytes.addAll(generator.text('Applicant ID',
+      styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.feed(1));
+  bytes.addAll(generator.text('$applicantID',
+      styles: const PosStyles(align: PosAlign.center,
+       height: PosTextSize.size3,
+      width: PosTextSize.size3,
+      )));
+  bytes.addAll(generator.feed(1));
+  
+  // bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
+  bytes.addAll(generator.text('Permit No:',
+      styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.feed(1));
+  bytes.addAll(generator.text('$permitno',
+      styles: const PosStyles(align: PosAlign.center,
+       height: PosTextSize.size3,
+      width: PosTextSize.size3,
+      )));
+  bytes.addAll(generator.feed(2));
+ 
+ bytes.addAll(generator.text('',
+      styles: const PosStyles(align: PosAlign.center)));
+       bytes.addAll(generator.text('A message will be sent to your number with the link.',
+      styles: const PosStyles(align: PosAlign.center)));
+         bytes.addAll(generator.text('Download the receipt.',
+      styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.feed(1));
+  bytes.addAll(generator.text(' ---------------------------------------------------------------'));
+
+  bytes.addAll(generator.text('Enjoy your stay!',
+      styles: const PosStyles(align: PosAlign.center)));
+
+  bytes.addAll(generator.cut());
+
+  // Send raw bytes to USB printer
+  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes),Sizes(80,180));
+  // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
+}
+
 void printToWindowsPrinter(String printerName, Uint8List data,Sizes size) {
   final hPrinter = calloc<HANDLE>();
 

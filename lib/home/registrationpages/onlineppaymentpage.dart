@@ -8,18 +8,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:async';
-class Successpages extends StatefulWidget {
-  const Successpages({super.key, this.transactionstatus, this.trasactionstatus, this.transactionid, this.paymentmethodname, this.totalamount});
-  final String? transactionstatus;
-  final int? trasactionstatus;
-  final String? transactionid;
-  final String? paymentmethodname;
-  final String? totalamount;
+class OnlinePaymentPage extends StatefulWidget {
+  const OnlinePaymentPage({super.key,});
+
   @override
-  State<Successpages> createState() => _SuccesspagesState();
+  State<OnlinePaymentPage> createState() => _OnlinePaymentPageState();
 }
 
-class _SuccesspagesState extends State<Successpages> {
+class _OnlinePaymentPageState extends State<OnlinePaymentPage> {
  
 
    final player = AudioPlayer();
@@ -34,21 +30,22 @@ class _SuccesspagesState extends State<Successpages> {
   void initState() {
 
     super.initState();
-    
-
 
 
     WidgetsBinding.instance.addPostFrameCallback((_){
+        // if(widget.transactionstatus=="SUCCESS"){
 
-        playTimerSound('success.mp3');
-        startDelayedAction();
+        // playTimerSound('success.mp3');
+        // startDelayedAction();
+
+        // }
     });
 
   }
 
 
   void startDelayedAction() {
-    _timer = Timer(Duration(seconds: 15), () {
+    _timer = Timer(Duration(seconds: 20), () {
       // This will execute after 5 seconds unless canceled
      Get.find<PagenavControllers>().reset();
     Get.find<Imagecontroller>().disposeAll();
@@ -68,7 +65,6 @@ class _SuccesspagesState extends State<Successpages> {
 
   _timer!.cancel();
     }
-    // TODO: implement dispose
     super.dispose();
   }
   @override
@@ -96,7 +92,7 @@ class _SuccesspagesState extends State<Successpages> {
                         ),
                         child: Lottie.asset('assets/receipt.json',repeat: false)).animate().fadeIn().slideY(begin: -0.5,end: 0,duration: Duration(milliseconds: 800)),
                       SizedBox(height: 20,),
-                      imgcon.receipt!=null ? Text("Your Receipt Has been Generated. Please collect your receipt",style: TextStyle(fontSize: 30),).animate().fadeIn().slideY(begin: 1,end:0,delay: Duration(milliseconds: 400)):Text("Failed to generate permit.Please try again",style: TextStyle(fontSize: 30)).animate().fadeIn().slideY(begin: 0,end:0,delay: Duration(milliseconds: 400)),
+                    //  widget.transactionstatus=="SUCCESS" ? Text("Your Receipt Has been Generated. Please collect your receipt",style: TextStyle(fontSize: 30),).animate().fadeIn().slideY(begin: 1,end:0,delay: Duration(milliseconds: 400)):Text("Payment failed.\nFailed to generate permit.Please try again",style: TextStyle(fontSize: 30)).animate().fadeIn().slideY(begin: 0,end:0,delay: Duration(milliseconds: 400)),
                       SizedBox(height: 20,),
                       SizedBox(
                         width: 300,

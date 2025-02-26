@@ -8,6 +8,7 @@ import 'package:camera_windows_example/models/verifydoc.dart';
 import 'package:http/http.dart' as http;
 import '../cons/constant.dart';
 import 'apicall.dart';
+import 'paymentresponse.dart';
 import 'permit.dart';
 
 class ApicallImpl extends ApiCall {
@@ -99,31 +100,44 @@ class ApicallImpl extends ApiCall {
       final respo = jsonDecode(response.body) as List<dynamic>;
       return respo.map((e) => Gate.fromJson(e)).toList(); // Parsing JSON
     } else {
-      throw Exception("Failed to load data");
+      return [];
     }
   }
 
   @override
   Future<List<String>> getDocumentType() async {
     final response = await http
-        .get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getallidtype"));
+        .get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getallidtype"),
+        headers:
+         {
+          'X-Key': 'hfuygf765r76yu',
+         }
+        );
     print("In response");
     if (response.statusCode == 200) {
       print(response.body);
       final respo = jsonDecode(response.body) as List<dynamic>;
       return respo.map((e) => e.toString()).toList(); // Parsing JSON
     } else {
-      throw Exception("Failed to load data");
+    return [];
     }
   }
 
   @override
   Future<String> getallpremitprice() async {
+      var headers = {
+    'Content-Type': 'application/json',
+    'X-Key': 'hfuygf765r76yu',
+  };
+
+      
     var request =
-        http.Request('GET', Uri.parse('$localapi/api/kiosk/getallfees'));
-
+        http.Request('GET', Uri.parse('$localapi/api/kiosk/getallfees',
+        
+        ));
+    request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-
+    request.headers.addAll(headers);
     if (response.statusCode == 200) {
       String alldata = await response.stream.bytesToString();
       return alldata;
@@ -145,11 +159,16 @@ class ApicallImpl extends ApiCall {
     // request.headers.addAll(headers);
 
     // http.StreamedResponse response = await request.send();
-  final response = await http.post(Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'),
+  final response = await http.post(
+    
+    
+    Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'),
   body: json.encode({"IdType": doctype, "IdNumber": idnumber}),
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'X-Key': 'hfuygf765r76yu',
   }
+  
   );
     if (response.statusCode == 200) {
       print("shfjfh");
@@ -167,7 +186,13 @@ class ApicallImpl extends ApiCall {
   Future<Map<String, IlPmodel?>> fetchPermitData(String permitnum) async {
     IlPmodel? d;
     try {
-      final response = await http.get(Uri.parse('$permitapi$permitnum'));
+      final response = await http.get(
+          headers: {
+    'Content-Type': 'application/json',
+    'X-Key': 'hfuygf765r76yu',
+  },
+  
+        Uri.parse('$permitapi$permitnum'));
       print(response.statusCode.toString());
       if (response.statusCode >= 200 && response.statusCode < 300) {
         log("response.body : " + response.body);
@@ -190,4 +215,35 @@ class ApicallImpl extends ApiCall {
       return {"Failed to fetch permit": null};
     }
   }
+
+Future<PaymentResponse?> sendPayment(Payment payment) async {
+  final url = Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/callback');
+  print("to send payment data: ${payment.toJson()}");
+  try {
+    final response = await http.post(
+
+  
+      url,
+      headers: {'Content-Type': 'application/json',
+         'X-Key': 'hfuygf765r76yu',
+      },
+      body: jsonEncode(payment.toJson()),
+    );
+    print("payments ::    ${response.statusCode} --  ${response.body}");
+   
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return PaymentResponse.fromJson(jsonDecode(response.body));
+    } else if (response.statusCode == 400) {
+      print('Bad Request: ${response.body}');
+    } else {
+      print('Failed to send payment: ${response.statusCode} - ${response.body}');
+    }
+  } catch (e) {
+    print('Error gett payment: $e');
+  }
+  return null;
 }
+
+}
+
+

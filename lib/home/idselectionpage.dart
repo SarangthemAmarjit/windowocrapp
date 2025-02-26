@@ -276,6 +276,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                         mngctrl.getDocumentDetails(docID: docId.text, docType: s);
                         pagectrl.setmainpageindex(ind: 2);
                         pagectrl.changeIdSelection();
+                        pagectrl.listenPageChange();
                       } else {
                         Get.dialog(AlertDialog(
                           content: RepaintBoundary(

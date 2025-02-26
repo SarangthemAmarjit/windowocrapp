@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 
 import '../cons/constant.dart';
 import '../models/gate.dart';
+import '../models/paymentresponse.dart';
 import '../widgets/receiptpermit.dart';
 
 class Managementcontroller extends GetxController {
@@ -33,7 +34,7 @@ class Managementcontroller extends GetxController {
 
   String _applicid = '';
   String get applicid => _applicid;
-
+  String? onlineAplicant;
   Gate? _selectedGate;
   Gate? get selectedGate => _selectedGate;
 
@@ -69,6 +70,11 @@ class Managementcontroller extends GetxController {
 
   void readPermit() {
     apicall.readPermit();
+  }
+
+  void setOnlineApplId(String? s){
+    onlineAplicant = s;
+    update(); 
   }
 
   String? validateAadhar(String? value) {
@@ -155,11 +161,10 @@ class Managementcontroller extends GetxController {
   //get document verification details from api
   Future<void> getDocumentDetails(
       {required String docID, required String docType}) async {
-    isLoading = true;
-    update();
+
     //fetch doc from api
     _permit = VisitorEntry(idProof: docType, idNo: docID);
-    isLoading = false;
+   
     update();
   }
 
@@ -221,6 +226,10 @@ class Managementcontroller extends GetxController {
         nearestPS: localnearestpol,
         // transactionId:"Cash"
         transactionId: isCash ? "CASH" : generateRandomString(12));
+       
+        print(":::::::::::");
+        print("TransactionID ::: ${dummyVisitor.transactionId} ");
+        print(":::::::::::");
     print(" permit to post: ${dummyVisitor.toJson().toString()}");
 
     Map<String?, dynamic> ds =
@@ -238,7 +247,7 @@ class Managementcontroller extends GetxController {
       // printUsbReceiptWindows(passport,ds.entries.first.value);
     }
 
-    return ds.entries.first.value;
+    return ds.entries.first.value==0?null:ds.entries.first.value;
   }
 
   void addPermit(VisitorEntry? permits) {
@@ -284,6 +293,16 @@ class Managementcontroller extends GetxController {
     update();
     // log("_currentPermitData : " +
     //     _currentPermitData!.applicantCategory.toString());
+  }
+
+  Future<void> addPayments(Payment pays)async{
+  PaymentResponse? payres =   await apicall.sendPayment(pays);
+  if(payres!=null){
+    printUsbReceiptWindowsonline( onlineAplicant??"",payres.permitNo);
+    setOnlineApplId(null);
+  }
+  update();
+
   }
 
   void disposeAll() {

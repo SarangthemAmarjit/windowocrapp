@@ -2,6 +2,7 @@ import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/home/idselectionpage.dart';
 import 'package:camera_windows_example/home/registration.dart';
+import 'package:camera_windows_example/home/registrationpages/onlineppaymentpage.dart';
 import 'package:camera_windows_example/home/registrationpages/succespage.dart';
 import 'package:camera_windows_example/home/welcomepage.dart';
 import 'package:camera_windows_example/widgets/errorwidget.dart';
@@ -11,7 +12,7 @@ import 'package:get/get.dart';
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    PagenavControllers pagenav = Get.put(PagenavControllers());
+    PagenavControllers pagenav = Get.find<PagenavControllers>();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 162, 207, 240),
       body: GetBuilder<Connectivitycontroller>(
@@ -57,7 +58,7 @@ class LandingPage extends StatelessWidget {
                           
                             : pagenav.mainpageindex == 1
                                 ? DocumentScanPage()
-                                :pagenav.mainpageindex ==2?  Center(child: RegistrationPage()):Successpages() )),
+                                :pagenav.mainpageindex ==2?  Center(child: RegistrationPage()):pagenav.mainpageindex == 5?OnlinePaymentPage():Successpages() )),
                  ),
                 ],
               ),

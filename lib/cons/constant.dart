@@ -1,6 +1,7 @@
 List<String> genders = ["Male", "Female", "Others"];
 String gate = "Imphal Airport";
 String rupee = "₹";
+bool onlinePayment = true;
 String printername = "CUSTOM K80";
 final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
 final List<String> purposes = ["Tourist", "Official", "Business", "Others"];
@@ -69,6 +70,8 @@ Map<String, dynamic> paymentmethod = {
   "BQ": "BharatQR",
   "UP": "Unified Payment Interface",
 };
+
+
 
 
 List<String> districts = [
