@@ -232,7 +232,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                     transactionid = jsonInput['payInstrument']
                                         ['merchDetails']['merchTxnId'];
                                     gcontroller.updatepaymentremark(
-                                        transactionid: transactionid, remark: 'Success');
+                                        transactionid: transactionid, remark: 'SUCCESS');
                       
                                     var paymethod = jsonInput['payInstrument']
                                             ['payModeSpecificData']['subChannel'][0]
