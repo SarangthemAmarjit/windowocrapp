@@ -263,10 +263,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                               }
                            
                             }
-                                  await mngctrl.addPayments(Payment(paymentId: transactionid, method: paymentmethodname, status: transactionResult, amount:  100));
-                            pagectrl.setmainpageindex(ind:5);
-                            Get.offAll(()=>LandingPage());
-                                                          
+                                
                             _closeWebView(
                                 
                                 context: context,

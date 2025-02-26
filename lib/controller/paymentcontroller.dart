@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:camera_windows_example/controller/managementcontroller.dart';
+import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/payment/PaymentPage.dart';
 import 'package:camera_windows_example/payment/atom_pay_helper.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +16,11 @@ import 'package:intl/intl.dart';
 
 import 'package:get/get.dart';
 
+import '../home/landingpage.dart';
+import '../models/paymentresponse.dart';
+
 class GetxTapController extends GetxController {
   GetxTapController();
-
   String? _validationError;
   String? get validationError => _validationError;
 
@@ -475,35 +479,11 @@ class GetxTapController extends GetxController {
     update();
 
     try {
-      final queryParameters = {"transacid": transactionid};
-      final response = await http.put(
-        Uri.http(
-          '10.10.1.139:8099', // host and port
-          '/api/Billings/UpdatePayment', // path
-          queryParameters, // query parameters
-        ),
-        headers: {
-          'Content-Type': 'application/json', // Set the Content-Type header
-        },
-        body: jsonEncode({
-          "remark": remark,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        print('Done updated Successfully');
-        var date = DateTime.now();
-
-        transactiondate = DateFormat('dd/MM/yyyy').add_jm().format(date);
-
-        log(transactiondate);
-
-        update();
-      } else {
-        _ispaymentinfosend = false;
-        update();
-        print('Failed to update data.');
-      }
+      Payment p = Payment(paymentId: transactionid,status: remark,amount: 100,method: "DC");
+     await Get.find<Managementcontroller>().addPayments(p);
+    Get.find<PagenavControllers>().setmainpageindex(ind:5);
+                            Get.offAll(()=>LandingPage());
+                                                          
     } catch (e) {
       _ispaymentinfosend = false;
       update();
@@ -511,11 +491,9 @@ class GetxTapController extends GetxController {
     }
   }
 
-  /// GENERATE RANDOM TRANSACTION ID
+  /// G
 
   void gettransactionid(String transId) {
-
-
     _transacid = transId;
     update();
     print(_transacid);

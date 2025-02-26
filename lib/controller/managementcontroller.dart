@@ -231,6 +231,11 @@ class Managementcontroller extends GetxController {
         print(":::::::::::");
         print("TransactionID ::: ${dummyVisitor.transactionId} ");
         print(":::::::::::");
+     
+     
+      _permit!.transactionId = dummyVisitor.transactionId;
+   
+      
     print(" permit to post: ${dummyVisitor.toJson().toString()}");
 
     Map<String?, dynamic> ds =
