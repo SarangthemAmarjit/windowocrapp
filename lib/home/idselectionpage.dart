@@ -265,37 +265,39 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                         // Form is valid, proceed with the logic
 
                         var app_id = await mngctrl.verifydocid(
-                            doctype: mngctrl.getPermit?.idProof ?? "",
-                            docid: docIdController.text);
+                            doctype: docId.text,
+                            docid: mngctrl.getPermit?.idProof ?? "");
                         if (app_id.isNotEmpty && app_id == 'not found') {
                           pagectrl.setmainpageindex(ind: 4);
                           pagectrl.changeIdSelection();
                         } else {
-                          Get.dialog(
-                              GetBuilder<Managementcontroller>(builder: (_) {
-                            return !mngctrl.ispressverified
-                                ? AlertDialog(
-                                    content: RepaintBoundary(
-                                        key: _globlkey,
-                                        child: ReceiptWidget(
-                                            applicantName: '',
-                                            applicantId: app_id)))
-                                : AlertDialog(
-                                    title: Text('Applicant Already Exist'),
-                                    content: Text(
-                                        'Please collect the receipt and proceed to the counter for further processing.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          pagectrl.setmainpageindex(ind: 0);
-                                          mngctrl.setverifybuttonbool(false);
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                          }));
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return StatefulBuilder(builder: (context, s) {
+                                return !mngctrl.ispressverified
+                                    ? AlertDialog(
+                                        content: RepaintBoundary(
+                                            key: _globlkey,
+                                            child: ReceiptWidget(
+                                                applicantName: '',
+                                                applicantId: app_id)))
+                                    : AlertDialog(
+                                        title: Text('Applicant Already Exist'),
+                                        content: Text(
+                                            'Please collect the receipt and proceed to the counter for further processing.'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                              });
+                            },
+                          );
 
                           Future.delayed(Duration(milliseconds: 100)).then(
                             (value) async {
