@@ -134,40 +134,32 @@ class ApicallImpl extends ApiCall {
   }
 
   @override
-  Future<String> verifydoc({
-    required String doctype,
-    required String idnumber,
-  }) async {
-    try {
-      log(doctype);
-      log(idnumber);
+  Future<String> verifydoc(
+      {required String doctype, required String idnumber}) async {
+    // var headers = {'Content-Type': 'application/json'};
+    // var request = http.Request('POST',
+    //     Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'));
+    
+    // request.body = json.encode({"IdType": doctype, "IdNumber": idnumber});
+    
+    // request.headers.addAll(headers);
 
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request(
-        'POST',
-        Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'),
-      );
-      request.body = json.encode({"IdType": doctype, "IdNumber": idnumber});
-      request.headers.addAll(headers);
-
-      http.StreamedResponse response = await request.send();
-      log(response.statusCode.toString());
-
-      if (response.statusCode == 200) {
-        String responseBody = await response.stream.bytesToString();
-        print(responseBody);
-
-        // Assuming verifydocModelFromJson is your JSON parser
-        var appliid = verifydocModelFromJson(responseBody);
-        return appliid.applicationId;
-      } else {
-        log(response.reasonPhrase.toString());
-        return 'not found';
-      }
-    } catch (e, stackTrace) {
-      log('Error occurred: $e');
-      log('Stack trace: $stackTrace');
-      return 'error';
+    // http.StreamedResponse response = await request.send();
+  final response = await http.post(Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'),
+  body: json.encode({"IdType": doctype, "IdNumber": idnumber}),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+  );
+    if (response.statusCode == 200) {
+      print("shfjfh");
+      print(response.body);
+      var appliid =verifydocModelFromJson(response.body);
+      print("application ID:${appliid.applicationId}");
+      return appliid.applicationId;
+    } else {
+      print(response.reasonPhrase);
+      return 'not found';
     }
   }
 

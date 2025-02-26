@@ -252,6 +252,7 @@ class _IdSelectionAndScanningScreenState
                                               child: ElevatedButton(
                                                 onPressed: () {
                                                   imgcon.takePicture();
+                                                  pngcon.listenPageChange();
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor:
@@ -428,6 +429,7 @@ class _IdSelectionAndScanningScreenState
                                   onTap: () {
                                     // changing page in registration going back to image page
                                     pngcon.changePage(2);
+                                    pngcon.listenPageChange();
                                   },
                                   child: Container(
                                     // margin: EdgeInsets.symmetric(horizontal: 16),
@@ -470,6 +472,7 @@ class _IdSelectionAndScanningScreenState
                                     imgcon.saveCard(_key);
 
                                     changepages();
+                                    pngcon.listenPageChange();
                                   },
                                   child: Container(
                                     //  margin: EdgeInsets.symmetric(horizontal: 16),

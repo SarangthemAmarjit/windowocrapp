@@ -103,6 +103,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             onPressed: () {
               pagecon.setmainpageindex(ind: 1);
+
+              //return to front page if not active for 30 seconds
+              pagecon.listenPageChange();
             },
             child: const Text(
               'Apply for New Permit',
@@ -292,7 +295,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           // ),
           const SizedBox(height: 30),
         ],
-      );
+      ).animate().fadeIn(curve: Curves.easeIn);
     });
   }
 }

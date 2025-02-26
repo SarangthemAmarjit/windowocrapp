@@ -159,7 +159,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         children: [
                           Expanded(
                             child:
-                                _buildDateField('Date of Birth', _dob, (value) {
+                                _buildDateField('* Date of Birth', _dob, (value) {
                               setState(() {
                                 _dob = value;
                               });
@@ -179,7 +179,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         children: [
                           Expanded(
                             child: _buildDropdownField(
-                                'State', states, mngctrl.state, (value) {
+                                '* State', states, mngctrl.state, (value) {
                               mngctrl.changeState(value!);
                             }, statenullText),
                           ),
@@ -208,7 +208,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                   _buildTextField('Tehsil', _tehsilController)),
                         ],
                       ).animate().fadeIn(delay: Duration(milliseconds: 1000)),
-                      _buildRadioGroup('Gender', genders, mngctrl.gender,
+                      _buildRadioGroup('* Gender', genders, mngctrl.gender,
                           (value) {
                         mngctrl.changeGender(value!);
                       }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
@@ -399,16 +399,17 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                               });
                             }
 
-                            if (mngctrl.purpose == null) {
-                              setState(() {
-                                purposevisitnulltext =
-                                    "Purpose cannot be empty";
-                              });
-                            } else {
-                              setState(() {
-                                purposevisitnulltext = null;
-                              });
-                            }
+                                    if(mngctrl.purpose==null){
+                                  setState(() {
+                                    purposevisitnulltext = "Purpose cannot be empty";
+                                  });
+                              }else{
+                                    setState(() {
+                                      purposevisitnulltext = null;
+                                    });
+                              }
+                               controller.listenPageChange();
+                            
                           }
                         },
                         child: Container(

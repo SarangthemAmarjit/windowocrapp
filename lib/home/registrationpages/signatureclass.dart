@@ -130,8 +130,11 @@ class _PaintCanvasState extends State<PaintCanvas> {
                                   Expanded(
                                     child: InkWell(
                                       onTap:
-                                       points.isEmpty?null: _clearDrawing,
-                                    
+                                       points.isEmpty?null:(){
+                                        _clearDrawing();
+                                          controller.listenPageChange();
+                                       } ,
+
                                       child: Container(
                                         // margin: EdgeInsets.symmetric(horizontal: 16),
                                         width: double.infinity,
@@ -177,10 +180,10 @@ class _PaintCanvasState extends State<PaintCanvas> {
             //  final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
             //  await file.writeAsBytes(pngBytes);
               imgcon.saveImage(pngBytes);
-              printImageDirectly("Microsoft Print to PDF", pngBytes,Sizes(80, 180));
          
          
                                         controller.changePage(4);
+                                        controller.listenPageChange();
                                       },
                                       child: Container(
                                         //  margin: EdgeInsets.symmetric(horizontal: 16),

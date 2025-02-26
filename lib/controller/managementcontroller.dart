@@ -42,7 +42,7 @@ class Managementcontroller extends GetxController {
 
   bool _ispressverified = false;
   bool get ispressverified => _ispressverified;
-
+  bool  isVeriflyloading = false;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -113,17 +113,31 @@ class Managementcontroller extends GetxController {
     update();
   }
 
+  void applicidVerifynull(){
+    _applicid ="";
   void setverifybuttonbool(bool isfinish) {
     _ispressverified = isfinish;
     update();
   }
 
-  Future<String> verifydocid({required String doctype, required String docid}) async {
-    var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
+  }
+
+
+  Future<void> verifydocid({required String doctype, required String docid}) async {
+    isVeriflyloading = true;
+    update();
+    try{
+        var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
+    print(" doctype: $doctype  dociDno.: $docid");
 
     _applicid = appid;
-    update();
-    return appid;
+  
+    }catch(e){
+      print(e);
+    _applicid = "";
+    }
+    isVeriflyloading = false;
+      update();
   
   }
 
@@ -214,9 +228,9 @@ class Managementcontroller extends GetxController {
     print('$ds $isLoading');
     if (isCash) {
       //dialog for printing cash payments and going to counter
-      Get.dialog(AlertDialog(
-        content: Text(ds.entries.first.value ?? "no messae"),
-      ));
+      // Get.dialog(AlertDialog(
+      //   content: Text(ds.entries.first.value ?? "no messae"),
+      // ));
 
       //ffhdjf
 

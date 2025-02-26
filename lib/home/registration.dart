@@ -163,14 +163,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             controller.page == 1
                 ? TemporaryILPFormReplica()
+                
 
                 //     : controller.page == 3
                 //         ? PermitDetails()
                 : controller.page == 2
                     ? PhotoSignaturePage()
                     // ?FaceDetectionPage()
-                    :controller.page==3? IdSelectionAndScanningScreen():controller.page==4?
-                    PaymentDetails():Successpages()
+                    :controller.page==3? IdSelectionAndScanningScreen():
+                    PaymentDetails()
                     // ReceiptWidget(applicantName: "Tomchou", applicantId: "2387587387837483")
           ],
         ),
