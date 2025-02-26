@@ -153,9 +153,9 @@ class ApicallImpl extends ApiCall {
     // var headers = {'Content-Type': 'application/json'};
     // var request = http.Request('POST',
     //     Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'));
-    
+
     // request.body = json.encode({"IdType": doctype, "IdNumber": idnumber});
-    
+
     // request.headers.addAll(headers);
 
     // http.StreamedResponse response = await request.send();
@@ -173,7 +173,7 @@ class ApicallImpl extends ApiCall {
     if (response.statusCode == 200) {
       print("shfjfh");
       print(response.body);
-      var appliid =verifydocModelFromJson(response.body);
+      var appliid = verifydocModelFromJson(response.body);
       print("application ID:${appliid.applicationId}");
       return appliid.applicationId;
     } else {

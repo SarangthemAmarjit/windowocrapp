@@ -336,11 +336,15 @@ class Imagecontroller extends GetxController {
                           dev.log('is back is ok');
                           // pngcon.setmainpageindex(ind: 3);
                         } else {
-                          initializeCamera(
-                            isfront: false,
-                            isback: true,
-                            isprofilecam: false,
-                          );
+                          if (Get.find<PagenavControllers>().docindex == 2) {
+                            dev.log('The Card is Pan Card');
+                          } else {
+                            initializeCamera(
+                              isfront: false,
+                              isback: true,
+                              isprofilecam: false,
+                            );
+                          }
                         }
 
                         // try {
@@ -393,7 +397,6 @@ class Imagecontroller extends GetxController {
     required bool isback,
     required bool isprofilecam,
   }) async {
-    
     int cameraIndex = 0;
 
     _isFrontcapturebuttonpress = isfront;
@@ -416,7 +419,7 @@ class Imagecontroller extends GetxController {
               ele.name.toString().toLowerCase().contains('integrated camera'));
           update();
         } else {
-              await CameraPlatform.instance.dispose(_cameraId);
+          await CameraPlatform.instance.dispose(_cameraId);
           cameraIndex = _allavailablecameras.indexWhere((ele) =>
               ele.name.toString().toLowerCase().contains('czur') ||
               ele.name.toString().toLowerCase().contains('sg-vp'));
@@ -502,7 +505,6 @@ class Imagecontroller extends GetxController {
     // update();
 
     if (isprofilecam) {
-
       print("isinitialized " + isinitialized.toString());
       if (_allavailablecameras.isEmpty) {
         return;
@@ -518,7 +520,7 @@ class Imagecontroller extends GetxController {
           update();
         } else {
           cameraIndex = _allavailablecameras.indexWhere(
-              (ele) => ele.name.toString().toLowerCase().contains('sg-vp-s200l'));
+              (ele) => ele.name.toString().toLowerCase().contains('czur'));
           update();
         }
 

@@ -232,7 +232,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                             onTap: () {
                               imgcon.retakeImage();
                               countdownTimer();
-                               controller.listenPageChange();
+                              controller.listenPageChange();
                             },
                             child: Container(
                               // margin: EdgeInsets.symmetric(horizontal: 16),
@@ -267,14 +267,15 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                          
+                              controller.changePage(3);
+
                               imgcon.initializeCamera(
                                 isfront: true,
                                 isback: false,
                                 isprofilecam: false,
                               );
                               controller.changePage(3);
-                               controller.listenPageChange();
+                              controller.listenPageChange();
                             },
                             child: Container(
                               //  margin: EdgeInsets.symmetric(horizontal: 16),

@@ -18,33 +18,29 @@ class PagenavControllers extends GetxController {
   bool IdSelection = false;
   Timer? _timer;
 
- 
-  void listenPageChange(){
+  void listenPageChange() {
+    //     if(_mainpageindex!=0){
+    //       if(_timer!=null){
+    //         _timer!.cancel();
+    //       }
+    //         if(_mainpageindex==2){
+    //  _timer = Timer(Duration(seconds: 40),(){
 
-      if(_mainpageindex!=0 && _mainpageindex!=2){
-        if(_timer!=null){
-          _timer!.cancel();
-        }
-          if(_mainpageindex==2){
-   _timer = Timer(Duration(seconds: 40),(){
+    //    setmainpageindex(ind: 0);
+    //  });
+    //         }else{
 
-     setmainpageindex(ind: 0);
-   });
-          }else{
+    //        _timer = Timer(Duration(seconds: 30),(){
+    //           setmainpageindex(ind: 0);
+    //        });
 
-         _timer = Timer(Duration(seconds: 30),(){
-            setmainpageindex(ind: 0);
-         });
-       
-          }
-       
+    //         }
 
-      }else{
-             if(_timer!=null){
-          _timer!.cancel();
-        }
-      }
-
+    //     }else{
+    //            if(_timer!=null){
+    //         _timer!.cancel();
+    //       }
+    //     }
   }
 
   void changePage(int index) {
@@ -52,36 +48,34 @@ class PagenavControllers extends GetxController {
     update();
   }
 
-  void changeIdSelection(){
+  void changeIdSelection() {
     IdSelection = !IdSelection;
     update();
   }
-  
-    void changeIdSelectionnoUpdate(){
+
+  void changeIdSelectionnoUpdate() {
     IdSelection = false;
-    
   }
+
   void setdocindex({required int ind}) {
     _docindex = ind;
     update();
   }
 
   void setmainpageindex({required int ind}) {
-    if(page!=1){
-      page=1;
+    if (page != 1) {
+      page = 1;
     }
     _mainpageindex = ind;
     update();
   }
 
-    void setmainpageindexnoupdate({required int ind}) {
-    if(page!=1){
-      page=1;
+  void setmainpageindexnoupdate({required int ind}) {
+    if (page != 1) {
+      page = 1;
     }
     _mainpageindex = ind;
-
   }
-
 
   void changeDashboardPage(int reg) {
     regPage = reg;
@@ -94,15 +88,12 @@ class PagenavControllers extends GetxController {
     update();
   }
 
-
-  void reset(){
+  void reset() {
     IdSelection = false;
     page = 1;
     regPage = 0;
     _docindex = 0;
-    cardtype  = null;
-     _mainpageindex = 0;
+    cardtype = null;
+    _mainpageindex = 0;
   }
-
-
 }

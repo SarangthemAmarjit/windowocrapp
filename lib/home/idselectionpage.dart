@@ -90,14 +90,12 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                     onPressed: () {
                       if (pagecon.IdSelection) {
                         pagecon.changeIdSelection();
-                           //return to front page if not active for 30 seconds
-                       
+                        //return to front page if not active for 30 seconds
                       } else {
                         pagecon.setmainpageindex(ind: 0);
-                           //return to front page if not active for 30 seconds
-                     
+                        //return to front page if not active for 30 seconds
                       }
-                       pagecon.listenPageChange();
+                      pagecon.listenPageChange();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 0, 183, 234),
@@ -144,8 +142,8 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
         // pagecon.setmainpageindex(ind: 3);
         mngctrl.getDocumentDetails(docID: "12034885", docType: text);
 
-           //return to front page if not active for 30 seconds
-              pagecon.listenPageChange();
+        //return to front page if not active for 30 seconds
+        pagecon.listenPageChange();
         // imgcon.initializeCamera(
         //   isfront: true,
         //   isback: false,
@@ -179,8 +177,9 @@ class GetDocumentId extends StatefulWidget {
 }
 
 class _GetDocumentIdState extends State<GetDocumentId> {
-  final TextEditingController docId = TextEditingController();
+  final TextEditingController docIdController = TextEditingController();
   final FocusNode docFocus = FocusNode();
+  final _formKey = GlobalKey<FormState>();
   bool? isEmpty;
   bool isLoading = false;
   @override
@@ -191,7 +190,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
   @override
   void dispose() {
-    docId.dispose();
+    docIdController.dispose();
 
     super.dispose();
   }
@@ -235,13 +234,24 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 ),
                 SizedBox(
                     width: 600,
-                    child: TextFieldWidget(
-                      fontSize: 30,
-                      contentpadding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                      focusnode: docFocus,
-                      controller: docId,
-                      label: mngctrl.getPermit?.idProof ?? "Doc Id",
+                    child: Form(
+                      key: _formKey,
+                      child: TextFieldWidget(
+                        keytype: pagectrl.docindex == 0
+                            ? TextInputType.number
+                            : null,
+                        fontSize: 30,
+                        contentpadding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        focusnode: docFocus,
+                        controller: docIdController,
+                        label: mngctrl.getPermit?.idProof ?? "Doc Id",
+                        validator: pagectrl.docindex == 0
+                            ? mngctrl.validateAadhar
+                            : pagectrl.docindex == 2
+                                ? mngctrl.validatePAN
+                                : null,
+                      ),
                     )),
                 isEmpty == true
                     ? Text(
@@ -256,73 +266,71 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed:mngctrl.isVeriflyloading?null: () async {
-                   
-                    if (docId.text.isEmpty) {
-                      setState(() {
-                        isEmpty = true;
-                      });
-                    } else {
-                      setState(() {
-                        isEmpty = false;
-                      });
-                     
-                     await mngctrl.verifydocid(
-                          doctype: mngctrl.getPermit?.idProof ?? "",
-                          docid: docId.text );
-                      if (mngctrl.applicid.isNotEmpty &&
-                          mngctrl.applicid == 'not found') {
-                            String s =mngctrl.getPermit?.idProof ?? "";
-                        mngctrl.getDocumentDetails(docID: docId.text, docType: s);
-                        pagectrl.setmainpageindex(ind: 2);
-                        pagectrl.changeIdSelection();
-                        pagectrl.listenPageChange();
-                      } else {
-                        Get.dialog(AlertDialog(
-                          content: RepaintBoundary(
-                              key: _globlkey,
-                              child: ReceiptWidget(
-                                  applicantName: '',
-                                  applicantId: mngctrl.applicid)),
-                        ));
-                                     showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Applicant Already Exist',style: TextStyle(fontSize: 30),),
-                                  content: Text(
-                                      'Please collect the receipt and proceed to the counter for further processing.',style: TextStyle(fontSize:20),),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('OK'),
+                  onPressed: mngctrl.isVeriflyloading
+                      ? null
+                      : () async {
+                          if (_formKey.currentState!.validate()) {
+                            await mngctrl.verifydocid(
+                                doctype: mngctrl.getPermit?.idProof ?? "",
+                                docid: docIdController.text);
+                            if (mngctrl.applicid.isNotEmpty &&
+                                mngctrl.applicid == 'not found') {
+                              String s = mngctrl.getPermit?.idProof ?? "";
+                              mngctrl.getDocumentDetails(
+                                  docID: docIdController.text, docType: s);
+                              pagectrl.setmainpageindex(ind: 2);
+                              pagectrl.changeIdSelection();
+                            } else {
+                              Get.dialog(AlertDialog(
+                                content: RepaintBoundary(
+                                    key: _globlkey,
+                                    child: ReceiptWidget(
+                                        applicantName: '',
+                                        applicantId: mngctrl.applicid)),
+                              ));
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Applicant Already Exist',
+                                      style: TextStyle(fontSize: 30),
                                     ),
-                                  ],
-                                );
-                              },
-                            );
-                          
-                        Future.delayed(Duration(seconds: 2)).then(
-                          (value) async {
-                            print("nav Keys sdsd");
-                            await imgcon.saveReceipt(
-                                _globlkey, mngctrl.applicid);
-                            print("nav Keys");
+                                    content: Text(
+                                      'Please collect the receipt and proceed to the counter for further processing.',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
 
-                            Get.back();
-                            Get.back();
-                            pagectrl.setmainpageindex(ind: 4);
-                          },
-                        );
+                              Future.delayed(Duration(seconds: 2)).then(
+                                (value) async {
+                                  print("nav Keys sdsd");
+                                  await imgcon.saveReceipt(
+                                      _globlkey, mngctrl.applicid);
+                                  print("nav Keys");
 
-                        /////dsadsadasd
-                        log('already exist');
-                      }
-                    }
-                     pagectrl.listenPageChange();
-                  },
+                                  Get.back();
+                                  Get.back();
+                                  pagectrl.setmainpageindex(ind: 4);
+                                },
+                              );
+
+                              /////dsadsadasd
+                              log('already exist');
+                            }
+                          }
+                          pagectrl.listenPageChange();
+                        },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
@@ -330,13 +338,19 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("Verify"),
-                       mngctrl.isVeriflyloading?Padding(
-                         padding: const EdgeInsets.all(8.0),
-                         child: SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: Center(child: CircularProgressIndicator(strokeWidth: 2,color: Colors.white,))),
-                       ):SizedBox()
+                        mngctrl.isVeriflyloading
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                    height: 30,
+                                    width: 30,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ))),
+                              )
+                            : SizedBox()
                       ],
                     ),
                   ),
@@ -353,10 +367,12 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 // SizedBox(
                 //   height: 20,
                 // ),
-              mngctrl.applicid.isEmpty?SizedBox():   RepaintBoundary(
-                    key: _globlkey,
-                    child: ReceiptWidget(
-                        applicantName: '', applicantId: mngctrl.applicid)),
+                mngctrl.applicid.isEmpty
+                    ? SizedBox()
+                    : RepaintBoundary(
+                        key: _globlkey,
+                        child: ReceiptWidget(
+                            applicantName: '', applicantId: mngctrl.applicid)),
               ],
             ),
           ),
