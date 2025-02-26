@@ -251,58 +251,8 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                       });
                       pagectrl.setmainpageindex(ind: 4);
                       pagectrl.changeIdSelection();
-                      imgcon.initializeCamera(
-                        isfront: true,
-                        isback: false,
-                        isprofilecam: false,
-                      );
-                      // mngctrl.verifydocid(
-                      //     doctype: docId.text,
-                      //     docid: mngctrl.getPermit?.idProof ?? "");
-                      // if (mngctrl.applicid.isNotEmpty &&
-                      //     mngctrl.applicid == 'not found') {
-                      //   pagectrl.setmainpageindex(ind: 4);
-                      //   pagectrl.changeIdSelection();
-                      // } else {
-                      //   showDialog(
-                      //     context: context,
-                      //     builder: (BuildContext context) {
-                      //       return StatefulBuilder(builder: (context, s) {
-                      //         return !mngctrl.ispressverified
-                      //             ? AlertDialog(
-                      //                 content: RepaintBoundary(
-                      //                     key: _globlkey,
-                      //                     child: ReceiptWidget(
-                      //                         applicantName: '',
-                      //                         applicantId: mngctrl.applicid)))
-                      //             : AlertDialog(
-                      //                 title: Text('Applicant Already Exist'),
-                      //                 content: Text(
-                      //                     'Please collect the receipt and proceed to the counter for further processing.'),
-                      //                 actions: [
-                      //                   TextButton(
-                      //                     onPressed: () {
-                      //                       Navigator.of(context).pop();
-                      //                     },
-                      //                     child: Text('OK'),
-                      //                   ),
-                      //                 ],
-                      //               );
-                      //       });
-                      //     },
-                      //   );
 
-                      //   Future.delayed(Duration(seconds: 3)).then(
-                      //     (value) async {
-                      //       print("nav Keys sdsd");
-                      //       await imgcon.saveReceipt(
-                      //           _globlkey, mngctrl.applicid);
-                      //       print("nav Keys");
-                      //       mngctrl.setverifybuttonbool(true);
-                      //     },
-                      //   );
-
-                      //   /////dsadsadasd
+           /////dsadsadasd
                       // }
                     }
                   },

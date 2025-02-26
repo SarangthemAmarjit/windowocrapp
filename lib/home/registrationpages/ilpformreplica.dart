@@ -56,7 +56,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
         if (d != null) {
           _nameController.text = d.applcntName ?? "";
           _parentNameController.text = d.applcntParent ?? "";
-          _idNoController.text = d.idNo ?? "";
+          // _idNoController.text = d.idNo ?? "";
           _districtController.text = d.district ?? "";
         }
       },
