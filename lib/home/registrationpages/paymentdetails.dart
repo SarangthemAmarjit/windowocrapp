@@ -732,7 +732,8 @@ class _PaymentCardState extends State<PaymentCard> {
                               print("nav Keys");
 
                               Get.back();
-                              pagectrl.changePage(5);
+
+                              pagectrl.setmainpageindex(ind: 4);
                             },
                           );
                         }

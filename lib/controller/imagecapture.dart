@@ -336,11 +336,15 @@ class Imagecontroller extends GetxController {
                           dev.log('is back is ok');
                           // pngcon.setmainpageindex(ind: 3);
                         } else {
-                          initializeCamera(
-                            isfront: false,
-                            isback: true,
-                            isprofilecam: false,
-                          );
+                          if (Get.find<PagenavControllers>().docindex == 2) {
+                            dev.log('The Card is Pan Card');
+                          } else {
+                            initializeCamera(
+                              isfront: false,
+                              isback: true,
+                              isprofilecam: false,
+                            );
+                          }
                         }
 
                         // try {

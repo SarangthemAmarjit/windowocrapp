@@ -22,12 +22,19 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Get.put(Managementcontroller());
+    // Get.find(Managementcontroller());
+  }
+
+  @override
+  void dispose() {
+    Get.find<Managementcontroller>().applicidVerifynull();
+    Get.find<PagenavControllers>().changeIdSelectionnoUpdate();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    PagenavControllers pagecon = Get.put(PagenavControllers());
+    PagenavControllers pagecon = Get.find<PagenavControllers>();
 
     return GetBuilder<Managementcontroller>(builder: (mngctrl) {
       return GetBuilder<PagenavControllers>(builder: (_) {
@@ -83,9 +90,12 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                     onPressed: () {
                       if (pagecon.IdSelection) {
                         pagecon.changeIdSelection();
+                        //return to front page if not active for 30 seconds
                       } else {
                         pagecon.setmainpageindex(ind: 0);
+                        //return to front page if not active for 30 seconds
                       }
+                      pagecon.listenPageChange();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 0, 183, 234),
@@ -131,6 +141,9 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
         pagecon.setdocindex(ind: docindex);
         // pagecon.setmainpageindex(ind: 3);
         mngctrl.getDocumentDetails(docID: "12034885", docType: text);
+
+        //return to front page if not active for 30 seconds
+        pagecon.listenPageChange();
         // imgcon.initializeCamera(
         //   isfront: true,
         //   isback: false,
@@ -168,6 +181,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   final FocusNode docFocus = FocusNode();
   final _formKey = GlobalKey<FormState>();
   bool? isEmpty;
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -189,7 +203,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
       return GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return AnimatedContainer(
           duration: Duration(milliseconds: 1000),
-          height: pagectrl.IdSelection ? 400 : 0,
+          height: pagectrl.IdSelection ? 500 : 0,
           width: double.maxFinite,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
@@ -252,70 +266,93 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () async {
-                    if (docIdController.text.isEmpty) {
-                      setState(() {
-                        isEmpty = true;
-                      });
-                    } else {
-                      setState(() {
-                        isEmpty = false;
-                      });
-                      if (_formKey.currentState!.validate()) {
-                        // Form is valid, proceed with the logic
+                  onPressed: mngctrl.isVeriflyloading
+                      ? null
+                      : () async {
+                          if (_formKey.currentState!.validate()) {
+                            await mngctrl.verifydocid(
+                                doctype: mngctrl.getPermit?.idProof ?? "",
+                                docid: docIdController.text);
+                            if (mngctrl.applicid.isNotEmpty &&
+                                mngctrl.applicid == 'not found') {
+                              String s = mngctrl.getPermit?.idProof ?? "";
+                              mngctrl.getDocumentDetails(
+                                  docID: docIdController.text, docType: s);
+                              pagectrl.setmainpageindex(ind: 2);
+                              pagectrl.changeIdSelection();
+                            } else {
+                              Get.dialog(AlertDialog(
+                                content: RepaintBoundary(
+                                    key: _globlkey,
+                                    child: ReceiptWidget(
+                                        applicantName: '',
+                                        applicantId: mngctrl.applicid)),
+                              ));
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Applicant Already Exist',
+                                      style: TextStyle(fontSize: 30),
+                                    ),
+                                    content: Text(
+                                      'Please collect the receipt and proceed to the counter for further processing.',
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
 
-                        var app_id = await mngctrl.verifydocid(
-                            doctype: docId.text,
-                            docid: mngctrl.getPermit?.idProof ?? "");
-                        if (app_id.isNotEmpty && app_id == 'not found') {
-                          pagectrl.setmainpageindex(ind: 4);
-                          pagectrl.changeIdSelection();
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return StatefulBuilder(builder: (context, s) {
-                                return !mngctrl.ispressverified
-                                    ? AlertDialog(
-                                        content: RepaintBoundary(
-                                            key: _globlkey,
-                                            child: ReceiptWidget(
-                                                applicantName: '',
-                                                applicantId: app_id)))
-                                    : AlertDialog(
-                                        title: Text('Applicant Already Exist'),
-                                        content: Text(
-                                            'Please collect the receipt and proceed to the counter for further processing.'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text('OK'),
-                                          ),
-                                        ],
-                                      );
-                              });
-                            },
-                          );
+                              Future.delayed(Duration(seconds: 2)).then(
+                                (value) async {
+                                  print("nav Keys sdsd");
+                                  await imgcon.saveReceipt(
+                                      _globlkey, mngctrl.applicid);
+                                  print("nav Keys");
 
-                          Future.delayed(Duration(milliseconds: 100)).then(
-                            (value) async {
-                              print("nav Keys sdsd");
-                              await imgcon.saveReceipt(_globlkey, app_id);
-                              print("nav Keys");
-                              mngctrl.setverifybuttonbool(true);
-                            },
-                          );
+                                  Get.back();
+                                  Get.back();
+                                  pagectrl.setmainpageindex(ind: 4);
+                                },
+                              );
 
-                          /////dsadsadasd
-                        }
-                      }
-                    }
-                  },
+                              /////dsadsadasd
+                              log('already exist');
+                            }
+                          }
+                          pagectrl.listenPageChange();
+                        },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Text("Verify"),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Verify"),
+                        mngctrl.isVeriflyloading
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                    height: 30,
+                                    width: 30,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ))),
+                              )
+                            : SizedBox()
+                      ],
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 0, 66, 234),
@@ -327,15 +364,15 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                // mngctrl.ispressverified
-                //     ? RepaintBoundary(
-                //         key: _globlkey,
-                //         child: ReceiptWidget(
-                //             applicantName: '', applicantId: mngctrl.applicid))
-                //     : SizedBox(),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                mngctrl.applicid.isEmpty
+                    ? SizedBox()
+                    : RepaintBoundary(
+                        key: _globlkey,
+                        child: ReceiptWidget(
+                            applicantName: '', applicantId: mngctrl.applicid)),
               ],
             ),
           ),
