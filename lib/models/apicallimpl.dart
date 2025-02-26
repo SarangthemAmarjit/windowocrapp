@@ -139,8 +139,8 @@ class ApicallImpl extends ApiCall {
     required String idnumber,
   }) async {
     try {
-      log(doctype);
-      log(idnumber);
+      log("doctype : " + doctype);
+      log("idnumber : " + idnumber);
 
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request(

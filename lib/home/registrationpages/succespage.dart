@@ -29,7 +29,8 @@ class Successpages extends StatelessWidget {
                       SizedBox(height: 20,),
                       ButtonCard(title: "Go Home", onpress: (){
                           pagectrl.changeDashboardPage(0);
-                          pagectrl.changePage(1);
+                          pagectrl.reset();
+                          imgcon.disposeAll();
                           mngctrl.disposeAll();
                       })
                     ],

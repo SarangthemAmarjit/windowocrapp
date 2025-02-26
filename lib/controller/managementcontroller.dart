@@ -118,13 +118,13 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<String> verifydocid({required String doctype, required String docid}) async {
+  Future<String> verifydocid(
+      {required String doctype, required String docid}) async {
     var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
 
     _applicid = appid;
     update();
     return appid;
-  
   }
 
   Future<void> getallDocs() async {
