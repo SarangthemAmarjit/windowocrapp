@@ -1,13 +1,10 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
-import 'package:camera_windows_example/home/registrationpages/paymentdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import 'dart:async';
+
 class ErrorPages extends StatelessWidget {
   const ErrorPages({super.key});
 
