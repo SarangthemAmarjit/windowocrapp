@@ -166,6 +166,7 @@ class GetDocumentId extends StatefulWidget {
 class _GetDocumentIdState extends State<GetDocumentId> {
   final TextEditingController docId = TextEditingController();
   final FocusNode docFocus = FocusNode();
+  final _formKey = GlobalKey<FormState>();
   bool? isEmpty;
   @override
   void initState() {
@@ -182,13 +183,13 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey _globlkey = GlobalKey();
+       final GlobalKey _globlkey = GlobalKey();
     Imagecontroller imgcon = Get.put(Imagecontroller());
     return GetBuilder<PagenavControllers>(builder: (pagectrl) {
       return GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return AnimatedContainer(
           duration: Duration(milliseconds: 1000),
-          height: pagectrl.IdSelection ? 340 : 0,
+          height: pagectrl.IdSelection ? 400 : 0,
           width: double.maxFinite,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
@@ -219,13 +220,21 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 ),
                 SizedBox(
                     width: 600,
-                    child: TextFieldWidget(
-                      fontSize: 30,
-                      contentpadding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                      focusnode: docFocus,
-                      controller: docId,
-                      label: mngctrl.getPermit?.idProof ?? "Doc Id",
+                    child: Form(
+                      key: _formKey,
+                      child: TextFieldWidget(keytype:pagectrl.docindex == 0? TextInputType.number:null,
+                        fontSize: 30,
+                        contentpadding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        focusnode: docFocus,
+                        controller: docId,
+                        label: mngctrl.getPermit?.idProof ?? "Doc Id",
+                        validator: pagectrl.docindex == 0
+                            ? mngctrl.validateAadhar
+                            : pagectrl.docindex == 2
+                                ? mngctrl.validatePAN
+                                : null,
+                      ),
                     )),
                 isEmpty == true
                     ? Text(
@@ -240,7 +249,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (docId.text.isEmpty) {
                       setState(() {
                         isEmpty = true;
@@ -249,11 +258,59 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                       setState(() {
                         isEmpty = false;
                       });
-                      pagectrl.setmainpageindex(ind: 4);
-                      pagectrl.changeIdSelection();
+                      if (_formKey.currentState!.validate()) {
+                        // Form is valid, proceed with the logic
 
-           /////dsadsadasd
-                      // }
+                    
+
+                    var app_id = await mngctrl.verifydocid(
+                          doctype: docId.text,
+                          docid: mngctrl.getPermit?.idProof ?? "");
+                      if (app_id.isNotEmpty &&
+                          app_id == 'not found') {
+                        pagectrl.setmainpageindex(ind: 4);
+                        pagectrl.changeIdSelection();
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(builder: (context, s) {
+                              return !mngctrl.ispressverified
+                                  ? AlertDialog(
+                                      content: RepaintBoundary(
+                                          key: _globlkey,
+                                          child: ReceiptWidget(
+                                              applicantName: '',
+                                              applicantId: app_id)))
+                                  : AlertDialog(
+                                      title: Text('Applicant Already Exist'),
+                                      content: Text(
+                                          'Please collect the receipt and proceed to the counter for further processing.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                            });
+                          },
+                        );
+
+                        Future.delayed(Duration(seconds: 3)).then(
+                          (value) async {
+                            print("nav Keys sdsd");
+                            await imgcon.saveReceipt(
+                                _globlkey, app_id);
+                            print("nav Keys");
+                            mngctrl.setverifybuttonbool(true);
+                          },
+                        );
+
+                        /////dsadsadasd
+                      }}
                     }
                   },
                   child: Padding(

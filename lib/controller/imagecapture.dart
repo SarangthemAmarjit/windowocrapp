@@ -76,7 +76,7 @@ class Imagecontroller extends GetxController {
 
   @override
   void dispose() {
-    disposeCurrentCamera();
+    disposeCurrentsCamera();
     _errorStreamSubscription?.cancel();
     _errorStreamSubscription = null;
     _cameraClosingStreamSubscription?.cancel();
@@ -165,7 +165,7 @@ class Imagecontroller extends GetxController {
 
   void _onCameraError(CameraErrorEvent event) {
     // Dispose camera on camera error as it can not be used anymore.
-    disposeCurrentCamera();
+    disposeCurrentsCamera();
     _fetchCameras();
   }
 
@@ -393,14 +393,13 @@ class Imagecontroller extends GetxController {
     required bool isback,
     required bool isprofilecam,
   }) async {
-    disposeCurrentCamera();
+    
     int cameraIndex = 0;
 
     _isFrontcapturebuttonpress = isfront;
-   
     _isBackcapturebuttonpress = isback;
     update();
-
+    log("_isFrontcapturebuttonpress :" + _isFrontcapturebuttonpress.toString());
     if (_isFrontcapturebuttonpress) {
       // assert(!isinitialized);
       print("isinitialized " + isinitialized.toString());
@@ -417,6 +416,7 @@ class Imagecontroller extends GetxController {
               ele.name.toString().toLowerCase().contains('integrated camera'));
           update();
         } else {
+              await CameraPlatform.instance.dispose(_cameraId);
           cameraIndex = _allavailablecameras.indexWhere((ele) =>
               ele.name.toString().toLowerCase().contains('czur') ||
               ele.name.toString().toLowerCase().contains('sg-vp'));
@@ -502,7 +502,7 @@ class Imagecontroller extends GetxController {
     // update();
 
     if (isprofilecam) {
-      assert(!isinitialized);
+
       print("isinitialized " + isinitialized.toString());
       if (_allavailablecameras.isEmpty) {
         return;
@@ -583,125 +583,66 @@ class Imagecontroller extends GetxController {
     }
   }
 
-  // Future<File> cropImageID(
-  //   File imageFile, {
-  //   required double aspectRatio,
-  // }) async {
-  //   // Read the image as bytes
-  //   final bytes = await imageFile.readAsBytes();
+  Future<File> cropImageWithAspectRatio(
+    File imageFile, {
+    required double aspectRatio,
+    required Rect defaultCrop,
+  }) async {
+    // Read the image as bytes
+    final bytes = await imageFile.readAsBytes();
 
-  //   // Decode the image using the `image` package
-  //   final originalImage = img.decodeImage(bytes);
+    // Decode the image using the `image` package
+    final originalImage = img.decodeImage(bytes);
 
-  //   if (originalImage != null) {
-  //     // Get image dimensions
-  //     final imageWidth = originalImage.width;
-  //     final imageHeight = originalImage.height;
+    if (originalImage != null) {
+      // Get image dimensions
+      final imageWidth = originalImage.width;
+      final imageHeight = originalImage.height;
 
-  //     // Calculate maximum possible crop size while maintaining aspect ratio
-  //     int cropWidth, cropHeight;
-  //     int x, y;
+      // Calculate cropping rectangle based on `defaultCrop`
+      final int x = (defaultCrop.left * imageWidth).toInt();
+      final int y = (defaultCrop.top * imageHeight).toInt();
+      final int cropWidth =
+          ((defaultCrop.right - defaultCrop.left) * imageWidth).toInt();
+      final int cropHeight =
+          ((defaultCrop.bottom - defaultCrop.top) * imageHeight).toInt();
 
-  //     if (imageWidth / imageHeight > aspectRatio) {
-  //       // Image is wider than target aspect ratio - limit by height
-  //       cropHeight = imageHeight;
-  //       cropWidth = (cropHeight * aspectRatio).toInt();
-  //       x = (imageWidth - cropWidth) ~/ 2; // Center horizontally
-  //       y = 0;
-  //     } else {
-  //       // Image is taller than target aspect ratio - limit by width
-  //       cropWidth = imageWidth;
-  //       cropHeight = (cropWidth / aspectRatio).toInt();
-  //       x = 0;
-  //       y = (imageHeight - cropHeight) ~/ 2; // Center vertically
-  //     }
+      // Ensure the crop respects the aspect ratio
+      final int adjustedCropHeight = (cropWidth / aspectRatio).toInt();
+      final int adjustedCropWidth = (cropHeight * aspectRatio).toInt();
 
-  //     // Crop the image from center
+      // Adjust the final crop dimensions
+      final finalWidth =
+          cropWidth < adjustedCropWidth ? cropWidth : adjustedCropWidth;
+      final finalHeight =
+          cropHeight < adjustedCropHeight ? cropHeight : adjustedCropHeight;
 
-  //     final cropped = img.copyCrop(
-  //       originalImage,
-  //       x: x,
-  //       y: y,
-  //       width: cropWidth,
-  //       height: cropHeight,
-  //     );
+      // Crop the image
+      final cropped =
+          img.copyCrop(originalImage, x, y, finalWidth, finalHeight);
 
-  //     // Encode the cropped image back to PNG
-  //     final croppedBytes = img.encodePng(cropped);
+      // Encode the cropped image back to PNG or JPG
+      final croppedBytes = img.encodePng(cropped);
 
-  //     // Generate a unique file name
-  //     final uniqueFileName = 'cropped_id_${Uuid().v4()}.png';
-  //     final tempDir = Directory.systemTemp;
-  //     final croppedFile = File('${tempDir.path}/$uniqueFileName');
+// Generate a unique file name
+      final uniqueFileName =
+          'cropped_image_${Uuid().v4()}.png'; // Using UUID for uniqueness
+      final tempDir = Directory.systemTemp;
+      final croppedFilePath = '${tempDir.path}/$uniqueFileName';
+      final croppedFile = File(croppedFilePath);
 
-  //     // Save and return the cropped image
-  //     await croppedFile.writeAsBytes(croppedBytes);
-  //     return croppedFile;
-  //   } else {
-  //     throw Exception("Failed to decode image.");
-  //   }
-  // }
+// Save the cropped image to the unique file path
+      await croppedFile.writeAsBytes(croppedBytes);
 
-//   Future<File> cropImageWithAspectRatio(
-//     File imageFile, {
-//     required double aspectRatio,
-//     required Rect defaultCrop,
-//   }) async {
-//     // Read the image as bytes
-//     final bytes = await imageFile.readAsBytes();
+// You can now use `croppedFile.path` for further operations
 
-//     // Decode the image using the `image` package
-//     final originalImage = img.decodeImage(bytes);
+      return croppedFile;
+    } else {
+      throw Exception("Failed to decode image.");
+    }
+  }
 
-//     if (originalImage != null) {
-//       // Get image dimensions
-//       final imageWidth = originalImage.width;
-//       final imageHeight = originalImage.height;
-
-//       // Calculate cropping rectangle based on `defaultCrop`
-//       final int x = (defaultCrop.left * imageWidth).toInt();
-//       final int y = (defaultCrop.top * imageHeight).toInt();
-//       final int cropWidth =
-//           ((defaultCrop.right - defaultCrop.left) * imageWidth).toInt();
-//       final int cropHeight =
-//           ((defaultCrop.bottom - defaultCrop.top) * imageHeight).toInt();
-
-//       // Ensure the crop respects the aspect ratio
-//       final int adjustedCropHeight = (cropWidth / aspectRatio).toInt();
-//       final int adjustedCropWidth = (cropHeight * aspectRatio).toInt();
-
-//       // Adjust the final crop dimensions
-//       final finalWidth =
-//           cropWidth < adjustedCropWidth ? cropWidth : adjustedCropWidth;
-//       final finalHeight =
-//           cropHeight < adjustedCropHeight ? cropHeight : adjustedCropHeight;
-
-//       // Crop the image
-//       final cropped = img.copyCrop(originalImage,
-//           x: x, y: y, width: finalWidth, height: finalHeight);
-
-//       // Encode the cropped image back to PNG or JPG
-//       final croppedBytes = img.encodePng(cropped);
-
-// // Generate a unique file name
-//       final uniqueFileName =
-//           'cropped_image_${Uuid().v4()}.png'; // Using UUID for uniqueness
-//       final tempDir = Directory.systemTemp;
-//       final croppedFilePath = '${tempDir.path}/$uniqueFileName';
-//       final croppedFile = File(croppedFilePath);
-
-// // Save the cropped image to the unique file path
-//       await croppedFile.writeAsBytes(croppedBytes);
-
-// // You can now use `croppedFile.path` for further operations
-
-//       return croppedFile;
-//     } else {
-//       throw Exception("Failed to decode image.");
-//     }
-//   }
-
-  Future<void> disposeCurrentCamera() async {
+  Future<void> disposeCurrentsCamera() async {
     if (_cameraId >= 0 && isinitialized) {
       log('Dispose Camera');
       try {
@@ -722,34 +663,34 @@ class Imagecontroller extends GetxController {
     }
   }
 
-  // Future<void> takePicture() async {
-  //   PagenavControllers pngcon = Get.put(PagenavControllers());
-  //   final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
+  Future<void> takePicture() async {
+    PagenavControllers pngcon = Get.put(PagenavControllers());
+    final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
 
-  //   final croppedFile = await cropImageWithAspectRatio(
-  //     File(file.path),
-  //     aspectRatio: pngcon.docindex == 1 ? 12.5 / 9 : 3.2 / 2, //,
-  //     defaultCrop: pngcon.docindex == 1
-  //         ? const Rect.fromLTRB(0.15, 0.15, 0.85, 0.9)
-  //         : const Rect.fromLTRB(0.25, 0.37, 0.75, 0.8),
+    final croppedFile = await cropImageWithAspectRatio(
+      File(file.path),
+      aspectRatio: pngcon.docindex == 3 ? 12.5 / 9 : 3.2 / 2, //,
+      defaultCrop: pngcon.docindex == 3
+          ? const Rect.fromLTRB(0.15, 0.15, 0.85, 0.9)
+          : const Rect.fromLTRB(0.25, 0.37, 0.75, 0.8),
 
-  //     // aspectRatio: 12.5 / 8.5, //,
-  //     // defaultCrop: const Rect.fromLTRB(0.27, 0.3, 0.75, 0.72),
-  //   );
+      // aspectRatio: 12.5 / 8.5, //,
+      // defaultCrop: const Rect.fromLTRB(0.27, 0.3, 0.75, 0.72),
+    );
 
-  //   log(croppedFile.path);
+    log(croppedFile.path);
 
-  //   if (isFrontcapturebuttonpress) {
-  //     _frontImage = XFile(croppedFile.path);
-  //     update();
-  //   } else {
-  //     _backImage = XFile(croppedFile.path);
-  //     ;
-  //     update();
-  //   }
+    if (_isFrontcapturebuttonpress) {
+      _frontImage = XFile(croppedFile.path);
+      update();
+    } else {
+      _backImage = XFile(croppedFile.path);
+      ;
+      update();
+    }
 
-  //   showimageconfirmdialog();
-  // }
+    showimageconfirmdialog();
+  }
 
   Future<void> takeprofilePicture(GlobalKey prokey) async {
     // final XFile file = await CameraPlatform.instance.takePicture(_cameraId);

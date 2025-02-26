@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
@@ -26,7 +27,7 @@ class _IdSelectionAndScanningScreenState
 
   @override
   void dispose() {
-    Get.find<Imagecontroller>().disposeCurrentCamera();
+    Get.find<Imagecontroller>().disposeCurrentsCamera();
     super.dispose();
   }
 
@@ -43,6 +44,8 @@ class _IdSelectionAndScanningScreenState
     Managementcontroller mngcon = Get.put(Managementcontroller());
     return GetBuilder<PagenavControllers>(builder: (_) {
       return GetBuilder<Imagecontroller>(builder: (_) {
+        log("imgcon.isFrontcapturebuttonpress : " +
+            imgcon.isFrontcapturebuttonpress.toString());
         return signaturePage
             ? PaintCanvas()
             : Column(
@@ -177,11 +180,11 @@ class _IdSelectionAndScanningScreenState
                                               child: Container(
                                                 constraints: BoxConstraints(
                                                     maxHeight:
-                                                        pngcon.docindex == 1
+                                                        pngcon.docindex == 3
                                                             ? 195
                                                             : 180,
                                                     maxWidth:
-                                                        pngcon.docindex == 1
+                                                        pngcon.docindex == 3
                                                             ? 600
                                                             : 500
                                                     // maxHeight: 160, maxWidth: 500
@@ -190,44 +193,49 @@ class _IdSelectionAndScanningScreenState
                                                   flipX: true,
                                                   child: AspectRatio(
                                                     aspectRatio:
-                                                        pngcon.docindex == 1
+                                                        pngcon.docindex == 3
                                                             ? 12.5 / 8
                                                             : 2.5 / 2,
 
                                                     // Passport photo ratio
                                                     child: Center(
-                                                      child: ClipRect(
-                                                        child: OverflowBox(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          maxWidth:
-                                                              pngcon.docindex ==
-                                                                      1
-                                                                  ? 500
-                                                                  : 500,
-                                                          maxHeight:
-                                                              pngcon.docindex ==
-                                                                      1
-                                                                  ? 300
-                                                                  : 330,
-                                                          // maxWidth: 600,
-                                                          // maxHeight: 420,
-                                                          child: FittedBox(
-                                                            fit: BoxFit
-                                                                .cover, // Ensure it covers the entire aspect ratio
-                                                            child: SizedBox(
-                                                              width: imgcon
-                                                                  .previewsize!
-                                                                  .width,
-                                                              height: imgcon
-                                                                  .previewsize!
-                                                                  .height,
-                                                              child: imgcon
-                                                                  .buildPreview(), // Your camera preview
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
+                                                      child:  ClipRect(
+                                                              child:
+                                                                  OverflowBox(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                maxWidth:
+                                                                    pngcon.docindex ==
+                                                                            3
+                                                                        ? 500
+                                                                        : 500,
+                                                                maxHeight:
+                                                                    pngcon.docindex ==
+                                                                            3
+                                                                        ? 300
+                                                                        : 330,
+                                                                // maxWidth: 600,
+                                                                // maxHeight: 420,
+                                                                child:
+                                                                    FittedBox(
+                                                                  fit: BoxFit
+                                                                      .cover, // Ensure it covers the entire aspect ratio
+                                                                  child:
+                                                                      SizedBox(
+                                                                    width: imgcon
+                                                                        .previewsize!
+                                                                        .width,
+                                                                    height: imgcon
+                                                                        .previewsize!
+                                                                        .height,
+                                                                    child: imgcon
+                                                                        .buildPreview(), // Your camera preview
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            )
+                                                          
                                                     ),
                                                   ),
                                                 ),
@@ -243,7 +251,7 @@ class _IdSelectionAndScanningScreenState
                                                       horizontal: 40),
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                  // imgcon.takePicture();
+                                                  imgcon.takePicture();
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor:
@@ -264,7 +272,7 @@ class _IdSelectionAndScanningScreenState
                                                   padding: const EdgeInsets
                                                       .symmetric(vertical: 10),
                                                   child: Text(
-                                                    pngcon.docindex == 1
+                                                    pngcon.docindex == 3
                                                         ? imgcon.isFrontcapturebuttonpress
                                                             ? 'Capture Page 1'
                                                             : 'Capture Page 2'
