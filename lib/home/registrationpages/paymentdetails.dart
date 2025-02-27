@@ -809,7 +809,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                                title: "Pay with Cash ",
+                                                title: "Pay at ILP Counter ",
                                                 onpress: () async {
                                                   sta(() {
                                                     isload = true;

@@ -1,6 +1,6 @@
 {
   "editor.tokenColorCustomizations": {
-    "comments": "#00000000",
+    "comments": "#444040",
     "textMateRules": [
       {
         "scope": [
@@ -30,7 +30,7 @@
           "comment.block.documentation.cs entity.name.tag.localname.cs"
         ],
         "settings": {
-          "foreground": "#00000000"
+          "foreground": "#696363"
         }
       }
     ]
