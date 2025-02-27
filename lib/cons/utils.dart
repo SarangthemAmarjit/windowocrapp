@@ -14,7 +14,7 @@ String getDate({ required String? dateTime,int duration = 0}){
 }
 
 String generateRandomString(int length) {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   Random random = Random();
   
   return List.generate(length, (index) => chars[random.nextInt(chars.length)]).join();
