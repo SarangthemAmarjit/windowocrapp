@@ -9,23 +9,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
+import 'home/examplewebsite.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //  getPrinterPaperSizes("Microsoft Print to PDF");
-  // Initialize window_manager
   await windowManager.ensureInitialized();
 
-  // Set fullscreen mode
-  // windowManager.waitUntilReadyToShow().then((_) async {
-  //   await windowManager.setFullScreen(true);
-  // });
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
   Get.put(Imagecontroller());
   Get.put(Connectivitycontroller());
   Get.put(PagenavControllers());
   Get.put(Managementcontroller());
+  
 }
 
 class MyApp extends StatelessWidget {
@@ -39,10 +36,18 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorSchemeSeed: Colors.green),
       home: LandingPage(),
+      // home: WebViewPage(),
     );
   }
 }
 
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(navigatorKey: navigatorKey, home: ExampleBrowser());
+//   }
+// }
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {

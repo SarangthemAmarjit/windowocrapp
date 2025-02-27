@@ -67,3 +67,65 @@ class _WebViewPageState extends State<WebViewPage> {
     );
   }
 }
+
+
+import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+class WebViewPage extends StatefulWidget {
+  @override
+  _WebViewPageState createState() => _WebViewPageState();
+}
+
+class _WebViewPageState extends State<WebViewPage> {
+  final GlobalKey webViewKey = GlobalKey();
+  InAppWebViewController? webViewController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("WebView with Touch Input Fix (Windows)")),
+      body: InAppWebView(
+        key: webViewKey,
+        initialUrlRequest: URLRequest(url: Uri.parse("https://yourwebsite.com")),
+        onWebViewCreated: (controller) {
+          webViewController = controller;
+        },
+        onLoadStop: (controller, url) async {
+          // Fix 1: Ensure input fields always keep focus when touched
+          await controller.evaluateJavascript(source: """
+            document.addEventListener('touchstart', function(event) {
+              if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                event.target.focus();
+              }
+            });
+          """);
+
+          // Fix 2: Prevent losing focus due to clicking outside inputs
+          await controller.evaluateJavascript(source: """
+            document.body.addEventListener('pointerdown', function(event) {
+              if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
+                event.preventDefault();
+              }
+            });
+          """);
+
+          // Fix 3: Detect input focus and force it back
+          await controller.evaluateJavascript(source: """
+            document.querySelectorAll('input, textarea').forEach(element => {
+              element.addEventListener('focus', () => {
+                window.console.log('INPUT_FOCUS');
+              });
+            });
+          """);
+        },
+        onConsoleMessage: (controller, consoleMessage) {
+          if (consoleMessage.message == "INPUT_FOCUS") {
+            controller.evaluateJavascript(source: "document.activeElement.focus();");
+          }
+        },
+      ),
+    );
+  }
+}
+

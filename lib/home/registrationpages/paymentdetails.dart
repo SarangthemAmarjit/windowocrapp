@@ -809,7 +809,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                                title: "Pay with Cash ",
+                                                title: "Pay at ILP Counter ",
                                                 onpress: () async {
                                                   sta(() {
                                                     isload = true;
@@ -894,22 +894,27 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     isload = false;
                                                   });
                                                   Get.back();
-                                                  
-                          if (s != null) {
-                            Get.dialog(AlertDialog(
-                              content: RepaintBoundary(
-                                  key: _globlkey,
-                                  child: ReceiptWidget(
-                                      applicantName:
-                                          mngctrl.getPermit?.applcntName ??
-                                              "NA",
-                                      applicantId: s)),
-                            ));
-                            Future.delayed(Duration(seconds: 3)).then(
-                              (value) async {
-                                print("nav Keys sdsd");
-                                await imgcon.saveReceipt(_globlkey, s);
-                                print("nav Keys");
+
+                                                  if (s != null) {
+                                                    Get.dialog(AlertDialog(
+                                                      content: RepaintBoundary(
+                                                          key: _globlkey,
+                                                          child: ReceiptWidget(
+                                                              applicantName: mngctrl
+                                                                      .getPermit
+                                                                      ?.applcntName ??
+                                                                  "NA",
+                                                              applicantId: s)),
+                                                    ));
+                                                    Future.delayed(Duration(
+                                                            seconds: 3))
+                                                        .then(
+                                                      (value) async {
+                                                        print("nav Keys sdsd");
+                                                        await imgcon
+                                                            .saveReceipt(
+                                                                _globlkey, s);
+                                                        print("nav Keys");
 
                                 Get.back();
                                   pagectrl.pageIncremeter(4);
@@ -939,111 +944,133 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     isload = true;
                                                   });
 
-                                                String? s = await mngctrl
+                                                  String? s = await mngctrl
                                                       .addtemporaryPermit(
-                                                    false,
-                                                    imgcon.profileImage!,
-                                                    imgcon.idCardimage!,
-                                                    imgcon.signature!,
-                                                    address: mngctrl.getPermit
-                                                            ?.applcntAddress ??
-                                                        "",
-                                                    applydistrict: mngctrl
-                                                            .getPermit
-                                                            ?.district ??
-                                                        "",
-                                                    districtss: mngctrl
-                                                            .getPermit
-                                                            ?.applcntDistrict ??
-                                                        "",
-                                                    dob: mngctrl.getPermit
-                                                            ?.applcntDOB ??
-                                                        "",
-                                                    email: mngctrl.getPermit
-                                                            ?.applcntEmail ??
-                                                        "",
-                                                    gender: mngctrl.getPermit
-                                                            ?.applcntGender ??
-                                                        "",
-                                                    idProofs: mngctrl.getPermit
-                                                            ?.idProof ??
-                                                        "",
-                                                    idno: mngctrl
-                                                            .getPermit?.idNo ??
-                                                        "",
-                                                    mobile: mngctrl.getPermit
-                                                            ?.applcntMobile ??
-                                                        "",
-                                                    name: mngctrl.getPermit
-                                                            ?.applcntName ??
-                                                        "",
-                                                    parentname: mngctrl
-                                                            .getPermit
-                                                            ?.applcntParent ??
-                                                        "",
-                                                    pincode: mngctrl.getPermit
-                                                            ?.pinCode ??
-                                                        "",
-                                                    placestay: mngctrl.getPermit
-                                                            ?.placeOfStay ??
-                                                        "",
-                                                    polstation: mngctrl
-                                                            .getPermit
-                                                            ?.applcntPoliceStation ??
-                                                        "",
-                                                    purposeVisits: mngctrl
-                                                            .getPermit
-                                                            ?.purposeVisit ??
-                                                        "",
-                                                    state: mngctrl.getPermit
-                                                            ?.applcntState ??
-                                                        "",
-                                                    tehsl: mngctrl.getPermit
-                                                            ?.applcntTehsil ??
-                                                        "",
-                                                    village: mngctrl.getPermit
-                                                            ?.applcntVillage ??
-                                                        "",
-                                                    visitDates: DateTime.now(),
-                                                    localres: mngctrl.getPermit
-                                                            ?.lrName ??
-                                                        'NA',
-                                                    localnearestpol: mngctrl
-                                                            .getPermit
-                                                            ?.nearestPS ??
-                                                        "NA",
-                                                  );
+                                                        false,
+                                                        imgcon.profileImage!,
+                                                        imgcon.idCardimage!,
+                                                        imgcon.signature!,
+                                                        address: mngctrl
+                                                                .getPermit
+                                                                ?.applcntAddress ??
+                                                            "",
+                                                        applydistrict: mngctrl
+                                                                .getPermit
+                                                                ?.district ??
+                                                            "",
+                                                        districtss: mngctrl
+                                                                .getPermit
+                                                                ?.applcntDistrict ??
+                                                            "",
+                                                        dob: mngctrl.getPermit
+                                                                ?.applcntDOB ??
+                                                            "",
+                                                        email: mngctrl.getPermit
+                                                                ?.applcntEmail ??
+                                                            "",
+                                                        gender: mngctrl
+                                                                .getPermit
+                                                                ?.applcntGender ??
+                                                            "",
+                                                        idProofs: mngctrl
+                                                                .getPermit
+                                                                ?.idProof ??
+                                                            "",
+                                                        idno: mngctrl.getPermit
+                                                                ?.idNo ??
+                                                            "",
+                                                        mobile: mngctrl
+                                                                .getPermit
+                                                                ?.applcntMobile ??
+                                                            "",
+                                                        name: mngctrl.getPermit
+                                                                ?.applcntName ??
+                                                            "",
+                                                        parentname: mngctrl
+                                                                .getPermit
+                                                                ?.applcntParent ??
+                                                            "",
+                                                        pincode: mngctrl
+                                                                .getPermit
+                                                                ?.pinCode ??
+                                                            "",
+                                                        placestay: mngctrl
+                                                                .getPermit
+                                                                ?.placeOfStay ??
+                                                            "",
+                                                        polstation: mngctrl
+                                                                .getPermit
+                                                                ?.applcntPoliceStation ??
+                                                            "",
+                                                        purposeVisits: mngctrl
+                                                                .getPermit
+                                                                ?.purposeVisit ??
+                                                            "",
+                                                        state: mngctrl.getPermit
+                                                                ?.applcntState ??
+                                                            "",
+                                                        tehsl: mngctrl.getPermit
+                                                                ?.applcntTehsil ??
+                                                            "",
+                                                        village: mngctrl
+                                                                .getPermit
+                                                                ?.applcntVillage ??
+                                                            "",
+                                                        visitDates:
+                                                            DateTime.now(),
+                                                        localres: mngctrl
+                                                                .getPermit
+                                                                ?.lrName ??
+                                                            'NA',
+                                                        localnearestpol: mngctrl
+                                                                .getPermit
+                                                                ?.nearestPS ??
+                                                            "NA",
+                                                      )
+                                                      .whenComplete(
+                                                          () => Get.back());
+
                                                   sta(() {
                                                     isload = false;
                                                   });
-                                                  if(s!=null){
+                                                  if (s != null) {
                                                     mngctrl.setOnlineApplId(s);
-                                                 gcontroller.initNdpsPayment(
-                                                  transId: mngctrl.getPermit?.transactionId??"",
-                                                    context: context,
-                                                    responseHashKey: gcontroller
-                                                        .responseHashKey,
-                                                    responseDecryptionKey:
-                                                        gcontroller
-                                                            .responseDecryptionKey,
-                                                    amount: mngctrl
-                                                        .allpermitprices[0].fee
-                                                        .toString(),
-                                                    address: 'fsdfsdf',
-                                                    name: 'amarjit',
-                                                  );
-                                                  }else{
+                                                    gcontroller.initNdpsPayment(
+                                                      transId: mngctrl.getPermit
+                                                              ?.transactionId ??
+                                                          "",
+                                                      context: context,
+                                                      responseHashKey:
+                                                          gcontroller
+                                                              .responseHashKey,
+                                                      responseDecryptionKey:
+                                                          gcontroller
+                                                              .responseDecryptionKey,
+                                                      amount: mngctrl
+                                                          .allpermitprices[0]
+                                                          .fee
+                                                          .toString(),
+                                                      address: 'fsdfsdf',
+                                                      name: 'amarjit',
+                                                    );
+                                                  } else {
                                                     Get.back();
-                                                    Get.dialog(AlertDialog(content: Text("Failed to add permit.\nTry again"),
-                                                    actions: [
-                                                      ButtonCard(title: "Try again", onpress: (){
-                                                        pagectrl.setmainpageindex(ind: 0);
-                                                        pagectrl.listenPageChange();
-                                                      })
-                                                    ],
+                                                    Get.dialog(AlertDialog(
+                                                      content: Text(
+                                                          "Failed to add permit.\nTry again"),
+                                                      actions: [
+                                                        ButtonCard(
+                                                            title: "Try again",
+                                                            onpress: () {
+                                                              pagectrl
+                                                                  .setmainpageindex(
+                                                                      ind: 0);
+                                                              pagectrl
+                                                                  .listenPageChange();
+                                                            })
+                                                      ],
                                                     ));
                                                   }
-                                      
                                                 }),
                                           ],
                                   )
