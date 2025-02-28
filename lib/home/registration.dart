@@ -19,6 +19,8 @@ class RegistrationPage extends StatefulWidget {
 
 
 class _RegistrationPageState extends State<RegistrationPage> {
+ 
+ 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PagenavControllers>(builder: (controller) {

@@ -37,6 +37,7 @@ class TextFieldWidget extends StatefulWidget {
   final bool showhint;
   final TextAlign? textalign;
   final ValueValidator? validator;
+
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
 }
@@ -86,13 +87,16 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                 controller: widget.controller,
                 focusNode: widget.focusnode,
                 onFieldSubmitted: (value) {
-                  if (widget.nextfocusnode != null) {
-                    widget.nextfocusnode!.requestFocus();
-                  }
-                  if (widget.fieldsubmitted != null) {
-                    widget.fieldsubmitted!();
-                  }
+                  // if (widget.nextfocusnode != null) {
+                  //   widget.nextfocusnode!.requestFocus();
+                  // }
+                  // if (widget.fieldsubmitted != null) {
+                  //   widget.fieldsubmitted!();
+                  // }
+                  FocusManager.instance.primaryFocus?.unfocus();
                 },
+
+              
                 validator: 
                 // widget.isfromlogin != null? 
                     (v) {

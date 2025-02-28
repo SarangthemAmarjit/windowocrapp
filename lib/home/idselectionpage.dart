@@ -50,11 +50,15 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                   textAlign: TextAlign.center,
                 ).animate().fadeIn(),
                 const SizedBox(height: 8),
-                Text(
+                  pagecon.IdSelection? Text(
+                  'Please type in your Identification number.',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
+                ).animate().fadeIn().slideY(begin: 0.5,end: 0,curve: Curves.easeIn,duration: Duration(milliseconds: 700)) :  Text(
                   'Choose the type of ID document you want to use for registration.',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
-                ),
+                ).animate().fadeIn().slideY(begin: 0.5,end: 0,curve: Curves.easeIn),
                 const SizedBox(height: 100),
                 pagecon.IdSelection
                     ? GetDocumentId()
@@ -131,9 +135,9 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
   }
 
   Widget _buildButton(BuildContext context, String text, int docindex) {
-    PagenavControllers pagecon = Get.put(PagenavControllers());
+    PagenavControllers pagecon = Get.find<PagenavControllers>();
     Managementcontroller mngctrl = Get.find<Managementcontroller>();
-    Imagecontroller imgcon = Get.put(Imagecontroller());
+    Imagecontroller imgcon = Get.find<Imagecontroller>();
 
     return ElevatedButton(
       onPressed: () {
@@ -191,7 +195,9 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   @override
   void dispose() {
     docIdController.dispose();
+    docFocus.dispose();// Hide keyboard when the screen starts
 
+    FocusManager.instance.primaryFocus?.unfocus();
     super.dispose();
   }
 

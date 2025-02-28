@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:camera_windows_example/cons/printimages.dart';
@@ -7,14 +8,12 @@ import 'package:camera_windows_example/models/apicallimpl.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/models/permitprice.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../cons/constant.dart';
 import '../models/gate.dart';
 import '../models/paymentresponse.dart';
-import '../widgets/receiptpermit.dart';
 
 class Managementcontroller extends GetxController {
   String gender = genders[0];
@@ -44,13 +43,14 @@ class Managementcontroller extends GetxController {
   bool _ispressverified = false;
   bool get ispressverified => _ispressverified;
   bool isVeriflyloading = false;
+  Timer?  timer;
+  bool isloading =false;
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     getpermitprice();
     getallGates();
-    getallDocs();
+    schedulerForGetdocs();
   }
 
   void changeGender(String gen) {
@@ -98,6 +98,8 @@ class Managementcontroller extends GetxController {
     return null;
   }
 
+
+
   Future<void> getallGates() async {
     _allGates = await apicall.getAllGates();
     if (_allGates.isNotEmpty) {
@@ -105,17 +107,6 @@ class Managementcontroller extends GetxController {
         (element) => element.name == "Imphal Airport",
       );
     }
-    Future<void> getallGates() async {
-      _allGates = await apicall.getAllGates();
-      if (_allGates.isNotEmpty) {
-        _selectedGate = _allGates.firstWhereOrNull(
-          (element) => element.name == "Imphal Airport",
-        );
-      }
-
-      update();
-    }
-
     update();
   }
 
@@ -127,6 +118,8 @@ class Managementcontroller extends GetxController {
   void applicidVerifynull() {
     _applicid = "";
   }
+
+
 
   Future<String> verifydocid(
       {required String doctype, required String docid}) async {
@@ -149,9 +142,40 @@ class Managementcontroller extends GetxController {
   }
 
   Future<void> getallDocs() async {
+    isloading = true;
+    update();
+    _docnames = await apicall.getDocumentType();
+    isloading = false;
+    update();
+  }
+
+  Future<void> getallDocscheck() async {
     _docnames = await apicall.getDocumentType();
     update();
   }
+
+    Future<void> schedulerForGetdocs() async {
+      await getallDocs();
+      if(_docnames.isEmpty){
+        // start checking if the server is live periodically
+      //to check if the server is down and check for if the server is okay and running
+        timer = Timer.periodic(Duration(seconds: 4), (_) async {
+            print("in timers");
+          if(_docnames.isNotEmpty){
+            if(timer!=null){
+              timer!.cancel();
+              print("get timer cancel");
+            }
+          }
+             await getallDocscheck();
+        });
+
+      }else{
+        print("no timer initialise");
+      }
+
+    }
+
 
   getpermitprice() async {
     var allprice = await apicall.getallpremitprice();
@@ -168,6 +192,8 @@ class Managementcontroller extends GetxController {
    
     update();
   }
+
+
 
   Future<String?> addtemporaryPermit(
       bool isCash, Uint8List passport, Uint8List idcard, Uint8List signature,
@@ -318,6 +344,7 @@ class Managementcontroller extends GetxController {
     isCheckFaces = false;
     facesDetect = "";
     isLoading = false;
+    onlineAplicant = null;
     _permit = null;
   }
 }

@@ -30,7 +30,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
 
     super.initState();
     // loadcascade();
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
+    });
     initialise();
   }
 

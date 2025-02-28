@@ -5,6 +5,7 @@ import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
@@ -67,7 +68,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
             _localpolicestationController.text = d.nearestPS??"";
             _localresidencename.text = d.lrName??"";
             _dob = DateTime.tryParse(d.applcntDOB??"");
-            if(d.district!=null ||  d.district!.isNotEmpty){
+            if(d.district!=null &&  d.district!.isNotEmpty){
 
               district  = d.district??"";
             }
@@ -75,6 +76,15 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       },
     );
   }
+
+@override
+void dispose() {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }); 
+  super.dispose();
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +166,10 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                       Row(
                         children: [
                           Expanded(
-                            child: _buildTextField('Email', _emailController,
+                            child: _buildTextField(
+                              iscapitalize: false,
+                              'Email', _emailController,
+
                                 mandatory: false, validator: _emailValidator),
                           ),
                           SizedBox(
@@ -467,10 +480,12 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       {String? Function(String?)? validator,
       EdgeInsets? padding,
       int? counter,
+      bool iscapitalize = true,
       bool mandatory = true}) {
     return TextFieldWidget(
       controller: controller,
       label: label,
+      isCapitalise: iscapitalize,
       validator: validator,
       counter: counter,
       mandatory: mandatory,
@@ -672,7 +687,7 @@ class TextFieldWidget extends StatelessWidget {
     this.focusnode,
     this.fontSize,
     this.contentpadding,
-    this.mandatory = true, this.keytype, this.errorSize,
+    this.mandatory = true, this.keytype, this.errorSize, this.isCapitalise = true,
   });
   final double? fontSize;
   final FocusNode? focusnode;
@@ -685,11 +700,14 @@ class TextFieldWidget extends StatelessWidget {
   final bool mandatory;
   final TextInputType? keytype;
   final double? errorSize;
+  final bool? isCapitalise;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: padding ?? const EdgeInsets.symmetric(vertical: 15),
       child: TextFormField(
+          textCapitalization:isCapitalise==true?TextCapitalization.sentences:TextCapitalization.none,
         keyboardType:  keytype,
         style: TextStyle(fontSize: fontSize),
         focusNode: focusnode,
@@ -700,6 +718,17 @@ class TextFieldWidget extends StatelessWidget {
                 required isFocused,
                 required maxLength}) =>
             SizedBox(),
+   inputFormatters:isCapitalise==true? [
+    TextInputFormatter.withFunction((oldValue, newValue) {
+      return TextEditingValue(
+        text: newValue.text.toLowerCase().split(' ').map((word) {
+          if (word.isEmpty) return word;
+          return word[0].toUpperCase() + word.substring(1);
+        }).join(' '),
+        selection: newValue.selection,
+      );
+    }),
+  ]:null,
         decoration: InputDecoration(
           
           errorStyle: TextStyle(
