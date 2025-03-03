@@ -5,6 +5,7 @@ import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
+import 'package:camera_windows_example/widgets/customkeys.dart';
 import 'package:camera_windows_example/widgets/receiptpermit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -186,11 +187,32 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   final _formKey = GlobalKey<FormState>();
   bool? isEmpty;
   bool isLoading = false;
+  bool iskeyboardAlpha = true;
   @override
   void initState() {
     super.initState();
     docFocus.requestFocus();
+        String? s = Get.find<Managementcontroller>().getPermit!.idProof;
+        if(s!=null && s == "Aadhaar Card"){
+          
+          iskeyboardAlpha = false;
+        }
+
   }
+
+    void _onKeyTap(String key) {
+
+     docIdController.text += key;
+     
+    }
+
+  void _onBackspace() {
+  
+      final controller = docIdController;
+      if (controller.text.isNotEmpty) {
+        controller.text = controller.text.substring(0, controller.text.length - 1);
+      }
+    }
 
   @override
   void dispose() {
@@ -209,7 +231,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
       return GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return AnimatedContainer(
           duration: Duration(milliseconds: 1000),
-          height: pagectrl.IdSelection ? 500 : 0,
+          height: pagectrl.IdSelection ? 800 : 0,
           width: double.maxFinite,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
@@ -272,6 +294,22 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 SizedBox(
                   height: 20,
                 ),
+              
+                // SizedBox(
+                //   height: 20,
+                // ),
+                mngctrl.applicid.isEmpty
+                    ? SizedBox()
+                    : RepaintBoundary(
+                        key: _globlkey,
+                        child: ReceiptWidget(
+                            applicantName: '', applicantId: mngctrl.applicid)),
+             
+             
+        Container(
+                // height: 400,
+                child: CustomKeyboard(onKeyTap:_onKeyTap, onBackspace: _onBackspace, onToggle: (){},isAlpha: iskeyboardAlpha,)),
+              
                 ElevatedButton(
                   onPressed: mngctrl.isVeriflyloading
                       ? null
@@ -340,12 +378,13 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                           pagectrl.listenPageChange();
                         },
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(32.0),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                    
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Verify"),
+                        Text("Verify",style: TextStyle(fontSize: 18),),
+                        SizedBox(width: 10,),
                         mngctrl.isVeriflyloading
                             ? Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -358,7 +397,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                       color: Colors.white,
                                     ))),
                               )
-                            : SizedBox()
+                            : Icon(Icons.check,size: 30,color: Colors.white,)
                       ],
                     ),
                   ),
@@ -372,15 +411,8 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                mngctrl.applicid.isEmpty
-                    ? SizedBox()
-                    : RepaintBoundary(
-                        key: _globlkey,
-                        child: ReceiptWidget(
-                            applicantName: '', applicantId: mngctrl.applicid)),
+              
+              
               ],
             ),
           ),
