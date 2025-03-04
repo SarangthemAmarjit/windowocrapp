@@ -207,7 +207,6 @@ class _GetDocumentIdState extends State<GetDocumentId> {
     }
 
   void _onBackspace() {
-  
       final controller = docIdController;
       if (controller.text.isNotEmpty) {
         controller.text = controller.text.substring(0, controller.text.length - 1);
@@ -218,7 +217,6 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   void dispose() {
     docIdController.dispose();
     docFocus.dispose();// Hide keyboard when the screen starts
-
     FocusManager.instance.primaryFocus?.unfocus();
     super.dispose();
   }

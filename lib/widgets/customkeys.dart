@@ -68,7 +68,7 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
               children: [
                 Expanded(
                   flex: 2,
-                  child: _buildKeyRow(['0','.'])),
+                  child: _buildKeyRow(['0'])),
                 Expanded(
               
                   child: _buildSpecialButton('⌫', widget.onBackspace)),

@@ -77,7 +77,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   String? _activeField;  
 
   bool firspage = true;
-
+  bool isKeyboardnum = false;
   void changepages(bool ispage){
     setState(() {
     firspage = ispage;
@@ -115,6 +115,23 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
           setState(() {
             _activeField = key;
           });
+
+            if(_activeField=='mobile' ||_activeField ==  'localPincode'){
+              if(!isKeyboardnum){
+                        setState(() {
+                    isKeyboardnum = true;
+                  });
+              }
+              
+            }else{
+              if(isKeyboardnum){
+              setState(() {
+                
+              isKeyboardnum = false;
+              });
+              }
+        
+            }
         }
       });
     });
@@ -149,7 +166,17 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
 
         void _onKeyTap(String key) {
     if (_activeField != null && controllers!=null) {
+
+      if(_activeField=='email'){
+
       controllers![_activeField]!.text += key;
+      }else{
+      String d = controllers?[_activeField]?.text??"";
+      d+=key;
+      controllers![_activeField]!.text = d.capitalize!;
+
+
+      }
     }
   }
 
@@ -182,11 +209,18 @@ void dispose() {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
+               
                   key: _formkey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      firspage?SizedBox(): IconButton.outlined(onPressed: (){
+                          changepages(true);
+                          _formkey.currentState!.reset();
+                      }, icon: Icon(Icons.arrow_back_ios_new_outlined)).animate().fadeIn().scaleXY(begin: 0.5,end: 1,curve: Curves.easeIn),
+                      SizedBox(height:firspage?0:20,),
+
                       Center(
                               child: SizedBox(
                                   width: double.maxFinite,
@@ -204,7 +238,7 @@ void dispose() {
                       ),
         
                       Container(
-                          height: 700,
+                          height: 600,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
@@ -288,6 +322,16 @@ void dispose() {
                                           setState(() {
                                             _dob = value;
                                           });
+
+                                               if (_dob == null) {
+                              setState(() {
+                                datenullText = "DOB cannot be empty";
+                              });
+                            }else{
+                                                          setState(() {
+                                datenullText = null;
+                              });
+                            }
                                         }, datenullText),
                                       ),
                                       SizedBox(
@@ -483,7 +527,39 @@ void dispose() {
                               _dob != null &&
                               mngctrl.state != null){
                                   changepages(false);
+                              }else {
+                            if (_dob == null) {
+                              setState(() {
+                                datenullText = "DOB cannot be empty";
+                              });
+                            } else {
+                              setState(() {
+                                datenullText = null;
+                              });
+                            }
+        
+                            if (mngctrl.state == null) {
+                              setState(() {
+                                statenullText = "State Cannot be empty";
+                              });
+                            } else {
+                              setState(() {
+                                statenullText = null;
+                              });
+                            }
+        
+                                    if(mngctrl.purpose==null){
+                                  setState(() {
+                                    purposevisitnulltext = "Purpose cannot be empty";
+                                  });
+                              }else{
+                                    setState(() {
+                                      purposevisitnulltext = null;
+                                    });
                               }
+                               controller.listenPageChange();
+                            
+                          }
 
                           }else{
                             if (_formkey.currentState!.validate() &&
@@ -491,33 +567,33 @@ void dispose() {
                               mngctrl.state != null &&
                               mngctrl.purpose != null) {
                             VisitorEntry permits = VisitorEntry(
-                              applcntName: _nameController.text,
-                              applcntAddress: _villageController.text,
+                              applcntName: _nameController.text.trim(),
+                              applcntAddress: _villageController.text.trim(),
                               idProof: mngctrl.getPermit?.idProof ?? "",
                               applcntDOB: _dob?.toIso8601String(),
-                              applcntDistrict: _districtController.text,
-                              applcntEmail: _emailController.text,
+                              applcntDistrict: _districtController.text.trim(),
+                              applcntEmail: _emailController.text.trim(),
                               applcntGender: mngctrl.gender,
-                              applcntMobile: _mobileController.text,
-                              applcntParent: _parentNameController.text,
+                              applcntMobile: _mobileController.text.trim(),
+                              applcntParent: _parentNameController.text.trim(),
                               applcntPoliceStation:
-                                  _nearestpliceController.text,
+                                  _nearestpliceController.text.trim(),
                               applcntState: mngctrl.state,
                               idNo: _idNoController.text,
-                              applcntTehsil: _tehsilController.text,
-                              applcntVillage: _villageController.text,
+                              applcntTehsil: _tehsilController.text.trim(),
+                              applcntVillage: _villageController.text.trim(),
                               gateID: mngctrl.selectedGate?.id ?? "",
-                              placeOfStay: _placeStayController.text,
-                              pinCode: _localpincodeController.text,
+                              placeOfStay: _placeStayController.text.trim(),
+                              pinCode: _localpincodeController.text.trim(),
                               residingPeriod: "30",
                               entryType: "ONLINE",
                               applcntHNo: "NA",
                               applyDistrictID: "NA",
                               category: "NA",
-                              district: district,
+                              district: district.trim(),
                               landmark: "NA",
-                              nearestPS: _nearestpliceController.text,
-                              lrName: _localresidencename.text,
+                              nearestPS: _nearestpliceController.text.trim(),
+                              lrName: _localresidencename.text.trim(),
                               visitDate: DateTime(DateTime.now().year,
                                       DateTime.now().month, DateTime.now().day)
                                   .toIso8601String(),
@@ -600,6 +676,7 @@ void dispose() {
             onKeyTap: _onKeyTap,
             onBackspace: _onBackspace,
             onToggle: _toggleKeyboard,
+            isAlpha: !isKeyboardnum,
           ),
         
                     ],
@@ -652,12 +729,13 @@ void dispose() {
         decoration: InputDecoration(
           labelText: label,
           errorText: errorText,
+        
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-
+            hint: Text("Select $label"),
             // dropdownColor: Colors.green,
             // iconEnabledColor: Colors.green,
             // focusColor: Colors.green,
@@ -824,7 +902,7 @@ void dispose() {
   }
 }
 
-class TextFieldWidget extends StatelessWidget {
+class TextFieldWidget extends StatefulWidget {
   const TextFieldWidget({
     super.key,
     this.padding,
@@ -852,65 +930,68 @@ class TextFieldWidget extends StatelessWidget {
   final double? errorSize;
   final bool? isCapitalise;
   final bool? enable;
+
+  @override
+  State<TextFieldWidget> createState() => _TextFieldWidgetState();
+}
+
+class _TextFieldWidgetState extends State<TextFieldWidget> {
+  
+
+  
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(vertical: 15),
+      padding: widget.padding ?? const EdgeInsets.symmetric(vertical: 15),
       child: TextFormField(
-        
-          textCapitalization:isCapitalise==true?TextCapitalization.sentences:TextCapitalization.none,
-        keyboardType:  keytype,
-        style: TextStyle(fontSize: fontSize),
-        focusNode: focusnode,
-        maxLength: counter ?? 40,
-        controller: controller,
-        // readOnly: true,
+        style: TextStyle(fontSize: widget.fontSize,color:widget.enable==false?Colors.black:null, ),
+        focusNode: widget.focusnode,
+        maxLength: widget.counter ?? 40,
+        controller: widget.controller,
         cursorColor: Colors.black,
-        enabled: enable,
+        readOnly:true,
         buildCounter: (context,
                 {required currentLength,
                 required isFocused,
                 required maxLength}) =>
             SizedBox(),
-   inputFormatters:isCapitalise==true? [
-    TextInputFormatter.withFunction((oldValue, newValue) {
-      return TextEditingValue(
-        text: newValue.text.toLowerCase().split(' ').map((word) {
-          if (word.isEmpty) return word;
-          return word[0].toUpperCase() + word.substring(1);
-        }).join(' '),
-        selection: newValue.selection,
-      );
-    }),
-  ]:null,
+   
+ decoration: InputDecoration(
 
-  onChanged: (v){
-    print("In controller ");
-      String s = v;
-      controller.text = s.capitalize!;
-      print("In controller ${s.capitalize}");
-  },
-        decoration: InputDecoration(
-          
+                  enabled: widget.enable!,
           errorStyle: TextStyle(
             color: Colors.red, // Change error text color
-            fontSize: errorSize??null, // Change font size
+            fontSize: widget.errorSize??null, // Change font size
             // fontWeight: FontWeight.bold, // Make it bold
           ),
-          contentPadding: contentpadding,
+          contentPadding: widget.contentpadding,
           labelStyle: TextStyle(fontSize: 20),
-          labelText: mandatory ? "* $label" : label,
+          labelText: widget.mandatory ? "* ${widget.label}" : widget.label,
           floatingLabelStyle: TextStyle(fontSize: 20),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         ),
-        validator: validator ??
+        inputFormatters: [
+          UpperCaseTextFormatter()
+        ],
+        validator: widget.validator ??
             (v) {
               if (v!.isEmpty) {
-                return "$label is empty";
+                return "${widget.label} is empty";
               }
               return null;
             },
       ),
     );
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    return newValue.copyWith(text: newValue.text.capitalize );
   }
 }

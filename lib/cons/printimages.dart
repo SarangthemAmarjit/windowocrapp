@@ -143,7 +143,7 @@ void printUsbReceiptWindows(Uint8List d,String applicantID) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
-Uint8List imageBytes = await getBytesFromAsset('assets/images/ilplogo.png');
+Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
 
   // Add text
   bytes.addAll(generator.image(img.decodeImage(imageBytes)!,align: PosAlign.center),);

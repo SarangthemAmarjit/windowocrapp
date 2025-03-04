@@ -67,6 +67,7 @@ class LandingPage extends StatelessWidget {
                                     ? WelcomeScreen()
                                     : pagenav.mainpageindex == 1
                                         ? DocumentScanPage()
+                                        // ?Successpages()
                                         : pagenav.mainpageindex == 2
                                             ? Center(child: RegistrationPage())
                                             : Successpages())),

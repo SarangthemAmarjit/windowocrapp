@@ -40,7 +40,11 @@ class _SuccesspagesState extends State<Successpages> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      playTimerSound('success.mp3');
+      if( Get.find<PagenavControllers>().mainpageindex == 7 || Get.find<Imagecontroller>().receipt!=null ){
+
+          playTimerSound('success.mp3');
+      } 
+
       startDelayedAction();
     });
   }
@@ -89,8 +93,8 @@ class _SuccesspagesState extends State<Successpages> {
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16)),
-                          child: Lottie.asset('assets/receipt.json',
-                              repeat: false))
+                          child:pagectrl.mainpageindex == 7||imgcon.receipt != null?  Lottie.asset('assets/receipt.json',
+                              repeat: false):SizedBox() )
                       .animate()
                       .fadeIn()
                       .slideY(
@@ -149,7 +153,14 @@ class _SuccesspagesState extends State<Successpages> {
                             _timer!.cancel();
                           }
                         }),
-                  )
+                  ),
+
+                  SizedBox(height: 100,),
+                 pagectrl.mainpageindex == 7||imgcon.receipt != null?   Text("Please collect your receipt.",style: GoogleFonts.montserrat(fontSize: 30,fontWeight: FontWeight.bold),):SizedBox(),
+                 pagectrl.mainpageindex == 7||imgcon.receipt != null? Image.asset(
+                    
+                    colorBlendMode: BlendMode.colorBurn,
+                    "assets/images/downloads.gif",height: 300,width: 300,fit: BoxFit.cover,):SizedBox()
                 ],
               ),
             ),
