@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
+import 'package:camera_windows_example/demoweb.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,16 +15,15 @@ import 'home/keyexample.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  windowManager.waitUntilReadyToShow().then((_) async {
-    await windowManager.setFullScreen(true);
-  });
+  // windowManager.waitUntilReadyToShow().then((_) async {
+  //   await windowManager.setFullScreen(true);
+  // });
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
   Get.put(Imagecontroller());
   Get.put(Connectivitycontroller());
   Get.put(PagenavControllers());
   Get.put(Managementcontroller());
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -36,12 +36,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorSchemeSeed: Colors.green),
-      home: LandingPage(),
+      home: WebViewPage(),
       // home: KeyboardExample(),
-  
     );
   }
 }
+
 // class MyApp extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {

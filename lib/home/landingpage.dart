@@ -14,16 +14,17 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     PagenavControllers pagenav = Get.find<PagenavControllers>();
     return GestureDetector(
-      onTap: (){
-          
-      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
+      onTap: () {
+        FocusScope.of(context)
+            .unfocus(); // Hide keyboard when the screen starts
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: const Color.fromARGB(255, 162, 207, 240),
-        body: GetBuilder<Managementcontroller>(
-          builder: (mngctrl) {
-            return GetBuilder<Connectivitycontroller>(builder: (connectcontrol) {
+        body: GetBuilder<Managementcontroller>(builder: (mngctrl) {
+          return SingleChildScrollView(
+            child:
+                GetBuilder<Connectivitycontroller>(builder: (connectcontrol) {
               return GetBuilder<PagenavControllers>(builder: (_) {
                 return Container(
                   width: double.infinity,
@@ -32,11 +33,10 @@ class LandingPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                      
                           children: [
                             Image.asset(
                               'assets/images/kanglashaok.png',
@@ -52,33 +52,33 @@ class LandingPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Obx(() => connectcontrol.isConnectivity.value || (mngctrl.getDocNames.isEmpty && mngctrl.isloading==false)
-                            ? ErrorPages()
-                            : Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        alignment: Alignment.bottomCenter,
-                                        image: AssetImage(
-                                          'assets/images/Untitled21.png',
-                                        ))),
-                                width: MediaQuery.of(context).size.width,
-                                child: pagenav.mainpageindex == 0
-                                    ? WelcomeScreen()
-                                    : pagenav.mainpageindex == 1
-                                        ? DocumentScanPage()
-                                        // ?Successpages()
-                                        : pagenav.mainpageindex == 2
-                                            ? Center(child: RegistrationPage())
-                                            : Successpages())),
-                      ),
+                      Obx(() => connectcontrol.isConnectivity.value ||
+                              (mngctrl.getDocNames.isEmpty &&
+                                  mngctrl.isloading == false)
+                          ? ErrorPages()
+                          : Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      alignment: Alignment.bottomCenter,
+                                      image: AssetImage(
+                                        'assets/images/Untitled21.png',
+                                      ))),
+                              width: MediaQuery.of(context).size.width,
+                              child: pagenav.mainpageindex == 0
+                                  ? WelcomeScreen()
+                                  : pagenav.mainpageindex == 1
+                                      ? DocumentScanPage()
+                                      // ?Successpages()
+                                      : pagenav.mainpageindex == 2
+                                          ? Center(child: RegistrationPage())
+                                          : Successpages())),
                     ],
                   ),
                 );
               });
-            });
-          }
-        ),
+            }),
+          );
+        }),
       ),
     );
   }
