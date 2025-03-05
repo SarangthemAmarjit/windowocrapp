@@ -19,7 +19,7 @@ class PagenavControllers extends GetxController {
   Timer? _timer;
 
   void listenPageChange() {
-    //     if(_mainpageindex!=0){
+    //     if(_mainpageindex!=0){g
     //       if(_timer!=null){
     //         _timer!.cancel();
     //       }

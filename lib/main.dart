@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
+import 'package:camera_windows_example/demopage.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
+import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorSchemeSeed: Colors.green),
-      home: LandingPage(),
+      home: WebViewPage(),
     );
   }
 }
