@@ -52,6 +52,27 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
 
   _PaymentFinalPageState(this.mode, this.payDetails, this._responsehashKey,
       this._responseDecryptionKey);
+  void showOnScreenKeyboard() {
+    Process.run(
+      'powershell',
+      ['-Command', 'Start-Process osk.exe -Verb RunAs'],
+      runInShell: true,
+    ).then((result) {
+      if (result.exitCode != 0) {
+        print('Failed to launch OSK: ${result.stderr}');
+      }
+    });
+  }
+
+  void openTouchKeyboard() {
+    Process.run(
+      'powershell',
+      [
+        'Start-Process',
+        'C:\\Program Files\\Common Files\\Microsoft Shared\\ink\\TabTip.exe'
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -22,10 +22,9 @@ class PaymentDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     GetxTapController gcontroller = Get.put(GetxTapController());
     return GestureDetector(
-      onTap: (){
-      
-      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
-   
+      onTap: () {
+        FocusScope.of(context)
+            .unfocus(); // Hide keyboard when the screen starts
       },
       child: GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return GetBuilder<Imagecontroller>(builder: (imgcon) {
@@ -45,7 +44,8 @@ class PaymentDetails extends StatelessWidget {
                             child: SizedBox(
                               height: 150,
                               width: 150,
-                              child: Image.asset('assets/images/processing.gif'),
+                              child:
+                                  Image.asset('assets/images/processing.gif'),
                             ),
                           ),
                         ),
@@ -127,7 +127,7 @@ class PaymentDetails extends StatelessWidget {
                                             //         // height: 300,
                                             //         // width:300,
                                             //         fit: BoxFit.cover,
-      
+
                                             //       )
                                             //       : Center(
                                             //           child: Icon(
@@ -170,14 +170,16 @@ class PaymentDetails extends StatelessWidget {
                                                                 "NA")),
                                                         BannerContainer(
                                                             padding:
-                                                                EdgeInsets.all(8),
+                                                                EdgeInsets.all(
+                                                                    8),
                                                             margin:
                                                                 EdgeInsets.zero,
                                                             text: mngctrl
                                                                     .getPermit
                                                                     ?.idNo ??
                                                                 "NA",
-                                                            color: Colors.green),
+                                                            color:
+                                                                Colors.green),
                                                       ],
                                                     ),
                                                     SizedBox(
@@ -188,9 +190,11 @@ class PaymentDetails extends StatelessWidget {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        TextLabel(text: "Gender"),
+                                                        TextLabel(
+                                                            text: "Gender"),
                                                         TextSubtitle(
-                                                          text: mngctrl.getPermit
+                                                          text: mngctrl
+                                                                  .getPermit
                                                                   ?.applcntGender ??
                                                               "NA",
                                                         ),
@@ -204,7 +208,8 @@ class PaymentDetails extends StatelessWidget {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        TextLabel(text: "D.O.B"),
+                                                        TextLabel(
+                                                            text: "D.O.B"),
                                                         TextSubtitle(
                                                             text: getDate(
                                                                 dateTime: mngctrl
@@ -350,26 +355,39 @@ class PaymentDetails extends StatelessWidget {
                                                 ],
                                               ),
                                             ),
-                                          Expanded(
+                                            Expanded(
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  TextLabel(
-                                                      text: "Signature"),
-                                                    SizedBox(height: 10,),
-                                                   imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
-                                                   decoration: BoxDecoration(color: Colors.grey),
-                                                   height: 100,
-                                                   width: 300,
-                                                   child: Center(child: Text("sig empty"),),
-                                                 )
+                                                  TextLabel(text: "Signature"),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  imgcon.signature != null
+                                                      ? Image.memory(
+                                                          imgcon.idCardimage !,
+                                                          width: 150,
+                                                          height: 70,
+                                                          fit: BoxFit.contain,
+                                                        )
+                                                      : Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  color: Colors
+                                                                      .grey),
+                                                          height: 100,
+                                                          width: 300,
+                                                          child: Center(
+                                                            child: Text(
+                                                                "sig empty"),
+                                                          ),
+                                                        )
                                                 ],
                                               ),
                                             ),
                                           ],
                                         ),
-
 
                                         // Divider(),
                                         // TextLabel( text: "Documents"),
@@ -385,7 +403,7 @@ class PaymentDetails extends StatelessWidget {
                                         //               text: "Signature"),
                                         //             SizedBox(height: 10,),
                                         //            imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
-      
+
                                         //            decoration: BoxDecoration(color: Colors.grey),
                                         //            height: 100,
                                         //            width: 300,
@@ -403,7 +421,7 @@ class PaymentDetails extends StatelessWidget {
                                         //               text: "Receipt"),
                                         //             SizedBox(height: 10,),
                                         //          imgcon.receipt!=null? Image.memory(imgcon.receipt!,width: 30,height: 70,fit: BoxFit.contain,):Container(
-      
+
                                         //            decoration: BoxDecoration(color: Colors.grey),
                                         //            height: 100,
                                         //            width: 300,
@@ -417,14 +435,14 @@ class PaymentDetails extends StatelessWidget {
                                         //         crossAxisAlignment:
                                         //             CrossAxisAlignment.start,
                                         //         children: [
-      
+
                                         //         ],
                                         //       ),
                                         //     ),
                                         //   ],
                                         // ),
                                         Divider(),
-      
+
                                         Row(
                                           children: [
                                             Expanded(
@@ -703,7 +721,15 @@ class _PaymentCardState extends State<PaymentCard> {
                   ),
                   ButtonCard(
                       title: "Register Permit",
-                      icon:isload? SizedBox(height: 20,width: 20,child:Center(child: CircularProgressIndicator(strokeWidth: 0.5,))):null,
+                      icon: isload
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                strokeWidth: 0.5,
+                              )))
+                          : null,
                       onpress: () async {
                         if (onlinePayment == false) {
                           setState(() {
@@ -940,12 +966,15 @@ class _PaymentCardState extends State<PaymentCard> {
                                                                 _globlkey, s);
                                                         print("nav Keys");
 
-                                Get.back();
-                                  pagectrl.pageIncremeter(4);
-                                pagectrl.setmainpageindex(ind: 4);
-                              },
-                            );
-                          }
+                                                        Get.back();
+                                                        pagectrl
+                                                            .pageIncremeter(4);
+                                                        pagectrl
+                                                            .setmainpageindex(
+                                                                ind: 4);
+                                                      },
+                                                    );
+                                                  }
 
                                                   // Get.back();
                                                   // send permit to api

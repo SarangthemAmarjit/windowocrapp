@@ -4,6 +4,7 @@ import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
+import 'package:camera_windows_example/home/registrationpages/paymentdetails.dart';
 import 'package:camera_windows_example/home/registrationpages/signatureclass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -18,12 +19,15 @@ class IdSelectionAndScanningScreen extends StatefulWidget {
 class _IdSelectionAndScanningScreenState
     extends State<IdSelectionAndScanningScreen> {
   final GlobalKey _key = GlobalKey();
+  final GlobalKey IdcaptureKey = GlobalKey();
   bool signaturePage = false;
+  bool saveId = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      saveId = false;
       FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
     });
   }
@@ -40,6 +44,13 @@ class _IdSelectionAndScanningScreenState
     });
   }
 
+  void changeSaveID(bool iss){
+    setState(() {
+      saveId = iss;
+    });
+;
+  }
+
   @override
   Widget build(BuildContext context) {
     Imagecontroller imgcon = Get.put(Imagecontroller());
@@ -50,10 +61,19 @@ class _IdSelectionAndScanningScreenState
         log("imgcon.isFrontcapturebuttonpress : " +
             imgcon.isFrontcapturebuttonpress.toString());
         return signaturePage
-            ? PaintCanvas()
+            ? PaintCanvas(callback: changepages,)
             : Column(
                 children: [
-                  Padding(
+                 
+                     imgcon.frontImages!=null && imgcon.backImages!=null?Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 40),
+                    child: Text(
+                      'Review Image for Clarity Before Proceeding',
+                      style:
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ): Padding(
                     padding: const EdgeInsets.symmetric(vertical: 40),
                     child: Text(
                       'Scan Your ${mngcon.getDocNames[pngcon.docindex]} ID',
@@ -134,7 +154,7 @@ class _IdSelectionAndScanningScreenState
                   //     ],
                   //   ),
                   // ),
-                  Padding(
+                 imgcon.frontImages!=null && imgcon.backImages!=null?SizedBox(): Padding(
                     padding:
                         const EdgeInsets.only(bottom: 50, left: 40, right: 40),
                     child: Container(
@@ -149,144 +169,138 @@ class _IdSelectionAndScanningScreenState
                         children: [
                           imgcon.iscamerashown
                               ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     imgcon.iscamerashown
                                         ? Padding(
                                             padding:
                                                 const EdgeInsets.only(left: 30),
                                             child: Center(
-                                              child: Text(
-                                                imgcon.isFrontcapturebuttonpress
-                                                    ? 'Place the front side of the ID card within the frame.'
-                                                    : 'Flip the card and place the back side within the frame.',
-                                                style: TextStyle(fontSize: 20),
-                                              ),
+                                              child:   imgcon.isFrontcapturebuttonpress?Text(
+                                             
+                                                  'Place the front side of the ID card within the frame.',
+                                                  
+                                                style: TextStyle(fontSize: 30),
+                                              ).animate().fadeIn(duration: Duration(milliseconds: 800)).slideY(begin: 1,end: 0,curve: Curves.easeIn,duration: Duration(milliseconds: 500)): Text( 'Flip the card and place the back side within the frame.',
+                                                style: TextStyle(fontSize: 30),
+                                              ).animate().fadeIn(duration: Duration(milliseconds: 800)).slideY(begin: 1,end: 0,curve: Curves.easeIn,duration:  Duration(milliseconds: 500)),
                                             ),
                                           )
                                         : SizedBox(),
                                     SizedBox(
                                       height: 30,
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          flex: 4,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: 10,
-                                            ),
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Container(
-                                                constraints: BoxConstraints(
-                                                    maxHeight:
-                                                        pngcon.docindex == 3
-                                                            ? 195
-                                                            : 180,
-                                                    maxWidth:
-                                                        pngcon.docindex == 3
-                                                            ? 600
-                                                            : 500
-                                                    // maxHeight: 160, maxWidth: 500
-                                                    ),
-                                                child: Transform.flip(
-                                                  flipX: true,
-                                                  child: AspectRatio(
-                                                    aspectRatio:
-                                                        pngcon.docindex == 3
-                                                            ? 12.5 / 8
-                                                            : 2.5 / 2,
-
-                                                    // Passport photo ratio
-                                                    child: Center(
-                                                        child: ClipRect(
-                                                      child: OverflowBox(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        maxWidth:
-                                                            pngcon.docindex == 3
-                                                                ? 500
-                                                                : 500,
-                                                        maxHeight:
-                                                            pngcon.docindex == 3
-                                                                ? 300
-                                                                : 330,
-                                                        // maxWidth: 600,
-                                                        // maxHeight: 420,
-                                                        child: FittedBox(
-                                                          fit: BoxFit
-                                                              .cover, // Ensure it covers the entire aspect ratio
-                                                          child: SizedBox(
-                                                            width: imgcon
-                                                                .previewsize!
-                                                                .width,
-                                                            height: imgcon
-                                                                .previewsize!
-                                                                .height,
-                                                            child: imgcon
-                                                                .buildPreview(), // Your camera preview
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )),
-                                                  ),
-                                                ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      child: RepaintBoundary(
+                                        key: IdcaptureKey,
+                                        child: Container(
+                                          constraints: BoxConstraints(
+                                              maxHeight:
+                                                  pngcon.docindex == 3
+                                                      ? 195
+                                                      : 250,
+                                              maxWidth:
+                                                  pngcon.docindex == 3
+                                                      ? 600
+                                                      : 500
+                                              // maxHeight: 160, maxWidth: 500
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 40),
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  imgcon.takePicture();
-                                                  pngcon.listenPageChange();
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      const Color.fromARGB(
-                                                          255, 0, 66, 234),
-                                                  foregroundColor: Colors.white,
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 10),
-                                                  child: Text(
-                                                    pngcon.docindex == 3
-                                                        ? imgcon.isFrontcapturebuttonpress
-                                                            ? 'Capture Page 1'
-                                                            : 'Capture Page 2'
-                                                        : imgcon.isFrontcapturebuttonpress
-                                                            ? 'Capture Front Side'
-                                                            : 'Capture Back Side',
-                                                    textAlign: TextAlign.center,
-                                                    style:
-                                                        TextStyle(fontSize: 18),
+                                          child: Transform.flip(
+                                            flipX: false,
+                                            flipY: true,
+                                            child: SizedBox(
+                                              height: 700,
+                                              width: 400,
+                                              child: Center(
+                                                  child: ClipRect(
+                                                child: OverflowBox(
+                                                  alignment:
+                                                      Alignment.center,
+                                                  maxWidth:
+                                                      pngcon.docindex ==
+                                                              3
+                                                          ? 500
+                                                          : 800,
+                                                  maxHeight:
+                                                      pngcon.docindex ==
+                                                              3
+                                                          ? 300
+                                                          : 600,
+                                                  // maxWidth: 600,
+                                                  // maxHeight: 420,
+                                                  child: FittedBox(
+                                                    fit: BoxFit
+                                                        .cover, // Ensure it covers the entire aspect ratio
+                                                    child: SizedBox(
+                                                      width: imgcon
+                                                          .previewsize!
+                                                          .width,
+                                                      height: imgcon
+                                                          .previewsize!
+                                                          .height,
+                                                      child: imgcon
+                                                          .buildPreview(), // Your camera preview
+                                                    ),
                                                   ),
                                                 ),
                                               )),
+                                            ),
+                                          ),
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                    SizedBox(
-                                      height: 30,
-                                    )
+                                    SizedBox(height: 16,),
+
+                                    InkWell(
+                            onTap: () {
+                            imgcon.takeDocIDImage(
+                                                IdcaptureKey,
+                                                imgcon
+                                                    .isFrontcapturebuttonpress);
+                                            pngcon.listenPageChange();
+                            },
+                            child: Container(
+                              //  margin: EdgeInsets.symmetric(horizontal: 16),
+                              width: double.infinity,
+                              padding: EdgeInsets.all(32),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                //  borderRadius: BorderRadius.circular(8)
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              child: Center(
+                                  child:  Padding(
+                                            padding: const EdgeInsets
+                                                .symmetric(vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Icon(Icons.camera,color: Colors.white,size: 30,),
+                                                SizedBox(width: 10,),
+                                                Text(
+                                                  pngcon.docindex == 3
+                                                      ? imgcon.isFrontcapturebuttonpress
+                                                          ? 'Capture Page 1'
+                                                          : 'Capture Page 2'
+                                                      : imgcon.isFrontcapturebuttonpress
+                                                          ? 'Capture Front Side'
+                                                          : 'Capture Back Side',
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(fontSize: 20,color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                          ),),
+                            ),
+                          ),
+                                  
+                                    // SizedBox(
+                                    //   height: 30,
+                                    // )
                                     // Padding(
                                     //   padding: const EdgeInsets.only(
                                     //       right: 50, bottom: 20),
@@ -314,116 +328,220 @@ class _IdSelectionAndScanningScreenState
                       ),
                     ),
                   ),
-                  RepaintBoundary(
-                    key: _key,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        // decoration: BoxDecoration(
-                        //   borderRadius: BorderRadius.circular(10),
-                        //   border: Border.all(),
-                        //   color: Colors.white,
-                        // ),
-                        padding: EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          // mainAxmainisAlignment: pngcon.docindex == 3
-                          //     ? MainAxisAlignment.center
-                          //     : MainAxisAlignment.spaceAround,
-                          children: [
-                            imgcon.frontimage != null
-                                ? Container(
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border:
-                                            Border.all(color: Colors.white)),
-                                    // constraints: const BoxConstraints(
-                                    //     maxHeight: 120, maxWidth: 160),
-                                    child: Center(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.file(
-                                          fit: BoxFit.contain,
-                                          File(imgcon.frontimage!.path),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all()),
-                                    height: 200,
-                                    child: Center(
-                                      child: Text(
-                                        'Front Image Preview',
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                    ),
-                                    // decoration: BoxDecoration(
-                                    //          image: DecorationImage(image: AssetImage('assets/images/aadhar.jpeg')),
-                                    //     // borderRadius: BorderRadius.circular(10),
-                                    //     // border: Border.all(color: Colors.black)
+                 imgcon.frontImages==null || imgcon.backImages==null? SizedBox() : Stack(
 
-                                    //     ),
-
-                                    constraints: const BoxConstraints(
-                                        maxHeight: 200, maxWidth: 300),
-                                  ),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Divider(),
-                            pngcon.docindex == 2
-                                ? SizedBox()
-                                : imgcon.backImage != null
-                                    ? Container(
-                                        height: 120,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                color: Colors.black)),
-                                        // constraints: const BoxConstraints(
-                                        //     maxHeight: 120, maxWidth: 160),
-                                        child: Center(
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.file(
-                                              File(imgcon.backImage!.path),
+                   children: [
+                     RepaintBoundary(
+                        key: _key,
+                        child: Container(
+                       
+                          decoration: BoxDecoration(
+                            // borderRadius: BorderRadius.circular(10),
+                            // border: Border.all(),
+                            // color: Colors.green,
+                          ),
+                          padding: EdgeInsets.all(0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            // mainAxmainisAlignment: pngcon.docindex == 3
+                            //     ? MainAxisAlignment.center
+                            //     : MainAxisAlignment.spaceAround,
+                            children: [
+                              imgcon.frontImages != null
+                                  ? Column(
+                     
+                                    children: [
+                                      Container(
+                                          height: 250,
+                                          width: 350,
+                                          
+                                          child: Center(
+                                            child: ClipRRect(
+                                              // borderRadius: BorderRadius.circular(10),
+                                              child: Image.memory(
+                                                imgcon.frontImages!,
+                                                fit: BoxFit.contain,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      )
-                                    : Container(
+                                      saveId?SizedBox(): InkWell(
+                                      onTap: () {
+                                        // changing page in registration going back to image page
+                                        imgcon.retakeIdDocument(true);
+                                      },
+                                      child: Container(
+                                          //  margin: EdgeInsets.all(0),
+                                        width: 350,
+                                        padding: EdgeInsets.all(16),
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all()),
-                                        height: 200,
-                                        child: Center(
-                                          child: Text(
-                                            'Back Image Preview',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
+                                          color: Colors.blue,
+                                          // borderRadius: BorderRadius.circular(8)
                                         ),
-                                        // decoration: BoxDecoration(
-                                        //   image: DecorationImage(image: AssetImage('assets/images/aadhar.jpeg')),
-                                        //     // borderRadius: BorderRadius.circular(10),
-                                        //     // border: Border.all(color: Colors.black  )
-
-                                        //     ),
-                                        constraints: const BoxConstraints(
-                                            maxHeight: 200, maxWidth: 300),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Center(
+                                            child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.replay,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text(
+                                              "Retake Front",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 24),
+                                            ),
+                                          ],
+                                        )),
                                       ),
-                          ],
-                        ),
+                                    ),
+                          
+                                    ],
+                                  )
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          border: Border.all()),
+                                      height: 200,
+                                      child: Center(
+                                        child: Text(
+                                          'Front Image Preview',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                      // decoration: BoxDecoration(
+                                      //          image: DecorationImage(image: AssetImage('assets/images/aadhar.jpeg')),
+                                      //     // borderRadius: BorderRadius.circular(10),
+                                      //     // border: Border.all(color: Colors.black)
+                        
+                                      //     ),
+                        
+                                      constraints: const BoxConstraints(
+                                          maxHeight: 200, maxWidth: 300),
+                                    ),
+                              SizedBox(
+                               height: 10,
+                              ),
+                              // Divider(),
+                              pngcon.docindex == 2
+                                  ? SizedBox()
+                                  : imgcon.backImages != null
+                                      ? Column(
+                                        children: [
+                                          Container(
+                                              height: 250,
+                                                    width: 350,
+                                              // decoration: BoxDecoration(
+                                              //     borderRadius:
+                                              //         BorderRadius.circular(10),
+                                              //     border: Border.all(
+                                              //         color: Colors.black)),
+                                              // constraints: const BoxConstraints(
+                                              //     maxHeight: 120, maxWidth: 160),
+                                              child: Center(
+                                                child: ClipRRect(
+                                                  // borderRadius:
+                                                      // BorderRadius.circular(10),
+                                                  child: Image.memory(
+                                                    imgcon.backImages!,
+                                                    fit: BoxFit.contain,
+                                                   
+                                                    
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                         saveId?SizedBox():InkWell(
+                                      onTap: () {
+                                        // changing page in registration going back to image page
+                                        imgcon.retakeIdDocument(false);
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.zero,
+                                        width: 350,
+                                        padding: EdgeInsets.all(16),
+                                        decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          // borderRadius: BorderRadius.circular(8)
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Center(
+                                            child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.replay,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text(
+                                              "Retake Back",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 24),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+                                    ),
+                     
+                                                
+                           
+                                        ],
+                                      )
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all()),
+                                          height: 200,
+                                          child: Center(
+                                            child: Text(
+                                              'Back Image Preview',
+                                              style:
+                                                  TextStyle(color: Colors.black),
+                                            ),
+                                          ),
+                                          // decoration: BoxDecoration(
+                                          //   image: DecorationImage(image: AssetImage('assets/images/aadhar.jpeg')),
+                                          //     // borderRadius: BorderRadius.circular(10),
+                                          //     // border: Border.all(color: Colors.black  )
+                        
+                                          //     ),
+                                          constraints: const BoxConstraints(
+                                              maxHeight: 200, maxWidth: 300),
+                                        ),
+                            ],
+                          ),
+                        ).animate().fadeIn(duration: Duration(milliseconds: 800)).scaleXY(begin: 0.5,end: 1,curve: Curves.easeIn,duration:  Duration(milliseconds: 500)),
                       ),
-                    ),
-                  ),
+
+                     saveId? Positioned.fill(child: Container(
+                        // color: Colors.black.withValues(alpha: 0.3),
+                        color: Colors.white,
+                        child: SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: Center(child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(strokeWidth: 1,),
+                              SizedBox(height: 20,),
+                              Text('Processing',style: TextStyle(fontSize: 30),),
+                            ],
+                          ),)))):SizedBox()
+                   ],
+                 ),
                   SizedBox(
                     height: 70,
                   ),
@@ -475,22 +593,27 @@ class _IdSelectionAndScanningScreenState
                               ),
                               Expanded(
                                 child: InkWell(
-                                  onTap: () {
+                                  onTap: imgcon.backImages!=null && imgcon.frontImages!=null? () async {
                                     //going to payment after success
                                     //         //  pngcon.changePage(4);
                                     //
+                                    changeSaveID(true);
+                                    await Future.delayed(Duration(seconds: 1));
+
                                     imgcon.saveCard(_key);
+                                     await Future.delayed(Duration(milliseconds: 600));
+                                    changeSaveID(false);
 
                                     changepages();
                                     pngcon.listenPageChange();
-                                  },
+                                  }:null,
                                   child: Container(
                                     //  margin: EdgeInsets.symmetric(horizontal: 16),
                                     width: double.infinity,
                                     padding: EdgeInsets.all(32),
                                     decoration: BoxDecoration(
-                                      color: imgcon.frontimage != null &&
-                                              imgcon.backImage != null
+                                      color: imgcon.frontImages != null &&
+                                              imgcon.backImages != null
                                           ? Colors.green
                                           : Colors.green[300],
                                       //  borderRadius: BorderRadius.circular(8)

@@ -11,6 +11,9 @@ import 'package:flutter/rendering.dart';
 
 import '../../cons/printimages.dart';
 class PaintCanvas extends StatefulWidget {
+  final VoidCallback callback;
+
+  const PaintCanvas({super.key, required this.callback});
   @override
   _PaintCanvasState createState() => _PaintCanvasState();
 }
@@ -77,11 +80,11 @@ class _PaintCanvasState extends State<PaintCanvas> {
                         ]),
                     child: Column(
                       children: [
-                             
+                             IconButton(onPressed: widget.callback, icon: Icon(Icons.arrow_back_ios,size: 30,color: Colors.black,)),
                               Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Text(
-                          'Add Signature',
+                          'Add Signatures',
                           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
@@ -181,29 +184,34 @@ class _PaintCanvasState extends State<PaintCanvas> {
                                   Expanded(
                                     child: InkWell(
                                       onTap: points.isEmpty &&  imgcon.signature==null ?null: () async {
-                    
-                                            RenderRepaintBoundary boundary =
-            _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-             ui.Image image = await boundary.toImage();
-             ByteData? byteData =
-            await image.toByteData(format: ui.ImageByteFormat.png);
-             Uint8List pngBytes = byteData!.buffer.asUint8List();
+                                            if(imgcon.signature!=null){
+  controller.changePage(4);
+                                        controller.listenPageChange();    
+                                            }else{
+                                               RenderRepaintBoundary boundary =
+                                        _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+                                        ui.Image image = await boundary.toImage();
+                                         ByteData? byteData =
+                                        await image.toByteData(format: ui.ImageByteFormat.png);
+                                        Uint8List pngBytes = byteData!.buffer.asUint8List();
           
-            //  final tempDir = await getTemporaryDirectory();
-            //  final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
-            //  await file.writeAsBytes(pngBytes);
-              imgcon.saveImage(pngBytes);
+                                          //  final tempDir = await getTemporaryDirectory();
+                                          //  final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
+                                          //  await file.writeAsBytes(pngBytes);
+                                            imgcon.saveImage(pngBytes);
          
          
-                                        controller.changePage(4);
-                                        controller.listenPageChange();
+                                      
+
+                                            }
+                                           
                                       },
                                       child: Container(
                                         //  margin: EdgeInsets.symmetric(horizontal: 16),
                                         width: double.infinity,
                                         padding: EdgeInsets.all(32),
                                         decoration: BoxDecoration(
-                                          color:points.isEmpty?Colors.green[200]: Colors.green,
+                                          color:points.isEmpty &&  imgcon.signature==null ?Colors.green[200]: Colors.green,
                                           //  borderRadius: BorderRadius.circular(8)
                                         ),
                                         clipBehavior: Clip.antiAlias,

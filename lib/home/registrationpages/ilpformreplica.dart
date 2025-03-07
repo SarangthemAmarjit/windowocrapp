@@ -38,10 +38,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   final _localpolicestationController = TextEditingController();
   final _localresidencename = TextEditingController();
 
-
-  Map<String,TextEditingController>? controllers;
-
-
+  Map<String, TextEditingController>? controllers;
 
   final _focusNodes = {
     'name': FocusNode(),
@@ -58,11 +55,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     'localPincode': FocusNode(),
     'localPoliceStation': FocusNode(),
     'localResidenceName': FocusNode(),
- 
   };
-
-
-
 
   final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
   String? selectedCardType;
@@ -73,14 +66,14 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   String district = "Imphal West";
   String? purposevisitnulltext;
   String? districtnulltext;
-  
-  String? _activeField;  
+
+  String? _activeField;
 
   bool firspage = true;
   bool isKeyboardnum = false;
-  void changepages(bool ispage){
+  void changepages(bool ispage) {
     setState(() {
-    firspage = ispage;
+      firspage = ispage;
     });
   }
 
@@ -88,27 +81,25 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   void initState() {
     super.initState();
     VisitorEntry? d = Get.find<Managementcontroller>().getPermit;
-    
+
     controllers = {
-    'name': _nameController,
-    'parentName': _parentNameController,
-    'idNo': _idNoController,
-    'email': _emailController,
-    'mobile': _mobileController,
-    'placeStay': _placeStayController,
-    'visitPurpose': _visitPurposeController,
-    'nearestPolice': _nearestpliceController,
-    'village': _villageController,
-    'district': _districtController,
-    'tehsil': _tehsilController,
-    'localPincode': _localpincodeController,
-    'localPoliceStation': _localpolicestationController,
-    'localResidenceName': _localresidencename,
-  };
+      'name': _nameController,
+      'parentName': _parentNameController,
+      'idNo': _idNoController,
+      'email': _emailController,
+      'mobile': _mobileController,
+      'placeStay': _placeStayController,
+      'visitPurpose': _visitPurposeController,
+      'nearestPolice': _nearestpliceController,
+      'village': _villageController,
+      'district': _districtController,
+      'tehsil': _tehsilController,
+      'localPincode': _localpincodeController,
+      'localPoliceStation': _localpolicestationController,
+      'localResidenceName': _localresidencename,
+    };
 
-
-
-        // Attach focus listeners
+    // Attach focus listeners
     _focusNodes.forEach((key, node) {
       node.addListener(() {
         if (node.hasFocus) {
@@ -116,26 +107,23 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
             _activeField = key;
           });
 
-            if(_activeField=='mobile' ||_activeField ==  'localPincode'){
-              if(!isKeyboardnum){
-                        setState(() {
-                    isKeyboardnum = true;
-                  });
-              }
-              
-            }else{
-              if(isKeyboardnum){
+          if (_activeField == 'mobile' || _activeField == 'localPincode') {
+            if (!isKeyboardnum) {
               setState(() {
-                
-              isKeyboardnum = false;
+                isKeyboardnum = true;
               });
-              }
-        
             }
+          } else {
+            if (isKeyboardnum) {
+              setState(() {
+                isKeyboardnum = false;
+              });
+            }
+          }
         }
       });
     });
-    
+
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         if (d != null) {
@@ -143,60 +131,54 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
           _parentNameController.text = d.applcntParent ?? "";
           _idNoController.text = d.idNo ?? "";
           _districtController.text = d.applcntDistrict ?? "";
-          _emailController.text = d.applcntEmail??"";
-          _mobileController.text = d.applcntMobile??"";
-          _placeStayController.text = d.placeOfStay??"";
-          _visitPurposeController.text =d.purposeVisit??"";
-          _nearestpliceController.text =d.applcntPoliceStation??"";
-          _villageController.text = d.applcntVillage??"";
-            _tehsilController.text = d.applcntTehsil??"";
-            _localpincodeController.text = d.pinCode??"";
-            _localpolicestationController.text = d.nearestPS??"";
-            _localresidencename.text = d.lrName??"";
-            _dob = DateTime.tryParse(d.applcntDOB??"");
-            if(d.district!=null &&  d.district!.isNotEmpty){
-
-              district  = d.district??"";
-            }
+          _emailController.text = d.applcntEmail ?? "";
+          _mobileController.text = d.applcntMobile ?? "";
+          _placeStayController.text = d.placeOfStay ?? "";
+          _visitPurposeController.text = d.purposeVisit ?? "";
+          _nearestpliceController.text = d.applcntPoliceStation ?? "";
+          _villageController.text = d.applcntVillage ?? "";
+          _tehsilController.text = d.applcntTehsil ?? "";
+          _localpincodeController.text = d.pinCode ?? "";
+          _localpolicestationController.text = d.nearestPS ?? "";
+          _localresidencename.text = d.lrName ?? "";
+          _dob = DateTime.tryParse(d.applcntDOB ?? "");
+          if (d.district != null && d.district!.isNotEmpty) {
+            district = d.district ?? "";
+          }
         }
       },
     );
   }
 
-
-        void _onKeyTap(String key) {
-    if (_activeField != null && controllers!=null) {
-
-      if(_activeField=='email'){
-
-      controllers![_activeField]!.text += key;
-      }else{
-      String d = controllers?[_activeField]?.text??"";
-      d+=key;
-      controllers![_activeField]!.text = d.capitalize!;
-
-
+  void _onKeyTap(String key) {
+    if (_activeField != null && controllers != null) {
+      if (_activeField == 'email') {
+        controllers![_activeField]!.text += key;
+      } else {
+        String d = controllers?[_activeField]?.text ?? "";
+        d += key;
+        controllers![_activeField]!.text = d.capitalize!;
       }
     }
   }
 
   void _onBackspace() {
-    if (_activeField != null && controllers!=null) {
+    if (_activeField != null && controllers != null) {
       final controller = controllers![_activeField]!;
       if (controller.text.isNotEmpty) {
-        controller.text = controller.text.substring(0, controller.text.length - 1);
+        controller.text =
+            controller.text.substring(0, controller.text.length - 1);
       }
     }
   }
 
-@override
-void dispose() {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    FocusManager.instance.primaryFocus?.unfocus();
-  }); 
-  super.dispose();
-}
-
+  @override
+  void dispose() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    });
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,18 +191,26 @@ void dispose() {
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
-               
                   key: _formkey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      firspage?SizedBox(): IconButton.outlined(onPressed: (){
-                          changepages(true);
-                          _formkey.currentState!.reset();
-                      }, icon: Icon(Icons.arrow_back_ios_new_outlined)).animate().fadeIn().scaleXY(begin: 0.5,end: 1,curve: Curves.easeIn),
-                      SizedBox(height:firspage?0:20,),
-
+                      firspage
+                          ? SizedBox()
+                          : IconButton.outlined(
+                                  onPressed: () {
+                                    changepages(true);
+                                    _formkey.currentState!.reset();
+                                  },
+                                  icon: Icon(Icons.arrow_back_ios_new_outlined))
+                              .animate()
+                              .fadeIn()
+                              .scaleXY(
+                                  begin: 0.5, end: 1, curve: Curves.easeIn),
+                      SizedBox(
+                        height: firspage ? 0 : 20,
+                      ),
                       Center(
                               child: SizedBox(
                                   width: double.maxFinite,
@@ -236,417 +226,485 @@ void dispose() {
                       SizedBox(
                         height: 20,
                       ),
-        
                       Container(
-                          height: 600,
+                        height: 600,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                             firspage?Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: mngctrl.getPermit?.idProof != null
-                                            ? _buildDropdownField(
-                                                "ID Proof",
-                                                [mngctrl.getPermit?.idProof ?? "Id Card"],
-                                                mngctrl.getPermit?.idProof ?? "",
-                                                (value) {},
-                                                null)
-                                            : SizedBox(),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                          child:
-                                              _buildTextField('ID No.', _idNoController,node: _focusNodes['idNo']!,enabled: false)),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds: 0)),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: _buildTextField(
-                                              'Applicant Name', _nameController,
-                                              node: _focusNodes['name']!
-                                              )),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                        child: _buildTextField(
-                                            'Parent/Guardian Name', _parentNameController,
-                                            node:_focusNodes['parentName']!
+                              firspage
+                                  ? Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child:
+                                                  mngctrl.getPermit?.idProof !=
+                                                          null
+                                                      ? _buildDropdownField(
+                                                          "ID Proof",
+                                                          [
+                                                            mngctrl.getPermit
+                                                                    ?.idProof ??
+                                                                "Id Card"
+                                                          ],
+                                                          mngctrl.getPermit
+                                                                  ?.idProof ??
+                                                              "",
+                                                          (value) {},
+                                                          null)
+                                                      : SizedBox(),
                                             ),
-                                      )
-                                      // Expanded(
-                                      //   flex: 4,
-                                      //   child: Column(
-                                      //     children: [
-                                      //       _buildTextField('Applicant Name', _nameController),
-                                      //       _buildTextField(
-                                      //           'Parent/Guardian Name', _parentNameController),
-                                      //     ],
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds: 300)),
-                                          
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: _buildTextField(
-                                          iscapitalize: false,
-                                          'Email', _emailController,
-                                            node:_focusNodes['email']!,
-                                            mandatory: false, validator: _emailValidator),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                        child: _buildTextField(
-                                            'Mobile No.', _mobileController,
-                                             node:_focusNodes['mobile']!,
-                                            counter: 10, validator: _phoneValidator),
-                                      ),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds: 400)),
-                                          
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child:
-                                            _buildDateField('* Date of Birth', _dob, (value) {
-                                          setState(() {
-                                            _dob = value;
-                                          });
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                                child: _buildTextField(
+                                                    'ID No.', _idNoController,
+                                                    node: _focusNodes['idNo']!,
+                                                    enabled: false)),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay: Duration(milliseconds: 0)),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                                child: _buildTextField(
+                                                    'Applicant Name',
+                                                    _nameController,
+                                                    node:
+                                                        _focusNodes['name']!)),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                              child: _buildTextField(
+                                                  'Parent/Guardian Name',
+                                                  _parentNameController,
+                                                  node: _focusNodes[
+                                                      'parentName']!),
+                                            )
+                                            // Expanded(
+                                            //   flex: 4,
+                                            //   child: Column(
+                                            //     children: [
+                                            //       _buildTextField('Applicant Name', _nameController),
+                                            //       _buildTextField(
+                                            //           'Parent/Guardian Name', _parentNameController),
+                                            //     ],
+                                            //   ),
+                                            // ),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay: Duration(milliseconds: 300)),
 
-                                               if (_dob == null) {
-                              setState(() {
-                                datenullText = "DOB cannot be empty";
-                              });
-                            }else{
-                                                          setState(() {
-                                datenullText = null;
-                              });
-                            }
-                                        }, datenullText),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                        child: _buildTextField(
-                                              node:_focusNodes['village']!,
-                                            'Village/Street', _villageController),
-                                      ),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds: 600)),
-                                          
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: _buildDropdownField(
-                                            '* State', states, mngctrl.state, (value) {
-                                          mngctrl.changeState(value!);
-                                        }, statenullText),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                          child: _buildTextField(
-                                             node:_focusNodes['district']!,
-                                              'District', _districtController)),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds: 800)),
-                                          
-                                  //
-                                          
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: _buildTextField(
-                                            node:_focusNodes['nearestPolice']!,
-                                            'Police Station', _nearestpliceController),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                          child:
-                                              _buildTextField(
-                                                             node:_focusNodes['tehsil']!,
-                                                'Tehsil', _tehsilController)),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds: 1000)),
-                                  _buildRadioGroup('* Gender', genders, mngctrl.gender,
-                                      (value) {
-                                    mngctrl.changeGender(value!);
-                                  }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
-                                ],
-                              ):
-                              Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: _buildDropdownField(
-                                            '* District', districts, district, (value) {
-                                          setState(() {
-                                            if (value != null) {
-                                              district = value;
-                                            }
-                                          });
-                                        }, null),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                        child: _buildTextField(
-                                           node:_focusNodes['localPincode']!,
-                                          'PinCode',
-                                          _localpincodeController,
-                                          mandatory: false,
-                                          validator: (p0) {
-                                            if (p0 != null && p0.isNotEmpty) {
-                                              if (p0.isNumericOnly && p0.length == 6) {
-                                                return null;
-                                              }
-                                              return "Pincode must be 6 digits";
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds: 0)),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                          child: _buildTextField(
-                                              node:_focusNodes['placeStay']!,
-                                            'Place of Stay in Manipur',
-                                              _placeStayController)),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                        child: _buildTextField(
-                                           node:_focusNodes['localPoliceStation']!,
-                                          'Nearest Police Station',
-                                          validator: (p) {
-                                            return null;
-                                          },
-                                          _localpolicestationController,
-                                          mandatory: false,
-                                        ),
-                                      ),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds:200)),
-                                          
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: AnimatedContainer(
-                                          height: mngctrl.purpose == "Others" ? 220 : 100,
-                                          padding: mngctrl.purpose == "Others"
-                                              ? EdgeInsets.all(8)
-                                              : null,
-                                          duration: Duration(milliseconds: 800),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(8),
-                                            color: mngctrl.purpose == "Others"
-                                                ? Colors.blue.withValues(alpha: 0.2)
-                                                : Colors.white,
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              _buildDropdownField('* Purpose of Visit',
-                                                  purposes, mngctrl.purpose, (value) {
-                                                mngctrl.changePurpose(value!);
-                                              }, purposevisitnulltext),
-                                              mngctrl.purpose == "Others"
-                                                  ? AnimatedOpacity(
-                                                      duration: Duration(milliseconds: 600),
-                                                      opacity: mngctrl.purpose == "Others"
-                                                          ? 1
-                                                          : 0,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                        children: [
-                                                          _buildTextField(
-                                                             node:_focusNodes['visitPurpose']!,
-                                                              padding: EdgeInsets.only(
-                                                                  bottom: 4),
-                                                              'Purpose',
-                                                              _visitPurposeController),
-                                                          Text("Please provide a purpose.")
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : SizedBox(),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Expanded(
-                                        child: _buildTextField(
-                                              node:_focusNodes['localResidenceName']!,
-                                          'Local Residence',
-                                          validator: (p) {
-                                            return null;
-                                          },
-                                          _localresidencename,
-                                          mandatory: false,
-                                        ),
-                                      ),
-                                    ],
-                                  ).animate().fadeIn(delay: Duration(milliseconds: 400)),
-                                  const SizedBox(height: 20),
-                                ],
-                              ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: _buildTextField(
+                                                  iscapitalize: false,
+                                                  'Email',
+                                                  _emailController,
+                                                  node: _focusNodes['email']!,
+                                                  mandatory: false,
+                                                  validator: _emailValidator),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                              child: _buildTextField(
+                                                  'Mobile No.',
+                                                  _mobileController,
+                                                  node: _focusNodes['mobile']!,
+                                                  counter: 10,
+                                                  validator: _phoneValidator),
+                                            ),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay: Duration(milliseconds: 400)),
+
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: _buildDateField(
+                                                  '* Date of Birth', _dob,
+                                                  (value) {
+                                                setState(() {
+                                                  _dob = value;
+                                                });
+
+                                                if (_dob == null) {
+                                                  setState(() {
+                                                    datenullText =
+                                                        "DOB cannot be empty";
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    datenullText = null;
+                                                  });
+                                                }
+                                              }, datenullText),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                              child: _buildTextField(
+                                                  node: _focusNodes['village']!,
+                                                  'Village/Street',
+                                                  _villageController),
+                                            ),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay: Duration(milliseconds: 600)),
+
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: _buildDropdownField(
+                                                  '* State',
+                                                  states,
+                                                  mngctrl.state, (value) {
+                                                mngctrl.changeState(value!);
+                                              }, statenullText),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                                child: _buildTextField(
+                                                    node: _focusNodes[
+                                                        'district']!,
+                                                    'District',
+                                                    _districtController)),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay: Duration(milliseconds: 800)),
+
+                                        //
+
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: _buildTextField(
+                                                  node: _focusNodes[
+                                                      'nearestPolice']!,
+                                                  'Police Station',
+                                                  _nearestpliceController),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                                child: _buildTextField(
+                                                    node:
+                                                        _focusNodes['tehsil']!,
+                                                    'Tehsil',
+                                                    _tehsilController)),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay:
+                                                Duration(milliseconds: 1000)),
+                                        _buildRadioGroup(
+                                            '* Gender', genders, mngctrl.gender,
+                                            (value) {
+                                          mngctrl.changeGender(value!);
+                                        }).animate().fadeIn(
+                                            delay:
+                                                Duration(milliseconds: 1200)),
+                                      ],
+                                    )
+                                  : Column(
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: _buildDropdownField(
+                                                  '* District',
+                                                  districts,
+                                                  district, (value) {
+                                                setState(() {
+                                                  if (value != null) {
+                                                    district = value;
+                                                  }
+                                                });
+                                              }, null),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                              child: _buildTextField(
+                                                node: _focusNodes[
+                                                    'localPincode']!,
+                                                'PinCode',
+                                                _localpincodeController,
+                                                mandatory: false,
+                                                validator: (p0) {
+                                                  if (p0 != null &&
+                                                      p0.isNotEmpty) {
+                                                    if (p0.isNumericOnly &&
+                                                        p0.length == 6) {
+                                                      return null;
+                                                    }
+                                                    return "Pincode must be 6 digits";
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay: Duration(milliseconds: 0)),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                                child: _buildTextField(
+                                                    node: _focusNodes[
+                                                        'placeStay']!,
+                                                    'Place of Stay in Manipur',
+                                                    _placeStayController)),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                              child: _buildTextField(
+                                                node: _focusNodes[
+                                                    'localPoliceStation']!,
+                                                'Nearest Police Station',
+                                                validator: (p) {
+                                                  return null;
+                                                },
+                                                _localpolicestationController,
+                                                mandatory: false,
+                                              ),
+                                            ),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay: Duration(milliseconds: 200)),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: AnimatedContainer(
+                                                height:
+                                                    mngctrl.purpose == "Others"
+                                                        ? 220
+                                                        : 100,
+                                                padding:
+                                                    mngctrl.purpose == "Others"
+                                                        ? EdgeInsets.all(8)
+                                                        : null,
+                                                duration:
+                                                    Duration(milliseconds: 800),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  color: mngctrl.purpose ==
+                                                          "Others"
+                                                      ? Colors.blue.withValues(
+                                                          alpha: 0.2)
+                                                      : Colors.white,
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    _buildDropdownField(
+                                                        '* Purpose of Visit',
+                                                        purposes,
+                                                        mngctrl.purpose,
+                                                        (value) {
+                                                      mngctrl.changePurpose(
+                                                          value!);
+                                                    }, purposevisitnulltext),
+                                                    mngctrl.purpose == "Others"
+                                                        ? AnimatedOpacity(
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                            opacity:
+                                                                mngctrl.purpose ==
+                                                                        "Others"
+                                                                    ? 1
+                                                                    : 0,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                _buildTextField(
+                                                                    node: _focusNodes[
+                                                                        'visitPurpose']!,
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            4),
+                                                                    'Purpose',
+                                                                    _visitPurposeController),
+                                                                Text(
+                                                                    "Please provide a purpose.")
+                                                              ],
+                                                            ),
+                                                          )
+                                                        : SizedBox(),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Expanded(
+                                              child: _buildTextField(
+                                                node: _focusNodes[
+                                                    'localResidenceName']!,
+                                                'Local Residence',
+                                                validator: (p) {
+                                                  return null;
+                                                },
+                                                _localresidencename,
+                                                mandatory: false,
+                                              ),
+                                            ),
+                                          ],
+                                        ).animate().fadeIn(
+                                            delay: Duration(milliseconds: 400)),
+                                        const SizedBox(height: 20),
+                                      ],
+                                    ),
                             ],
                           ),
                         ),
                       ),
                       InkWell(
                         onTap: () {
-                          if(firspage){
-                              if(_formkey.currentState!.validate() &&
-                              _dob != null &&
-                              mngctrl.state != null){
-                                  changepages(false);
-                              }else {
-                            if (_dob == null) {
-                              setState(() {
-                                datenullText = "DOB cannot be empty";
-                              });
-                            } else {
-                              setState(() {
-                                datenullText = null;
-                              });
-                            }
-        
-                            if (mngctrl.state == null) {
-                              setState(() {
-                                statenullText = "State Cannot be empty";
-                              });
-                            } else {
-                              setState(() {
-                                statenullText = null;
-                              });
-                            }
-        
-                                    if(mngctrl.purpose==null){
-                                  setState(() {
-                                    purposevisitnulltext = "Purpose cannot be empty";
-                                  });
-                              }else{
-                                    setState(() {
-                                      purposevisitnulltext = null;
-                                    });
-                              }
-                               controller.listenPageChange();
-                            
-                          }
-
-                          }else{
+                          if (firspage) {
                             if (_formkey.currentState!.validate() &&
-                              _dob != null &&
-                              mngctrl.state != null &&
-                              mngctrl.purpose != null) {
-                            VisitorEntry permits = VisitorEntry(
-                              applcntName: _nameController.text.trim(),
-                              applcntAddress: _villageController.text.trim(),
-                              idProof: mngctrl.getPermit?.idProof ?? "",
-                              applcntDOB: _dob?.toIso8601String(),
-                              applcntDistrict: _districtController.text.trim(),
-                              applcntEmail: _emailController.text.trim(),
-                              applcntGender: mngctrl.gender,
-                              applcntMobile: _mobileController.text.trim(),
-                              applcntParent: _parentNameController.text.trim(),
-                              applcntPoliceStation:
-                                  _nearestpliceController.text.trim(),
-                              applcntState: mngctrl.state,
-                              idNo: _idNoController.text,
-                              applcntTehsil: _tehsilController.text.trim(),
-                              applcntVillage: _villageController.text.trim(),
-                              gateID: mngctrl.selectedGate?.id ?? "",
-                              placeOfStay: _placeStayController.text.trim(),
-                              pinCode: _localpincodeController.text.trim(),
-                              residingPeriod: "30",
-                              entryType: "ONLINE",
-                              applcntHNo: "NA",
-                              applyDistrictID: "NA",
-                              category: "NA",
-                              district: district.trim(),
-                              landmark: "NA",
-                              nearestPS: _nearestpliceController.text.trim(),
-                              lrName: _localresidencename.text.trim(),
-                              visitDate: DateTime(DateTime.now().year,
-                                      DateTime.now().month, DateTime.now().day)
-                                  .toIso8601String(),
-                              purposeVisit: mngctrl.purpose == "Others"
-                                  ? _visitPurposeController.text
-                                  : mngctrl.purpose,
-                            );
-        
-                            mngctrl.addPermit(permits);
-                            controller.changePage(2);
-                            controller.pageIncremeter(2);
-                            setState(() {
-                              datenullText = null;
-                              statenullText = null;
-                            });
-                          } else {
-                            if (_dob == null) {
-                              setState(() {
-                                datenullText = "DOB cannot be empty";
-                              });
+                                _dob != null &&
+                                mngctrl.state != null) {
+                              changepages(false);
                             } else {
+                              if (_dob == null) {
+                                setState(() {
+                                  datenullText = "DOB cannot be empty";
+                                });
+                              } else {
+                                setState(() {
+                                  datenullText = null;
+                                });
+                              }
+
+                              if (mngctrl.state == null) {
+                                setState(() {
+                                  statenullText = "State Cannot be empty";
+                                });
+                              } else {
+                                setState(() {
+                                  statenullText = null;
+                                });
+                              }
+
+                              if (mngctrl.purpose == null) {
+                                setState(() {
+                                  purposevisitnulltext =
+                                      "Purpose cannot be empty";
+                                });
+                              } else {
+                                setState(() {
+                                  purposevisitnulltext = null;
+                                });
+                              }
+                              controller.listenPageChange();
+                            }
+                          } else {
+                            if (_formkey.currentState!.validate() &&
+                                _dob != null &&
+                                mngctrl.state != null &&
+                                mngctrl.purpose != null) {
+                              VisitorEntry permits = VisitorEntry(
+                                applcntName: _nameController.text.trim(),
+                                applcntAddress: _villageController.text.trim(),
+                                idProof: mngctrl.getPermit?.idProof ?? "",
+                                applcntDOB: _dob?.toIso8601String(),
+                                applcntDistrict:
+                                    _districtController.text.trim(),
+                                applcntEmail: _emailController.text.trim(),
+                                applcntGender: mngctrl.gender,
+                                applcntMobile: _mobileController.text.trim(),
+                                applcntParent:
+                                    _parentNameController.text.trim(),
+                                applcntPoliceStation:
+                                    _nearestpliceController.text.trim(),
+                                applcntState: mngctrl.state,
+                                idNo: _idNoController.text,
+                                applcntTehsil: _tehsilController.text.trim(),
+                                applcntVillage: _villageController.text.trim(),
+                                gateID: mngctrl.selectedGate?.id ?? "",
+                                placeOfStay: _placeStayController.text.trim(),
+                                pinCode: _localpincodeController.text.trim(),
+                                residingPeriod: "30",
+                                entryType: "ONLINE",
+                                applcntHNo: "NA",
+                                applyDistrictID: "NA",
+                                category: "NA",
+                                district: district.trim(),
+                                landmark: "NA",
+                                nearestPS: _nearestpliceController.text.trim(),
+                                lrName: _localresidencename.text.trim(),
+                                visitDate: DateTime(
+                                        DateTime.now().year,
+                                        DateTime.now().month,
+                                        DateTime.now().day)
+                                    .toIso8601String(),
+                                purposeVisit: mngctrl.purpose == "Others"
+                                    ? _visitPurposeController.text
+                                    : mngctrl.purpose,
+                              );
+
+                              mngctrl.addPermit(permits);
+                              controller.changePage(2);
+                              controller.pageIncremeter(2);
                               setState(() {
                                 datenullText = null;
-                              });
-                            }
-        
-                            if (mngctrl.state == null) {
-                              setState(() {
-                                statenullText = "State Cannot be empty";
-                              });
-                            } else {
-                              setState(() {
                                 statenullText = null;
                               });
-                            }
-        
-                                    if(mngctrl.purpose==null){
-                                  setState(() {
-                                    purposevisitnulltext = "Purpose cannot be empty";
-                                  });
-                              }else{
-                                    setState(() {
-                                      purposevisitnulltext = null;
-                                    });
+                            } else {
+                              if (_dob == null) {
+                                setState(() {
+                                  datenullText = "DOB cannot be empty";
+                                });
+                              } else {
+                                setState(() {
+                                  datenullText = null;
+                                });
                               }
-                               controller.listenPageChange();
-                            
+
+                              if (mngctrl.state == null) {
+                                setState(() {
+                                  statenullText = "State Cannot be empty";
+                                });
+                              } else {
+                                setState(() {
+                                  statenullText = null;
+                                });
+                              }
+
+                              if (mngctrl.purpose == null) {
+                                setState(() {
+                                  purposevisitnulltext =
+                                      "Purpose cannot be empty";
+                                });
+                              } else {
+                                setState(() {
+                                  purposevisitnulltext = null;
+                                });
+                              }
+                              controller.listenPageChange();
+                            }
                           }
-
-
-                          }
-
-                         
                         },
                         child: Container(
                           width: double.infinity,
@@ -670,15 +728,14 @@ void dispose() {
                                 curve: Curves.easeIn)
                             .fadeIn(delay: Duration(milliseconds: 1800)),
                       ),
-        
-                            SizedBox(height: 20),
-          CustomKeyboard(
-            onKeyTap: _onKeyTap,
-            onBackspace: _onBackspace,
-            onToggle: _toggleKeyboard,
-            isAlpha: !isKeyboardnum,
-          ),
-        
+                      SizedBox(height: 20),
+                      CustomKeyboard(
+                        onKeyTap: _onKeyTap,
+                        onBackspace: _onBackspace,
+                        onToggle: _toggleKeyboard,
+                        isAlpha: !isKeyboardnum,
+                      ),
+                      SizedBox(height: 30,)
                     ],
                   )
                       .animate()
@@ -691,7 +748,6 @@ void dispose() {
       });
     });
   }
-
 
   void _toggleKeyboard() {
     setState(() {}); // Just rebuild to update UI
@@ -729,7 +785,6 @@ void dispose() {
         decoration: InputDecoration(
           labelText: label,
           errorText: errorText,
-        
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         ),
         child: DropdownButtonHideUnderline(
@@ -913,9 +968,11 @@ class TextFieldWidget extends StatefulWidget {
     this.focusnode,
     this.fontSize,
     this.contentpadding,
-    this.mandatory = true, this.keytype, 
-    this.errorSize, this.isCapitalise = true,
-     this.enable = true,
+    this.mandatory = true,
+    this.keytype,
+    this.errorSize,
+    this.isCapitalise = true,
+    this.enable = true,
   });
   final double? fontSize;
   final FocusNode? focusnode;
@@ -936,33 +993,30 @@ class TextFieldWidget extends StatefulWidget {
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
-  
-
-  
-  
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: widget.padding ?? const EdgeInsets.symmetric(vertical: 15),
       child: TextFormField(
-        style: TextStyle(fontSize: widget.fontSize,color:widget.enable==false?Colors.black:null, ),
+        style: TextStyle(
+          fontSize: widget.fontSize,
+          color: widget.enable == false ? Colors.black : null,
+        ),
         focusNode: widget.focusnode,
         maxLength: widget.counter ?? 40,
         controller: widget.controller,
         cursorColor: Colors.black,
-        readOnly:true,
+        readOnly: true,
         buildCounter: (context,
                 {required currentLength,
                 required isFocused,
                 required maxLength}) =>
             SizedBox(),
-   
- decoration: InputDecoration(
-
-                  enabled: widget.enable!,
+        decoration: InputDecoration(
+          enabled: widget.enable!,
           errorStyle: TextStyle(
             color: Colors.red, // Change error text color
-            fontSize: widget.errorSize??null, // Change font size
+            fontSize: widget.errorSize ?? null, // Change font size
             // fontWeight: FontWeight.bold, // Make it bold
           ),
           contentPadding: widget.contentpadding,
@@ -971,9 +1025,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           floatingLabelStyle: TextStyle(fontSize: 20),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         ),
-        inputFormatters: [
-          UpperCaseTextFormatter()
-        ],
+        inputFormatters: [UpperCaseTextFormatter()],
         validator: widget.validator ??
             (v) {
               if (v!.isEmpty) {
@@ -992,6 +1044,6 @@ class UpperCaseTextFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    return newValue.copyWith(text: newValue.text.capitalize );
+    return newValue.copyWith(text: newValue.text.capitalize);
   }
 }

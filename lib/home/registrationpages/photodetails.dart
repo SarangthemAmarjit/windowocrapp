@@ -136,20 +136,16 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                         : Container(
                             padding: EdgeInsets.all(32),
                             margin: EdgeInsets.all(16),
-                            child:
-                                 imgcon.isinitialized
-                                    ?
-                                Text(
-                              "Please look at the Camera and stand still.",
-                              style: TextStyle(fontSize: 26),
-                            )
-                            : Text(
-                                "Initializing Camera. Please Wait",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.green),
-                              )
-
-                            ),
+                            child: imgcon.isinitialized
+                                ? Text(
+                                    "Please look at the Camera and stand still.",
+                                    style: TextStyle(fontSize: 26),
+                                  )
+                                : Text(
+                                    "Initializing Camera. Please Wait",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.green),
+                                  )),
                     timer <= 1
                         ? SizedBox(
                             height: 20,
@@ -230,8 +226,8 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                     SizedBox(
                       height: 20,
                     ),
-// 
-                    imgcon.isinitialized?
+//
+                    imgcon.isinitialized || imgcon.profileImage!=null?
 
                     Row(
                       children: [
@@ -283,7 +279,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                 isprofilecam: false,
                               );
                               controller.changePage(3);
-                                controller.pageIncremeter(3);
+                              controller.pageIncremeter(3);
                               controller.listenPageChange();
                             },
                             child: Container(
@@ -320,94 +316,94 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                     ).animate().fadeIn(
                         duration: Duration(milliseconds: 1200),
                         delay: Duration(milliseconds: 400))
-// 
+// // 
                     :SizedBox(),
 
-                  timer>1?SizedBox():  Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              imgcon.retakeImage();
-                              countdownTimer();
-                              controller.listenPageChange();
-                            },
-                            child: Container(
-                              // margin: EdgeInsets.symmetric(horizontal: 16),
-                              width: double.infinity,
-                              padding: EdgeInsets.all(32),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                // borderRadius: BorderRadius.circular(8)
-                              ),
-                              clipBehavior: Clip.antiAlias,
-                              child: Center(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.camera_sharp,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(
-                                    "Retake",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ),
-                                ],
-                              )),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              controller.changePage(3);
+                  // timer>1?SizedBox():  Row(
+                  //     children: [
+                  //       Expanded(
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             imgcon.retakeImage();
+                  //             countdownTimer();
+                  //             controller.listenPageChange();
+                  //           },
+                  //           child: Container(
+                  //             // margin: EdgeInsets.symmetric(horizontal: 16),
+                  //             width: double.infinity,
+                  //             padding: EdgeInsets.all(32),
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.red,
+                  //               // borderRadius: BorderRadius.circular(8)
+                  //             ),
+                  //             clipBehavior: Clip.antiAlias,
+                  //             child: Center(
+                  //                 child: Row(
+                  //               mainAxisAlignment: MainAxisAlignment.center,
+                  //               children: [
+                  //                 Icon(
+                  //                   Icons.camera_sharp,
+                  //                   color: Colors.white,
+                  //                 ),
+                  //                 SizedBox(
+                  //                   width: 20,
+                  //                 ),
+                  //                 Text(
+                  //                   "Retake",
+                  //                   style: TextStyle(
+                  //                       color: Colors.white, fontSize: 24),
+                  //                 ),
+                  //               ],
+                  //             )),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       Expanded(
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             controller.changePage(3);
 
-                              imgcon.initializeCamera(
-                                isfront: true,
-                                isback: false,
-                                isprofilecam: false,
-                              );
-                              controller.changePage(3);
-                                controller.pageIncremeter(3);
-                              controller.listenPageChange();
-                            },
-                            child: Container(
-                              //  margin: EdgeInsets.symmetric(horizontal: 16),
-                              width: double.infinity,
-                              padding: EdgeInsets.all(32),
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                //  borderRadius: BorderRadius.circular(8)
-                              ),
-                              clipBehavior: Clip.antiAlias,
-                              child: Center(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Proceed",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              )),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+                  //             imgcon.initializeCamera(
+                  //               isfront: true,
+                  //               isback: false,
+                  //               isprofilecam: false,
+                  //             );
+                  //             controller.changePage(3);
+                  //               controller.pageIncremeter(3);
+                  //             controller.listenPageChange();
+                  //           },
+                  //           child: Container(
+                  //             //  margin: EdgeInsets.symmetric(horizontal: 16),
+                  //             width: double.infinity,
+                  //             padding: EdgeInsets.all(32),
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.green,
+                  //               //  borderRadius: BorderRadius.circular(8)
+                  //             ),
+                  //             clipBehavior: Clip.antiAlias,
+                  //             child: Center(
+                  //                 child: Row(
+                  //               mainAxisAlignment: MainAxisAlignment.center,
+                  //               children: [
+                  //                 Text(
+                  //                   "Proceed",
+                  //                   style: TextStyle(
+                  //                       color: Colors.white, fontSize: 24),
+                  //                 ),
+                  //                 SizedBox(
+                  //                   width: 20,
+                  //                 ),
+                  //                 Icon(
+                  //                   Icons.check,
+                  //                   color: Colors.white,
+                  //                 ),
+                  //               ],
+                  //             )),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   )
 
                   ],
                 ),

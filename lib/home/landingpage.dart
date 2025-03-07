@@ -14,71 +14,70 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     PagenavControllers pagenav = Get.find<PagenavControllers>();
     return GestureDetector(
-      onTap: (){
-          
-      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
+      onTap: () {
+        FocusScope.of(context)
+            .unfocus(); // Hide keyboard when the screen starts
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: const Color.fromARGB(255, 162, 207, 240),
-        body: GetBuilder<Managementcontroller>(
-          builder: (mngctrl) {
-            return GetBuilder<Connectivitycontroller>(builder: (connectcontrol) {
-              return GetBuilder<PagenavControllers>(builder: (_) {
-                return Container(
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                      
-                          children: [
-                            Image.asset(
-                              'assets/images/kanglashaok.png',
-                              height: 60,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Image.asset(
-                              'assets/images/ilplogo2.png',
-                              height: 60,
-                            )
-                          ],
-                        ),
+        body: GetBuilder<Managementcontroller>(builder: (mngctrl) {
+          return GetBuilder<Connectivitycontroller>(builder: (connectcontrol) {
+            return GetBuilder<PagenavControllers>(builder: (_) {
+              return Container(
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Image.asset(
+                            'assets/images/kanglashaok.png',
+                            height: 60,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Image.asset(
+                            'assets/images/ilplogo2.png',
+                            height: 60,
+                          )
+                        ],
                       ),
-                      Expanded(
-                        child: Obx(() => connectcontrol.isConnectivity.value || (mngctrl.getDocNames.isEmpty && mngctrl.isloading==false)
-                            ? ErrorPages()
-                            : Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        alignment: Alignment.bottomCenter,
-                                        image: AssetImage(
-                                          'assets/images/Untitled21.png',
-                                        ))),
-                                width: MediaQuery.of(context).size.width,
-                                child: pagenav.mainpageindex == 0
-                                    ? WelcomeScreen()
-                                    : pagenav.mainpageindex == 1
-                                        ? DocumentScanPage()
-                                        // ?Successpages()
-                                        : pagenav.mainpageindex == 2
-                                            ? Center(child: RegistrationPage())
-                                            : Successpages())),
-                      ),
-                    ],
-                  ),
-                );
-              });
+                    ),
+                    Expanded(
+                      child: Obx(() => connectcontrol.isConnectivity.value ||
+                              (mngctrl.getDocNames.isEmpty &&
+                                  mngctrl.isloading == false)
+                          ? ErrorPages()
+                          : Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      alignment: Alignment.bottomCenter,
+                                      image: AssetImage(
+                                        'assets/images/Untitled21.png',
+                                      ))),
+                              width: MediaQuery.of(context).size.width,
+                              child: pagenav.mainpageindex == 0
+                                  ? WelcomeScreen()
+                                  : pagenav.mainpageindex == 1
+                                      ? DocumentScanPage()
+                                      // ?Successpages()
+                                      : pagenav.mainpageindex == 2
+                                          ? Center(child: RegistrationPage())
+                                          : Successpages())),
+                    ),
+                  ],
+                ),
+              );
             });
-          }
-        ),
+          });
+        }),
       ),
     );
   }

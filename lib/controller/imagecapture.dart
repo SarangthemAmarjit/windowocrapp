@@ -36,6 +36,10 @@ class Imagecontroller extends GetxController {
   XFile? get backImage => _backImage;
   Uint8List? idCardimage;
   Uint8List? profileImage;
+
+  Uint8List? frontImages;
+  Uint8List? backImages;
+
   bool iscardProcess = false;
   List<CameraDescription> _allavailablecameras = <CameraDescription>[];
   List<CameraDescription> get allavailablecameras => _allavailablecameras;
@@ -269,7 +273,8 @@ class Imagecontroller extends GetxController {
     _profileimage = null;
 
     _backImage = null;
-
+    frontImages = null;
+    backImages = null;
     idCardimage = null;
     profileImage = null;
     iscardProcess = false;
@@ -674,7 +679,7 @@ class Imagecontroller extends GetxController {
       aspectRatio: pngcon.docindex == 3 ? 12.5 / 9 : 3.2 / 2, //,
       defaultCrop: pngcon.docindex == 3
           ? const Rect.fromLTRB(0.15, 0.15, 0.85, 0.9)
-          : const Rect.fromLTRB(0.25, 0.37, 0.75, 0.8),
+          : const Rect.fromLTRB(0.25, 0.40, 0.75, 0.8),
 
       // aspectRatio: 12.5 / 8.5, //,
       // defaultCrop: const Rect.fromLTRB(0.27, 0.3, 0.75, 0.72),
@@ -715,6 +720,34 @@ class Imagecontroller extends GetxController {
     update();
   }
 
+  Future<void> takeDocIDImage(GlobalKey docKey, bool isFront) async {
+    // final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
+
+    // _profileimage = file;
+
+    try {
+      RenderRepaintBoundary boundary =
+          docKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage();
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+
+      if (isFront) {
+        frontImages = byteData!.buffer.asUint8List();
+        _isFrontcapturebuttonpress = false;
+        update();
+      } else {
+        backImages = byteData!.buffer.asUint8List();
+      }
+
+      Get.back();
+    } on Exception catch (e) {
+      print("failed to save id card image");
+      // TODO
+    }
+    update();
+  }
+
   void retakeImage() {
     profileImage = null;
     update();
@@ -730,5 +763,17 @@ class Imagecontroller extends GetxController {
   void setnavindex({required int navin}) {
     _navindex = navin;
     update();
+  }
+
+
+  void retakeIdDocument(bool isFront){
+    _isFrontcapturebuttonpress = isFront;
+      if(isFront){
+        frontImages = null;
+        
+      }else{
+        backImages = null;
+      }
+      update();
   }
 }
