@@ -350,11 +350,27 @@ class PaymentDetails extends StatelessWidget {
                                                 ],
                                               ),
                                             ),
-                                            Expanded(
-                                              child: SizedBox(),
+                                          Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(
+                                                      text: "Signature"),
+                                                    SizedBox(height: 10,),
+                                                   imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
+                                                   decoration: BoxDecoration(color: Colors.grey),
+                                                   height: 100,
+                                                   width: 300,
+                                                   child: Center(child: Text("sig empty"),),
+                                                 )
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
+
+
                                         // Divider(),
                                         // TextLabel( text: "Documents"),
                                         // SizedBox(height: 10,),
@@ -368,7 +384,7 @@ class PaymentDetails extends StatelessWidget {
                                         //           TextLabel(
                                         //               text: "Signature"),
                                         //             SizedBox(height: 10,),
-                                        //          imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
+                                        //            imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
       
                                         //            decoration: BoxDecoration(color: Colors.grey),
                                         //            height: 100,
@@ -687,6 +703,7 @@ class _PaymentCardState extends State<PaymentCard> {
                   ),
                   ButtonCard(
                       title: "Register Permit",
+                      icon:isload? SizedBox(height: 20,width: 20,child:Center(child: CircularProgressIndicator(strokeWidth: 0.5,))):null,
                       onpress: () async {
                         if (onlinePayment == false) {
                           setState(() {
