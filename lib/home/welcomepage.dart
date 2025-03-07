@@ -1,11 +1,7 @@
 import 'package:camera_windows_example/controller/pagecontroller.dart';
-import 'package:camera_windows_example/home/dashboard.dart';
-import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
-import 'package:camera_windows_example/home/registrationpages/paymentdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
 
 class WelcomeScreen extends StatefulWidget {
   WelcomeScreen({
@@ -26,6 +22,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
+    });
     // controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
     //   ..initialize().then((_) {
     //     setState(() {});
@@ -37,6 +37,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void dispose() {
     // controller!.dispose();
+    FocusManager.instance.primaryFocus?.unfocus();
     super.dispose();
   }
 

@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:win32/win32.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
@@ -134,13 +135,18 @@ Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes 
 // }
 
 
-
+Future<Uint8List> getBytesFromAsset(String path) async {
+  ByteData data = await rootBundle.load(path);
+  return data.buffer.asUint8List();
+}
 void printUsbReceiptWindows(Uint8List d,String applicantID) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
+Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
 
   // Add text
+  bytes.addAll(generator.image(img.decodeImage(imageBytes)!,align: PosAlign.center),);
   bytes.addAll(generator.text(
     'ILP MANIPUR',
     styles: const PosStyles(
@@ -149,19 +155,18 @@ void printUsbReceiptWindows(Uint8List d,String applicantID) async {
       width: PosTextSize.size2,
     ),
   ));
-  bytes.addAll(generator.text('Date: ${DateTime.now()}',
+  bytes.addAll(generator.text('Date: ${DateTime.now().day} /${DateTime.now().month} /${DateTime.now().year} ',
       styles: const PosStyles(align: PosAlign.center)));
         bytes.addAll(generator.feed(2));
 
  bytes.addAll(generator.text('Applicant ID',
       styles: const PosStyles(align: PosAlign.center)));
-  bytes.addAll(generator.feed(1));
   bytes.addAll(generator.text('$applicantID',
       styles: const PosStyles(align: PosAlign.center,
        height: PosTextSize.size3,
       width: PosTextSize.size3,
       )));
-  bytes.addAll(generator.feed(2));
+  bytes.addAll(generator.feed(1));
   
   bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
  
@@ -247,7 +252,7 @@ void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
 void printToWindowsPrinter(String printerName, Uint8List data,Sizes size) {
   final hPrinter = calloc<HANDLE>();
 
-    
+      print("open printer $printerName");
 
   final pDocInfo = calloc<DOC_INFO_1>()
     ..ref.pDocName = "Flutter Print sign".toNativeUtf16()

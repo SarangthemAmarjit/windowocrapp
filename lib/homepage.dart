@@ -23,6 +23,9 @@ class _IdSelectionAndScanningScreenState
   void initState() {
     // TODO: implement initState
     super.initState();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
+    });
   }
 
   @override

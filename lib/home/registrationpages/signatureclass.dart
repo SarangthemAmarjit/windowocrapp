@@ -37,6 +37,15 @@ class _PaintCanvasState extends State<PaintCanvas> {
     );
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
+    });
+  }
+
     void _clearDrawing() {
     setState(() {
       points.clear();

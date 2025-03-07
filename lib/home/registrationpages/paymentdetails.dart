@@ -21,482 +21,494 @@ class PaymentDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GetxTapController gcontroller = Get.put(GetxTapController());
-    return GetBuilder<Managementcontroller>(builder: (mngctrl) {
-      return GetBuilder<Imagecontroller>(builder: (imgcon) {
-        return GetBuilder<PagenavControllers>(builder: (controller) {
-          return GetBuilder<GetxTapController>(builder: (_) {
-            return gcontroller.ispaymentprocessstarted
-                ? Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 400,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Center(
-                          child: SizedBox(
-                            height: 150,
-                            width: 150,
-                            child: Image.asset('assets/images/processing.gif'),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context)
+            .unfocus(); // Hide keyboard when the screen starts
+      },
+      child: GetBuilder<Managementcontroller>(builder: (mngctrl) {
+        return GetBuilder<Imagecontroller>(builder: (imgcon) {
+          return GetBuilder<PagenavControllers>(builder: (controller) {
+            return GetBuilder<GetxTapController>(builder: (_) {
+              return gcontroller.ispaymentprocessstarted
+                  ? Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 400,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Center(
+                            child: SizedBox(
+                              height: 150,
+                              width: 150,
+                              child:
+                                  Image.asset('assets/images/processing.gif'),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                : Center(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 800),
-                      child: Container(
-                        margin: EdgeInsets.all(16),
-                        // padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2),
-                                spreadRadius: 2,
-                              )
-                            ]),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Verify Details",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 120,
-                                            width: 120,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey[300],
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
-                                            child: imgcon.profileImage != null
-                                                ? Image.memory(
-                                                    imgcon.profileImage!,
-                                                    height: 120,
-                                                    width: 120,
-                                                    fit: BoxFit.contain,
-                                                  )
-                                                : Center(
-                                                    child: Icon(
-                                                      Icons.photo,
-                                                      color: Colors.grey,
-                                                      size: 40,
+                      ],
+                    )
+                  : Center(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 800),
+                        child: Container(
+                          margin: EdgeInsets.all(16),
+                          // padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.2),
+                                  spreadRadius: 2,
+                                )
+                              ]),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Verify Details",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 120,
+                                              width: 120,
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(8)),
+                                              child: imgcon.profileImage != null
+                                                  ? Image.memory(
+                                                      imgcon.profileImage!,
+                                                      height: 120,
+                                                      width: 120,
+                                                      fit: BoxFit.contain,
+                                                    )
+                                                  : Center(
+                                                      child: Icon(
+                                                        Icons.photo,
+                                                        color: Colors.grey,
+                                                        size: 40,
+                                                      ),
                                                     ),
-                                                  ),
-                                          ),
-                                          //            Container(
-                                          //   height: 120,
-                                          //   width: 120,
-                                          //   clipBehavior: Clip.antiAlias,
-                                          //   decoration: BoxDecoration(
-                                          //       color: Colors.grey[300],
-                                          //       borderRadius:
-                                          //           BorderRadius.circular(8)),
-                                          //   child: imgcon.idCardimage!= null
-                                          //       ? Image.memory(
-                                          //         imgcon.idCardimage!,
-                                          //         // height: 300,
-                                          //         // width:300,
-                                          //         fit: BoxFit.cover,
+                                            ),
+                                            //            Container(
+                                            //   height: 120,
+                                            //   width: 120,
+                                            //   clipBehavior: Clip.antiAlias,
+                                            //   decoration: BoxDecoration(
+                                            //       color: Colors.grey[300],
+                                            //       borderRadius:
+                                            //           BorderRadius.circular(8)),
+                                            //   child: imgcon.idCardimage!= null
+                                            //       ? Image.memory(
+                                            //         imgcon.idCardimage!,
+                                            //         // height: 300,
+                                            //         // width:300,
+                                            //         fit: BoxFit.cover,
 
-                                          //       )
-                                          //       : Center(
-                                          //           child: Icon(
-                                          //             Icons.photo,
-                                          //             color: Colors.grey,
-                                          //             size: 40,
-                                          //           ),
-                                          //         ),
-                                          // ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                mngctrl.getPermit
-                                                        ?.applcntName ??
-                                                    "NA",
-                                                style: TextStyle(
-                                                    fontSize: 24,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      TextLabel(
-                                                          text: (mngctrl
-                                                                  .getPermit
-                                                                  ?.idProof ??
-                                                              "NA")),
-                                                      BannerContainer(
-                                                          padding:
-                                                              EdgeInsets.all(8),
-                                                          margin:
-                                                              EdgeInsets.zero,
+                                            //       )
+                                            //       : Center(
+                                            //           child: Icon(
+                                            //             Icons.photo,
+                                            //             color: Colors.grey,
+                                            //             size: 40,
+                                            //           ),
+                                            //         ),
+                                            // ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  mngctrl.getPermit
+                                                          ?.applcntName ??
+                                                      "NA",
+                                                  style: TextStyle(
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        TextLabel(
+                                                            text: (mngctrl
+                                                                    .getPermit
+                                                                    ?.idProof ??
+                                                                "NA")),
+                                                        BannerContainer(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    8),
+                                                            margin:
+                                                                EdgeInsets.zero,
+                                                            text: mngctrl
+                                                                    .getPermit
+                                                                    ?.idNo ??
+                                                                "NA",
+                                                            color:
+                                                                Colors.green),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 40,
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        TextLabel(
+                                                            text: "Gender"),
+                                                        TextSubtitle(
                                                           text: mngctrl
                                                                   .getPermit
-                                                                  ?.idNo ??
+                                                                  ?.applcntGender ??
                                                               "NA",
-                                                          color: Colors.green),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: 40,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      TextLabel(text: "Gender"),
-                                                      TextSubtitle(
-                                                        text: mngctrl.getPermit
-                                                                ?.applcntGender ??
-                                                            "NA",
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: 60,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      TextLabel(text: "D.O.B"),
-                                                      TextSubtitle(
-                                                          text: getDate(
-                                                              dateTime: mngctrl
-                                                                      .getPermit
-                                                                      ?.applcntDOB ??
-                                                                  "")),
-                                                    ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 60,
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        TextLabel(
+                                                            text: "D.O.B"),
+                                                        TextSubtitle(
+                                                            text: getDate(
+                                                                dateTime: mngctrl
+                                                                        .getPermit
+                                                                        ?.applcntDOB ??
+                                                                    "")),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(
+                                                      text: "Parent's Name"),
+                                                  TextSubtitle(
+                                                    text: mngctrl.getPermit
+                                                            ?.applcntParent ??
+                                                        "NA",
                                                   ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Divider(),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(
-                                                    text: "Parent's Name"),
-                                                TextSubtitle(
-                                                  text: mngctrl.getPermit
-                                                          ?.applcntParent ??
-                                                      "NA",
-                                                ),
-                                              ],
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(text: "Email"),
-                                                TextSubtitle(
-                                                  text: mngctrl.getPermit
-                                                          ?.applcntEmail ??
-                                                      "NA",
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(text: "Phone"),
-                                                TextSubtitle(
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "Email"),
+                                                  TextSubtitle(
                                                     text: mngctrl.getPermit
-                                                            ?.applcntMobile ??
-                                                        "NA"),
-                                              ],
+                                                            ?.applcntEmail ??
+                                                        "NA",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(text: "State"),
-                                                TextSubtitle(
-                                                  text: mngctrl.getPermit
-                                                          ?.applcntState ??
-                                                      "NA",
-                                                ),
-                                              ],
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "Phone"),
+                                                  TextSubtitle(
+                                                      text: mngctrl.getPermit
+                                                              ?.applcntMobile ??
+                                                          "NA"),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(text: "District"),
-                                                TextSubtitle(
-                                                  text: mngctrl.getPermit
-                                                          ?.district ??
-                                                      "NA",
-                                                ),
-                                              ],
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "State"),
+                                                  TextSubtitle(
+                                                    text: mngctrl.getPermit
+                                                            ?.applcntState ??
+                                                        "NA",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(text: "Address"),
-                                                TextSubtitle(
-                                                  text: mngctrl.getPermit
-                                                          ?.applcntAddress ??
-                                                      "NA",
-                                                ),
-                                              ],
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "District"),
+                                                  TextSubtitle(
+                                                    text: mngctrl.getPermit
+                                                            ?.district ??
+                                                        "NA",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(
-                                                    text:
-                                                        "Nearest Police Station"),
-                                                TextSubtitle(
-                                                  text: mngctrl.getPermit
-                                                          ?.applcntPoliceStation ??
-                                                      "NA",
-                                                ),
-                                              ],
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "Address"),
+                                                  TextSubtitle(
+                                                    text: mngctrl.getPermit
+                                                            ?.applcntAddress ??
+                                                        "NA",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(text: "Tehsil"),
-                                                TextSubtitle(
-                                                  text: mngctrl.getPermit
-                                                          ?.applcntTehsil ??
-                                                      "NA",
-                                                ),
-                                              ],
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(
+                                                      text:
+                                                          "Nearest Police Station"),
+                                                  TextSubtitle(
+                                                    text: mngctrl.getPermit
+                                                            ?.applcntPoliceStation ??
+                                                        "NA",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: SizedBox(),
-                                          ),
-                                        ],
-                                      ),
-                                      // Divider(),
-                                      // TextLabel( text: "Documents"),
-                                      // SizedBox(height: 10,),
-                                      //   Row(
-                                      //   children: [
-                                      //     Expanded(
-                                      //       child: Column(
-                                      //         crossAxisAlignment:
-                                      //             CrossAxisAlignment.start,
-                                      //         children: [
-                                      //           TextLabel(
-                                      //               text: "Signature"),
-                                      //             SizedBox(height: 10,),
-                                      //          imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "Tehsil"),
+                                                  TextSubtitle(
+                                                    text: mngctrl.getPermit
+                                                            ?.applcntTehsil ??
+                                                        "NA",
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: SizedBox(),
+                                            ),
+                                          ],
+                                        ),
+                                        // Divider(),
+                                        // TextLabel( text: "Documents"),
+                                        // SizedBox(height: 10,),
+                                        //   Row(
+                                        //   children: [
+                                        //     Expanded(
+                                        //       child: Column(
+                                        //         crossAxisAlignment:
+                                        //             CrossAxisAlignment.start,
+                                        //         children: [
+                                        //           TextLabel(
+                                        //               text: "Signature"),
+                                        //             SizedBox(height: 10,),
+                                        //          imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
 
-                                      //            decoration: BoxDecoration(color: Colors.grey),
-                                      //            height: 100,
-                                      //            width: 300,
-                                      //            child: Center(child: Text("sig empty"),),
-                                      //          )
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //     Expanded(
-                                      //       child: Column(
-                                      //         crossAxisAlignment:
-                                      //             CrossAxisAlignment.start,
-                                      //         children: [
-                                      //                    TextLabel(
-                                      //               text: "Receipt"),
-                                      //             SizedBox(height: 10,),
-                                      //          imgcon.receipt!=null? Image.memory(imgcon.receipt!,width: 30,height: 70,fit: BoxFit.contain,):Container(
+                                        //            decoration: BoxDecoration(color: Colors.grey),
+                                        //            height: 100,
+                                        //            width: 300,
+                                        //            child: Center(child: Text("sig empty"),),
+                                        //          )
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //     Expanded(
+                                        //       child: Column(
+                                        //         crossAxisAlignment:
+                                        //             CrossAxisAlignment.start,
+                                        //         children: [
+                                        //                    TextLabel(
+                                        //               text: "Receipt"),
+                                        //             SizedBox(height: 10,),
+                                        //          imgcon.receipt!=null? Image.memory(imgcon.receipt!,width: 30,height: 70,fit: BoxFit.contain,):Container(
 
-                                      //            decoration: BoxDecoration(color: Colors.grey),
-                                      //            height: 100,
-                                      //            width: 300,
-                                      //            child: Center(child: Text("Receipt empty"),),
-                                      //          )
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //     Expanded(
-                                      //       child: Column(
-                                      //         crossAxisAlignment:
-                                      //             CrossAxisAlignment.start,
-                                      //         children: [
+                                        //            decoration: BoxDecoration(color: Colors.grey),
+                                        //            height: 100,
+                                        //            width: 300,
+                                        //            child: Center(child: Text("Receipt empty"),),
+                                        //          )
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //     Expanded(
+                                        //       child: Column(
+                                        //         crossAxisAlignment:
+                                        //             CrossAxisAlignment.start,
+                                        //         children: [
 
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      Divider(),
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        Divider(),
 
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(
-                                                    text: "Period Of Stay"),
-                                                TextSubtitle(
-                                                  text: '30 days',
-                                                ),
-                                              ],
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(
+                                                      text: "Period Of Stay"),
+                                                  TextSubtitle(
+                                                    text: '30 days',
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(
-                                                    text: "Starting Date"),
-                                                TextSubtitle(
-                                                    text: getDate(
-                                                        dateTime: mngctrl
-                                                                .getPermit
-                                                                ?.visitDate ??
-                                                            "")),
-                                              ],
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(
+                                                      text: "Starting Date"),
+                                                  TextSubtitle(
+                                                      text: getDate(
+                                                          dateTime: mngctrl
+                                                                  .getPermit
+                                                                  ?.visitDate ??
+                                                              "")),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                TextLabel(text: "Purpose"),
-                                                TextSubtitle(
-                                                  text: mngctrl.getPermit
-                                                          ?.purposeVisit ??
-                                                      "NA",
-                                                ),
-                                              ],
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "Purpose"),
+                                                  TextSubtitle(
+                                                    text: mngctrl.getPermit
+                                                            ?.purposeVisit ??
+                                                        "NA",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          TextLabel(text: "Place of Stay"),
-                                          TextSubtitle(
-                                            text: mngctrl
-                                                    .getPermit?.placeOfStay ??
-                                                "NA",
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            TextLabel(text: "Place of Stay"),
+                                            TextSubtitle(
+                                              text: mngctrl
+                                                      .getPermit?.placeOfStay ??
+                                                  "NA",
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ).animate().fadeIn(
+                                  duration: Duration(milliseconds: 900),
+                                  delay: Duration(milliseconds: 300)),
+                              SizedBox(
+                                height: 20,
                               ),
-                            ).animate().fadeIn(
-                                duration: Duration(milliseconds: 900),
-                                delay: Duration(milliseconds: 300)),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Divider(),
-                            PaymentCard(
-                              mngctrl: mngctrl,
-                            ).animate().fadeIn(
-                                duration: Duration(milliseconds: 1200),
-                                delay: Duration(milliseconds: 600)),
-                          ],
-                        ),
-                      )
-                          .animate()
-                          .scaleXY(
-                              begin: 0.7,
-                              end: 1,
-                              curve: Curves.easeInCubic,
-                              duration: Duration(milliseconds: 600))
-                          .fadeIn(duration: Duration(milliseconds: 500)),
-                    ),
-                  );
+                              Divider(),
+                              PaymentCard(
+                                mngctrl: mngctrl,
+                              ).animate().fadeIn(
+                                  duration: Duration(milliseconds: 1200),
+                                  delay: Duration(milliseconds: 600)),
+                            ],
+                          ),
+                        )
+                            .animate()
+                            .scaleXY(
+                                begin: 0.7,
+                                end: 1,
+                                curve: Curves.easeInCubic,
+                                duration: Duration(milliseconds: 600))
+                            .fadeIn(duration: Duration(milliseconds: 500)),
+                      ),
+                    );
+            });
           });
         });
-      });
-    });
+      }),
+    );
   }
 }
 
@@ -809,7 +821,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                                title: "Pay with Cash ",
+                                                title: "Pay at ILP Counter ",
                                                 onpress: () async {
                                                   sta(() {
                                                     isload = true;
@@ -917,7 +929,8 @@ class _PaymentCardState extends State<PaymentCard> {
                                                         print("nav Keys");
 
                                                         Get.back();
-
+                                                        pagectrl
+                                                            .pageIncremeter(4);
                                                         pagectrl
                                                             .setmainpageindex(
                                                                 ind: 4);
@@ -945,134 +958,150 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   sta(() {
                                                     isload = true;
                                                   });
+                                                  gcontroller.initNdpsPayment(
+                                                    transId: mngctrl.getPermit
+                                                            ?.transactionId ??
+                                                        "",
+                                                    context: context,
+                                                    responseHashKey: gcontroller
+                                                        .responseHashKey,
+                                                    responseDecryptionKey:
+                                                        gcontroller
+                                                            .responseDecryptionKey,
+                                                    amount: mngctrl
+                                                        .allpermitprices[0].fee
+                                                        .toString(),
+                                                    address: 'fsdfsdf',
+                                                    name: 'amarjit',
+                                                  );
 
-                                                  String? s = await mngctrl
-                                                      .addtemporaryPermit(
-                                                        false,
-                                                        imgcon.profileImage!,
-                                                        imgcon.idCardimage!,
-                                                        imgcon.signature!,
-                                                        address: mngctrl
-                                                                .getPermit
-                                                                ?.applcntAddress ??
-                                                            "",
-                                                        applydistrict: mngctrl
-                                                                .getPermit
-                                                                ?.district ??
-                                                            "",
-                                                        districtss: mngctrl
-                                                                .getPermit
-                                                                ?.applcntDistrict ??
-                                                            "",
-                                                        dob: mngctrl.getPermit
-                                                                ?.applcntDOB ??
-                                                            "",
-                                                        email: mngctrl.getPermit
-                                                                ?.applcntEmail ??
-                                                            "",
-                                                        gender: mngctrl
-                                                                .getPermit
-                                                                ?.applcntGender ??
-                                                            "",
-                                                        idProofs: mngctrl
-                                                                .getPermit
-                                                                ?.idProof ??
-                                                            "",
-                                                        idno: mngctrl.getPermit
-                                                                ?.idNo ??
-                                                            "",
-                                                        mobile: mngctrl
-                                                                .getPermit
-                                                                ?.applcntMobile ??
-                                                            "",
-                                                        name: mngctrl.getPermit
-                                                                ?.applcntName ??
-                                                            "",
-                                                        parentname: mngctrl
-                                                                .getPermit
-                                                                ?.applcntParent ??
-                                                            "",
-                                                        pincode: mngctrl
-                                                                .getPermit
-                                                                ?.pinCode ??
-                                                            "",
-                                                        placestay: mngctrl
-                                                                .getPermit
-                                                                ?.placeOfStay ??
-                                                            "",
-                                                        polstation: mngctrl
-                                                                .getPermit
-                                                                ?.applcntPoliceStation ??
-                                                            "",
-                                                        purposeVisits: mngctrl
-                                                                .getPermit
-                                                                ?.purposeVisit ??
-                                                            "",
-                                                        state: mngctrl.getPermit
-                                                                ?.applcntState ??
-                                                            "",
-                                                        tehsl: mngctrl.getPermit
-                                                                ?.applcntTehsil ??
-                                                            "",
-                                                        village: mngctrl
-                                                                .getPermit
-                                                                ?.applcntVillage ??
-                                                            "",
-                                                        visitDates:
-                                                            DateTime.now(),
-                                                        localres: mngctrl
-                                                                .getPermit
-                                                                ?.lrName ??
-                                                            'NA',
-                                                        localnearestpol: mngctrl
-                                                                .getPermit
-                                                                ?.nearestPS ??
-                                                            "NA",
-                                                      )
-                                                      .whenComplete(
-                                                          () => Get.back());
+                                                  // String? s = await mngctrl
+                                                  //     .addtemporaryPermit(
+                                                  //       false,
+                                                  //       imgcon.profileImage!,
+                                                  //       imgcon.idCardimage!,
+                                                  //       imgcon.signature!,
+                                                  //       address: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.applcntAddress ??
+                                                  //           "",
+                                                  //       applydistrict: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.district ??
+                                                  //           "",
+                                                  //       districtss: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.applcntDistrict ??
+                                                  //           "",
+                                                  //       dob: mngctrl.getPermit
+                                                  //               ?.applcntDOB ??
+                                                  //           "",
+                                                  //       email: mngctrl.getPermit
+                                                  //               ?.applcntEmail ??
+                                                  //           "",
+                                                  //       gender: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.applcntGender ??
+                                                  //           "",
+                                                  //       idProofs: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.idProof ??
+                                                  //           "",
+                                                  //       idno: mngctrl.getPermit
+                                                  //               ?.idNo ??
+                                                  //           "",
+                                                  //       mobile: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.applcntMobile ??
+                                                  //           "",
+                                                  //       name: mngctrl.getPermit
+                                                  //               ?.applcntName ??
+                                                  //           "",
+                                                  //       parentname: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.applcntParent ??
+                                                  //           "",
+                                                  //       pincode: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.pinCode ??
+                                                  //           "",
+                                                  //       placestay: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.placeOfStay ??
+                                                  //           "",
+                                                  //       polstation: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.applcntPoliceStation ??
+                                                  //           "",
+                                                  //       purposeVisits: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.purposeVisit ??
+                                                  //           "",
+                                                  //       state: mngctrl.getPermit
+                                                  //               ?.applcntState ??
+                                                  //           "",
+                                                  //       tehsl: mngctrl.getPermit
+                                                  //               ?.applcntTehsil ??
+                                                  //           "",
+                                                  //       village: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.applcntVillage ??
+                                                  //           "",
+                                                  //       visitDates:
+                                                  //           DateTime.now(),
+                                                  //       localres: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.lrName ??
+                                                  //           'NA',
+                                                  //       localnearestpol: mngctrl
+                                                  //               .getPermit
+                                                  //               ?.nearestPS ??
+                                                  //           "NA",
+                                                  //     )
+                                                  //     .whenComplete(
+                                                  //         () => Get.back());
 
                                                   sta(() {
                                                     isload = false;
                                                   });
-                                                  if (s != null) {
-                                                    mngctrl.setOnlineApplId(s);
-                                                    gcontroller.initNdpsPayment(
-                                                      transId: mngctrl.getPermit
-                                                              ?.transactionId ??
-                                                          "",
-                                                      context: context,
-                                                      responseHashKey:
-                                                          gcontroller
-                                                              .responseHashKey,
-                                                      responseDecryptionKey:
-                                                          gcontroller
-                                                              .responseDecryptionKey,
-                                                      amount: mngctrl
-                                                          .allpermitprices[0]
-                                                          .fee
-                                                          .toString(),
-                                                      address: 'fsdfsdf',
-                                                      name: 'amarjit',
-                                                    );
-                                                  } else {
-                                                    Get.back();
-                                                    Get.dialog(AlertDialog(
-                                                      content: Text(
-                                                          "Failed to add permit.\nTry again"),
-                                                      actions: [
-                                                        ButtonCard(
-                                                            title: "Try again",
-                                                            onpress: () {
-                                                              pagectrl
-                                                                  .setmainpageindex(
-                                                                      ind: 0);
-                                                              pagectrl
-                                                                  .listenPageChange();
-                                                            })
-                                                      ],
-                                                    ));
-                                                  }
+                                                  // if (s != null) {
+                                                  //   mngctrl.setOnlineApplId(s);
+                                                  //   gcontroller.initNdpsPayment(
+                                                  //     transId: mngctrl.getPermit
+                                                  //             ?.transactionId ??
+                                                  //         "",
+                                                  //     context: context,
+                                                  //     responseHashKey:
+                                                  //         gcontroller
+                                                  //             .responseHashKey,
+                                                  //     responseDecryptionKey:
+                                                  //         gcontroller
+                                                  //             .responseDecryptionKey,
+                                                  //     amount: mngctrl
+                                                  //         .allpermitprices[0]
+                                                  //         .fee
+                                                  //         .toString(),
+                                                  //     address: 'fsdfsdf',
+                                                  //     name: 'amarjit',
+                                                  //   );
+                                                  // } else {
+                                                  //   Get.back();
+                                                  //   Get.dialog(AlertDialog(
+                                                  //     content: Text(
+                                                  //         "Failed to add permit.\nTry again"),
+                                                  //     actions: [
+                                                  //       ButtonCard(
+                                                  //           title: "Try again",
+                                                  //           onpress: () {
+                                                  //             pagectrl
+                                                  //                 .setmainpageindex(
+                                                  //                     ind: 0);
+                                                  //             pagectrl
+                                                  //                 .listenPageChange();
+                                                  //           })
+                                                  //     ],
+                                                  //   ));
+                                                  // }
                                                 }),
                                           ],
                                   )

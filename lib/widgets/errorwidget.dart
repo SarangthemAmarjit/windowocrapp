@@ -4,7 +4,6 @@ import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-
 class ErrorPages extends StatelessWidget {
   const ErrorPages({super.key});
 
@@ -32,14 +31,13 @@ class ErrorPages extends StatelessWidget {
                         child: Image.asset('assets/images/nointernet.jpg',height: 200,width: 200,fit: BoxFit.contain,)).animate().fadeIn().slideY(begin: -0.5,end: 0,duration: Duration(milliseconds: 800)),
                       SizedBox(height: 20,),
                    Text("Service is temporarily down. We will get back soon.",style: TextStyle(fontSize: 50),textAlign: TextAlign.center,).animate().fadeIn().slideY(begin: 1,end:0,delay: Duration(milliseconds: 400)),
-                   Text("No internet Connection",style: TextStyle(fontSize: 50),textAlign: TextAlign.center,).animate().fadeIn().slideY(begin: 1,end:0,delay: Duration(milliseconds: 400)),
                       SizedBox(height: 20,),
            
                     ],
                     ),
                   ),
                 );
-              } 
+              }
             );
           }
         );

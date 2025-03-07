@@ -5,6 +5,7 @@ import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
+import 'package:camera_windows_example/widgets/customkeys.dart';
 import 'package:camera_windows_example/widgets/receiptpermit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -50,11 +51,15 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                   textAlign: TextAlign.center,
                 ).animate().fadeIn(),
                 const SizedBox(height: 8),
-                Text(
+                  pagecon.IdSelection? Text(
+                  'Please type in your Identification number.',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.center,
+                ).animate().fadeIn().slideY(begin: 0.5,end: 0,curve: Curves.easeIn,duration: Duration(milliseconds: 700)) :  Text(
                   'Choose the type of ID document you want to use for registration.',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
-                ),
+                ).animate().fadeIn().slideY(begin: 0.5,end: 0,curve: Curves.easeIn),
                 const SizedBox(height: 100),
                 pagecon.IdSelection
                     ? GetDocumentId()
@@ -131,16 +136,16 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
   }
 
   Widget _buildButton(BuildContext context, String text, int docindex) {
-    PagenavControllers pagecon = Get.put(PagenavControllers());
+    PagenavControllers pagecon = Get.find<PagenavControllers>();
     Managementcontroller mngctrl = Get.find<Managementcontroller>();
-    Imagecontroller imgcon = Get.put(Imagecontroller());
+    Imagecontroller imgcon = Get.find<Imagecontroller>();
 
     return ElevatedButton(
       onPressed: () {
         pagecon.changeIdSelection();
         pagecon.setdocindex(ind: docindex);
         // pagecon.setmainpageindex(ind: 3);
-        mngctrl.getDocumentDetails(docID: "12034885", docType: text);
+        mngctrl.getDocumentDetails(docID: "", docType: text);
 
         //return to front page if not active for 30 seconds
         pagecon.listenPageChange();
@@ -182,16 +187,37 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   final _formKey = GlobalKey<FormState>();
   bool? isEmpty;
   bool isLoading = false;
+  bool iskeyboardAlpha = true;
   @override
   void initState() {
     super.initState();
     docFocus.requestFocus();
+        String? s = Get.find<Managementcontroller>().getPermit!.idProof;
+        if(s!=null && s == "Aadhaar Card"){
+          
+          iskeyboardAlpha = false;
+        }
+
   }
+
+    void _onKeyTap(String key) {
+
+     docIdController.text += key;
+     
+    }
+
+  void _onBackspace() {
+      final controller = docIdController;
+      if (controller.text.isNotEmpty) {
+        controller.text = controller.text.substring(0, controller.text.length - 1);
+      }
+    }
 
   @override
   void dispose() {
     docIdController.dispose();
-
+    docFocus.dispose();// Hide keyboard when the screen starts
+    FocusManager.instance.primaryFocus?.unfocus();
     super.dispose();
   }
 
@@ -203,7 +229,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
       return GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return AnimatedContainer(
           duration: Duration(milliseconds: 1000),
-          height: pagectrl.IdSelection ? 500 : 0,
+          height: pagectrl.IdSelection ? 800 : 0,
           width: double.maxFinite,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
@@ -237,6 +263,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     child: Form(
                       key: _formKey,
                       child: TextFieldWidget(
+                        errorSize: 24,
                         keytype: pagectrl.docindex == 0
                             ? TextInputType.number
                             : null,
@@ -265,6 +292,22 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 SizedBox(
                   height: 20,
                 ),
+              
+                // SizedBox(
+                //   height: 20,
+                // ),
+                mngctrl.applicid.isEmpty
+                    ? SizedBox()
+                    : RepaintBoundary(
+                        key: _globlkey,
+                        child: ReceiptWidget(
+                            applicantName: '', applicantId: mngctrl.applicid)),
+             
+             
+        Container(
+                // height: 400,
+                child: CustomKeyboard(onKeyTap:_onKeyTap, onBackspace: _onBackspace, onToggle: (){},isAlpha: iskeyboardAlpha,)),
+              
                 ElevatedButton(
                   onPressed: mngctrl.isVeriflyloading
                       ? null
@@ -321,7 +364,8 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
                                   Get.back();
                                   Get.back();
-                                  pagectrl.setmainpageindex(ind: 4);
+                                  
+                                  pagectrl.setmainpageindex(ind: 7);
                                 },
                               );
 
@@ -332,12 +376,13 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                           pagectrl.listenPageChange();
                         },
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(32.0),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                    
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Verify"),
+                        Text("Verify",style: TextStyle(fontSize: 18),),
+                        SizedBox(width: 10,),
                         mngctrl.isVeriflyloading
                             ? Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -350,7 +395,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                       color: Colors.white,
                                     ))),
                               )
-                            : SizedBox()
+                            : Icon(Icons.check,size: 30,color: Colors.white,)
                       ],
                     ),
                   ),
@@ -364,15 +409,8 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                mngctrl.applicid.isEmpty
-                    ? SizedBox()
-                    : RepaintBoundary(
-                        key: _globlkey,
-                        child: ReceiptWidget(
-                            applicantName: '', applicantId: mngctrl.applicid)),
+              
+              
               ],
             ),
           ),

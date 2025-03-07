@@ -30,7 +30,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
 
     super.initState();
     // loadcascade();
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
+    });
     initialise();
   }
 
@@ -119,7 +121,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                   children: [
                     // Text("Profile Photo",style: TextStyle(fontSize: 30,color: Colors.green),),
 
-                    imgcon.profileimage != null
+                    imgcon.profileImage != null
                         ? BannerContainer(
                             color: Colors.blue,
                             text:
@@ -128,20 +130,16 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                         : Container(
                             padding: EdgeInsets.all(32),
                             margin: EdgeInsets.all(16),
-                            child:
-                                //  imgcon.isinitialized
-                                //     ?
-                                Text(
-                              "Please look at the Camera and stand still.",
-                              style: TextStyle(fontSize: 26),
-                            )
-                            // : Text(
-                            //     "Initializing Camera. Please Wait",
-                            //     style: TextStyle(
-                            //         fontSize: 20, color: Colors.green),
-                            //   )
-
-                            ),
+                            child: imgcon.isinitialized
+                                ? Text(
+                                    "Please look at the Camera and stand still.",
+                                    style: TextStyle(fontSize: 26),
+                                  )
+                                : Text(
+                                    "Initializing Camera. Please Wait",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.green),
+                                  )),
                     timer <= 1
                         ? SizedBox(
                             height: 20,
@@ -222,7 +220,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                     SizedBox(
                       height: 20,
                     ),
-
+//
                     // imgcon.isinitialized?
 
                     Row(
@@ -275,6 +273,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                 isprofilecam: false,
                               );
                               controller.changePage(3);
+                              controller.pageIncremeter(3);
                               controller.listenPageChange();
                             },
                             child: Container(
@@ -311,7 +310,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                     ).animate().fadeIn(
                         duration: Duration(milliseconds: 1200),
                         delay: Duration(milliseconds: 400))
-
+//
                     // :SizedBox(),
                   ],
                 ),

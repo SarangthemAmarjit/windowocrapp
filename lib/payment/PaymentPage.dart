@@ -7,11 +7,6 @@ import 'package:camera_windows_example/cons/constant.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
-import 'package:camera_windows_example/home/landingpage.dart';
-import 'package:camera_windows_example/home/registrationpages/onlineppaymentpage.dart';
-import 'package:camera_windows_example/models/paymentresponse.dart';
-import 'package:camera_windows_example/payment/atom_pay_helper.dart';
-import 'package:camera_windows_example/payment/successpage.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:flutter/material.dart';
@@ -21,7 +16,7 @@ import 'package:get/get.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import '../home/registrationpages/succespage.dart';
+import 'atom_pay_helper.dart';
 
 class PaymentFinalPage extends StatefulWidget {
   final mode;
@@ -45,7 +40,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
   final _responseDecryptionKey;
   final _key = UniqueKey();
   late InAppWebViewController _controller;
-
+  bool loadComplete = false;
   final Completer<InAppWebViewController> _controllerCompleter =
       Completer<InAppWebViewController>();
 
@@ -123,22 +118,22 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                     key: UniqueKey(),
                     initialData: InAppWebViewInitialData(
                       data: '''
-            <!DOCTYPE html>
-            <html>
-            <head>
-              <meta name="viewport" content="width=device-width, initial-scale=1">
-              <script src="https://pgtest.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
-              <style>
-                body { margin: 0; padding: 0; width: 100%; height: 100%; }
-                #payment-form { width: 100%; height: 100%; }
-              </style>
-            </head>
-            <body>
-              <div id="payment-form"></div>
-              <script>
-                function openPay() {
-                  const options = {
-                    "atomTokenId": "${gcontroller.atomTokenId}",
+                                      <!DOCTYPE html>
+                                      <html>
+                                      <head>
+                                        <meta name="viewport" content="width=device-width, initial-scale=1">
+                                        <script src="https://pgtest.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+                                        <style>
+                                          body { margin: 0; padding: 0; width: 100%; height: 100%; }
+                                          #payment-form { width: 100%; height: 100%; }
+                                        </style>
+                                      </head>
+                                      <body>
+                                        <div id="payment-form"></div>
+                                        <script>
+                                          function openPay() {
+                                            const options = {
+                                              "atomTokenId": "${gcontroller.atomTokenId}",
                                 "merchId": "${gcontroller.login}",
                                 "custEmail": "test.user@gmail.com",
                                 "custMobile": "8888888888",
@@ -156,16 +151,6 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                     onWebViewCreated: (controller) {
                       _controller = controller;
                       gcontroller.resetloading();
-
-                      controller.addJavaScriptHandler(
-                        handlerName: 'focusInput',
-                        callback: (args) {
-                          controller.evaluateJavascript(source: """
-          document.activeElement.blur();
-          document.activeElement.focus();
-        """);
-                        },
-                      );
                     },
 
                     onConsoleMessage: (controller, consoleMessage) {
@@ -199,8 +184,15 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                     onLoadStop: (controller, url) async {
                       debugPrint("onloadstop_url: $url");
 
-                      showOnScreenKeyboard();
-                      // Open Touch Keyboard (No Admin Needed)
+                      // Inject JavaScript to detect input focus
+                      await _controller.evaluateJavascript(source: """
+                          document.addEventListener("focusin", function(event) {
+                          if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") {
+                          window.flutter_inappwebview.callHandler("showTouchKeyboard");
+              }
+            });
+          """);
+
                       if (url.toString().contains("AIPAYLocalFile")) {
                         debugPrint(" AIPAYLocalFile Now url loaded: $url");
                         await _controller.evaluateJavascript(
@@ -266,7 +258,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                     ['merchDetails']['merchTxnId'];
                                 gcontroller.updatepaymentremark(
                                     transactionid: transactionid,
-                                    remark: 'SUCCESS');
+                                    remark: 'Success');
 
                                 var paymethod = jsonInput['payInstrument']
                                         ['payModeSpecificData']['subChannel'][0]
@@ -307,6 +299,33 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                             paymentname: paymentmethodname,
                             totalamount: totalamount);
                       }
+
+                      ///
+                      void showTouchKeyboard() async {
+                        if (Platform.isWindows) {
+                          // Step 1: Run TabTip.exe (Touch Keyboard)
+                          await Process.run(
+                            'C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe',
+                            [],
+                            runInShell: true,
+                          );
+
+                          // Step 2: Wait for the keyboard to appear
+                          await Future.delayed(Duration(milliseconds: 500));
+
+                          // Step 3: Re-focus the input field using JavaScript
+                          _controller.evaluateJavascript(source: """
+        setTimeout(() => {
+          if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") {
+            document.activeElement.blur(); // Remove focus
+            document.activeElement.focus(); // Re-focus input
+          }
+        }, 100);
+      """);
+                        }
+                      }
+
+                      ///
                     },
                   ),
                 ),
@@ -361,6 +380,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
             ));
     return Future.value(true);
   }
+
+  ///
 
   ///////////////////////////
 }

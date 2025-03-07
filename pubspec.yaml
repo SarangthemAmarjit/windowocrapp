@@ -43,6 +43,9 @@ dependencies:
   video_player: ^2.9.3
   lottie: ^3.3.0
   connectivity_plus: ^6.1.0
+  webview_windows: ^0.4.0
+
+
   
 dev_dependencies:
   async: ^2.5.0

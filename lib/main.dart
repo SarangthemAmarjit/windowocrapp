@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
-import 'package:camera_windows_example/demopage.dart';
+import 'package:camera_windows_example/demoweb.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,15 +10,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
-import 'package:window_manager/window_manager.dart';
+import 'home/keyexample.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //  getPrinterPaperSizes("Microsoft Print to PDF");
-  // Initialize window_manager
   await windowManager.ensureInitialized();
-
-  // Set fullscreen mode
   // windowManager.waitUntilReadyToShow().then((_) async {
   //   await windowManager.setFullScreen(true);
   // });
@@ -41,10 +37,17 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorSchemeSeed: Colors.green),
       home: WebViewPage(),
+      // home: KeyboardExample(),
     );
   }
 }
 
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(navigatorKey: navigatorKey, home: ExampleBrowser());
+//   }
+// }
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
