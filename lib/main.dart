@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorSchemeSeed: Colors.green),
-      home: WebViewPage(),
+      home: LandingPage(),
       // home: KeyboardExample(),
     );
   }

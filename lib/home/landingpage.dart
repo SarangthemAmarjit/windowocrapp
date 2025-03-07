@@ -22,37 +22,36 @@ class LandingPage extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         backgroundColor: const Color.fromARGB(255, 162, 207, 240),
         body: GetBuilder<Managementcontroller>(builder: (mngctrl) {
-          return SingleChildScrollView(
-            child:
-                GetBuilder<Connectivitycontroller>(builder: (connectcontrol) {
-              return GetBuilder<PagenavControllers>(builder: (_) {
-                return Container(
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Image.asset(
-                              'assets/images/kanglashaok.png',
-                              height: 60,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Image.asset(
-                              'assets/images/ilplogo2.png',
-                              height: 60,
-                            )
-                          ],
-                        ),
+          return GetBuilder<Connectivitycontroller>(builder: (connectcontrol) {
+            return GetBuilder<PagenavControllers>(builder: (_) {
+              return Container(
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Image.asset(
+                            'assets/images/kanglashaok.png',
+                            height: 60,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Image.asset(
+                            'assets/images/ilplogo2.png',
+                            height: 60,
+                          )
+                        ],
                       ),
-                      Obx(() => connectcontrol.isConnectivity.value ||
+                    ),
+                    Expanded(
+                      child: Obx(() => connectcontrol.isConnectivity.value ||
                               (mngctrl.getDocNames.isEmpty &&
                                   mngctrl.isloading == false)
                           ? ErrorPages()
@@ -72,12 +71,12 @@ class LandingPage extends StatelessWidget {
                                       : pagenav.mainpageindex == 2
                                           ? Center(child: RegistrationPage())
                                           : Successpages())),
-                    ],
-                  ),
-                );
-              });
-            }),
-          );
+                    ),
+                  ],
+                ),
+              );
+            });
+          });
         }),
       ),
     );

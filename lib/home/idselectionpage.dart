@@ -51,15 +51,26 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                   textAlign: TextAlign.center,
                 ).animate().fadeIn(),
                 const SizedBox(height: 8),
-                  pagecon.IdSelection? Text(
-                  'Please type in your Identification number.',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn().slideY(begin: 0.5,end: 0,curve: Curves.easeIn,duration: Duration(milliseconds: 700)) :  Text(
-                  'Choose the type of ID document you want to use for registration.',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn().slideY(begin: 0.5,end: 0,curve: Curves.easeIn),
+                pagecon.IdSelection
+                    ? Text(
+                        'Please type in your Identification number.',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.center,
+                      ).animate().fadeIn().slideY(
+                        begin: 0.5,
+                        end: 0,
+                        curve: Curves.easeIn,
+                        duration: Duration(milliseconds: 700))
+                    : Text(
+                        'Choose the type of ID document you want to use for registration.',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.center,
+                      )
+                        .animate()
+                        .fadeIn()
+                        .slideY(begin: 0.5, end: 0, curve: Curves.easeIn),
                 const SizedBox(height: 100),
                 pagecon.IdSelection
                     ? GetDocumentId()
@@ -192,31 +203,28 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   void initState() {
     super.initState();
     docFocus.requestFocus();
-        String? s = Get.find<Managementcontroller>().getPermit!.idProof;
-        if(s!=null && s == "Aadhaar Card"){
-          
-          iskeyboardAlpha = false;
-        }
-
+    String? s = Get.find<Managementcontroller>().getPermit!.idProof;
+    if (s != null && s == "Aadhaar Card") {
+      iskeyboardAlpha = false;
+    }
   }
 
-    void _onKeyTap(String key) {
-
-     docIdController.text += key;
-     
-    }
+  void _onKeyTap(String key) {
+    docIdController.text += key;
+  }
 
   void _onBackspace() {
-      final controller = docIdController;
-      if (controller.text.isNotEmpty) {
-        controller.text = controller.text.substring(0, controller.text.length - 1);
-      }
+    final controller = docIdController;
+    if (controller.text.isNotEmpty) {
+      controller.text =
+          controller.text.substring(0, controller.text.length - 1);
     }
+  }
 
   @override
   void dispose() {
     docIdController.dispose();
-    docFocus.dispose();// Hide keyboard when the screen starts
+    docFocus.dispose(); // Hide keyboard when the screen starts
     FocusManager.instance.primaryFocus?.unfocus();
     super.dispose();
   }
@@ -263,6 +271,9 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     child: Form(
                       key: _formKey,
                       child: TextFieldWidget(
+                        counter: mngctrl.getPermit?.idProof == "Aadhaar Card"
+                            ? 12
+                            : null,
                         errorSize: 24,
                         keytype: pagectrl.docindex == 0
                             ? TextInputType.number
@@ -292,7 +303,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 SizedBox(
                   height: 20,
                 ),
-              
+
                 // SizedBox(
                 //   height: 20,
                 // ),
@@ -302,12 +313,16 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                         key: _globlkey,
                         child: ReceiptWidget(
                             applicantName: '', applicantId: mngctrl.applicid)),
-             
-             
-        Container(
-                // height: 400,
-                child: CustomKeyboard(onKeyTap:_onKeyTap, onBackspace: _onBackspace, onToggle: (){},isAlpha: iskeyboardAlpha,)),
-              
+
+                Container(
+                    // height: 400,
+                    child: CustomKeyboard(
+                  onKeyTap: _onKeyTap,
+                  onBackspace: _onBackspace,
+                  onToggle: () {},
+                  isAlpha: iskeyboardAlpha,
+                )),
+
                 ElevatedButton(
                   onPressed: mngctrl.isVeriflyloading
                       ? null
@@ -364,7 +379,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
                                   Get.back();
                                   Get.back();
-                                  
+
                                   pagectrl.setmainpageindex(ind: 7);
                                 },
                               );
@@ -378,11 +393,15 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   child: Padding(
                     padding: const EdgeInsets.all(32.0),
                     child: Row(
-                    
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Verify",style: TextStyle(fontSize: 18),),
-                        SizedBox(width: 10,),
+                        Text(
+                          "Verify",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         mngctrl.isVeriflyloading
                             ? Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -395,7 +414,11 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                       color: Colors.white,
                                     ))),
                               )
-                            : Icon(Icons.check,size: 30,color: Colors.white,)
+                            : Icon(
+                                Icons.check,
+                                size: 30,
+                                color: Colors.white,
+                              )
                       ],
                     ),
                   ),
@@ -409,8 +432,6 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     ),
                   ),
                 ),
-              
-              
               ],
             ),
           ),

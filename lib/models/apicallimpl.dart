@@ -45,8 +45,8 @@ class ApicallImpl extends ApiCall {
         filename: 'passportPhoto.jpg'));
     request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes,
         filename: 'idCard.jpg'));
-    request.files.add(http.MultipartFile.fromBytes('SignPhoto', idCardBytes,
-        filename: 'idCard.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto,
+        filename: 'signature.jpg'));
 
     // Adding headers
     request.headers.addAll(headers);

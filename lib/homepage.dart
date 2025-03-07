@@ -18,12 +18,13 @@ class IdSelectionAndScanningScreen extends StatefulWidget {
 class _IdSelectionAndScanningScreenState
     extends State<IdSelectionAndScanningScreen> {
   final GlobalKey _key = GlobalKey();
+  final GlobalKey IdcaptureKey = GlobalKey();
   bool signaturePage = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
     });
   }
@@ -180,58 +181,59 @@ class _IdSelectionAndScanningScreenState
                                             ),
                                             child: Align(
                                               alignment: Alignment.centerRight,
-                                              child: Container(
-                                                constraints: BoxConstraints(
-                                                    maxHeight:
-                                                        pngcon.docindex == 3
-                                                            ? 195
-                                                            : 180,
-                                                    maxWidth:
-                                                        pngcon.docindex == 3
-                                                            ? 600
-                                                            : 500
-                                                    // maxHeight: 160, maxWidth: 500
-                                                    ),
-                                                child: Transform.flip(
-                                                  flipX: true,
-                                                  child: AspectRatio(
-                                                    aspectRatio:
-                                                        pngcon.docindex == 3
-                                                            ? 12.5 / 8
-                                                            : 2.5 / 2,
-
-                                                    // Passport photo ratio
-                                                    child: Center(
-                                                        child: ClipRect(
-                                                      child: OverflowBox(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        maxWidth:
-                                                            pngcon.docindex == 3
-                                                                ? 500
-                                                                : 500,
-                                                        maxHeight:
-                                                            pngcon.docindex == 3
-                                                                ? 300
-                                                                : 330,
-                                                        // maxWidth: 600,
-                                                        // maxHeight: 420,
-                                                        child: FittedBox(
-                                                          fit: BoxFit
-                                                              .cover, // Ensure it covers the entire aspect ratio
-                                                          child: SizedBox(
-                                                            width: imgcon
-                                                                .previewsize!
-                                                                .width,
-                                                            height: imgcon
-                                                                .previewsize!
-                                                                .height,
-                                                            child: imgcon
-                                                                .buildPreview(), // Your camera preview
+                                              child: RepaintBoundary(
+                                                key: IdcaptureKey,
+                                                child: Container(
+                                                  constraints: BoxConstraints(
+                                                      maxHeight:
+                                                          pngcon.docindex == 3
+                                                              ? 195
+                                                              : 250,
+                                                      maxWidth:
+                                                          pngcon.docindex == 3
+                                                              ? 600
+                                                              : 500
+                                                      // maxHeight: 160, maxWidth: 500
+                                                      ),
+                                                  child: Transform.flip(
+                                                    flipX: true,
+                                                    child: SizedBox(
+                                                      height: 700,
+                                                      width: 400,
+                                                      child: Center(
+                                                          child: ClipRect(
+                                                        child: OverflowBox(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          maxWidth:
+                                                              pngcon.docindex ==
+                                                                      3
+                                                                  ? 500
+                                                                  : 800,
+                                                          maxHeight:
+                                                              pngcon.docindex ==
+                                                                      3
+                                                                  ? 300
+                                                                  : 600,
+                                                          // maxWidth: 600,
+                                                          // maxHeight: 420,
+                                                          child: FittedBox(
+                                                            fit: BoxFit
+                                                                .cover, // Ensure it covers the entire aspect ratio
+                                                            child: SizedBox(
+                                                              width: imgcon
+                                                                  .previewsize!
+                                                                  .width,
+                                                              height: imgcon
+                                                                  .previewsize!
+                                                                  .height,
+                                                              child: imgcon
+                                                                  .buildPreview(), // Your camera preview
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    )),
+                                                      )),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -246,7 +248,11 @@ class _IdSelectionAndScanningScreenState
                                                       horizontal: 40),
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                  imgcon.takePicture();
+                                                  // imgcon.takePicture();
+                                                  imgcon.takeDocIDImage(
+                                                      IdcaptureKey,
+                                                      imgcon
+                                                          .isFrontcapturebuttonpress);
                                                   pngcon.listenPageChange();
                                                 },
                                                 style: ElevatedButton.styleFrom(
@@ -331,7 +337,7 @@ class _IdSelectionAndScanningScreenState
                           //     ? MainAxisAlignment.center
                           //     : MainAxisAlignment.spaceAround,
                           children: [
-                            imgcon.frontimage != null
+                            imgcon.frontImages != null
                                 ? Container(
                                     height: 120,
                                     decoration: BoxDecoration(
@@ -343,9 +349,9 @@ class _IdSelectionAndScanningScreenState
                                     child: Center(
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
-                                        child: Image.file(
+                                        child: Image.memory(
+                                          imgcon.frontImages!,
                                           fit: BoxFit.contain,
-                                          File(imgcon.frontimage!.path),
                                         ),
                                       ),
                                     ),
@@ -377,7 +383,7 @@ class _IdSelectionAndScanningScreenState
                             Divider(),
                             pngcon.docindex == 2
                                 ? SizedBox()
-                                : imgcon.backImage != null
+                                : imgcon.backImages != null
                                     ? Container(
                                         height: 120,
                                         decoration: BoxDecoration(
@@ -391,8 +397,9 @@ class _IdSelectionAndScanningScreenState
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            child: Image.file(
-                                              File(imgcon.backImage!.path),
+                                            child: Image.memory(
+                                              imgcon.backImages!,
+                                              fit: BoxFit.contain,
                                             ),
                                           ),
                                         ),
