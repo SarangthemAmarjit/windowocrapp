@@ -48,6 +48,7 @@ class _PaintCanvasState extends State<PaintCanvas> {
 
     void _clearDrawing() {
     setState(() {
+
       points.clear();
     });
   }
@@ -101,7 +102,7 @@ class _PaintCanvasState extends State<PaintCanvas> {
                             border: Border.all(width: 1,color: Colors.grey),
                             borderRadius: BorderRadius.circular(8)
                           ),
-                          child: Center(
+                          child:imgcon.signature!=null?Image.memory(imgcon.signature!,fit: BoxFit.contain,) : Center(
                             child: RepaintBoundary(
                               key: _globalKey,
                               child: Column(
@@ -139,8 +140,11 @@ class _PaintCanvasState extends State<PaintCanvas> {
                                   Expanded(
                                     child: InkWell(
                                       onTap:
-                                       points.isEmpty?null:(){
+                                       points.isEmpty && imgcon.signature==null?null:(){
                                         _clearDrawing();
+                                        if(imgcon.signature!=null){
+                                          imgcon.retakeSignature();
+                                        }
                                           controller.listenPageChange();
                                        } ,
 
@@ -149,7 +153,7 @@ class _PaintCanvasState extends State<PaintCanvas> {
                                         width: double.infinity,
                                         padding: EdgeInsets.all(32),
                                         decoration: BoxDecoration(
-                                          color: points.isEmpty?Colors.blue[200]:Colors.blue,
+                                          color: points.isEmpty && imgcon.signature==null?Colors.blue[200]:Colors.blue,
                                           // borderRadius: BorderRadius.circular(8)
                                         ),
                                         clipBehavior: Clip.antiAlias,
@@ -176,7 +180,7 @@ class _PaintCanvasState extends State<PaintCanvas> {
                                   ),
                                   Expanded(
                                     child: InkWell(
-                                      onTap:points.isEmpty?null: () async {
+                                      onTap: points.isEmpty &&  imgcon.signature==null ?null: () async {
                     
                                             RenderRepaintBoundary boundary =
             _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;

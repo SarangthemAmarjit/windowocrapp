@@ -719,7 +719,10 @@ class Imagecontroller extends GetxController {
     profileImage = null;
     update();
   }
-
+  void retakeSignature() {
+    signature = null;
+    update();
+  }
   Widget buildPreview() {
     return CameraPlatform.instance.buildPreview(_cameraId);
   }
