@@ -209,8 +209,14 @@ class _GetDocumentIdState extends State<GetDocumentId> {
     }
   }
 
-  void _onKeyTap(String key) {
-    docIdController.text += key;
+  void _onKeyTap(String key, int docind) {
+    if (docind == 0) {
+      if (docIdController.text.length < 12) {
+        docIdController.text += key;
+      }
+    } else {
+      docIdController.text += key;
+    }
   }
 
   void _onBackspace() {
@@ -317,7 +323,9 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 Container(
                     // height: 400,
                     child: CustomKeyboard(
-                  onKeyTap: _onKeyTap,
+                  onKeyTap: (p0) {
+                    _onKeyTap(p0, pagectrl.docindex);
+                  },
                   onBackspace: _onBackspace,
                   onToggle: () {},
                   isAlpha: iskeyboardAlpha,
