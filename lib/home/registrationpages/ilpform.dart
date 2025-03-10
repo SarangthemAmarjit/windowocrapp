@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import '../../cons/constant.dart';
 
 class TemporaryILPForm extends StatefulWidget {
@@ -235,7 +236,7 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
                   Row(
                     children: [
                       Expanded(
-                        child: _buildDropdownField(
+                        child: _buildDropdownState(
                             'State', states, mngctrl.state, (value) {
                           mngctrl.changeState(value!);
                         }),
@@ -311,6 +312,20 @@ class _TemporaryILPFormState extends State<TemporaryILPForm> {
             },
       ),
     );
+  }
+
+  Widget _buildDropdownState(String label, List items, String? selectedValue,
+      ValueChanged<String?> onChanged) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        child: DropdownSearch<String>(
+          // we can pass string to it as well but then we've to make
+          // sure that the list of items are string like this List<String>
+
+          onChanged: onChanged,
+
+          selectedItem: selectedValue,
+        ));
   }
 
   Widget _buildDropdownField(String label, List<String> items,
