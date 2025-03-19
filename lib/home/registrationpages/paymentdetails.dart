@@ -366,7 +366,7 @@ class PaymentDetails extends StatelessWidget {
                                                   ),
                                                   imgcon.signature != null
                                                       ? Image.memory(
-                                                          imgcon.idCardimage !,
+                                                          imgcon.signature !,
                                                           width: 150,
                                                           height: 70,
                                                           fit: BoxFit.contain,

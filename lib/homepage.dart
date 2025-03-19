@@ -1,10 +1,8 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
-import 'package:camera_windows_example/home/registrationpages/paymentdetails.dart';
 import 'package:camera_windows_example/home/registrationpages/signatureclass.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -26,10 +24,12 @@ class _IdSelectionAndScanningScreenState
   void initState() {
     // TODO: implement initState
     super.initState();
+   
     WidgetsBinding.instance.addPostFrameCallback((_) {
+       Get.find<Imagecontroller>().initializeCamera(isfront: true, isback: false, isprofilecam: false);
       saveId = false;
-      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
     });
+
   }
 
   @override
@@ -53,9 +53,9 @@ class _IdSelectionAndScanningScreenState
 
   @override
   Widget build(BuildContext context) {
-    Imagecontroller imgcon = Get.put(Imagecontroller());
-    PagenavControllers pngcon = Get.put(PagenavControllers());
-    Managementcontroller mngcon = Get.put(Managementcontroller());
+    Imagecontroller imgcon = Get.find<Imagecontroller>();
+    PagenavControllers pngcon = Get.find<PagenavControllers>();
+    Managementcontroller mngcon = Get.find<Managementcontroller>();
     return GetBuilder<PagenavControllers>(builder: (_) {
       return GetBuilder<Imagecontroller>(builder: (_) {
         log("imgcon.isFrontcapturebuttonpress : " +
@@ -176,7 +176,7 @@ class _IdSelectionAndScanningScreenState
                                             padding:
                                                 const EdgeInsets.only(left: 30),
                                             child: Center(
-                                              child:   imgcon.isFrontcapturebuttonpress?Text(
+                                              child:   imgcon.frontImages==null?Text(
                                              
                                                   'Place the front side of the ID card within the frame.',
                                                   
@@ -259,7 +259,7 @@ class _IdSelectionAndScanningScreenState
                             imgcon.takeDocIDImage(
                                                 IdcaptureKey,
                                                 imgcon
-                                                    .isFrontcapturebuttonpress);
+                                                    .frontImages==null);
                                             pngcon.listenPageChange();
                             },
                             child: Container(
@@ -280,18 +280,24 @@ class _IdSelectionAndScanningScreenState
                                               children: [
                                                 Icon(Icons.camera,color: Colors.white,size: 30,),
                                                 SizedBox(width: 10,),
-                                                Text(
+                                                
                                                   pngcon.docindex == 3
-                                                      ? imgcon.isFrontcapturebuttonpress
-                                                          ? 'Capture Page 1'
-                                                          : 'Capture Page 2'
-                                                      : imgcon.isFrontcapturebuttonpress
-                                                          ? 'Capture Front Side'
-                                                          : 'Capture Back Side',
-                                                  textAlign: TextAlign.center,
+                                                      ? imgcon.frontImages==null
+                                                          ? Text('Capture Page 1', textAlign: TextAlign.center,
                                                   style:
-                                                      TextStyle(fontSize: 20,color: Colors.white),
-                                                ),
+                                                      TextStyle(fontSize: 20,color: Colors.white),).animate().scaleXY(begin: 0.2,end:1,curve: Curves.easeIn)
+                                                          :  Text('Capture Page 2', textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(fontSize: 20,color: Colors.white),).animate().scaleXY(begin: 0.5,end:1,curve: Curves.easeIn)
+                                                      : imgcon.frontImages==null
+                                                          ?  Text('Capture Front Side', textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(fontSize: 20,color: Colors.white),).animate().scaleXY(begin: 0.5,end:1,curve: Curves.easeIn)
+                                                          :  Text('Capture Back Side', textAlign: TextAlign.center,
+                                                  style:
+                                                      TextStyle(fontSize: 20,color: Colors.white),).animate().scaleXY(begin: 0.5,end:1,curve: Curves.easeIn),
+                                                 
+                                                
                                               ],
                                             ),
                                           ),),

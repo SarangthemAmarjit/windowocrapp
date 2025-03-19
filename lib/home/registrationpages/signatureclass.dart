@@ -185,7 +185,7 @@ class _PaintCanvasState extends State<PaintCanvas> {
                                     child: InkWell(
                                       onTap: points.isEmpty &&  imgcon.signature==null ?null: () async {
                                             if(imgcon.signature!=null){
-  controller.changePage(4);
+                                          controller.changePage(4);
                                         controller.listenPageChange();    
                                             }else{
                                                RenderRepaintBoundary boundary =
@@ -200,7 +200,7 @@ class _PaintCanvasState extends State<PaintCanvas> {
                                           //  await file.writeAsBytes(pngBytes);
                                             imgcon.saveImage(pngBytes);
          
-         
+                                              controller.changePage(4);
                                       
 
                                             }

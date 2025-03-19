@@ -1,12 +1,12 @@
+import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/printpage.dart';
 import 'package:camera_windows_example/home/registrationpages/facedetect.dart';
 import 'package:camera_windows_example/home/registrationpages/succespage.dart';
 import 'package:camera_windows_example/homepage.dart';
-import 'package:camera_windows_example/widgets/receiptpermit.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/pagecontroller.dart';
-import 'registrationpages/addressdetails.dart';
 import 'registrationpages/ilpformreplica.dart';
 import 'registrationpages/paymentdetails.dart';
 import 'registrationpages/photodetails.dart';
@@ -20,7 +20,12 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
  
- 
+ @override
+  void dispose() {
+    // TODO: implement dispose
+
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PagenavControllers>(builder: (controller) {
@@ -47,6 +52,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     onTap: () {
                       if (controller.regPage == 0) {
                         controller.setmainpageindex(ind: 0);
+                            Get.find<Imagecontroller>().disposeAll();
                       } else {
                         controller.changeDashboardPage(controller.regPage - 1);
                       }

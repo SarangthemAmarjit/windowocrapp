@@ -418,11 +418,17 @@ class Imagecontroller extends GetxController {
       int cameraId = -1;
       try {
         if (isprofilecam) {
+          // cameraIndex = _allavailablecameras.indexWhere((ele) =>
+          //     ele.name.toString().toLowerCase().contains('webcam') ||
+          //     ele.name.toString().toLowerCase().contains('logi') ||
+          //     ele.name.toString().toLowerCase().contains('integrated camera'));
+          // update();
+   await CameraPlatform.instance.dispose(_cameraId);
           cameraIndex = _allavailablecameras.indexWhere((ele) =>
-              ele.name.toString().toLowerCase().contains('webcam') ||
-              ele.name.toString().toLowerCase().contains('logi') ||
-              ele.name.toString().toLowerCase().contains('integrated camera'));
+              ele.name.toString().toLowerCase().contains('czur') ||
+              ele.name.toString().toLowerCase().contains('sg-vp'));
           update();
+
         } else {
           await CameraPlatform.instance.dispose(_cameraId);
           cameraIndex = _allavailablecameras.indexWhere((ele) =>
@@ -498,7 +504,7 @@ class Imagecontroller extends GetxController {
       {required bool isfront,
       required bool isback,
       required bool isprofilecam,
-      required BuildContext context}) async {
+  }) async {
     int cameraIndex = 0;
 
     // _isFrontcapturebuttonpress = isfront
@@ -518,10 +524,13 @@ class Imagecontroller extends GetxController {
       int cameraId = -1;
       try {
         if (isprofilecam) {
-          cameraIndex = _allavailablecameras.indexWhere((ele) =>
-              ele.name.toString().toLowerCase().contains('webcam') ||
-              ele.name.toString().toLowerCase().contains('logi') ||
-              ele.name.toString().toLowerCase().contains('integrated camera'));
+          // cameraIndex = _allavailablecameras.indexWhere((ele) =>
+          //     ele.name.toString().toLowerCase().contains('webcam') ||
+          //     ele.name.toString().toLowerCase().contains('logi') ||
+          //     ele.name.toString().toLowerCase().contains('integrated camera'));
+            cameraIndex = _allavailablecameras.indexWhere(
+              (ele) => ele.name.toString().toLowerCase().contains('czur'));
+          // update();
           update();
         } else {
           cameraIndex = _allavailablecameras.indexWhere(
@@ -663,12 +672,14 @@ class Imagecontroller extends GetxController {
         _iscamerashown = false;
         _cameraId = -1;
         _previewSize = null;
-        update();
+        // update();
       } on CameraException catch (e) {
         log(e.toString());
       }
     }
   }
+
+
 
   Future<void> takePicture() async {
     PagenavControllers pngcon = Get.put(PagenavControllers());
@@ -748,8 +759,12 @@ class Imagecontroller extends GetxController {
     update();
   }
 
-  void retakeImage() {
+  Future<void> retakeImage() async {
     profileImage = null;
+    log('isinitialised:  ${isinitialized}');
+    if(isinitialized==false){
+    await  initializeCameraAgain(isfront: false, isback: false, isprofilecam: true);
+    } 
     update();
   }
   void retakeSignature() {

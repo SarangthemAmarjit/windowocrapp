@@ -19,7 +19,7 @@ class PhotoSignaturePage extends StatefulWidget {
 }
 
 class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
-  var _scheduler;
+
   GlobalKey _profilekey = GlobalKey();
   final player = AudioPlayer();
   Uint8List? image;
@@ -45,42 +45,35 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   }
 
   void initialise() async {
-    if (Get.find<Imagecontroller>().isinitialized) {
-      countdownTimer();
-    } else {
-      await Get.find<Imagecontroller>().initializeCameraAgain(
-          isfront: false, isback: false, isprofilecam: true, context: context);
+          await Get.find<Imagecontroller>().initializeCameraAgain(
+          isfront: false, isback: false, isprofilecam: true
+        
+          );
       if (Get.find<Imagecontroller>().isinitialized) {
         countdownTimer();
       }
-    }
+    // if (Get.find<Imagecontroller>().isinitialized) {
+    //   countdownTimer();
+    // } else {
+
+    // }
   }
 
   @override
   void dispose() {
-    if (_scheduler != null) {
-      _scheduler.cancel();
+    if (_sched != null) {
+      _sched.cancel();
     }
+    Get.find<Imagecontroller>().disposeCurrentsCamera();
     player.dispose();
     super.dispose();
   }
 
-  void schedule() {
-    _scheduler = Timer.periodic(Duration(seconds: 2), (timer) async {
-      print("In Scheduler");
-      try {
-        // Get.find<Imagecontroller>().takeprofilePicture(_profilekey);
-        // await _runFaceDetection(file);
-      } catch (e) {
-        print(e);
-      }
-    });
-  }
 
   int timer = 0;
   var _sched;
   Future<void> countdownTimer() async {
-    timer = 8;
+    timer = 5;
     await Future.delayed(Duration(seconds: 2));
     _sched = Timer.periodic(
       Duration(seconds: 1),
@@ -229,12 +222,13 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
 //
                     imgcon.isinitialized || imgcon.profileImage!=null?
 
-                    Row(
+                   timer>1?SizedBox(): Row(
                       children: [
                         Expanded(
                           child: InkWell(
-                            onTap: () {
-                              imgcon.retakeImage();
+                            onTap: () async {
+                             await imgcon.retakeImage();
+                                 
                               countdownTimer();
                               controller.listenPageChange();
                             },
@@ -273,11 +267,11 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                             onTap: () {
                               controller.changePage(3);
 
-                              imgcon.initializeCamera(
-                                isfront: true,
-                                isback: false,
-                                isprofilecam: false,
-                              );
+                              // imgcon.initializeCamera(
+                              //   isfront: true,
+                              //   isback: false,
+                              //   isprofilecam: false,
+                              // );
                               controller.changePage(3);
                               controller.pageIncremeter(3);
                               controller.listenPageChange();
