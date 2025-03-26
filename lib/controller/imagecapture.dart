@@ -418,16 +418,12 @@ class Imagecontroller extends GetxController {
       int cameraId = -1;
       try {
         if (isprofilecam) {
-          // cameraIndex = _allavailablecameras.indexWhere((ele) =>
-          //     ele.name.toString().toLowerCase().contains('webcam') ||
-          //     ele.name.toString().toLowerCase().contains('logi') ||
-          //     ele.name.toString().toLowerCase().contains('integrated camera'));
-          // update();
-   await CameraPlatform.instance.dispose(_cameraId);
           cameraIndex = _allavailablecameras.indexWhere((ele) =>
-              ele.name.toString().toLowerCase().contains('czur') ||
-              ele.name.toString().toLowerCase().contains('sg-vp'));
+              ele.name.toString().toLowerCase().contains('webcam') ||
+              ele.name.toString().toLowerCase().contains('logi') ||
+              ele.name.toString().toLowerCase().contains('integrated camera'));
           update();
+
 
         } else {
           await CameraPlatform.instance.dispose(_cameraId);
@@ -524,13 +520,11 @@ class Imagecontroller extends GetxController {
       int cameraId = -1;
       try {
         if (isprofilecam) {
-          // cameraIndex = _allavailablecameras.indexWhere((ele) =>
-          //     ele.name.toString().toLowerCase().contains('webcam') ||
-          //     ele.name.toString().toLowerCase().contains('logi') ||
-          //     ele.name.toString().toLowerCase().contains('integrated camera'));
-            cameraIndex = _allavailablecameras.indexWhere(
-              (ele) => ele.name.toString().toLowerCase().contains('czur'));
-          // update();
+          cameraIndex = _allavailablecameras.indexWhere((ele) =>
+              ele.name.toString().toLowerCase().contains('webcam') ||
+              ele.name.toString().toLowerCase().contains('logi') ||
+              ele.name.toString().toLowerCase().contains('integrated camera'));
+          
           update();
         } else {
           cameraIndex = _allavailablecameras.indexWhere(

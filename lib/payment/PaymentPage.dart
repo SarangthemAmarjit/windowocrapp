@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import '../widgets/webtouchwrapper.dart';
 import 'atom_pay_helper.dart';
 
 class PaymentFinalPage extends StatefulWidget {
@@ -152,7 +153,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                       _controller = controller;
                       gcontroller.resetloading();
                     },
-
+                  
                     onConsoleMessage: (controller, consoleMessage) {
                       debugPrint("WebView Console: ${consoleMessage.message}");
                     },
@@ -173,34 +174,34 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                               transstatus: 0,
                               paymentname: 'NA',
                               totalamount: '');
-
+                  
                           throw 'custom error for UPI Intent';
                         }
                         return NavigationActionPolicy.CANCEL;
                       }
                       return NavigationActionPolicy.ALLOW;
                     },
-
+                  
                     onLoadStop: (controller, url) async {
                       debugPrint("onloadstop_url: $url");
-
+                  
                       // Inject JavaScript to detect input focus
                       await _controller.evaluateJavascript(source: """
                           document.addEventListener("focusin", function(event) {
                           if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") {
                           window.flutter_inappwebview.callHandler("showTouchKeyboard");
-              }
-            });
-          """);
-
+                                }
+                              });
+                            """);
+                  
                       if (url.toString().contains("AIPAYLocalFile")) {
                         debugPrint(" AIPAYLocalFile Now url loaded: $url");
                         await _controller.evaluateJavascript(
                             source: "${"openPay('" + payDetails}')");
-
+                  
                         log('Checking 1 $url');
                       }
-
+                  
                       if (url.toString().contains('/mobilesdk/param')) {
                         log('Checking 2');
                         final String response =
@@ -213,7 +214,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                         int? transactionstatus;
                         String paymentmethodname = '';
                         String totalamount = '';
-
+                  
                         if (response.trim().contains("cancelTransaction")) {
                           gcontroller.updatepaymentremark(
                               transactionid: gcontroller.transacid,
@@ -225,10 +226,10 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                           final Map<int, String> values = {
                             for (int i = 0; i < split.length; i++) i: split[i]
                           };
-
+                  
                           final splitTwo = values[1]!.split('=');
                           // const platform = MethodChannel('flutter.dev/NDPSAESLibrary');
-
+                  
                           try {
                             final String result = await gcontroller
                                 .decrypt(splitTwo[1].toString());
@@ -241,11 +242,11 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                             Map<String, dynamic> jsonInput =
                                 jsonDecode(respJsonStr);
                             debugPrint("read full respone : $jsonInput");
-
+                  
                             //calling validateSignature function from atom_pay_helper file
                             var checkFinalTransaction =
                                 validateSignature(jsonInput, _responsehashKey);
-
+                  
                             if (checkFinalTransaction) {
                               if (jsonInput["payInstrument"]["responseDetails"]
                                           ["statusCode"] ==
@@ -259,7 +260,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                 gcontroller.updatepaymentremark(
                                     transactionid: transactionid,
                                     remark: 'Success');
-
+                  
                                 var paymethod = jsonInput['payInstrument']
                                         ['payModeSpecificData']['subChannel'][0]
                                     .toString();
@@ -267,7 +268,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                 totalamount = jsonInput['payInstrument']
                                         ['payDetails']['totalAmount']
                                     .toStringAsFixed(2);
-
+                  
                                 transactionResult = "SUCCESS";
                                 transactionstatus = 200;
                               } else {
@@ -290,7 +291,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                             debugPrint("Failed to decrypt: '${e.message}'.");
                           }
                         }
-
+                  
                         _closeWebView(
                             context: context,
                             transactionResult: transactionResult,
@@ -299,7 +300,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                             paymentname: paymentmethodname,
                             totalamount: totalamount);
                       }
-
+                  
                       ///
                       void showTouchKeyboard() async {
                         if (Platform.isWindows) {
@@ -309,22 +310,22 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                             [],
                             runInShell: true,
                           );
-
+                  
                           // Step 2: Wait for the keyboard to appear
                           await Future.delayed(Duration(milliseconds: 500));
-
+                  
                           // Step 3: Re-focus the input field using JavaScript
                           _controller.evaluateJavascript(source: """
-        setTimeout(() => {
-          if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") {
-            document.activeElement.blur(); // Remove focus
-            document.activeElement.focus(); // Re-focus input
-          }
-        }, 100);
-      """);
+                          setTimeout(() => {
+                            if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") {
+                              document.activeElement.blur(); // Remove focus
+                              document.activeElement.focus(); // Re-focus input
+                            }
+                          }, 100);
+                        """);
                         }
                       }
-
+                  
                       ///
                     },
                   ),
