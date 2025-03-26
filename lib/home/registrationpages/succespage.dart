@@ -81,13 +81,13 @@ class _SuccesspagesState extends State<Successpages> {
             child: Container(
               child: Column(
                 children: [
+                  // SizedBox(
+                  //   height: 100,
+                  //   width: 100,
+                  //   child: Image.asset("assets/images/kanglashaok.png"),
+                  // ),
                   SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Image.asset("assets/images/kanglashaok.png"),
-                  ),
-                  SizedBox(
-                    height: 20,
+                    height: 60,
                   ),
                   Container(
                           clipBehavior: Clip.antiAlias,
@@ -117,7 +117,7 @@ class _SuccesspagesState extends State<Successpages> {
                           textAlign: TextAlign.center
                         ).animate().fadeIn().slideY(
                           begin: 1, end: 0, delay: Duration(milliseconds: 400))
-                      : imgcon.receipt != null
+                      : imgcon.receipt != null 
                           ? Text(
                               "Your Receipt Has been Generated. Please collect your receipt and go to the ILP Counter",
                               style: TextStyle(fontSize: 30),
@@ -126,7 +126,14 @@ class _SuccesspagesState extends State<Successpages> {
                               begin: 1,
                               end: 0,
                               delay: Duration(milliseconds: 400))
-                          : Text("Failed to generate permit.Please try again",
+                          : pagectrl.mainpageindex==5?Text("Your Receipt Has been Generated. Please collect your receipt",
+                                  style: TextStyle(fontSize: 30),textAlign: TextAlign.center,)
+                              .animate()
+                              .fadeIn()
+                              .slideY(
+                                  begin: 0,
+                                  end: 0,
+                                  delay: Duration(milliseconds: 400)) : Text("Failed to generate permit.Please try again",
                                   style: TextStyle(fontSize: 30),textAlign: TextAlign.center,)
                               .animate()
                               .fadeIn()

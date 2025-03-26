@@ -29,7 +29,7 @@ class Payment {
     return {
       'PaymentId': paymentId,
       'Method': method,
-      'Status': status,
+      'Status': status.toUpperCase(),
       'Amount': amount  // 'TransactionDate': transactionDate,
     };
   }
@@ -73,7 +73,7 @@ class PaymentResponse {
   Map<String, dynamic> toJson() {
     return {
       'permitNo': permitNo,
-      'status': status,
+      'status': status.toUpperCase(),
       'orderId': orderId,
       'transactionId': transactionId,
       'date': date,
