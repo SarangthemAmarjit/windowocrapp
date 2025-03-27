@@ -318,7 +318,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     : RepaintBoundary(
                         key: _globlkey,
                         child: ReceiptWidget(
-                            applicantName: '', applicantId: mngctrl.applicid)),
+                            applicantName: '', applicantId: mngctrl.applicid,)),
 
                 Container(
                     // height: 400,

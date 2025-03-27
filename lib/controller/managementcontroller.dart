@@ -331,7 +331,9 @@ class Managementcontroller extends GetxController {
   Future<void> addPayments(Payment pays)async{
   PaymentResponse? payres =   await apicall.sendPayment(pays);
   if(payres!=null){
-    printUsbReceiptWindowsonline( onlineAplicant??"",payres.permitNo);
+ 
+  printUsbReceiptWindowsonline( onlineAplicant??"",payres.permitNo);
+  
     setOnlineApplId(null);
   }
   update();

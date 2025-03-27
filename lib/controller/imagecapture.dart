@@ -148,6 +148,36 @@ class Imagecontroller extends GetxController {
     // await file.writeAsBytes(pngBytes);
   }
 
+
+  Future<void> saveReceiptimages(GlobalKey _globalKey) async {
+    iscardProcess = true;
+    update();
+    try {
+      RenderRepaintBoundary boundary = _globalKey.currentContext!
+          .findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage();
+      print("nav Keys image in save receipt");
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      receipt = byteData!.buffer.asUint8List();
+
+      printUsbReceiptWindowsimages (receipt!);
+    } on Exception catch (e) {
+      print("failed to save card image");
+      // TODO
+    }
+
+    iscardProcess = false;
+    update();
+
+    // final tempDir = await getTemporaryDirectory();
+
+    // final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
+
+    // await file.writeAsBytes(pngBytes);
+  }
+
+
   /// Fetches list of available cameras from camera_windows plugin.
   Future<void> _fetchCameras() async {
     String cameraInfo;

@@ -189,7 +189,20 @@ Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
   printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes),Sizes(80,180));
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
+void printUsbReceiptWindowsimages(Uint8List d) async {
+  final profile = await CapabilityProfile.load();
+  final generator = Generator(PaperSize.mm80, profile);
+  final List<int> bytes = [];
+  
+  bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
 
+  
+  bytes.addAll(generator.cut());
+
+  // Send raw bytes to USB printer
+  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes),Sizes(80,180));
+  // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
+}
 
 void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
   final profile = await CapabilityProfile.load();
@@ -218,9 +231,16 @@ void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
       width: PosTextSize.size3,
       )));
   bytes.addAll(generator.feed(1));
-  
-  // bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
-  bytes.addAll(generator.text('Permit No:',
+  if(permitno.isEmpty){
+    bytes.addAll(generator.text('',
+      styles: const PosStyles(align: PosAlign.center)));
+       bytes.addAll(generator.text('Your payment failed to process.',
+      styles: const PosStyles(align: PosAlign.center)));
+         bytes.addAll(generator.text('Please go to the counter for further queries.',
+      styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.feed(1));
+  }else{
+ bytes.addAll(generator.text('Permit No:',
       styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(generator.feed(1));
   bytes.addAll(generator.text('$permitno',
@@ -237,6 +257,9 @@ void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
          bytes.addAll(generator.text('Download the receipt.',
       styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.feed(1));
+  }
+  // bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
+ 
   bytes.addAll(generator.text(' ---------------------------------------------------------------'));
 
   bytes.addAll(generator.text('Enjoy your stay!',

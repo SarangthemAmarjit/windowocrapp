@@ -1180,6 +1180,7 @@ class ButtonCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon ?? SizedBox(),
+              SizedBox(width:icon==null?0: 10,),
               Text(
                 title,
                 style: TextStyle(color: Colors.white, fontSize: 26),

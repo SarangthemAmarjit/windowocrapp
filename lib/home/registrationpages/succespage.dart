@@ -40,7 +40,7 @@ class _SuccesspagesState extends State<Successpages> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if( Get.find<PagenavControllers>().mainpageindex == 7 || Get.find<Imagecontroller>().receipt!=null ){
+      if( Get.find<PagenavControllers>().mainpageindex == 7 || Get.find<PagenavControllers>().mainpageindex == 5 || Get.find<Imagecontroller>().receipt!=null ){
 
           playTimerSound('success.mp3');
       } 
@@ -93,7 +93,7 @@ class _SuccesspagesState extends State<Successpages> {
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16)),
-                          child:pagectrl.mainpageindex == 7||imgcon.receipt != null?  Lottie.asset('assets/receipt.json',
+                          child:pagectrl.mainpageindex == 7 || pagectrl.mainpageindex==5  ||imgcon.receipt != null?  Lottie.asset('assets/receipt.json',
                               repeat: false):SizedBox() )
                       .animate()
                       .fadeIn()
@@ -104,7 +104,7 @@ class _SuccesspagesState extends State<Successpages> {
                   SizedBox(
                     height: 20,
                   ),
-                        pagectrl.mainpageindex == 7
+                        pagectrl.mainpageindex == 7 
                       ? Text(
                           "User already exists.\nPlease collect your receipt and go to the ILP Counter",
                           style: TextStyle(fontSize: 30),textAlign: TextAlign.center
