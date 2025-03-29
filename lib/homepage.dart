@@ -609,7 +609,7 @@ class _IdSelectionAndScanningScreenState
                                   ),
                                 ),
                               ),
-                              Expanded(
+                           imgcon.frontImages!=null && imgcon.backImages!=null?   Expanded(
                                 child: InkWell(
                                   onTap: imgcon.backImages!=null && imgcon.frontImages!=null? () async {
                                     //going to payment after success
@@ -659,7 +659,7 @@ class _IdSelectionAndScanningScreenState
                                     )),
                                   ),
                                 ),
-                              ),
+                              ):SizedBox(),
                             ],
                           ).animate().fadeIn(
                               duration: Duration(milliseconds: 1200),

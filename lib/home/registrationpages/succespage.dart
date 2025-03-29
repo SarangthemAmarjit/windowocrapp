@@ -31,7 +31,12 @@ class _SuccesspagesState extends State<Successpages> {
   final player = AudioPlayer();
 
   void playTimerSound(String audio) {
+    try{
+
     player.play(AssetSource(audio)); // Plays the sound once
+    }catch(e){
+
+    }
   }
 
   Timer? _timer;

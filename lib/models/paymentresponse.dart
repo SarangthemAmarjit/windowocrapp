@@ -4,7 +4,7 @@ class Payment {
   final String paymentId;
   final String method;
   final String status;
-  final int amount;
+  final double amount;
   String? transactionDate;
 
   Payment({
@@ -30,6 +30,7 @@ class Payment {
       'PaymentId': paymentId,
       'Method': method,
       'Status': status.toUpperCase(),
+      // 'Status': 'Success'.toUpperCase(),
       'Amount': amount  // 'TransactionDate': transactionDate,
     };
   }
@@ -40,7 +41,14 @@ class Payment {
 
 
 class PaymentResponse {
+  final String permitType;
   final String permitNo;
+  final String applicantName;
+  final String applicantParent;
+  final String idNo;
+  final String dateOfIssue;
+  final String validUpto;
+  final String placeOfStay;
   final String status;
   final String orderId;
   final String transactionId;
@@ -49,7 +57,14 @@ class PaymentResponse {
   final String paymentMode;
 
   PaymentResponse({
+    required this.permitType,
     required this.permitNo,
+    required this.applicantName,
+    required this.applicantParent,
+    required this.idNo,
+    required this.dateOfIssue,
+    required this.validUpto,
+    required this.placeOfStay,
     required this.status,
     required this.orderId,
     required this.transactionId,
@@ -60,19 +75,33 @@ class PaymentResponse {
 
   factory PaymentResponse.fromJson(Map<String, dynamic> json) {
     return PaymentResponse(
+      permitType: json['permitType'],
       permitNo: json['permitNo'],
+      applicantName: json['applicantName'],
+      applicantParent: json['applicantParent'],
+      idNo: json['idNo'],
+      dateOfIssue: json['dateOfIssue'],
+      validUpto: json['validUpto'],
+      placeOfStay: json['placeofStay'], // Adjusting key to match JSON format
       status: json['status'],
       orderId: json['orderId'],
       transactionId: json['transactionId'],
       date: json['date'],
-      amount: json['amount'],
+      amount: (json['amount'] as num).toDouble(),
       paymentMode: json['paymentMode'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'permitType': permitType,
       'permitNo': permitNo,
+      'applicantName': applicantName,
+      'applicantParent': applicantParent,
+      'idNo': idNo,
+      'dateOfIssue': dateOfIssue,
+      'validUpto': validUpto,
+      'placeofStay': placeOfStay,
       'status': status.toUpperCase(),
       'orderId': orderId,
       'transactionId': transactionId,

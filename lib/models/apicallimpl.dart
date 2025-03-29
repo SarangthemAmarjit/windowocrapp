@@ -10,6 +10,7 @@ import '../cons/constant.dart';
 import 'apicall.dart';
 import 'paymentresponse.dart';
 import 'permit.dart';
+import 'permitprice.dart';
 
 class ApicallImpl extends ApiCall {
   static const String baseUrl =
@@ -124,27 +125,24 @@ class ApicallImpl extends ApiCall {
   }
 
   @override
-  Future<String> getallpremitprice() async {
-      var headers = {
-    'Content-Type': 'application/json',
-    'X-Key': 'hfuygf765r76yu',
-  };
+  Future<List<PermitPriceModel>> getallpremitprice() async {
 
-      
-    var request =
-        http.Request('GET', Uri.parse('$localapi/api/kiosk/getallfees',
-        
-        ));
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    request.headers.addAll(headers);
-    if (response.statusCode == 200) {
-      String alldata = await response.stream.bytesToString();
-      return alldata;
+      final response = await http
+        .get(Uri.parse("$localapi/api/kiosk/getallfees"),
+        headers:
+         {
+          'X-Key': 'hfuygf765r76yu',
+         }
+        );
+ if (response.statusCode == 200) {
+      print(response.body);
+      final respo = jsonDecode(response.body) as List<dynamic>;
+      return respo.map((e) => PermitPriceModel.fromJson(e)).toList(); // Parsing JSON
     } else {
-      print(response.reasonPhrase);
-      return 'Error';
+      return [];
     }
+      
+  
   }
 
   @override

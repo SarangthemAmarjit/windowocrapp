@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
+import 'package:camera_windows_example/widgets/dummy.dart';
+import 'package:camera_windows_example/widgets/paymentresultdialog.dart';
 import 'package:camera_windows_example/widgets/permitgenerate.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorSchemeSeed: Colors.green),
       home: LandingPage(),
+    // home: MyWidget()
       // home:PermitGenerateWidget(applicantId: "123485986768"),
     );
   }
