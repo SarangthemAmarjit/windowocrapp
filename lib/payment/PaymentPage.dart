@@ -124,7 +124,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                       <html>
                                       <head>
                                         <meta name="viewport" content="width=device-width, initial-scale=1">
-                                        <script src="https://pgtest.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+                                        <script src="https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
                                         <style>
                                           body { margin: 0; padding: 0; width: 100%; height: 100%; }
                                           #payment-form { width: 100%; height: 100%; }
@@ -139,7 +139,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                   "merchId": "${gcontroller.login}",
                                   "custEmail": "test.user@gmail.com",
                                   "custMobile": "8888888888",
-                                  "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
+                                  "returnUrl": "https://payment.atomtech.in/mobilesdk/param",
                                   "userAgent": "mobile_webView"
                                 };
                                 new AtomPaynetz(options, 'uat');
