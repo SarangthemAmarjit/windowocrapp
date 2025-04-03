@@ -19,6 +19,7 @@ import '../cons/constant.dart';
 import '../home/landingpage.dart';
 import '../models/gate.dart';
 import '../models/paymentresponse.dart';
+import '../models/permitverifymodel.dart';
 
 class Managementcontroller extends GetxController {
   String gender = genders[0];
@@ -37,8 +38,8 @@ class Managementcontroller extends GetxController {
   List<String> _docnames = [];
   List<String> get getDocNames => _docnames;
 
-  String _applicid = '';
-  String get applicid => _applicid;
+  PermitApplication?_applicid;
+  PermitApplication? get applicid => _applicid;
   String? onlineAplicant;
   Gate? _selectedGate;
   Gate? get selectedGate => _selectedGate;
@@ -110,21 +111,22 @@ class Managementcontroller extends GetxController {
 
   Future<void> getallGates() async {
     _allGates = await apicall.getAllGates();
+
     if (_allGates.isNotEmpty) {
       _selectedGate = _allGates.firstWhereOrNull(
+      
         (element) => element.name == "Imphal Airport",
       );
+
+  
     }
+          print("Selected gate = ${_selectedGate?.id } ${_selectedGate?.name}}");
     update();
   }
 
   void setverifybuttonbool(bool isfinish) {
     _ispressverified = isfinish;
     update();
-  }
-
-  void applicidVerifynull() {
-    _applicid = "";
   }
 
 
@@ -136,18 +138,23 @@ class Managementcontroller extends GetxController {
     try {
       var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
       print(" doctype: $doctype  dociDno.: $docid");
+      print("Appid : ${appid?.toJson().toString()}");
       _applicid = appid;
+      state = _applicid?.state; 
       isVeriflyloading = false;
       update();
-      return appid;
+      return _applicid!.applicationNo;
     } catch (e) {
       print(e);
-      _applicid = "";
+      _applicid = null;
     }
     isVeriflyloading = false;
     update();
     return '';
   }
+
+
+
 
   Future<void> getallDocs() async {
     isloading = true;
@@ -233,16 +240,15 @@ class Managementcontroller extends GetxController {
         // idProof: "Aadhar",
         idProof: idProofs,
         idNo: idno,
-        category: "General",
+        category: purpose,
         purposeVisit: purposeVisits,
         placeOfStay: placestay,
-        visitDate: DateTime(visitDates.year, visitDates.month, visitDates.day)
-            .toIso8601String(),
+        visitDate:DateTime.now().toIso8601String(),
         // visitDate: visitDates,
         applcntName: name,
         applcntParent: parentname,
         applcntGender: gender,
-        applcntDOB: DateTime.now().toIso8601String(),
+        applcntDOB: dob,
         applcntEmail: email,
         applcntMobile: mobile,
         applcntAddress: address,
@@ -259,27 +265,26 @@ class Managementcontroller extends GetxController {
         landmark: "",
         district: applydistrict,
         pinCode: pincode,
-        amount: '100',
+        amount: _permitPrice?.fee.toString(),
         lrName: localres,
         nearestPS: localnearestpol,
         // transactionId:"Cash"
         transactionId: isCash ? "CASH" : generateRandomString(12));
-       
+        _permit!.transactionId = isCash ? "CASH" : generateRandomString(12);
+        _permit!.amount = _permitPrice?.fee.toString();
         print(":::::::::::");
-        print("TransactionID ::: ${dummyVisitor.transactionId} ");
+        print("TransactionID ::: ${_permit?.transactionId} ${_applicid?.applicationNo} ");
         print(":::::::::::");
      
      
       _permit!.transactionId = dummyVisitor.transactionId;
    
       
-    print(" permit to post: ${dummyVisitor.toJson().toString()}");
-    currentPermit = dummyVisitor;
+    print(" permit to post: ${_permit?.toJson().toString()}");
+    currentPermit = _permit;
     update();
-    Map<String?, dynamic> ds =
-        await apicall.addPermit(passport, idcard, signature, dummyVisitor);
-    print('$ds $isLoading');
-    if (isCash) {
+    
+    // if (isCash) {
       //dialog for printing cash payments and going to counter
       // Get.dialog(AlertDialog(
       //   content: Text(ds.entries.first.value ?? "no messae"),
@@ -289,9 +294,19 @@ class Managementcontroller extends GetxController {
 
       // printImageDirectly("Microsoft Print to PDF",);
       // printUsbReceiptWindows(passport,ds.entries.first.value);
+    // }
+
+    if(_applicid!=null && _applicid!.applicationNo.isNotEmpty){
+  Map<String?, dynamic> ds = await apicall.updatePermit(passport, idcard, signature, _permit!,_applicid!.applicationNo);
+     print('$ds $isLoading');
+   return ds.entries.first.value==0?null:ds.entries.first.value;
+    }else{
+ Map<String?, dynamic> ds =
+        await apicall.addPermit(passport, idcard, signature, _permit!);
+    print('$ds $isLoading');
+return ds.entries.first.value==0?null:ds.entries.first.value;
     }
 
-    return ds.entries.first.value==0?null:ds.entries.first.value;
   }
 
   void addPermit(VisitorEntry? permits) {
@@ -398,5 +413,6 @@ class Managementcontroller extends GetxController {
     _permit = null;
     paymentresult = null;
     currentPermit = null;
+    _applicid = null;
   }
 }

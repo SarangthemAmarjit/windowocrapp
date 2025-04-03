@@ -3,16 +3,13 @@ import 'dart:io';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
-import 'package:camera_windows_example/widgets/dummy.dart';
-import 'package:camera_windows_example/widgets/paymentresultdialog.dart';
-import 'package:camera_windows_example/widgets/permitgenerate.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
-import 'demopage.dart';
+import 'widgets/dummy.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +34,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
-          colorSchemeSeed: Colors.green),
+          colorSchemeSeed: Colors.white),
       home: LandingPage(),
     // home: MyWidget()
       // home:PermitGenerateWidget(applicantId: "123485986768"),

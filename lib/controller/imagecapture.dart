@@ -120,7 +120,7 @@ class Imagecontroller extends GetxController {
     // await file.writeAsBytes(pngBytes);
   }
 
-  Future<void> saveReceipt(GlobalKey _globalKey, String applicantId) async {
+  Future<void> saveReceipt(GlobalKey _globalKey, String applicantId,String reason) async {
     iscardProcess = true;
     update();
     try {
@@ -132,7 +132,7 @@ class Imagecontroller extends GetxController {
           await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
 
-      printUsbReceiptWindows(receipt!, applicantId);
+      printUsbReceiptWindows(receipt!, applicantId,reason);
     } on Exception catch (e) {
       print("failed to save card image");
       // TODO
@@ -160,7 +160,6 @@ class Imagecontroller extends GetxController {
       ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
-
       printUsbReceiptWindowsimages (receipt!);
     } on Exception catch (e) {
       print("failed to save card image");
@@ -176,6 +175,19 @@ class Imagecontroller extends GetxController {
 
     // await file.writeAsBytes(pngBytes);
   }
+
+  Future<Uint8List> rotateImage(Uint8List uint8list, int angle) async {
+  // Decode the image from Uint8List
+  img.Image? image = await img.decodeImage(uint8list);
+  if (image == null) return uint8list; // Return original if decoding fails
+
+  // Rotate the image
+  img.Image rotatedImage = await img.copyRotate(image, angle);
+
+  // Encode back to Uint8List
+  return Uint8List.fromList(img.encodePng(rotatedImage));
+}
+
 
 
   /// Fetches list of available cameras from camera_windows plugin.

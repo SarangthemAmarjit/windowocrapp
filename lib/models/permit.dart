@@ -132,4 +132,39 @@ class VisitorEntry {
       'NearestPS': nearestPS??"NA",
     };
   }
+
+    Map<String,String> toJsonupdate() {
+    return {
+      'ID_Proof': idProof??"NA",
+      'ID_No': idNo??"NA",
+      'Category': category??"NA",
+      'Purpose_Visit': purposeVisit??"NA",
+      'PlaceOfStay': placeOfStay??"NA",
+      'VisitDate': visitDate??"NA",
+      'Applcnt_Name': applcntName??"NA",
+      'Applcnt_Parent': applcntParent??"NA",
+      'Applcnt_Gender': applcntGender??"NA",
+      'Applcnt_DOB': applcntDOB??"NA",
+      'Applcnt_Email': applcntEmail??"NA",
+      'Applcnt_Mobile': applcntMobile??"NA",
+      'Applcnt_Address': applcntAddress??"NA",
+      'Applcnt_State': applcntState??"NA",
+      'Applcnt_PoliceStation': applcntPoliceStation??"NA",
+      'Applcnt_District': applcntDistrict??"NA",
+      'Applcnt_Village': applcntVillage??"NA",
+      'Applcnt_HNo': applcntHNo??"NA",
+      'Applcnt_Tehsil': applcntTehsil??"NA",
+      'Gate_ID': gateID??"NA",
+      'EntryType': entryType??"NA",
+      'Apply_District_ID': applyDistrictID??"NA",
+      'ResidingPeriod': residingPeriod??"NA",
+      'Landmark': landmark??"NA",
+      'District': district??"NA",
+      'PinCode': pinCode??"NA",
+      'Amount': amount??"NA",
+      'TransactionId': transactionId??"NA",
+      'LRName': lrName??"NA",
+      'NearestPS': nearestPS??"NA",
+    };
+  }
 }

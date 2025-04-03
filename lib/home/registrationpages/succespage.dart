@@ -92,7 +92,7 @@ class _SuccesspagesState extends State<Successpages> {
                   //   child: Image.asset("assets/images/kanglashaok.png"),
                   // ),
                   SizedBox(
-                    height: 60,
+                    height: 100,
                   ),
                   Container(
                           clipBehavior: Clip.antiAlias,
@@ -107,7 +107,7 @@ class _SuccesspagesState extends State<Successpages> {
                           end: 0,
                           duration: Duration(milliseconds: 800)),
                   SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
                         pagectrl.mainpageindex == 7 
                       ? Text(
@@ -168,11 +168,15 @@ class _SuccesspagesState extends State<Successpages> {
                   ),
 
                   SizedBox(height: 100,),
-                 pagectrl.mainpageindex == 7||imgcon.receipt != null?   Text("Please collect your receipt.",style: GoogleFonts.montserrat(fontSize: 30,fontWeight: FontWeight.bold),):SizedBox(),
-                 pagectrl.mainpageindex == 7||imgcon.receipt != null? Image.asset(
+                //  pagectrl.mainpageindex == 7||imgcon.receipt != null?
+                    Text("Please collect your receipt.",style: GoogleFonts.montserrat(fontSize: 30,fontWeight: FontWeight.bold),)
+                    // :SizedBox(),
+                //  pagectrl.mainpageindex == 7||imgcon.receipt != null?
+                  ,Image.asset(
                     
                     colorBlendMode: BlendMode.colorBurn,
-                    "assets/images/downloads.gif",height: 300,width: 300,fit: BoxFit.cover,):SizedBox()
+                    "assets/images/downloads.gif",height: 300,width: 300,fit: BoxFit.cover,)
+                    // :SizedBox()
                 ],
               ),
             ),

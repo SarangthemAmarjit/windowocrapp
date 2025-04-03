@@ -7,6 +7,7 @@ import 'package:camera_windows_example/cons/constant.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
+import 'package:camera_windows_example/widgets/permitgenerate%20copy.dart';
 import 'package:camera_windows_example/widgets/permitgenerate.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -69,57 +70,124 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
       child: GetBuilder<PagenavControllers>(builder: (pagectrl) {
         return GetBuilder<Managementcontroller>(builder: (mngctrl) {
           return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: const Color.fromARGB(255, 162, 207, 240),
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               automaticallyImplyLeading: false,
               elevation: 0,
               toolbarHeight: 2,
             ),
-            body: SafeArea(
-                child: DefaultTextStyle(
-              style: TextStyle(
-                fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
-                // Retrieve fontFamily from the current theme
+            body: Container(
+              decoration: BoxDecoration(
+                    image: DecorationImage(
+                                      alignment: Alignment.bottomCenter,
+                                      image: AssetImage(
+                                        
+                                        'assets/images/Untitled21.png',
+                                      ))
               ),
-              child:
-    
-
-                mngctrl.paymentresult!=null && mngctrl.paymentresult!.permitNo.isNotEmpty? Stack(
-                  children: [
-                    PermitGenerateWidget(applicantId: mngctrl.paymentresult!.permitNo, keys: _keys, paymentResponse: mngctrl.paymentresult!,),
-                 
-                  Positioned.fill(child: Container(color: Color.fromARGB(255, 63, 41, 105),))
-                  ],
-                ):
-              
-                  Center(
-                    child: Container(
-                      height: 1000,
-                      width: 700,
-                      child: WebviewTouchWrapper(
-                        child: InAppWebView(
-                         
-                          initialSettings: InAppWebViewSettings(
-                              javaScriptEnabled: true, // ✅ Enable JS
-                              allowFileAccessFromFileURLs:
-                                  true, // ✅ Allow asset file access
-                              allowUniversalAccessFromFileURLs:
-                                  true, // ✅ Avoid CORS issues
-                              useShouldOverrideUrlLoading: true,
-                              useOnLoadResource: true,
-                              allowContentAccess: true,
-                              // javaScriptCanOpenWindowsAutomatically: true
-                              ),
-                          // initialUrl: 'about:blank',
-                          key: UniqueKey(),
-                          initialData: InAppWebViewInitialData(
-                            data: '''
+              child: Column(
+                children: [
+                   Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Image.asset(
+                            'assets/images/kanglashaok.png',
+                            height: 60,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Image.asset(
+                            'assets/images/ilplogo2.png',
+                            height: 60,
+                          )
+                        ],
+                      ),
+                    ),
+                  Expanded(
+                    child: DefaultTextStyle(
+                                  style: TextStyle(
+                    fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
+                    // Retrieve fontFamily from the current theme
+                                  ),
+                                  child:
+                        
+                    
+                    mngctrl.paymentresult!=null && mngctrl.paymentresult!.permitNo.isNotEmpty? Stack(
+                      children: [
+                        PermitGenerateWidgetcopy(applicantId: mngctrl.paymentresult!.permitNo, keys: _keys, paymentResponse: mngctrl.paymentresult!,),
+                     
+                      Positioned.fill(child: Container(color: Colors.transparent,))
+                      ],
+                    ):
+                                  
+                      Center(
+                        child: Container(
+                          height: 1000,
+                          width: 700,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                           color: Colors.white,
+                            borderRadius: BorderRadius.circular(16)
+                          ),
+                          child: WebviewTouchWrapper(
+                            child: InAppWebView(
+                             
+                              initialSettings: InAppWebViewSettings(
+                                  javaScriptEnabled: true, // ✅ Enable JS
+                                  allowFileAccessFromFileURLs:
+                                      true, // ✅ Allow asset file access
+                                  allowUniversalAccessFromFileURLs:
+                                      true, // ✅ Avoid CORS issues
+                                  useShouldOverrideUrlLoading: true,
+                                  useOnLoadResource: true,
+                                  allowContentAccess: true,
+                                  // javaScriptCanOpenWindowsAutomatically: true
+                                  ),
+                              // initialUrl: 'about:blank',
+                              key: UniqueKey(),
+                              initialData: InAppWebViewInitialData(
+                                data:isDebugmode?'''
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <script src="https://pgtest.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+              <style>
+                body { margin: 0; padding: 0; width: 100%; height: 100%; }
+                #payment-form { width: 100%; height: 100%; }
+              </style>
+            </head>
+            <body>
+              <div id="payment-form"></div>
+              <script>
+                function openPay() {
+                  const options = {
+                    "atomTokenId": "${gcontroller.atomTokenId}",
+                        "merchId": "${gcontroller.login}",
+                        "custEmail": "test.user@gmail.com",
+                        "custMobile": "8888888888",
+                        "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
+                        "userAgent": "mobile_webView"
+                      };
+                      new AtomPaynetz(options, 'uat');
+                    }
+                    document.addEventListener('DOMContentLoaded', openPay);
+                  </script>
+                </body>
+                </html>
+              ''':
+                                 '''
                                       <!DOCTYPE html>
                                       <html>
                                       <head>
                                         <meta name="viewport" content="width=device-width, initial-scale=1">
-                                        <script src="https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+                                        // <script src="https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+                                        
                                         <style>
                                           body { margin: 0; padding: 0; width: 100%; height: 100%; }
                                           #payment-form { width: 100%; height: 100%; }
@@ -131,185 +199,185 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                           function openPay() {
                                             const options = {
                                               "atomTokenId": "${gcontroller.atomTokenId}",
-                                "merchId": "${gcontroller.login}",
-                                "custEmail": "test.user@gmail.com",
-                                "custMobile": "8888888888",
-                                "returnUrl": "https://payment.atomtech.in/mobilesdk/param",
-                                "userAgent": "mobile_webView"
-                              };
-                              new AtomPaynetz(options, 'uat');
-                            }
-                            document.addEventListener('DOMContentLoaded', openPay);
-                          </script>
-                        </body>
-                        </html>
-                      ''',
-                          ),
-                          onWebViewCreated: (controller) {
-                            _controller = controller;
-                            gcontroller.resetloading();
-                          },
-                        
-                          onConsoleMessage: (controller, consoleMessage) {
-                            debugPrint("WebView Console: ${consoleMessage.message}");
-                          },
-                          shouldOverrideUrlLoading:
-                              (controller, navigationAction) async {
-                            String url = navigationAction.request.url.toString();
-                            var uri = navigationAction.request.url!;
-                            if (url.startsWith("upi://")) {
-                              debugPrint("upi url started loading");
-                              try {
-                                await launchUrl(uri);
-                              } catch (e) {
-                                _closeWebView(
-                                    context: context,
-                                    transactionResult:
-                                        "Transaction Status = cannot open UPI applications",
-                                    txid: '',
-                                    transstatus: 0,
-                                    paymentname: 'NA',
-                                    totalamount: '');
-                        
-                                throw 'custom error for UPI Intent';
-                              }
-                              return NavigationActionPolicy.CANCEL;
-                            }
-                            return NavigationActionPolicy.ALLOW;
-                          },
-                        
-                          onLoadStop: (controller, url) async {
-                            debugPrint("onloadstop_url: $url");
-                        
-                      
-                                          
-                            if (url.toString().contains("AIPAYLocalFile")) {
-                              debugPrint(" AIPAYLocalFile Now url loaded: $url");
-                              await _controller.evaluateJavascript(
-                                  source: "${"openPay('" + payDetails}')");
-                        
-                              log('Checking 1 $url');
-                            }
-                        
-                            if (url.toString().contains('/mobilesdk/param')) {
-                              log('Checking 2');
-                              final String response =
-                                  await _controller.evaluateJavascript(
-                                      source:
-                                          "document.getElementsByTagName('h5')[0].innerHTML");
-                              debugPrint("HTML response : $response");
-                              var transactionResult = "";
-                              String transactionid = '';
-                              int? transactionstatus;
-                              String paymentmethodname = '';
-                              String totalamount = '';
-                        
-                              if (response.trim().contains("cancelTransaction")) {
-                                gcontroller.updatepaymentremark(
-                                  amount: "0",
-                                    transactionid: gcontroller.transacid,
-                                    key: _keys,
-                                    remark: 'Cancelled');
-                                transactionResult = "CANCELLED";
-                                transactionstatus = 100;
-                              } else {
-                                final split = response.trim().split('|');
-                                final Map<int, String> values = {
-                                  for (int i = 0; i < split.length; i++) i: split[i]
-                                };
-                        
-                                final splitTwo = values[1]!.split('=');
-                                // const platform = MethodChannel('flutter.dev/NDPSAESLibrary');
-                        
-                                try {
-                                  final String result = await gcontroller
-                                      .decrypt(splitTwo[1].toString());
-                                  //     await platform.invokeMethod('NDPSAESInit', {
-                                  //   'AES_Method': 'decrypt',
-                                  //   'text': splitTwo[1].toString(),
-                                  //   'encKey': _responseDecryptionKey
-                                  // });
-                                  var respJsonStr = result.toString();
-                                  Map<String, dynamic> jsonInput =
-                                      jsonDecode(respJsonStr);
-                                  debugPrint("read full respone : $jsonInput");
-                        
-                                  //calling validateSignature function from atom_pay_helper file
-                                  var checkFinalTransaction =
-                                      validateSignature(jsonInput, _responsehashKey);
-                        
-                                  if (checkFinalTransaction) {
-                                    if (jsonInput["payInstrument"]["responseDetails"]
-                                                ["statusCode"] ==
-                                            'OTS0000' ||
-                                        jsonInput["payInstrument"]["responseDetails"]
-                                                ["statusCode"] ==
-                                            'OTS0551') {
-                                      debugPrint("Transaction success");
-                                      transactionid = jsonInput['payInstrument']
-                                          ['merchDetails']['merchTxnId'];
-                              
-                        
-                                      var paymethod = jsonInput['payInstrument']
-                                              ['payModeSpecificData']['subChannel'][0]
-                                          .toString();
-                                      paymentmethodname = paymentmethod[paymethod];
-                                      totalamount = jsonInput['payInstrument']
-                                              ['payDetails']['totalAmount']
-                                          .toStringAsFixed(2);
-                        
-                                      transactionResult = "SUCCESS";
-                                      transactionstatus = 200;
-                                          
-                                              gcontroller.updatepaymentremark(
-                                          key: _keys,
-                                          transactionid: transactionid,
-                                          remark: 'Success',
-                                          amount: totalamount
-                                          );
-                                    } else {
-                                      gcontroller.updatepaymentremark(
-                                        amount: "0",
-                                          key: _keys,
-                                          transactionid: transactionid,
-                                          remark: 'Failed');
-                                      debugPrint("Transaction failed");
-                                      transactionResult = "FAILED";
-                                      transactionstatus = 300;
-                                    }
-                                  } else {
-                                    gcontroller.updatepaymentremark(
-                                      amount: "0",
-                                        key: _keys,
-                                        transactionid: transactionid,
-                                        remark: 'Failed');
-                                    debugPrint("signature mismatched");
-                                    transactionResult = "FAILED";
-                                    
-                                  }
-                                  debugPrint("Transaction Response : $jsonInput");
-                                } on PlatformException catch (e) {
-                                  debugPrint("Failed to decrypt: '${e.message}'.");
+                                    "merchId": "${gcontroller.login}",
+                                    "custEmail": "${mngctrl.getPermit?.applcntEmail??"nouser@gmail.com"}",
+                                    "custMobile": "${mngctrl.getPermit?.applcntMobile??"9898989898"}",
+                                    "returnUrl": "https://payment.atomtech.in/mobilesdk/param",
+                                    "userAgent": "mobile_webView"
+                                  };
+                                  new AtomPaynetz(options, 'uat');
                                 }
-                              }
-                        
-                              _closeWebView(
-                                  context: context,
-                                  transactionResult: transactionResult,
-                                  txid: transactionid,
-                                  transstatus: transactionstatus!,
-                                  paymentname: paymentmethodname,
-                                  totalamount: totalamount);
-                            }
-                      
-                          },
+                                document.addEventListener('DOMContentLoaded', openPay);
+                              </script>
+                            </body>
+                            </html>
+                          ''',
+                              ),
+                              onWebViewCreated: (controller) {
+                                _controller = controller;
+                                gcontroller.resetloading();
+                              },
+                            
+                              onConsoleMessage: (controller, consoleMessage) {
+                                debugPrint("WebView Console: ${consoleMessage.message}");
+                              },
+                              shouldOverrideUrlLoading:
+                                  (controller, navigationAction) async {
+                                String url = navigationAction.request.url.toString();
+                                var uri = navigationAction.request.url!;
+                                if (url.startsWith("upi://")) {
+                                  debugPrint("upi url started loading");
+                                  try {
+                                    await launchUrl(uri);
+                                  } catch (e) {
+                                    _closeWebView(
+                                      callback: (){},
+                                        context: context,
+                                        transactionResult:
+                                            "Transaction Status = cannot open UPI applications",
+                                        txid: '',
+                                        transstatus: 0,
+                                        paymentname: 'NA',
+                                        totalamount: '');
+                            
+                                    throw 'custom error for UPI Intent';
+                                  }
+                                  return NavigationActionPolicy.CANCEL;
+                                }
+                                return NavigationActionPolicy.ALLOW;
+                              },
+                            
+                              onLoadStop: (controller, url) async {
+                                debugPrint("onloadstop_url: $url");
+                            
+                          
+                                              
+                                if (url.toString().contains("AIPAYLocalFile")) {
+                                  debugPrint(" AIPAYLocalFile Now url loaded: $url");
+                                  await _controller.evaluateJavascript(
+                                      source: "${"openPay('" + payDetails}')");
+                            
+                                  log('Checking 1 $url');
+                                }
+                            
+                                if (url.toString().contains('/mobilesdk/param')) {
+                                  log('Checking 2');
+                                  final String response =
+                                      await _controller.evaluateJavascript(
+                                          source:
+                                              "document.getElementsByTagName('h5')[0].innerHTML");
+                                  debugPrint("HTML response : $response");
+                                  var transactionResult = "";
+                                  String transactionid = '';
+                                  int? transactionstatus;
+                                  String paymentmethodname = '';
+                                  String totalamount = '';
+                                  String remark = "";
+                                  if (response.trim().contains("cancelTransaction")) {
+                                  remark ="Cancelled"; 
+                                  totalamount = "0";
+                                    transactionResult = "CANCELLED";
+                                    transactionstatus = 100;
+                                  } else {
+                                    final split = response.trim().split('|');
+                                    final Map<int, String> values = {
+                                      for (int i = 0; i < split.length; i++) i: split[i]
+                                    };
+                            
+                                    final splitTwo = values[1]!.split('=');
+                                    // const platform = MethodChannel('flutter.dev/NDPSAESLibrary');
+                            
+                                    try {
+                                      final String result = await gcontroller
+                                          .decrypt(splitTwo[1].toString());
+                                      //     await platform.invokeMethod('NDPSAESInit', {
+                                      //   'AES_Method': 'decrypt',
+                                      //   'text': splitTwo[1].toString(),
+                                      //   'encKey': _responseDecryptionKey
+                                      // });
+                                      var respJsonStr = result.toString();
+                                      Map<String, dynamic> jsonInput =
+                                          jsonDecode(respJsonStr);
+                                      debugPrint("read full respone : $jsonInput");
+                            
+                                      //calling validateSignature function from atom_pay_helper file
+                                      var checkFinalTransaction =
+                                          validateSignature(jsonInput, _responsehashKey);
+                            
+                                      if (checkFinalTransaction) {
+                                        if (jsonInput["payInstrument"]["responseDetails"]
+                                                    ["statusCode"] ==
+                                                'OTS0000' ||
+                                            jsonInput["payInstrument"]["responseDetails"]
+                                                    ["statusCode"] ==
+                                                'OTS0551') {
+                                          debugPrint("Transaction success");
+                                          transactionid = jsonInput['payInstrument']
+                                              ['merchDetails']['merchTxnId'];
+                                  
+                            
+                                          var paymethod = jsonInput['payInstrument']
+                                                  ['payModeSpecificData']['subChannel'][0]
+                                              .toString();
+                                          paymentmethodname = paymentmethod[paymethod];
+                                          totalamount = jsonInput['payInstrument']
+                                                  ['payDetails']['totalAmount']
+                                              .toStringAsFixed(2);
+                                          remark = "SUCCESS";
+                                          transactionResult = "SUCCESS";
+                                          transactionstatus = 200;
+                                              
+                                      
+                                        } else {
+                                          totalamount = "0";
+                                          remark = "Failed";
+                                          debugPrint("Transaction failed");
+                                          transactionResult = "FAILED";
+                                          transactionstatus = 300;
+                                        }
+                                      } else {
+                                         totalamount = "0";
+                                          remark = "Failed";
+                                          
+                                       
+                                        debugPrint("signature mismatched");
+                                        transactionResult = "FAILED";
+                                        
+                                      }
+                                      debugPrint("Transaction Response : $jsonInput");
+                                    } on PlatformException catch (e) {
+                                      debugPrint("Failed to decrypt: '${e.message}'.");
+                                    }
+                                  }
+                            
+                                  _closeWebView(
+                                      callback: (){
+                                        gcontroller.updatepaymentremark(
+                                          amount: totalamount,
+                                            key: _keys,
+                                            transactionid: gcontroller.transacid,
+                                            remark: remark);
+                                      },
+                                      context: context,
+                                      transactionResult: transactionResult,
+                                      txid: transactionid,
+                                      transstatus: transactionstatus!,
+                                      paymentname: paymentmethodname,
+                                      totalamount: totalamount);
+                                }
+                          
+                              },
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                                  
+                                  
+                                ),
                   ),
-              
-              
-            )),
+                ],
+              ),
+            ),
           );
         });
       }),
@@ -322,11 +390,14 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
       required int transstatus,
       required String txid,
       required String paymentname,
-      required String totalamount}) async {
+      required String totalamount,
+      required VoidCallback callback
+      
+      }) async {
     // Get.find<Managementcontroller>().send
 
     // ignore: use_build_context_synchronously
-
+    callback();
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Transaction Status = $transactionResult ")));
   }

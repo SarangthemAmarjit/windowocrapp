@@ -17,7 +17,7 @@ class _SelectIdCardTypeScreenState extends State<SelectIdCardTypeScreen> {
     {"label": "Aadhar Card", "icon": Icons.credit_card},
     {"label": "PAN Card", "icon": Icons.account_balance_wallet},
     {"label": "PassPort", "icon": Icons.card_giftcard_sharp},
-    {"label": "Driving License", "icon": Icons.directions_car},
+    {"label": "Driving License","icon": Icons.directions_car},
   ];
 
   String? selectedCard; // Default selection

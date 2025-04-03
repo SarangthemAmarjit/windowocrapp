@@ -139,7 +139,7 @@ Future<Uint8List> getBytesFromAsset(String path) async {
   ByteData data = await rootBundle.load(path);
   return data.buffer.asUint8List();
 }
-void printUsbReceiptWindows(Uint8List d,String applicantID) async {
+void printUsbReceiptWindows(Uint8List d,String applicantID,String reason) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
@@ -170,7 +170,9 @@ Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
   
   bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
  
-  bytes.addAll(generator.feed(2));
+  // bytes.addAll(generator.feed(2));
+  //    bytes.addAll(generator.text('$reason',
+  //     styles: const PosStyles(align: PosAlign.center)));
  bytes.addAll(generator.text('',
       styles: const PosStyles(align: PosAlign.center)));
        bytes.addAll(generator.text('Please go at the counter',
@@ -180,8 +182,8 @@ Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
     bytes.addAll(generator.feed(1));
   bytes.addAll(generator.text(' ---------------------------------------------------------------'));
 
-  bytes.addAll(generator.text('Enjoy your stay!',
-      styles: const PosStyles(align: PosAlign.center)));
+  // bytes.addAll(generator.text('Enjoy your stay!',
+  //     styles: const PosStyles(align: PosAlign.center)));
 
   bytes.addAll(generator.cut());
 
@@ -262,8 +264,8 @@ void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
  
   bytes.addAll(generator.text(' ---------------------------------------------------------------'));
 
-  bytes.addAll(generator.text('Enjoy your stay!',
-      styles: const PosStyles(align: PosAlign.center)));
+  // bytes.addAll(generator.text('Enjoy your stay!',
+  //     styles: const PosStyles(align: PosAlign.center)));
 
   bytes.addAll(generator.cut());
 

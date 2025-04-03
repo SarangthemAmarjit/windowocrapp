@@ -318,6 +318,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                               counter: 10,
                                               validator: _phoneValidator),
                                         ),
+                                       
                                       ],
                                     ).animate().fadeIn(
                                         delay: Duration(milliseconds: 400)),
@@ -442,6 +443,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                         ),
                                         Expanded(
                                           child: _buildTextField(
+                                             counter: 6,
                                             node: _focusNodes[
                                                 'localPincode']!,
                                             'PinCode',
@@ -648,9 +650,9 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 gateID: mngctrl.selectedGate?.id ?? "",
                                 placeOfStay: _placeStayController.text.trim(),
                                 pinCode: _localpincodeController.text.trim(),
-                                residingPeriod: "30",
+                                residingPeriod:"${mngctrl.getPermitPrice?.validityDays??"30"}",
                                 entryType: "ONLINE",
-                                applcntHNo: "NA",
+                                applcntHNo: mngctrl.applicid?.houseNo??"NA",
                                 applyDistrictID: "NA",
                                 category: "NA",
                                 district: district.trim(),
@@ -1058,7 +1060,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           color: widget.enable == false ? Colors.black : null,
         ),
         focusNode: widget.focusnode,
-        maxLength: widget.counter ?? 40,
+        maxLength: widget.counter ?? 10,
+    
         controller: widget.controller,
         cursorColor: Colors.black,
         readOnly: true,
@@ -1068,6 +1071,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                 required maxLength}) =>
             SizedBox(),
         decoration: InputDecoration(
+          
           enabled: widget.enable!,
           errorStyle: TextStyle(
             color: Colors.red, // Change error text color

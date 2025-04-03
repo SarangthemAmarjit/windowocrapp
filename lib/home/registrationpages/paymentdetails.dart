@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import '../../cons/constant.dart';
+import '../../cons/tandcpolicy.dart';
 import '../../controller/pagecontroller.dart';
 import '../../widgets/receiptpermit.dart';
 
@@ -80,7 +81,7 @@ class PaymentDetails extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
-                                      height: 30,
+                                      height: 20,
                                     ),
                                     Column(
                                       crossAxisAlignment:
@@ -91,8 +92,8 @@ class PaymentDetails extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              height: 120,
-                                              width: 120,
+                                              height: 100,
+                                              width: 100,
                                               clipBehavior: Clip.antiAlias,
                                               decoration: BoxDecoration(
                                                   color: Colors.grey[300],
@@ -272,7 +273,7 @@ class PaymentDetails extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(
-                                          height: 20,
+                                          height: 10,
                                         ),
                                         Row(
                                           children: [
@@ -321,7 +322,7 @@ class PaymentDetails extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(
-                                          height: 20,
+                                          height: 10,
                                         ),
                                         Row(
                                           children: [
@@ -367,9 +368,9 @@ class PaymentDetails extends StatelessWidget {
                                                   imgcon.signature != null
                                                       ? Image.memory(
                                                           imgcon.signature !,
-                                                          width: 150,
-                                                          height: 70,
-                                                          fit: BoxFit.contain,
+                                                          width: 120,
+                                                          height: 40,
+                                                          fit: BoxFit.fill,
                                                         )
                                                       : Container(
                                                           decoration:
@@ -491,7 +492,7 @@ class PaymentDetails extends StatelessWidget {
                                           ],
                                         ),
                                         SizedBox(
-                                          height: 20,
+                                          height: 10,
                                         ),
                                         Column(
                                           crossAxisAlignment:
@@ -513,7 +514,7 @@ class PaymentDetails extends StatelessWidget {
                                   duration: Duration(milliseconds: 900),
                                   delay: Duration(milliseconds: 300)),
                               SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Divider(),
                               PaymentCard(
@@ -622,7 +623,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                   indent: 80,
                                 )),
                             Expanded(
-                                child: Text("30 Days",
+                                child: Text("${mngctrl.getPermitPrice?.validityDays??30}",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold))),
@@ -700,7 +701,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                 )),
                             Expanded(
                                 child: Text(
-                              "$rupee 100",
+                              "$rupee ${mngctrl.getPermitPrice?.fee??100}",
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
@@ -712,13 +713,53 @@ class _PaymentCardState extends State<PaymentCard> {
                         ),
                         Center(
                             child: Text(
-                          "Total: $rupee 100",
+                              "$rupee ${mngctrl.getPermitPrice?.fee??100}",
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         )),
                       ],
                     ),
                   ),
+
+                               Text("By Clicking on Register permit you agree to our following terms and conditions.",style: TextStyle(fontSize: 18),),
+              Text("Please read the following privacy policy, payments instructions and refund policy before proceeding.",style: TextStyle(fontSize: 18)),
+                   Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: terms.asMap().entries.map((e) => Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: InkWell(
+                    onTap: (){
+                      Get.dialog(Dialog(child: Container(
+                        padding: EdgeInsets.all(32),
+                        height: 700,
+                        width: 600,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("${e.value}",style: TextStyle(fontSize:18),),
+                                IconButton(onPressed: (){
+                                  Get.back();
+                                }, icon: Icon(Icons.close))
+                              ],
+                            ),
+                            Divider(),
+                            Expanded(
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: termspolicies[e.key].asMap().entries.map((f) => ListTile(
+                                  title: Text("${f.key+1}",style: TextStyle(fontSize:16),),
+                                  subtitle: Text(f.value,style: TextStyle(fontSize:20),),
+                                ),).toList(),
+                              ),
+                            ),
+                          ],
+                        ),),));
+                    },
+                    child: Text(e.value,style: TextStyle(fontSize:24,color: Colors.blue,),)),
+                ),).toList(),
+              ),
                   ButtonCard(
                       title: "Register Permit",
                       icon: isload
@@ -785,7 +826,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Future.delayed(Duration(seconds: 3)).then(
                               (value) async {
                                 print("nav Keys sdsd");
-                                await imgcon.saveReceipt(_globlkey, s);
+                                await imgcon.saveReceipt(_globlkey, s,"Your permit request is registered.");
                                 print("nav Keys");
 
                                 Get.back();
@@ -811,7 +852,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "Payment Options",
+                                                "Processing Permit"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ,
                                                 style: TextStyle(fontSize: 24),
                                               ),
                                               IconButton(
@@ -855,7 +896,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                       horizontal: 8.0),
                                                   child: Icon(
                                                     Icons
-                                                        .currency_rupee_outlined,
+                                                        .laptop_mac_rounded,
                                                     color: Colors.white,
                                                   ),
                                                 ),
@@ -963,7 +1004,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                         print("nav Keys sdsd");
                                                         await imgcon
                                                             .saveReceipt(
-                                                                _globlkey, s);
+                                                                _globlkey, s,"Your Permit request is registered.");
                                                         print("nav Keys");
 
                                                         Get.back();
