@@ -122,71 +122,24 @@ class GetxTapController extends GetxController {
   }
   // P A Y M E N T   GATEWAY
 
-  // // merchant configuration data
-  // final String login = "684703"; //"445842"; //mandatory
-  // final String password = "0e464700"; //mandatory
-  // final String prodid = 'ILP'; //mandatory
-  // final String requestHashKey = '750fa5f3c01f9a4b3e'; //mandatory
-  // final String responseHashKey = 'd5110c2964f4ae7bbd'; //mandatory
-  // final String requestEncryptionKey =
-  //     'C11CB813ACE571A313DBF397B8F8057E'; //mandatory
-  // final String responseDecryptionKey =
-  //     '789257B2A0EFA675273732B9E07747BD'; //mandatory
-  // // final String txnid =
-  // //     'test240223'; // mandatory // this should be unique each time
-  // final String clientcode = "01950075"; //mandatory
-  // final String txncurr = "INR"; //mandatory
-  // final String mccCode = "9399"; //mandatory
-  // final String merchType =
-  //     "R"; //mandatory// final String amount = "1.00"; //mandat
-  // final String mode = "live"; // change live for production
-
-  // // final String custFirstName = 'test'; //optional
-  // // final String custLastName = 'user'; //optional
-  // // final String mobile = '8888888888'; //optional
-  // // final String email = 'test@gmail.com'; //optional
-  // // final String address = 'mumbai'; //optional
-  // final String custacc = '639827'; //optional
-  // final String udf1 = "udf1"; //optional
-  // final String udf2 = "udf2"; //optional
-  // final String udf3 = "udf3"; //optional
-  // final String udf4 = "udf4"; //optional
-  // final String udf5 = "udf5"; //optional
-
-  // static const req_EncKey = 'C11CB813ACE571A313DBF397B8F8057E';
-  // static const req_Salt = 'C11CB813ACE571A313DBF397B8F8057E';
-  // static const res_DecKey = '789257B2A0EFA675273732B9E07747BD';
-  // static const res_Salt = '789257B2A0EFA675273732B9E07747BD';
-
-  // final String paymentDomainURL = "https://payment1.atomtech.in/ots/aipay/auth";
-  // // final String auth_API_url =
-  // //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
-
-  // final String returnUrl =
-  //     "https://payment.atomtech.in/mobilesdk/param"; //return url uat
-  // // final String returnUrl =
-  // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
-//////////
-
- // merchant configuration data
-  final String login = "317157"; //"445842"; //mandatory
-  final String password = 'Test@123'; //mandatory
-  final String prodid = 'NSE'; //mandatory
-  final String requestHashKey = 'KEY123657234'; //mandatory
-  final String responseHashKey = 'KEYRESP123657234'; //mandatory
+  // merchant configuration data
+  final String login = "684703"; //"445842"; //mandatory
+  final String password = "0e464700"; //mandatory
+  final String prodid = 'ILP'; //mandatory
+  final String requestHashKey = '750fa5f3c01f9a4b3e'; //mandatory
+  final String responseHashKey = 'd5110c2964f4ae7bbd'; //mandatory
   final String requestEncryptionKey =
-      'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+      'C11CB813ACE571A313DBF397B8F8057E'; //mandatory
   final String responseDecryptionKey =
-      '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+      '789257B2A0EFA675273732B9E07747BD'; //mandatory
   // final String txnid =
   //     'test240223'; // mandatory // this should be unique each time
-  final String clientcode = "NAVIN"; //mandatory
+  final String clientcode = "01950075"; //mandatory
   final String txncurr = "INR"; //mandatory
-  final String mccCode = "5499"; //mandatory
-  final String merchType = "R"; //mandatory
-  // final String amount = "1.00"; //mandatory
-
-  final String mode = "uat"; // change live for production
+  final String mccCode = "9399"; //mandatory
+  final String merchType =
+      "R"; //mandatory// final String amount = "1.00"; //mandat
+  final String mode = "live"; // change live for production
 
   // final String custFirstName = 'test'; //optional
   // final String custLastName = 'user'; //optional
@@ -200,20 +153,67 @@ class GetxTapController extends GetxController {
   final String udf4 = "udf4"; //optional
   final String udf5 = "udf5"; //optional
 
-  static const req_EncKey = 'A4476C2062FFA58980DC8F79EB6A799E';
-  static const req_Salt = 'A4476C2062FFA58980DC8F79EB6A799E';
-  static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
-  static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
+  static const req_EncKey = 'C11CB813ACE571A313DBF397B8F8057E';
+  static const req_Salt = 'C11CB813ACE571A313DBF397B8F8057E';
+  static const res_DecKey = '789257B2A0EFA675273732B9E07747BD';
+  static const res_Salt = '789257B2A0EFA675273732B9E07747BD';
 
-  final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
-  final String paymentDomainURL= "https://caller.atomtech.in/ots/aipay/auth"; // uat
+  final String paymentDomainURL = "https://payment1.atomtech.in/ots/aipay/auth";
   // final String auth_API_url =
   //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
   final String returnUrl =
-      "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
+      "https://payment.atomtech.in/mobilesdk/param"; //return url uat
   // final String returnUrl =
   //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
+//////////
+
+ // merchant configuration data
+  // final String login = "317157"; //"445842"; //mandatory
+  // final String password = 'Test@123'; //mandatory
+  // final String prodid = 'NSE'; //mandatory
+  // final String requestHashKey = 'KEY123657234'; //mandatory
+  // final String responseHashKey = 'KEYRESP123657234'; //mandatory
+  // final String requestEncryptionKey =
+  //     'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+  // final String responseDecryptionKey =
+  //     '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+  // // final String txnid =
+  // //     'test240223'; // mandatory // this should be unique each time
+  // final String clientcode = "NAVIN"; //mandatory
+  // final String txncurr = "INR"; //mandatory
+  // final String mccCode = "5499"; //mandatory
+  // final String merchType = "R"; //mandatory
+  // // final String amount = "1.00"; //mandatory
+
+  // final String mode = "uat"; // change live for production
+
+  // // final String custFirstName = 'test'; //optional
+  // // final String custLastName = 'user'; //optional
+  // // final String mobile = '8888888888'; //optional
+  // // final String email = 'test@gmail.com'; //optional
+  // // final String address = 'mumbai'; //optional
+  // final String custacc = '639827'; //optional
+  // final String udf1 = "udf1"; //optional
+  // final String udf2 = "udf2"; //optional
+  // final String udf3 = "udf3"; //optional
+  // final String udf4 = "udf4"; //optional
+  // final String udf5 = "udf5"; //optional
+
+  // static const req_EncKey = 'A4476C2062FFA58980DC8F79EB6A799E';
+  // static const req_Salt = 'A4476C2062FFA58980DC8F79EB6A799E';
+  // static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
+  // static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
+
+  // final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
+  // final String paymentDomainURL= "https://caller.atomtech.in/ots/aipay/auth"; // uat
+  // // final String auth_API_url =
+  // //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
+
+  // final String returnUrl =
+  //     "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
+  // // final String returnUrl =
+  // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 
 
 
@@ -315,7 +315,7 @@ class GetxTapController extends GetxController {
   //Decrypt Function
   Future<String> decrypt(String hexCipherText) async {
     try {
-      debugPrint('Input hex for decryption: $hexCipherText');
+      // debugPrint('Input hex for decryption: $hexCipherText');
 
       // Convert hex string to bytes
       List<int> cipherText = [];
@@ -348,7 +348,7 @@ class GetxTapController extends GetxController {
         nonce: iv, // Use the same IV as in encryption
         mac: Mac.empty,
       );
-      debugPrint('SecretBox: $secretBox');
+      // debugPrint('SecretBox: $secretBox');
 
       final decryptedBytes = await aesCbc.decrypt(
         secretBox,
@@ -356,7 +356,7 @@ class GetxTapController extends GetxController {
       );
 
       final decryptedText = utf8.decode(decryptedBytes);
-      debugPrint('Decrypted text: $decryptedText');
+      // debugPrint('Decrypted text: $decryptedText');
       return decryptedText;
     } catch (e, stackTrace) {
       debugPrint('Decryption error: $e');
@@ -380,7 +380,7 @@ class GetxTapController extends GetxController {
         responseHashKey: responseHashKey,
         responseDecryptionKey: responseDecryptionKey,
         name: name,
-        amount: '2',
+        amount: amount,
         address: address);
   }
 
@@ -429,13 +429,13 @@ class GetxTapController extends GetxController {
             final extractedData = ['encData', encryptedData];
             try {
               final decryptedData = await decrypt(extractedData[1]);
-              debugPrint(decryptedData.toString()); // to read full response
+              // debugPrint(decryptedData.toString()); // to read full response
               var respJsonStr = decryptedData.toString();
               Map<String, dynamic> jsonInput = jsonDecode(respJsonStr);
               if (jsonInput["responseDetails"]["txnStatusCode"] == 'OTS0000') {
                 _atomTokenId = jsonInput["atomTokenId"].toString();
                 update();
-                debugPrint("atomTokenId: $_atomTokenId");
+                // debugPrint("atomTokenId: $_atomTokenId");
                 final String payDetails =
                     '{"atomTokenId" : "$_atomTokenId","merchId": "$login","emailId": "ffdsf@gmail.com","mobileNumber":"+913245672452", "returnUrl":"$returnUrl"}';
                 _openNdpsPG(payDetails, context, responseHashKey,

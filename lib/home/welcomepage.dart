@@ -163,9 +163,14 @@ SizedBox(height: 20,),
                   child: InkWell(
                     onTap: (){
                       Get.dialog(Dialog(child: Container(
+                        clipBehavior: Clip.antiAlias,
                         padding: EdgeInsets.all(32),
                         height: 700,
                         width: 600,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          image: DecorationImage(image: AssetImage("assets/images/backgrounds.jpg"),fit: BoxFit.cover) 
+                        ),
                         child: Column(
                           children: [
                             Row(

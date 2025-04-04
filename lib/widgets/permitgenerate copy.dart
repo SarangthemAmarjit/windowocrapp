@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../models/scannermodel.dart';
+
 class PermitGenerateWidgetcopy extends StatefulWidget {
   const PermitGenerateWidgetcopy(
       {super.key,
@@ -24,84 +26,24 @@ class PermitGenerateWidgetcopy extends StatefulWidget {
 }
 
 class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
-  IlPmodel? d;
+  QrScannerModel? d;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     VisitorEntry? _permit = Get.find<Managementcontroller>().getPermit;
-    d = IlPmodel(
-        id: 0,
-        applicationNo: "",
-        name: _permit?.applcntName ?? "NA",
-        parentName: _permit?.applcntParent ?? "NA",
-        idProof: _permit?.idProof ?? "NA",
-        idNo: "",
-        gender: _permit?.applcntGender ?? "NA",
-        dob: _permit?.applcntDOB ?? "NA",
-        idMark: "NA",
-        occupation: "Na",
-        photo: "NA",
-        signature: "NA",
-        idCard: "NA",
-        state: _permit?.applcntState ?? "NA",
-        policeStation: _permit?.applcntPoliceStation ?? "NA",
-        district: _permit?.applcntDistrict ?? "NA",
-        houseNo: "NA",
-        tehsil: _permit?.applcntTehsil ?? "NA",
-        village: _permit?.applcntVillage ?? "NA",
-        applicationDate: DateTime.now().toIso8601String(),
-        entryBy: '0',
-        entryType: 'Temporary',
-        permitNo: widget.applicantId,
-        permitId: 0,
-        permitType: 'Temporary Permit',
-        purposeCategory: _permit?.purposeVisit ?? "NA",
-        purpose: _permit?.purposeVisit ?? "NA",
-        residingPeriodEst: "30",
-        residingPlace: _permit?.placeOfStay ?? "NA",
-        residingLandmark: "NA",
-        residingDistrict: _permit?.district ?? "",
-        residingPinCode: _permit?.pinCode ?? "NA",
-        localResident: "NA",
-        localResidentPhone: "NA",
-        nearestPs: _permit?.nearestPS ?? "NA",
-        sponsorInfo: SponsorInfo(
-            sponsorId: '0',
-            name: "ILP Manipur",
-            address: "Manipur",
-            phone: "9876543219",
-            department: "Home"),
-        agencyInfo: AgencyInfo(
-            agencyId: '0',
-            name: 'ILP',
-            address: "Manipur",
-            phone: "9843214321",
-            workName: "ILP",
-            workDuration: "30",
-            engagementPurpose: ""),
-        applicantCategory: "Temporary",
-        department: "ILP Manipur",
-        workPlace: "Manupur",
-        gateId: 0,
-        gateName: "Airport",
-        issueDate: DateTime.now(),
-        validDate: DateTime.now().add(Duration(days: 30)),
-        processingDistrictId: 0,
-        type: "ILP",
-        office: "ILP Office",
-        authority: "ILP Office",
-        authorityDesignation: "ILP",
-        issueBy: "ILP Wing",
-        status: true,
-        revokeDate: "NA",
-        revokeReason: "NA",
-        revokeBy: "NA",
-        isExit: false,
-        transitDate: getDate(dateTime: DateTime.now().toIso8601String()),
-        transitGateId: "0",
-        transitAuthUser: "ILP Office");
+    d = QrScannerModel(
+          applicantName: _permit?.applcntName??"",
+          applicantParent: _permit?.applcntParent??"",
+          dateOfIssue: DateTime.now(),
+          idNo: _permit?.idNo??"",
+          permitNo: widget.applicantId,
+          hs: _permit?.applcntHNo??"",
+          permitType: _permit?.entryType??"",
+          placeOfStay: _permit?.placeOfStay??"",
+          validUpto: DateTime.now().add(Duration(days: int.tryParse(_permit?.residingPeriod??"30")??30))
+       );
   }
 
   @override
@@ -319,7 +261,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                           children: [
                                             d != null
                                                 ? QrImageView(
-                                                    data: d!
+                                                    data: d! 
                                                         .toJson()
                                                         .toString(),
                                                     size: mmToDp(45),

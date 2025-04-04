@@ -1,3 +1,5 @@
+import '../cons/utils.dart';
+
 class PermitApplication {
   final int id;
   final String applicationNo;
@@ -6,7 +8,7 @@ class PermitApplication {
   final String idProof;
   final String idNo;
   final String gender;
-  String? dob;
+  final DateTime? dob;
   final String idMark;
   final String occupation;
   final String photo;
@@ -34,7 +36,7 @@ class PermitApplication {
     required this.idProof,
     required this.idNo,
     required this.gender,
-    this.dob,
+    required this.dob,
     required this.idMark,
     required this.occupation,
     required this.photo,
@@ -64,7 +66,7 @@ class PermitApplication {
       idProof: json['idProof'],
       idNo: json['idNo'],
       gender: json['gender'],
-      dob: json['dob']!=null?json['dob']:"",
+      dob: json['dob']!=null?parseAnyDate(json['dob']):null,
       idMark: json['idMark'] ?? '',
       occupation: json['occupation'] ?? '',
       photo: json['photo'],
@@ -79,9 +81,10 @@ class PermitApplication {
       mobile: json['mobile'],
       email: json['email'],
       village: json['village'],
-      applicationDate:json['applicationDate']!=null?DateTime.tryParse(json['applicationDate']):null,
+      applicationDate:json['applicationDate']!=null?parseAnyDate(json['applicationDate']):null,
       entryBy: json['entryBy'],
       entryType: json['entryType'],
+    
       statusExit: json['statusExit'].toString().toLowerCase() == 'false'?false:true,
     );
   }

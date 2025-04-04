@@ -1141,9 +1141,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                           gcontroller
                                                               .responseDecryptionKey,
                                                       amount: mngctrl
-                                                          .allpermitprices[0]
-                                                          .fee
-                                                          .toString(),
+                                                          .getPermitPrice?.fee.toString()??"100",
                                                       address: 'fsdfsdf',
                                                       name: 'amarjit',
                                                     );

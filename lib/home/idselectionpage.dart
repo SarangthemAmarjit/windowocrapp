@@ -353,7 +353,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                     mngctrl.applicid!.statusExit != false)) {
                               if (mngctrl.applicid != null) {
                                 mngctrl.addPermit(VisitorEntry(
-                                  applcntDOB: mngctrl.applicid?.dob,
+                                  applcntDOB: mngctrl.applicid?.dob?.toIso8601String(),
                                   applcntDistrict:
                                       mngctrl.applicid?.district ?? "",
                                   applcntEmail: mngctrl.applicid?.email,
@@ -397,7 +397,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                       'Applicant Already Exist',
                                       style: TextStyle(fontSize: 30),
                                     ),
-                                    content: Text(
+                                    content: Text( 
                                       'You must first exit your Permit. Please ensure you have officially checked out before proceeding with a new application.',
                                       style: TextStyle(fontSize: 20),
                                     ),

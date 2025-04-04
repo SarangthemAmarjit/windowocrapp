@@ -1,3 +1,4 @@
+import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
@@ -82,7 +83,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   void initState() {
     super.initState();
     VisitorEntry? d = Get.find<Managementcontroller>().getPermit;
-
+     _dob = parseAnyDate(d!.applcntDOB ?? "");
     controllers = {
       'name': _nameController,
       'parentName': _parentNameController,
@@ -142,7 +143,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
           _localpincodeController.text = d.pinCode ?? "";
           _localpolicestationController.text = d.nearestPS ?? "";
           _localresidencename.text = d.lrName ?? "";
-          _dob = DateTime.tryParse(d.applcntDOB ?? "");
+        
           if (d.district != null && d.district!.isNotEmpty) {
             district = d.district ?? "";
           }
