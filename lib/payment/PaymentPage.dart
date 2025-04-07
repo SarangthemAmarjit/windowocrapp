@@ -132,7 +132,7 @@ bool isLoading = false;
                                         
                             Center(
                               child: Container(
-                                height: 1000,
+                                height: 1300,
                                 width: 700,
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(

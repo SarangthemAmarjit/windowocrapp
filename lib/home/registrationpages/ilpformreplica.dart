@@ -613,16 +613,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 });
                               }
 
-                              if (mngctrl.purpose == null) {
-                                setState(() {
-                                  purposevisitnulltext =
-                                      "Purpose cannot be empty";
-                                });
-                              } else {
-                                setState(() {
-                                  purposevisitnulltext = null;
-                                });
-                              }
+                          
                               controller.listenPageChange();
                             }
                           } else {

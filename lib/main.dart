@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
+import 'package:camera_windows_example/models/scannermodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   Get.put(Connectivitycontroller());
   Get.put(PagenavControllers());
   Get.put(Managementcontroller());
+  print("${QrScannerModel(permitType: "ONLINE", permitNo: "!!((73874))", applicantName: "aRVINSD", applicantParent: "aRVINDSAPFJ", idNo: "274824872647", dateOfIssue: DateTime.now(), validUpto: DateTime.now(), placeOfStay: "fdsfs", hs: "fgdjf").toJson()}");
 }
 
 class MyApp extends StatelessWidget {

@@ -731,7 +731,7 @@ class _PaymentCardState extends State<PaymentCard> {
                     onTap: (){
                       Get.dialog(Dialog(child: Container(
                         padding: EdgeInsets.all(32),
-                        height: 700,
+                        height: e.key==2?300:700,
                         width: 600,
                         child: Column(
                           children: [

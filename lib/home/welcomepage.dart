@@ -5,6 +5,7 @@ import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 class WelcomeScreen extends StatefulWidget {
   WelcomeScreen({
@@ -162,21 +163,22 @@ SizedBox(height: 20,),
                   padding: const EdgeInsets.all(16.0),
                   child: InkWell(
                     onTap: (){
-                      Get.dialog(Dialog(child: Container(
+                      Get.dialog(Dialog(child:  Container(
                         clipBehavior: Clip.antiAlias,
                         padding: EdgeInsets.all(32),
-                        height: 700,
+                        height:e.key==2? 300:800,
                         width: 600,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           image: DecorationImage(image: AssetImage("assets/images/backgrounds.jpg"),fit: BoxFit.cover) 
                         ),
                         child: Column(
+                         mainAxisSize: MainAxisSize.min,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("${e.value}",style: TextStyle(fontSize:20),),
+                                Text("${e.value}",style: TextStyle(fontSize:24,fontWeight: FontWeight.bold),),
                                 IconButton(onPressed: (){
                                   Get.back();
                                 }, icon: Icon(Icons.close))
@@ -244,7 +246,7 @@ SizedBox(height: 20,),
               //       context: context,
               //       builder: (context) => AlertDialog(
               //         title: const Text('Tutorial Video'),
-              //         content:
+              //         content:Text("d"),
               //         actions: [
               //           TextButton(
               //             onPressed: () => Navigator.pop(context),
@@ -259,7 +261,7 @@ SizedBox(height: 20,),
               //     style: TextStyle(fontSize: 25, color: Colors.white),
               //   ),
               // ),
-              const SizedBox(height: 30),
+              // const SizedBox(height: 30),
               // const SizedBox(height: 100),
               // ElevatedButton(
               //   style: ElevatedButton.styleFrom(
