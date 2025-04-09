@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
-import 'widgets/dummy.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -676,7 +676,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                 child: Text(
                               getDate(
                                   dateTime: mngctrl.getPermit?.visitDate ?? "",
-                                  duration: 15),
+                                  duration: (mngctrl.getPermitPrice?.validityDays??30)-1),
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
