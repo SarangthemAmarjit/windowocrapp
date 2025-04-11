@@ -328,7 +328,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                       children: [
                                         Expanded(
                                           child: _buildDateField(
-                                              '* Date of Birth', _dob,
+                                              '* Date of Birth',_dob,
                                               (value) {
                                             setState(() {
                                               _dob = value;
@@ -344,7 +344,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                                 datenullText = null;
                                               });
                                             }
-                                          }, datenullText),
+                                          }, datenullText,lastdate: DateTime.now()),
                                         ),
                                         SizedBox(
                                           width: 20,
@@ -858,7 +858,8 @@ constraints: BoxConstraints(
   }
 
   Widget _buildDateField(String label, DateTime? selectedDate,
-      ValueChanged<DateTime?> onDateSelected, String? errorText) {
+
+      ValueChanged<DateTime?> onDateSelected, String? errorText,{DateTime? lastdate}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
@@ -867,7 +868,7 @@ constraints: BoxConstraints(
             context: context,
             initialDate: selectedDate ?? DateTime.now(),
             firstDate: DateTime(1900),
-            lastDate: DateTime.now().add(const Duration(days: 365)),
+            lastDate:lastdate?? DateTime.now().add(const Duration(days: 365)),
           );
           if (date != null) {
             onDateSelected(date);
@@ -1057,6 +1058,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         controller: widget.controller,
         cursorColor: Colors.black,
         readOnly: true,
+        showCursor: true, // Still show the cursor
+  enableInteractiveSelection: true, 
         buildCounter: (context,
                 {required currentLength,
                 required isFocused,
@@ -1067,7 +1070,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           enabled: widget.enable!,
           errorStyle: TextStyle(
             color: Colors.red, // Change error text color
-            fontSize: widget.errorSize ?? null, // Change font size
+            fontSize: widget.errorSize ?? null,
+            // Change font size
             // fontWeight: FontWeight.bold, // Make it bold
           ),
           contentPadding: widget.contentpadding,

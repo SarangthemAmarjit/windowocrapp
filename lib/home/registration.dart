@@ -2,6 +2,7 @@ import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../controller/managementcontroller.dart';
 import '../controller/pagecontroller.dart';
 import 'registrationpages/ilpformreplica.dart';
 import 'registrationpages/paymentdetails.dart';
@@ -48,6 +49,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       if (controller.regPage == 0) {
                         controller.setmainpageindex(ind: 0);
                             Get.find<Imagecontroller>().disposeAll();
+                            Get.find<Managementcontroller>().disposeAll();
                       } else {
                         controller.changeDashboardPage(controller.regPage - 1);
                       }

@@ -107,7 +107,29 @@ class Managementcontroller extends GetxController {
     return null;
   }
 
+ String? isValidDrivingLicense(String? value) {
+      if (value == null || value.isEmpty) {
+      return 'Driving License number is required';
+    }
+  final regex = RegExp(r'^[A-Za-z]{2}\d{13}$');
+ if( !regex.hasMatch(value)){
+  return "Enter a valid Driving license (e.g: MN0619981234567)";
+ }
+ return null;
+  
+}
 
+
+String? isValidPassport(String? value) {
+      if (value == null || value.isEmpty) {
+      return 'Pssport ID is required';
+    }
+  final regex = RegExp(r'^[a-zA-Z0-9]+$');
+  if(! (regex.hasMatch(value) && value.length > 6)){
+     return "Enter a valid ID. Must be > 6 letters and alphanumeric"; 
+  }
+  return null;
+}
 
   Future<void> getallGates() async {
     _allGates = await apicall.getAllGates();
@@ -272,9 +294,9 @@ class Managementcontroller extends GetxController {
         transactionId: isCash ? "CASH" : generateRandomString(12));
         _permit!.transactionId = isCash ? "CASH" : generateRandomString(12);
         _permit!.amount = _permitPrice?.fee.toString();
-        print(":::::::::::");
-        print("TransactionID ::: ${_permit?.transactionId} ${_applicid?.applicationNo} ");
-        print(":::::::::::");
+        // print(":::::::::::");
+        // print("TransactionID ::: ${_permit?.transactionId} ${_applicid?.applicationNo} ");
+        // print(":::::::::::");
      
      
       _permit!.transactionId = dummyVisitor.transactionId;
@@ -284,17 +306,6 @@ class Managementcontroller extends GetxController {
     currentPermit = _permit;
     update();
     
-    // if (isCash) {
-      //dialog for printing cash payments and going to counter
-      // Get.dialog(AlertDialog(
-      //   content: Text(ds.entries.first.value ?? "no messae"),
-      // ));
-
-      //ffhdjf
-
-      // printImageDirectly("Microsoft Print to PDF",);
-      // printUsbReceiptWindows(passport,ds.entries.first.value);
-    // }
 
     if(_applicid!=null && _applicid!.applicationNo.isNotEmpty){
   Map<String?, dynamic> ds = await apicall.updatePermit(passport, idcard, signature, _permit!,_applicid!.applicationNo);

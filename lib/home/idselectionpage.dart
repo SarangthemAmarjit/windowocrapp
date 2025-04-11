@@ -196,12 +196,16 @@ class GetDocumentId extends StatefulWidget {
 
 class _GetDocumentIdState extends State<GetDocumentId> {
   final TextEditingController docIdController = TextEditingController();
+  final TextEditingController aadharotpController = TextEditingController();
   final FocusNode docFocus = FocusNode();
+  final FocusNode otpFocus = FocusNode();
   final _formKey = GlobalKey<FormState>();
+  final _formKeyotp = GlobalKey<FormState>();
   final GlobalKey _globlkey = GlobalKey();
   bool? isEmpty;
   bool isLoading = false;
   bool iskeyboardAlpha = true;
+  bool isOtpscreen  = false;
   @override
   void initState() {
     super.initState();
@@ -222,6 +226,14 @@ class _GetDocumentIdState extends State<GetDocumentId> {
     }
   }
 
+    void _onKeyTapOtp(String key) {
+   
+      if (aadharotpController.text.length < 6) {
+       aadharotpController.text += key;
+      }
+    
+  }
+
   void _onBackspace() {
     final controller = docIdController;
     if (controller.text.isNotEmpty) {
@@ -230,9 +242,19 @@ class _GetDocumentIdState extends State<GetDocumentId> {
     }
   }
 
+    void _onBackspaceotp() {
+  
+    if (aadharotpController.text.isNotEmpty) {
+      aadharotpController.text =
+          aadharotpController.text.substring(0, aadharotpController.text.length - 1);
+    }
+  }
+
   @override
   void dispose() {
     docIdController.dispose();
+    aadharotpController.dispose();
+    otpFocus.dispose();
     docFocus.dispose(); // Hide keyboard when the screen starts
     FocusManager.instance.primaryFocus?.unfocus();
     super.dispose();
@@ -261,7 +283,125 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   topLeft: Radius.circular(16), topRight: Radius.circular(16))),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
+            child:isOtpscreen?Column(
+             crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+               Row(
+                
+                 children: [
+             
+                   Expanded(
+                     child: Center(
+                       child: Text(
+                          "Enter 6 Digit OTP",
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                     ),
+                   ),
+                  
+                    IconButton(onPressed: (){
+                      setState(() {
+                        isOtpscreen = false;
+                        aadharotpController.clear();
+                      });
+                    }, icon:Icon(Icons.close,color: Colors.white,))
+                 ],
+               ),
+                 SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                    width: 600,
+                    child: Form(
+                      key: _formKeyotp,
+                      child: TextFieldWidget(
+                        counter:6,
+                        errorSize: 24,
+                        focusnode: otpFocus,
+                        keytype: pagectrl.docindex == 0
+                            ? TextInputType.number
+                            : null,
+                        fontSize: 30,
+                        contentpadding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        
+                        controller: aadharotpController,
+                        label: "OTP",
+                        validator:(v){
+                         if(v!=null && v.length==6 && v.isNumericOnly ){
+                          return null;
+                         }
+                         return "OTP must be 6 digits";
+                        }
+                      ),
+                    )),
+                    SizedBox(height: 20,),
+                   Text(
+                        "*** A six digit OTP is sent to the mobile number link with your Aadhar",
+                        style: TextStyle(color: Colors.grey[800], fontSize: 18),
+                      ),
+          SizedBox(height: 20,),
+            Container(
+                    // height: 400,
+                    child: CustomKeyboard(
+                  onKeyTap: (p0) {
+                    _onKeyTapOtp(p0);
+                  },
+                  onBackspace: _onBackspaceotp,
+                  onToggle: () {},
+                  isAlpha: iskeyboardAlpha,
+                  isCapital: true,
+                )),
+                      SizedBox(height: 20,),
+                    ElevatedButton(onPressed: (){
+                            if(_formKeyotp.currentState!.validate()){
+                                //send otp and dss
+                                pagectrl.setmainpageindex(ind: 2);
+                            }
+
+                    }, child:  Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Verify",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        mngctrl.isVeriflyloading
+                            ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                    height: 30,
+                                    width: 30,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ))),
+                              )
+                            : Icon(
+                                Icons.check,
+                                size: 30,
+                                color: Colors.white,
+                              )
+                      ],
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 0, 66, 234),
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),),
+                    )
+              ],
+            ) : Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
@@ -296,7 +436,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                             ? mngctrl.validateAadhar
                             : pagectrl.docindex == 2
                                 ? mngctrl.validatePAN
-                                : null,
+                                :pagectrl.docindex==1?mngctrl.isValidDrivingLicense:mngctrl.isValidPassport,
                       ),
                     )),
                 isEmpty == true
@@ -340,6 +480,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   onPressed: mngctrl.isVeriflyloading
                       ? null
                       : () async {
+
                           if (_formKey.currentState!.validate()) {
                             await mngctrl.verifydocid(
                                 doctype: mngctrl.getPermit?.idProof ?? "",
@@ -373,8 +514,24 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                   entryType: "ONLINE",
                                   applcntAddress: mngctrl.applicid?.address,
                                 ));
+                             pagectrl.setmainpageindex(ind: 2);  
+                              }else{
+                                  if( mngctrl.getPermit?.idProof == "Aadhaar Card"){
+
+                                        setState(() {
+                                          isOtpscreen = true;
+                                        });
+
+
+
+                                  } else{
+
+                                    pagectrl.setmainpageindex(ind: 2);
+                                  }
+
+
                               }
-                              pagectrl.setmainpageindex(ind: 2);
+                             
                             } else {
                               ///here is the exit status part if the user is not yet exited
                               ///instruct to go to the counter

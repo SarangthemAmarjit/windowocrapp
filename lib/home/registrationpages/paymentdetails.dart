@@ -721,8 +721,14 @@ class _PaymentCardState extends State<PaymentCard> {
                     ),
                   ),
 
-                               Text("By Clicking on Register permit you agree to our following terms and conditions.",style: TextStyle(fontSize: 18),),
-              Text("Please read the following privacy policy, payments instructions and refund policy before proceeding.",style: TextStyle(fontSize: 18)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("By Clicking on Register permit you agree to our following terms and conditions.",style: TextStyle(fontSize: 18),textAlign: TextAlign.center,),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Please read the following privacy policy, payments instructions and refund policy before proceeding.",style: TextStyle(fontSize: 18),textAlign: TextAlign.center,),
+              ),
                    Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: terms.asMap().entries.map((e) => Padding(

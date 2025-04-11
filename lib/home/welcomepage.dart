@@ -58,6 +58,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 70.0),
                 child: Column(
                   children: [
+                    SizedBox(height: 100,),
                     Text(
                       'Welcome to the Inner Line Permit (ILP)\nSystem – Manipur',
                       textAlign: TextAlign.center,

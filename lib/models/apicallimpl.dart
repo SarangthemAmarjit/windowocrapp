@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 import 'package:camera_windows_example/cons/apis.dart';
+import 'package:camera_windows_example/models/aadharotpresponse.dart';
+import 'package:camera_windows_example/models/aadharverificationresult.dart';
 import 'package:camera_windows_example/models/gate.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:camera_windows_example/models/verifydoc.dart';
@@ -293,6 +295,78 @@ Future<PaymentResponse?> sendPayment(Payment payment) async {
   }
   return null;
 }
+
+Future<OtpResponse?> aadharOtpResponse(String aadharid, String referenceId) async {
+  final url = Uri.parse('https://your-api-endpoint.com/otp-request');
+
+  final headers = {
+    'Content-Type': 'application/json',
+    'x-parse-rest-api-id': 'YOUR_API_ID',
+    'x-parse-application-id': 'YOUR_APP_ID',
+    'x-parse-rest-api-key': 'YOUR_API_KEY',
+  };
+
+  final body = jsonEncode({
+    "reference_id": referenceId,
+    "source": aadharid,
+  });
+
+  final response = await http.post(url, headers: headers, body: body);
+  try{
+  if (response.statusCode == 200) {
+    final json = jsonDecode(response.body);
+    return OtpResponse.fromJson(json);
+  } else {
+    print('HTTP error: ${response.statusCode}');
+    return null;
+  }
+  }catch(e){
+        print('HTTP error: ${e}');
+    return null;
+
+  }
+
+}
+
+
+
+
+Future<AadhaarVerificationResult?> aadharVerification(String otp, String referencdId, String transactionId, String timestamp) async {
+  final url = Uri.parse('https://your-api-endpoint.com/aadhaar_xml_verify_otp');
+
+  final headers = {
+    'Content-Type': 'application/json',
+  };
+
+  final body = jsonEncode({
+    "reference_id": referencdId,
+    "transaction_id": transactionId,
+    "otp": otp,
+  });
+
+  final response = await http.post(url, headers: headers, body: body);
+
+  try {
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+  
+    if (data['status'] == 'success') {
+      return AadhaarVerificationResult.fromJson(data['result']);
+    } else {
+      print("OTP verification failed: ${data['error']} (${data['error_code']})");
+      return null;
+    }
+  } else {
+    print("HTTP Error: ${response.statusCode}");
+    return null;
+  }
+} on Exception catch (e) {
+  // TODO
+     print("Error on call ${e}");
+    return null;
+}
+}
+
 
 }
 
