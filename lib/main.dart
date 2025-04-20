@@ -23,7 +23,7 @@ Future<void> main() async {
   Get.put(Connectivitycontroller());
   Get.put(PagenavControllers());
   Get.put(Managementcontroller());
-  print("${QrScannerModel(permitType: "ONLINE", permitNo: "!!((73874))", applicantName: "aRVINSD", applicantParent: "aRVINDSAPFJ", idNo: "274824872647", dateOfIssue: DateTime.now(), validUpto: DateTime.now(), placeOfStay: "fdsfs", hs: "fgdjf").toJson()}");
+  print("${QrScannerModel(permitType: "ONLINE", permitNo: "!!((73874))", applicantName: "ARVIND", applicantParent: "aRVINDSAPFJ", idNo: "274824872647", dateOfIssue: DateTime.now(), validUpto: DateTime.now(), placeOfStay: "fdsfs", hs: "fgdjf").toJson()}");
 }
 
 class MyApp extends StatelessWidget {

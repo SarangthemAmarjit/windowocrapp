@@ -1,3 +1,5 @@
+import '../models/permit.dart';
+
 List<String> genders = ["Male", "Female", "Others"];
 String gate = "Imphal Airport";
 String rupee = "₹";
@@ -94,3 +96,37 @@ List<String> districts = [
   "Kakching",
   "Kamjong",
 ];
+
+
+
+final dummyVisitorEntrys = VisitorEntry()
+  ..idProof = 'Aadhar Card'
+  ..idNo = '1234-5678-9012'
+  ..category = 'Tourist'
+  ..purposeVisit = 'Sightseeing'
+  ..placeOfStay = 'Hotel Blue Orchid'
+  ..visitDate = '2025-04-20'
+  ..applcntName = 'Priya Sharma'
+  ..applcntParent = 'Ramesh Sharma'
+  ..applcntGender = 'Female'
+  ..applcntDOB = '1995-08-15'
+  ..applcntEmail = 'priya.sharma@example.com'
+  ..applcntMobile = '9876543210'
+  ..applcntAddress = '123 Main Street, MG Road'
+  ..applcntState = 'Manipur'
+  ..applcntPoliceStation = 'Imphal PS'
+  ..applcntDistrict = 'Imphal East'
+  ..applcntVillage = 'Thangmeiband'
+  ..applcntHNo = 'H/No 45-B'
+  ..applcntTehsil = 'Imphal West'
+  ..gateID = 'GT123'
+  ..entryType = 'Online'
+  ..applyDistrictID = 'D-101'
+  ..residingPeriod = '30'
+  ..landmark = 'Near Ima Market'
+  ..district = 'Imphal'
+  ..pinCode = '795001'
+  ..amount = '100'
+  ..transactionId = 'TXN202504201234'
+  ..lrName = 'Sita Devi'
+  ..nearestPS = 'Imphal PS';

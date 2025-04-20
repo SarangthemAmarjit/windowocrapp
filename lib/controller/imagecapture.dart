@@ -76,6 +76,22 @@ class Imagecontroller extends GetxController {
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
     _fetchCameras();
+
+
+  }
+
+
+Future<Uint8List> assetImageToUint8List(String path) async {
+  final byteData = await rootBundle.load(path); // Load asset
+  return byteData.buffer.asUint8List(); // Convert to Uint8List
+}
+
+
+  Future<void> demoImage() async {
+        profileImage = await assetImageToUint8List('assets/images/ilplogo.png');
+        frontImages = await assetImageToUint8List('assets/images/ilplogo.png');
+        backImages = await assetImageToUint8List('assets/images/ilplogo.png');
+        update();   
   }
 
   @override
