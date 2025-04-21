@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      scrollBehavior: NoScrollbarBehavior(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
@@ -43,12 +44,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(navigatorKey: navigatorKey, home: ExampleBrowser());
-//   }
-// }
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -58,5 +53,16 @@ class MyHttpOverrides extends HttpOverrides {
         // Allow self-signed or invalid certificates (for development purposes only)
         return true;
       };
+  }
+}
+class NoScrollbarBehavior extends ScrollBehavior {
+  @override
+  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
+  }
+
+  @override
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }

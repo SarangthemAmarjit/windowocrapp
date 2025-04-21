@@ -212,8 +212,8 @@ class GetxTapController extends GetxController {
 
   final String returnUrl =
       "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
-  // // final String returnUrl =
-  // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
+  // // // final String returnUrl =
+  // // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 
 
 

@@ -168,7 +168,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             controller.page == 1
                 ? TemporaryILPFormReplica()
-                
+                  // ?PaymentDetails()                
 
                 //     : controller.page == 3
                 //         ? PermitDetails()
@@ -177,7 +177,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     // ?FaceDetectionPage()
                     :controller.page==3? IdSelectionAndScanningScreen():
                     PaymentDetails()
-                    // ReceiptWidget(applicantName: "Tomchou", applicantId: "2387587387837483")
+          
           ],
         ),
       );
@@ -185,22 +185,3 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 }
 
-// class TextFieldWidget extends StatelessWidget {
-//   const TextFieldWidget({
-//     super.key, required this.label,
-//   });
-//   final String label;
-  
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-
-//       decoration: InputDecoration(
-//         labelText: label,
-//         fillColor: Colors.grey[100],
-//         filled: true,
-//         border: OutlineInputBorder(),
-//       ),
-//     );
-//   }
-// }

@@ -91,6 +91,10 @@ Future<Uint8List> assetImageToUint8List(String path) async {
         profileImage = await assetImageToUint8List('assets/images/ilplogo.png');
         frontImages = await assetImageToUint8List('assets/images/ilplogo.png');
         backImages = await assetImageToUint8List('assets/images/ilplogo.png');
+        idCardimage = await assetImageToUint8List('assets/images/ilplogo.png');
+      
+        signature = await assetImageToUint8List('assets/images/ilplogo.png');
+        
         update();   
   }
 

@@ -56,6 +56,7 @@ class LandingPage extends StatelessWidget {
                                   mngctrl.isloading == false)
                           ? ErrorPages()
                           : Container(
+                         
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       alignment: Alignment.bottomCenter,
@@ -63,14 +64,21 @@ class LandingPage extends StatelessWidget {
                                         'assets/images/Untitled21.png',
                                       ))),
                               width: MediaQuery.of(context).size.width,
-                              child: pagenav.mainpageindex == 0
-                                  ? WelcomeScreen()
-                                  : pagenav.mainpageindex == 1
-                                      ? DocumentScanPage()
-                                      // ?Successpages()
-                                      : pagenav.mainpageindex == 2
-                                          ? Center(child: RegistrationPage())
-                                          : Successpages())),
+                              child: Center(
+                                child: SingleChildScrollView(
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(maxWidth: 700),
+                                    child: pagenav.mainpageindex == 0
+                                        ? WelcomeScreen()
+                                        : pagenav.mainpageindex == 1
+                                            ? DocumentScanPage()
+                                            // ?Successpages()
+                                            : pagenav.mainpageindex == 2
+                                                ? Center(child: RegistrationPage())
+                                                : Successpages(),
+                                  ),
+                                ),
+                              ))),
                     ),
                   ],
                 ),

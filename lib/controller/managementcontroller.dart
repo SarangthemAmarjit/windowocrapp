@@ -320,6 +320,10 @@ return ds.entries.first.value==0?null:ds.entries.first.value;
 
   }
 
+
+
+
+
   void addPermit(VisitorEntry? permits) {
     _permit = permits;
     update();
@@ -386,20 +390,18 @@ return ds.entries.first.value==0?null:ds.entries.first.value;
 
  
   await Future.delayed(Duration(milliseconds: 2000));
-  
-    
     await Get.find<Imagecontroller>().saveReceiptimages(key);
     Future.delayed(Duration(milliseconds: 2000));
     Get.back();
     Get.find<PagenavControllers>().setmainpageindex(ind:5);
-                            Get.offAll(()=>LandingPage());
+                       
   
   }else{
     printUsbReceiptWindowsonline( onlineAplicant??"",payres?.permitNo??"");
 
 
      Get.find<PagenavControllers>().setmainpageindex(ind:6);
-     Get.offAll(()=>LandingPage());
+
     }
       setOnlineApplId(null);
 
@@ -407,7 +409,7 @@ return ds.entries.first.value==0?null:ds.entries.first.value;
     printUsbReceiptWindowsonline( onlineAplicant??"",payres?.permitNo??"");
      setOnlineApplId(null);
       Get.find<PagenavControllers>().setmainpageindex(ind:6);
-     Get.offAll(()=>LandingPage());
+ 
     }
   
     update();

@@ -19,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import '../home/landingpage.dart';
 import '../widgets/webtouchwrapper.dart';
 import 'atom_pay_helper.dart';
 
@@ -120,6 +121,10 @@ bool isLoading = false;
                               ],
                             ),
                           ),
+
+                          ElevatedButton(onPressed: (){
+                            gcontroller.updatepaymentremark(transactionid: mngctrl.getPermit?.transactionId??"", remark: "success", key: _keys, amount: '100');
+                          }, child: Text("test print")),
                         Expanded(
                           child: DefaultTextStyle(
                                         style: TextStyle(
@@ -300,7 +305,8 @@ bool isLoading = false;
                                               String totalamount = '';
                                               String remark = "";
                                               if (response.trim().contains("cancelTransaction")) {
-                                              remark ="Cancelled"; 
+
+                                              remark =remark.isEmpty || remark!='failed'?"Cancelled":remark; 
                                               totalamount = "0";
                                                 transactionResult = "CANCELLED";
                                                 transactionstatus = 100;
@@ -377,12 +383,14 @@ bool isLoading = false;
                                               }
                                         
                                               _closeWebView(
-                                                  callback: (){
-                                                    gcontroller.updatepaymentremark(
+                                                  callback: ()async{
+                                                   await gcontroller.updatepaymentremark(
                                                       amount: totalamount,
                                                         key: _keys,
                                                         transactionid: gcontroller.transacid,
                                                         remark: remark);
+
+                                                           Get.off(()=>LandingPage());
                                                   },
                                                   context: context,
                                                   transactionResult: transactionResult,
@@ -433,9 +441,10 @@ bool isLoading = false;
     // Get.find<Managementcontroller>().send
 
     // ignore: use_build_context_synchronously
-    callback();
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Transaction Status = $transactionResult ")));
+         callback();
+      
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text("Transaction Status = $transactionResult ")));
   }
 
   Future<bool> _handleBackButtonAction(BuildContext context) async {

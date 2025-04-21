@@ -2,7 +2,6 @@ import 'package:barcode_widget/barcode_widget.dart' show Barcode, BarcodeWidget;
 import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
-import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:camera_windows_example/models/paymentresponse.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:flutter/material.dart';

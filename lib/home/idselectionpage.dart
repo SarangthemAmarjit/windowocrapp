@@ -514,9 +514,18 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                   entryType: "ONLINE",
                                   applcntAddress: mngctrl.applicid?.address,
                                 ));
-                             pagectrl.setmainpageindex(ind: 2);  
+                             pagectrl.setmainpageindex(ind: 2); 
+
                               }else{
+
+
+                                //demo
+                            mngctrl.addPermit(dummyVisitorEntrys);
+                            imgcon.demoImage();
                                   if( mngctrl.getPermit?.idProof == "Aadhaar Card"){
+
+
+
 
                                         setState(() {
                                           isOtpscreen = true;

@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import '../../cons/constant.dart';
 import '../../cons/tandcpolicy.dart';
 import '../../controller/pagecontroller.dart';
+import '../../payment/PaymentPage.dart';
 import '../../widgets/receiptpermit.dart';
 
 class PaymentDetails extends StatelessWidget {
@@ -1153,7 +1154,25 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     );
                                                   
                                                   } else {
+
                                                     Get.back();
+                                                      gcontroller.initNdpsPayment(
+                                                      transId: mngctrl.getPermit
+                                                              ?.transactionId ??
+                                                          "",
+                                                      context: context,
+                                                      responseHashKey:
+                                                          gcontroller
+                                                              .responseHashKey,
+                                                      responseDecryptionKey:
+                                                          gcontroller
+                                                              .responseDecryptionKey,
+                                                      amount: mngctrl
+                                                          .getPermitPrice?.fee.toString()??"100",
+                                                      address: 'fsdfsdf',
+                                                      name: 'amarjit',
+                                                    );
+                                                  
                                                     Get.dialog(AlertDialog(
                                                       content: Text(
                                                           "Failed to add permit.\nTry again"),
