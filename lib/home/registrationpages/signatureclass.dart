@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../cons/printimages.dart';
+import '../../widgets/buttonwithborder.dart';
 class PaintCanvas extends StatefulWidget {
   final VoidCallback callback;
 
@@ -80,7 +81,21 @@ class _PaintCanvasState extends State<PaintCanvas> {
                         ]),
                     child: Column(
                       children: [
-                             IconButton(onPressed: widget.callback, icon: Icon(Icons.arrow_back_ios,size: 30,color: Colors.black,)),
+                             Padding(
+                               padding: const EdgeInsets.all(8.0),
+                               child: BorderButton(
+                                 color: Colors.green,
+                                 callback: widget.callback,
+                                 child: Row(
+                                   mainAxisSize: MainAxisSize.min,
+                                   children: [
+                                     
+                                     Icon(Icons.arrow_back_ios,size: 16,color: Colors.black,),
+                                     SizedBox(width: 10,),
+                                     Text("Check ID Card")
+                                   ],
+                                 )),
+                             ),
                               Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Text(

@@ -122,9 +122,7 @@ bool isLoading = false;
                             ),
                           ),
 
-                          ElevatedButton(onPressed: (){
-                            gcontroller.updatepaymentremark(transactionid: mngctrl.getPermit?.transactionId??"", remark: "success", key: _keys, amount: '100');
-                          }, child: Text("test print")),
+            
                         Expanded(
                           child: DefaultTextStyle(
                                         style: TextStyle(
@@ -438,13 +436,9 @@ bool isLoading = false;
       required VoidCallback callback
       
       }) async {
-    // Get.find<Managementcontroller>().send
-
-    // ignore: use_build_context_synchronously
+    
          callback();
       
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(content: Text("Transaction Status = $transactionResult ")));
   }
 
   Future<bool> _handleBackButtonAction(BuildContext context) async {

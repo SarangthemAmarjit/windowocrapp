@@ -4,6 +4,7 @@ import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
+import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:camera_windows_example/home/registrationpages/linkpage.dart';
 import 'package:camera_windows_example/home/registrationpages/succespage.dart';
 import 'package:camera_windows_example/payment/successpage.dart';
@@ -1022,6 +1023,60 @@ class _PaymentCardState extends State<PaymentCard> {
                                                                 ind: 4);
                                                       },
                                                     );
+                                                  } else {
+
+                                                    Get.back();
+                                                
+                                                  
+                                                    Get.dialog(
+                                                      barrierDismissible:  false,
+                                                      AlertDialog(
+                                                      title: Text("Failed to generate Permit.",style: TextStyle(fontSize: 24),),
+                                                      content: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                              "There are some technical issues at our end.",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                                                           Text(
+                                                              "Some reasons maybe: ",style: TextStyle(fontSize: 16)),   
+                                                              SizedBox(height: 16,), 
+                                                               Text(
+                                                              "The photo provided may be unclear. Please retry again",style: TextStyle(fontSize: 16)),
+                                                                SizedBox(height: 8,), 
+                                                               Text(
+                                                              "The server failed to load during the permit generation process.",style: TextStyle(fontSize: 16)),
+                                                               SizedBox(height: 8,), 
+                                                               Text(
+                                                              "The server maybe down.",style: TextStyle(fontSize: 16)),
+                                                               SizedBox(height: 8,), 
+                                                                 Text(
+                                                              "The internet connection is slow",style: TextStyle(fontSize: 16)),
+                                                               SizedBox(height: 8,), 
+                                                                 Text(
+                                                              "There is no network coverage.",style: TextStyle(fontSize: 16)),
+                                                           SizedBox(height: 16,), 
+                                                            
+                                                              Divider(),
+                                                              Text(
+                                                              "For any issues and queries please go to the ILP COUNTER.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                                                        ],
+                                                      ),
+                                                      actions: [
+                                                        ButtonCard(
+                                                          padding: EdgeInsets.zero,
+                                                            title: "Try again",
+                                                            onpress: () {
+                                                              pagectrl
+                                                                  .setmainpageindex(
+                                                                      ind: 0);
+                                                                      Get.back();
+                                                              // Get.off(()=>LandingPage());        
+                                                              pagectrl
+                                                                  .listenPageChange();
+                                                            })
+                                                      ],
+                                                    ));
                                                   }
 
                                                   // Get.back();
@@ -1156,33 +1211,52 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   } else {
 
                                                     Get.back();
-                                                      gcontroller.initNdpsPayment(
-                                                      transId: mngctrl.getPermit
-                                                              ?.transactionId ??
-                                                          "",
-                                                      context: context,
-                                                      responseHashKey:
-                                                          gcontroller
-                                                              .responseHashKey,
-                                                      responseDecryptionKey:
-                                                          gcontroller
-                                                              .responseDecryptionKey,
-                                                      amount: mngctrl
-                                                          .getPermitPrice?.fee.toString()??"100",
-                                                      address: 'fsdfsdf',
-                                                      name: 'amarjit',
-                                                    );
+                                                
                                                   
-                                                    Get.dialog(AlertDialog(
-                                                      content: Text(
-                                                          "Failed to add permit.\nTry again"),
+                                                    Get.dialog(
+                                                      barrierDismissible:  false,
+                                                      AlertDialog(
+                                                      title: Text("Failed to generate Permit.",style: TextStyle(fontSize: 24),),
+                                                      content: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                              "There are some technical issues at our end.",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                                                           Text(
+                                                              "Some reasons maybe: ",style: TextStyle(fontSize: 16)),   
+                                                              SizedBox(height: 16,), 
+                                                               Text(
+                                                              "The photo provided may be unclear. Please retry again",style: TextStyle(fontSize: 16)),
+                                                                SizedBox(height: 8,), 
+                                                               Text(
+                                                              "The server failed to load during the permit generation process.",style: TextStyle(fontSize: 16)),
+                                                               SizedBox(height: 8,), 
+                                                               Text(
+                                                              "The server maybe down.",style: TextStyle(fontSize: 16)),
+                                                               SizedBox(height: 8,), 
+                                                                 Text(
+                                                              "The internet connection is slow",style: TextStyle(fontSize: 16)),
+                                                               SizedBox(height: 8,), 
+                                                                 Text(
+                                                              "There is no network coverage.",style: TextStyle(fontSize: 16)),
+                                                           SizedBox(height: 16,), 
+                                                            
+                                                              Divider(),
+                                                              Text(
+                                                              "For any issues and queries please go to the ILP COUNTER.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                                                        ],
+                                                      ),
                                                       actions: [
                                                         ButtonCard(
+                                                          padding: EdgeInsets.zero,
                                                             title: "Try again",
                                                             onpress: () {
                                                               pagectrl
                                                                   .setmainpageindex(
                                                                       ind: 0);
+                                                                      Get.back();
+                                                              // Get.off(()=>LandingPage());        
                                                               pagectrl
                                                                   .listenPageChange();
                                                             })

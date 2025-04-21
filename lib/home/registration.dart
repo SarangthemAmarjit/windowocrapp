@@ -46,12 +46,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     splashColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     onTap: () {
-                      if (controller.regPage == 0) {
-                        controller.setmainpageindex(ind: 0);
-                            Get.find<Imagecontroller>().disposeAll();
-                            Get.find<Managementcontroller>().disposeAll();
+                      if (controller.page == 1) {
+                            Get.dialog(AlertDialog(
+                              title: Text("Registration",style: TextStyle(fontSize: 24),),
+                              content:Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text("Are you sure you want to cancel the registration ? ",style: TextStyle(fontSize: 16),)
+                              ],
+                            ),
+                            
+                            actions: [
+                            ElevatedButton(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.red[700]),), onPressed: (){
+                                                        controller.setmainpageindex(ind: 0);
+                                                        Get.find<Imagecontroller>().disposeAll();
+                                                        Get.find<Managementcontroller>().disposeAll();
+                                                        Get.find<PagenavControllers>().reset();
+                                                            Get.back();
+                            }),
+                            
+                                    ElevatedButton(child: Text('Continue',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.green[700]),), onPressed:  (){
+                                                     Get.back();
+                            }),
+                            ],
+                            ));
+                          
                       } else {
-                        controller.changeDashboardPage(controller.regPage - 1);
+                        controller.changeDashboardPage(controller.page - 1);
                       }
                     },
 
@@ -168,7 +189,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             controller.page == 1
                 ? TemporaryILPFormReplica()
-                  // ?PaymentDetails()                
+                              
 
                 //     : controller.page == 3
                 //         ? PermitDetails()

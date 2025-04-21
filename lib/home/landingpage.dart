@@ -67,7 +67,7 @@ class LandingPage extends StatelessWidget {
                               child: Center(
                                 child: SingleChildScrollView(
                                   child: ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: 700),
+                                    constraints: BoxConstraints(maxWidth: 1000),
                                     child: pagenav.mainpageindex == 0
                                         ? WelcomeScreen()
                                         : pagenav.mainpageindex == 1

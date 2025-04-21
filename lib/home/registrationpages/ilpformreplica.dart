@@ -12,6 +12,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
 import '../../cons/constant.dart';
+import '../../widgets/buttonwithborder.dart';
 import '../../widgets/customkeys.dart';
 
 class TemporaryILPFormReplica extends StatefulWidget {
@@ -200,16 +201,19 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                     children: [
                       firspage
                           ? SizedBox()
-                          : IconButton.outlined(
-                                  onPressed: () {
-                                    changepages(true);
-                                    _formkey.currentState!.reset();
-                                  },
-                                  icon: Icon(Icons.arrow_back_ios_new_outlined))
-                              .animate()
-                              .fadeIn()
-                              .scaleXY(
-                                  begin: 0.5, end: 1, curve: Curves.easeIn),
+                          
+                          : BorderButton(
+                            color: Colors.blue,
+                            callback: (){
+                                 changepages(true);
+                                            _formkey.currentState!.reset();
+                          },child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                                Icon(Icons.arrow_back_ios,size: 16,),
+                                SizedBox(width: 10,),
+                                Text("First Page")
+                          ],),),
                       SizedBox(
                         height: firspage ? 0 : 20,
                       ),
@@ -836,20 +840,24 @@ constraints: BoxConstraints(
           ),
         ),
         child: DropdownButtonHideUnderline(
-      
+
           child: DropdownButton<String>(
+            
+           
+            dropdownColor: const Color.fromARGB(255, 202, 226, 245),
+            menuMaxHeight: 500,
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             hint: Text("Select $label"),
-            // dropdownColor: Colors.green,
-            // iconEnabledColor: Colors.green,
-            // focusColor: Colors.green,
+         
             isDense: true,
 
             value: selectedValue,
             isExpanded: false,
             onChanged: onChanged,
             items: items
-                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+                .map((item) => DropdownMenuItem(
+                 
+                  value: item, child: Text(item)))
                 .toList(),
           ),
         ),
@@ -1006,6 +1014,7 @@ constraints: BoxConstraints(
     return null;
   }
 }
+
 
 class TextFieldWidget extends StatefulWidget {
   const TextFieldWidget({
