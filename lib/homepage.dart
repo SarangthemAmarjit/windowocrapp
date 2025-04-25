@@ -707,7 +707,11 @@ class _IdSelectionAndScanningScreenState
 
                           ),
                     ),
-                  )
+                  ),
+
+              imgcon.frontImages != null &&
+                                              imgcon.backImages != null
+                                          ?  Container(child: Center(child: Text(signaturePage?"Proceed to review and pay for your permit.":"Provide your signature in the next page",style: TextStyle(fontSize: 20,color: Colors.black),textAlign: TextAlign.center,))):SizedBox(),
                 ],
               )
                 .animate()

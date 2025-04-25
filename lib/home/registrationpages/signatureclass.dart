@@ -67,206 +67,211 @@ class _PaintCanvasState extends State<PaintCanvas> {
              return Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 800),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 30),
-                           clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 5)
-                        ]),
-                    child: Column(
-                      children: [
-                             Padding(
-                               padding: const EdgeInsets.all(8.0),
-                               child: BorderButton(
-                                 color: Colors.green,
-                                 callback: widget.callback,
-                                 child: Row(
-                                   mainAxisSize: MainAxisSize.min,
-                                   children: [
-                                     
-                                     Icon(Icons.arrow_back_ios,size: 16,color: Colors.black,),
-                                     SizedBox(width: 10,),
-                                     Text("Check ID Card")
-                                   ],
-                                 )),
-                             ),
-                              Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Text(
-                          'Add Signatures',
-                          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                             
-                            Text(
-                              'Write your signature inside the bounded area.',
-                              style: TextStyle(fontSize: 20,),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 30),
+                               clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.2),
+                                  blurRadius: 5)
+                            ]),
+                        child: Column(
+                          children: [
+                                 Padding(
+                                   padding: const EdgeInsets.all(8.0),
+                                   child: BorderButton(
+                                     color: Colors.green,
+                                     callback: widget.callback,
+                                     child: Row(
+                                       mainAxisSize: MainAxisSize.min,
+                                       children: [
+                                         
+                                         Icon(Icons.arrow_back_ios,size: 16,color: Colors.black,),
+                                         SizedBox(width: 10,),
+                                         Text("Check ID Card")
+                                       ],
+                                     )),
+                                 ),
+                                  Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Text(
+                              'Add Signatures',
+                              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(height: 30,),
-                        Container(
-                          width: 650,
-                          height: 500,
-                          padding: EdgeInsets.all(32),
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1,color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8)
                           ),
-                          child:imgcon.signature!=null?Image.memory(imgcon.signature!,fit: BoxFit.contain,) : Center(
-                            child: RepaintBoundary(
-                              key: _globalKey,
-                              child: Column(
-                                children: [
-                                
-                                  GestureDetector(
-                                                              onPanUpdate: (details) {
-                                  setState(() {
-                                    // Restrict drawing inside the defined canvas size
-                                    if (details.localPosition.dx >= 0 &&
-                                        details.localPosition.dx <= canvasWidth &&
-                                        details.localPosition.dy >= 0 &&
-                                        details.localPosition.dy <= canvasHeight) {
-                                      points.add(details.localPosition);
-                                    }
-                                  });
-                                                              },
-                                                              onPanEnd: (details) {
-                                  points.add(null);
-                                                              },
-                                                              child: CustomPaint(
-                                  painter: _DrawingPainter(points,Size(canvasWidth, canvasHeight)),
-                                  size: Size(canvasWidth, canvasHeight),
-                                                              ),
-                                              ),
-                                ],
+                                 
+                                Text(
+                                  'Write your signature inside the bounded area.',
+                                  style: TextStyle(fontSize: 20,),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 30,),
+                            Container(
+                              width: 650,
+                              height: 500,
+                              padding: EdgeInsets.all(32),
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1,color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8)
                               ),
-                                        
-                            ),
-                          ),
-                        ),
-                             SizedBox(height: 30,),
-                             Row(
-                                children: [
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap:
-                                       points.isEmpty && imgcon.signature==null?null:(){
-                                        _clearDrawing();
-                                        if(imgcon.signature!=null){
-                                          imgcon.retakeSignature();
+                              child:imgcon.signature!=null?Image.memory(imgcon.signature!,fit: BoxFit.contain,) : Center(
+                                child: RepaintBoundary(
+                                  key: _globalKey,
+                                  child: Column(
+                                    children: [
+                                    
+                                      GestureDetector(
+                                                                  onPanUpdate: (details) {
+                                      setState(() {
+                                        // Restrict drawing inside the defined canvas size
+                                        if (details.localPosition.dx >= 0 &&
+                                            details.localPosition.dx <= canvasWidth &&
+                                            details.localPosition.dy >= 0 &&
+                                            details.localPosition.dy <= canvasHeight) {
+                                          points.add(details.localPosition);
                                         }
-                                          controller.listenPageChange();
-                                       } ,
-
-                                      child: Container(
-                                        // margin: EdgeInsets.symmetric(horizontal: 16),
-                                        width: double.infinity,
-                                        padding: EdgeInsets.all(32),
-                                        decoration: BoxDecoration(
-                                          color: points.isEmpty && imgcon.signature==null?Colors.blue[200]:Colors.blue,
-                                          // borderRadius: BorderRadius.circular(8)
-                                        ),
-                                        clipBehavior: Clip.antiAlias,
-                                        child: Center(
-                                            child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.replay,
-                                              color: Colors.white,
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Text(
-                                              "Clear",
-                                              style: TextStyle(
-                                                  color: Colors.white, fontSize: 24),
-                                            ),
-                                          ],
-                                        )),
-                                      ),
-                                    ),
+                                      });
+                                                                  },
+                                                                  onPanEnd: (details) {
+                                      points.add(null);
+                                                                  },
+                                                                  child: CustomPaint(
+                                      painter: _DrawingPainter(points,Size(canvasWidth, canvasHeight)),
+                                      size: Size(canvasWidth, canvasHeight),
+                                                                  ),
+                                                  ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: points.isEmpty &&  imgcon.signature==null ?null: () async {
+                                            
+                                ),
+                              ),
+                            ),
+                                 SizedBox(height: 30,),
+                                 Row(
+                                    children: [
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap:
+                                           points.isEmpty && imgcon.signature==null?null:(){
+                                            _clearDrawing();
                                             if(imgcon.signature!=null){
-                                          controller.changePage(4);
-                                        controller.listenPageChange();    
-                                            }else{
-                                               RenderRepaintBoundary boundary =
-                                        _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-                                        ui.Image image = await boundary.toImage();
-                                         ByteData? byteData =
-                                        await image.toByteData(format: ui.ImageByteFormat.png);
-                                        Uint8List pngBytes = byteData!.buffer.asUint8List();
-          
-                                          //  final tempDir = await getTemporaryDirectory();
-                                          //  final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
-                                          //  await file.writeAsBytes(pngBytes);
-                                            imgcon.saveImage(pngBytes);
-         
-                                              controller.changePage(4);
-                                      
-
+                                              imgcon.retakeSignature();
                                             }
-                                           
-                                      },
-                                      child: Container(
-                                        //  margin: EdgeInsets.symmetric(horizontal: 16),
-                                        width: double.infinity,
-                                        padding: EdgeInsets.all(32),
-                                        decoration: BoxDecoration(
-                                          color:points.isEmpty &&  imgcon.signature==null ?Colors.green[200]: Colors.green,
-                                          //  borderRadius: BorderRadius.circular(8)
+                                              controller.listenPageChange();
+                                           } ,
+                      
+                                          child: Container(
+                                            // margin: EdgeInsets.symmetric(horizontal: 16),
+                                            width: double.infinity,
+                                            padding: EdgeInsets.all(32),
+                                            decoration: BoxDecoration(
+                                              color: points.isEmpty && imgcon.signature==null?Colors.blue[200]:Colors.blue,
+                                              // borderRadius: BorderRadius.circular(8)
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            child: Center(
+                                                child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.replay,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Text(
+                                                  "Clear",
+                                                  style: TextStyle(
+                                                      color: Colors.white, fontSize: 24),
+                                                ),
+                                              ],
+                                            )),
+                                          ),
                                         ),
-                                        clipBehavior: Clip.antiAlias,
-                                        child: Center(
-                                            child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Save & Proceed",
-                                              style: TextStyle(
-                                                  color: Colors.white, fontSize: 24),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Icon(
-                                              Icons.check,
-                                              color: Colors.white,
-                                            ),
-                                          ],
-                                        )),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ).animate().fadeIn(
-                                  duration: Duration(milliseconds: 1200),
-                                  delay: Duration(milliseconds: 400)),
+                                      Expanded(
+                                        child: InkWell(
+                                          onTap: points.isEmpty &&  imgcon.signature==null ?null: () async {
+                                                if(imgcon.signature!=null){
+                                              controller.changePage(4);
+                                            controller.listenPageChange();    
+                                                }else{
+                                                   RenderRepaintBoundary boundary =
+                                            _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+                                            ui.Image image = await boundary.toImage();
+                                             ByteData? byteData =
+                                            await image.toByteData(format: ui.ImageByteFormat.png);
+                                            Uint8List pngBytes = byteData!.buffer.asUint8List();
                                 
-                             
-                            
-                      ],
-                    ),
-                  ).animate()
-                      .scaleXY(
-                          begin: 0.7,
-                          end: 1,
-                          curve: Curves.easeInCubic,
-                          duration: Duration(milliseconds: 600))
-                      .fadeIn(duration: Duration(milliseconds: 500)),
+                                              //  final tempDir = await getTemporaryDirectory();
+                                              //  final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
+                                              //  await file.writeAsBytes(pngBytes);
+                                                imgcon.saveImage(pngBytes);
+                               
+                                                  controller.changePage(4);
+                                          
+                      
+                                                }
+                                               
+                                          },
+                                          child: Container(
+                                            //  margin: EdgeInsets.symmetric(horizontal: 16),
+                                            width: double.infinity,
+                                            padding: EdgeInsets.all(32),
+                                            decoration: BoxDecoration(
+                                              color:points.isEmpty &&  imgcon.signature==null ?Colors.green[200]: Colors.green,
+                                              //  borderRadius: BorderRadius.circular(8)
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            child: Center(
+                                                child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "Save & Proceed",
+                                                  style: TextStyle(
+                                                      color: Colors.white, fontSize: 24),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Icon(
+                                                  Icons.check,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ).animate().fadeIn(
+                                      duration: Duration(milliseconds: 1200),
+                                      delay: Duration(milliseconds: 400)),
+                                    
+                         
+                                
+                          ],
+                        ),
+                      ).animate()
+                          .scaleXY(
+                              begin: 0.7,
+                              end: 1,
+                              curve: Curves.easeInCubic,
+                              duration: Duration(milliseconds: 600))
+                          .fadeIn(duration: Duration(milliseconds: 500)),
+                              points.isNotEmpty||imgcon.signature!=null ?Container(child: Center(child: Text("Proceed to review and pay for your permit.",style: TextStyle(fontSize: 20,color: Colors.black),textAlign: TextAlign.center,))):SizedBox()    
+                    ],
+                  ),
                 ),
               );
            }

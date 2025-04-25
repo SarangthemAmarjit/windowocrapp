@@ -212,7 +212,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                             children: [
                                 Icon(Icons.arrow_back_ios,size: 16,),
                                 SizedBox(width: 10,),
-                                Text("First Page")
+                                Text("Previous Page")
                           ],),),
                       SizedBox(
                         height: firspage ? 0 : 20,
@@ -319,6 +319,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                           child: _buildTextField(
                                               'Mobile No.',
                                               _mobileController,
+                                              ismobile: true,
                                               node: _focusNodes['mobile']!,
                                               counter: 10,
                                               validator: _phoneValidator),
@@ -729,7 +730,12 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 curve: Curves.easeIn)
                             .fadeIn(delay: Duration(milliseconds: 1800)),
                       ),
-                      SizedBox(height: 20),
+
+
+
+                      SizedBox(height: 10),
+                      Container(child: Center(child: Text(firspage?"Next: Enter your reason for stay and accommodation.":"*Your photo will be taken on the next screen.",style: TextStyle(fontSize: 20,color: Colors.grey),textAlign: TextAlign.center,))),
+                      SizedBox(height: 20,),
                       CustomKeyboard(
                         onKeyTap: _onKeyTap,
                         onBackspace: _onBackspace,
@@ -763,7 +769,9 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       bool enabled = true,
       int? counter,
       bool iscapitalize = true,
-      bool mandatory = true}) {
+      bool mandatory = true,
+      bool ismobile = false
+      }) {
     return TextFieldWidget(
       controller: controller,
       label: label,
@@ -773,6 +781,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       counter: counter,
       enable: enabled,
       mandatory: mandatory,
+      ismobile: ismobile,
     );
   }
 
@@ -840,22 +849,27 @@ constraints: BoxConstraints(
           ),
         ),
         child: DropdownButtonHideUnderline(
-
+          
           child: DropdownButton<String>(
-            
-           
-            dropdownColor: const Color.fromARGB(255, 202, 226, 245),
+     
+     
+              borderRadius: BorderRadius.circular(8),
+          
+            dropdownColor: const Color.fromARGB(255, 238, 235, 235),
             menuMaxHeight: 500,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            style: TextStyle(fontWeight: FontWeight.w500, color:  Colors.black),
             hint: Text("Select $label"),
-         
+
             isDense: true,
 
             value: selectedValue,
             isExpanded: false,
+            
             onChanged: onChanged,
             items: items
                 .map((item) => DropdownMenuItem(
+                
+                   
                  
                   value: item, child: Text(item)))
                 .toList(),
@@ -1031,7 +1045,9 @@ class TextFieldWidget extends StatefulWidget {
     this.keytype,
     this.errorSize,
     this.isCapitalise = true,
-    this.enable = true,
+    this.enable = true, 
+    this.ismobile= false,
+    
   });
   final double? fontSize;
   final FocusNode? focusnode;
@@ -1046,7 +1062,7 @@ class TextFieldWidget extends StatefulWidget {
   final double? errorSize;
   final bool? isCapitalise;
   final bool? enable;
-
+  final bool ismobile;
   @override
   State<TextFieldWidget> createState() => _TextFieldWidgetState();
 }
@@ -1061,9 +1077,10 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           fontSize: widget.fontSize,
           color: widget.enable == false ? Colors.black : null,
         ),
+        
         focusNode: widget.focusnode,
         maxLength: widget.counter ?? 10,
-    
+
         controller: widget.controller,
         cursorColor: Colors.black,
         readOnly: true,
@@ -1077,17 +1094,21 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         decoration: InputDecoration(
           
           enabled: widget.enable!,
+          prefixText:widget.ismobile?"+91 ":null,  
           errorStyle: TextStyle(
+        
             color: Colors.red, // Change error text color
             fontSize: widget.errorSize ?? null,
             // Change font size
             // fontWeight: FontWeight.bold, // Make it bold
           ),
           contentPadding: widget.contentpadding,
-          labelStyle: TextStyle(fontSize: 20),
+          labelStyle: TextStyle(fontSize: 20,color: Colors.black),
           labelText: widget.mandatory ? "* ${widget.label}" : widget.label,
           floatingLabelStyle: TextStyle(fontSize: 20),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+          disabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+        
         ),
         inputFormatters: [UpperCaseTextFormatter()],
         validator: widget.validator ??

@@ -845,6 +845,7 @@ class _PaymentCardState extends State<PaymentCard> {
                           }
                         } else {
                           showDialog(
+                            barrierDismissible: false,
                               context: context,
                               builder: (c) {
                                 return StatefulBuilder(builder: (context, sta) {
