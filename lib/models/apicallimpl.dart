@@ -18,6 +18,7 @@ import 'permitverifymodel.dart';
 class ApicallImpl extends ApiCall {
   static const String baseUrl =
       "https://jsonplaceholder.typicode.com/posts"; // Replace with your API URL
+      final String key = "KJBSDLFJHOGHDFJKSJBVKJBZCVB354S3F4VKJKJSDCV654SDV";
   @override
   Future<void> readPermit() async {
     final response = await http.get(Uri.parse(baseUrl));
@@ -34,7 +35,7 @@ class ApicallImpl extends ApiCall {
   Future<Map<String, dynamic>> addPermit(Uint8List passportPhotoBytes,
       Uint8List idCardBytes, Uint8List SignPhoto, VisitorEntry permit) async {
     var headers = {
-      'X-Key': 'hfuygf765r76yu',
+      'X-Key': key,
     };
 
     var request =
@@ -76,7 +77,7 @@ class ApicallImpl extends ApiCall {
   Future<Map<String, dynamic>> updatePermit(Uint8List passportPhotoBytes,
       Uint8List idCardBytes, Uint8List SignPhoto, VisitorEntry permit,String applicantNo) async {
     var headers = {
-      'X-Key': 'hfuygf765r76yu',
+      'X-Key': key,
     };
 
     var request =
@@ -145,7 +146,7 @@ class ApicallImpl extends ApiCall {
           
           headers:
          {
-          'X-Key': 'hfuygf765r76yu',
+          'X-Key': key,
          },
           Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getactivegates"));
     print("In response gates ");
@@ -165,7 +166,7 @@ class ApicallImpl extends ApiCall {
         .get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getallidtype"),
         headers:
          {
-          'X-Key': 'hfuygf765r76yu',
+          'X-Key': key,
          }
         );
     print("In response");
@@ -185,7 +186,7 @@ class ApicallImpl extends ApiCall {
         .get(Uri.parse("$localapi/api/kiosk/getallfees"),
         headers:
          {
-          'X-Key': 'hfuygf765r76yu',
+          'X-Key': key,
          }
         );
  if (response.statusCode == 200) {
@@ -218,7 +219,7 @@ class ApicallImpl extends ApiCall {
   body: json.encode({"IdType": doctype, "IdNumber": idnumber}),
   headers: {
     'Content-Type': 'application/json',
-    'X-Key': 'hfuygf765r76yu',
+    'X-Key': key,
   }
   
   );
@@ -241,7 +242,7 @@ class ApicallImpl extends ApiCall {
       final response = await http.get(
           headers: {
     'Content-Type': 'application/json',
-    'X-Key': 'hfuygf765r76yu',
+    'X-Key': key,
   },
   
         Uri.parse('$permitapi$permitnum'));
@@ -277,7 +278,7 @@ Future<PaymentResponse?> sendPayment(Payment payment) async {
   
       url,
       headers: {'Content-Type': 'application/json',
-         'X-Key': 'hfuygf765r76yu',
+         'X-Key': key,
       },
       body: jsonEncode(payment.toJson()),
     );

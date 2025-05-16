@@ -25,6 +25,7 @@ class LandingPage extends StatelessWidget {
           return GetBuilder<Connectivitycontroller>(builder: (connectcontrol) {
             return GetBuilder<PagenavControllers>(builder: (_) {
               return Container(
+                
                 width: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -64,20 +65,16 @@ class LandingPage extends StatelessWidget {
                                         'assets/images/Untitled21.png',
                                       ))),
                               width: MediaQuery.of(context).size.width,
-                              child: Center(
-                                child: SingleChildScrollView(
-                                  child: ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: 1000),
-                                    child: pagenav.mainpageindex == 0
-                                        ? WelcomeScreen()
-                                        : pagenav.mainpageindex == 1
-                                            ? DocumentScanPage()
-                                            // ?Successpages()
-                                            : pagenav.mainpageindex == 2
-                                                ? Center(child: RegistrationPage())
-                                                : Successpages(),
-                                  ),
-                                ),
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(maxWidth: 1000),
+                                child: pagenav.mainpageindex == 0
+                                    ? WelcomeScreen()
+                                    : pagenav.mainpageindex == 1
+                                        ? DocumentScanPage()
+                                        // ?Successpages()
+                                        : pagenav.mainpageindex == 2
+                                            ? Center(child: RegistrationPage())
+                                            : Successpages(),
                               ))),
                     ),
                   ],

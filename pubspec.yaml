@@ -10,18 +10,13 @@ dependencies:
   # awesome_snackbar_content: ^0.1.5
   camera_platform_interface: ^2.6.0
   camera_windows: ^0.2.6+1
-
   flutter:
     sdk: flutter
-  flutter_doc_scanner: ^0.0.15
-  flutter_ocr_camera: ^0.0.3
   get: ^4.6.6
   google_fonts: ^6.2.1
   image_picker: ^1.1.2
   form_validation: ^3.2.0
-  image_picker_windows: ^0.2.1+1
   flutter_animate: ^4.5.2
-  flutter_ocr_sdk: ^1.2.0
   crop_image: ^1.0.15
   image: ^3.3.0
   uuid: ^4.5.1
@@ -39,12 +34,10 @@ dependencies:
   # flutter_esc_pos_utils: ^1.0.1
   esc_pos_utils: ^1.1.0
   audioplayers: ^6.2.0
-  video_player_win: ^3.1.1
-  video_player: ^2.9.3
+  # video_player_win: ^3.1.1
+  # video_player: ^2.9.3
   lottie: ^3.3.0
   connectivity_plus: ^6.1.0
-  webview_windows: ^0.4.0
-  dropdown_search: ^6.0.2
   intl: ^0.20.2
 
 

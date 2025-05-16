@@ -7,13 +7,9 @@ list(APPEND FLUTTER_PLUGIN_LIST
   camera_windows
   connectivity_plus
   file_selector_windows
-  flutter_doc_scanner
   flutter_inappwebview_windows
-  flutter_ocr_sdk
   screen_retriever_windows
   url_launcher_windows
-  video_player_win
-  webview_windows
   window_manager
 )
 

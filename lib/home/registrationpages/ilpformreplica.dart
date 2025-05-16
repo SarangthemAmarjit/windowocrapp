@@ -5,7 +5,6 @@ import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/widgets/bannercard.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -776,46 +775,46 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     );
   }
 
-  Widget _buildDropdownFieldState(
-      String label,
-      List<String> items,
-      String? selectedValue,
-      ValueChanged<String?> onChanged,
-      String? errorText) {
-    return DropdownSearch<String>(
-      onChanged: onChanged,
-      autoValidateMode: AutovalidateMode.onUserInteraction,
-      selectedItem: selectedValue,
+  // Widget _buildDropdownFieldState(
+  //     String label,
+  //     List<String> items,
+  //     String? selectedValue,
+  //     ValueChanged<String?> onChanged,
+  //     String? errorText) {
+  //   return DropdownSearch<String>(
+  //     onChanged: onChanged,
+  //     autoValidateMode: AutovalidateMode.onUserInteraction,
+  //     selectedItem: selectedValue,
       
-      decoratorProps: DropDownDecoratorProps(
-        textAlignVertical: TextAlignVertical.center,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          floatingLabelAlignment: FloatingLabelAlignment.center,
-          // labelStyle:
-          //     TextStyle(fontWeight: FontWeight.bold),
-          // labelText: "YEAR :",
-          hintText: "Select $label",
-        ),
-      ),
-      popupProps: PopupProps.menu(
-        searchDelay: Duration.zero,
-        searchFieldProps: const TextFieldProps(
-            autofocus: true,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                constraints: BoxConstraints(
-                  maxHeight: 40,
-                ))),
-        // constraints: BoxConstraints.tight(Size(
-        //     MediaQuery.of(context).size.width,
-        //     MediaQuery.of(context).size.height / 2)),
-        showSearchBox: true,
-        showSelectedItems: true,
-      ),
-      items: (filter, loadProps) => items,
-    );
-  }
+  //     decoratorProps: DropDownDecoratorProps(
+  //       textAlignVertical: TextAlignVertical.center,
+  //       decoration: InputDecoration(
+  //         border: OutlineInputBorder(),
+  //         floatingLabelAlignment: FloatingLabelAlignment.center,
+  //         // labelStyle:
+  //         //     TextStyle(fontWeight: FontWeight.bold),
+  //         // labelText: "YEAR :",
+  //         hintText: "Select $label",
+  //       ),
+  //     ),
+  //     popupProps: PopupProps.menu(
+  //       searchDelay: Duration.zero,
+  //       searchFieldProps: const TextFieldProps(
+  //           autofocus: true,
+  //           decoration: InputDecoration(
+  //               border: OutlineInputBorder(),
+  //               constraints: BoxConstraints(
+  //                 maxHeight: 40,
+  //               ))),
+  //       // constraints: BoxConstraints.tight(Size(
+  //       //     MediaQuery.of(context).size.width,
+  //       //     MediaQuery.of(context).size.height / 2)),
+  //       showSearchBox: true,
+  //       showSelectedItems: true,
+  //     ),
+  //     items: (filter, loadProps) => items,
+  //   );
+  // }
 
   Widget _buildDropdownField(
       String label,

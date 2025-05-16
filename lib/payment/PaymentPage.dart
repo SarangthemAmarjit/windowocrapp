@@ -405,10 +405,8 @@ bool isLoading = false;
                                   ],
                                 ),
                               ),
-                            ),
-                                        
-                                        
-                                      ),
+                            ),        
+                          ),
                         ),
                   
                         
@@ -471,7 +469,4 @@ bool isLoading = false;
     return Future.value(true);
   }
 
-  ///
-
-  ///////////////////////////
 }

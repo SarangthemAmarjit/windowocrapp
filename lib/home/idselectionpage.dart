@@ -520,8 +520,8 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
 
                                 //demo
-                            mngctrl.addPermit(dummyVisitorEntrys);
-                            imgcon.demoImage();
+                            // mngctrl.addPermit(dummyVisitorEntrys);
+                            // imgcon.demoImage();
                                   if( mngctrl.getPermit?.idProof == "Aadhaar Card"){
 
 

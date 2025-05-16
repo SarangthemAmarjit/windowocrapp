@@ -41,7 +41,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
           hs: _permit?.applcntHNo??"",
           permitType: _permit?.entryType??"",
           placeOfStay: _permit?.placeOfStay??"",
-          validUpto: DateTime.now().add(Duration(days: (int.tryParse(_permit?.residingPeriod??"30")??30)-1))
+          validUpto: DateTime.now().add(Duration(days: (int.tryParse(_permit?.residingPeriod??"30")??30)))
        );
   }
 
@@ -193,7 +193,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                                                 .code128(), // Barcode format
                                                             data:
                                                                 '${widget.applicantId}',
-                                                            width: mmToDp(40),
+                                                            width: mmToDp(50),
                                                             height: mmToDp(20),
                                                             drawText: true,
                                                             
@@ -297,9 +297,9 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                               
                                           Row(
                                             children: [
-                                              Text('Date of Issue:\n${getDate(dateTime:d?.dateOfIssue?.toIso8601String() )}',style: TextStyle(fontSize:24,color: Colors.black),),
+                                              Text('Date of Issue:\n${getDate(dateTime:d?.dateOfIssue?.toIso8601String() )}',style: TextStyle(fontSize:22,color: Colors.black),),
                                               SizedBox(width: 30,),
-                                              Text('Date of Expiry:\n${getDate(dateTime:d?.validUpto?.toIso8601String() )}',style: TextStyle(fontSize:24,color: Colors.black)),
+                                              Text('Date of Expiry:\n${getDate(dateTime:d?.validUpto?.toIso8601String() )}',style: TextStyle(fontSize:22,color: Colors.black)),
                                             ],
                                           )
                                         ],
@@ -324,17 +324,15 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                                                 padding: const EdgeInsets.all(8.0),
                                                                 child: Column(
                                                                   children: [
+                                                                    SizedBox(height: 60,),
                                                                     Text("Receipt: #${widget.paymentResponse.orderId}",
                                                                         style:
-                                        TextStyle(fontSize: 36,
+                                        TextStyle(fontSize: 26,
                                                     color: Colors.black,
                                                     fontWeight:
                                                         FontWeight.bold)),
-                                                        Text("",style:
-                                        TextStyle(fontSize: 36,
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
+                                                
+                                       
                                                                   Divider(color: Colors.black,),
                                                                     Row(
                                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
