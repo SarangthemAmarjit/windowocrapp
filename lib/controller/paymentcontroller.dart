@@ -2,22 +2,20 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:math' as math;
 import 'dart:ui' as ui;
+
 import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/payment/PaymentPage.dart';
 import 'package:camera_windows_example/payment/atom_pay_helper.dart';
 import 'package:camera_windows_example/widgets/receiptpermit.dart';
+import 'package:cryptography/cryptography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
-import 'package:cryptography/cryptography.dart';
-import 'package:intl/intl.dart';
-
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../home/landingpage.dart';
 import '../models/paymentresponse.dart';
@@ -110,6 +108,7 @@ class GetxTapController extends GetxController {
 
   bool _ispaymentprocessstarted = false;
   bool get ispaymentprocessstarted => _ispaymentprocessstarted;
+
   @override
   void onwebviewcreated() {
     _isloading = true;
@@ -168,16 +167,14 @@ class GetxTapController extends GetxController {
   // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 //////////
 
- // merchant configuration data
+  // merchant configuration data
   final String login = "317157"; //"445842"; //mandatory
   final String password = 'Test@123'; //mandatory
   final String prodid = 'NSE'; //mandatory
   final String requestHashKey = 'KEY123657234'; //mandatory
   final String responseHashKey = 'KEYRESP123657234'; //mandatory
-  final String requestEncryptionKey =
-      'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
-  final String responseDecryptionKey =
-      '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+  final String requestEncryptionKey = 'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+  final String responseDecryptionKey = '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
   // final String txnid =
   //     'test240223'; // mandatory // this should be unique each time
   final String clientcode = "NAVIN"; //mandatory
@@ -206,17 +203,13 @@ class GetxTapController extends GetxController {
   static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
 
   final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
-  final String paymentDomainURL= "https://caller.atomtech.in/ots/aipay/auth"; // uat
+  final String paymentDomainURL = "https://caller.atomtech.in/ots/aipay/auth"; // uat
   // final String auth_API_url =
   //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
-  final String returnUrl =
-      "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
+  final String returnUrl = "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
   // // // final String returnUrl =
   // // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
-
-
-
 
   final String payDetails = '';
 
@@ -224,8 +217,7 @@ class GetxTapController extends GetxController {
   final salt = Uint8List.fromList(utf8.encode(req_Salt));
   final resPassword = Uint8List.fromList(utf8.encode(res_DecKey));
   final resSalt = Uint8List.fromList(utf8.encode(res_Salt));
-  final iv = Uint8List.fromList(
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+  final iv = Uint8List.fromList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
 
   Future<String> encrypt22(String text) async {
     debugPrint('Input text for encryption: $text');
@@ -242,8 +234,7 @@ class GetxTapController extends GetxController {
         nonce: salt, // Salt value
       );
 
-      final keyBytes = (await derivedKey.extractBytes())
-          .sublist(0, 16); // Extract 128-bit key
+      final keyBytes = (await derivedKey.extractBytes()).sublist(0, 16); // Extract 128-bit key
       debugPrint(
           'Derived AES key: ${keyBytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join()}');
 
@@ -258,9 +249,8 @@ class GetxTapController extends GetxController {
         nonce: iv,
       );
 
-      final encryptedHex = secretBox.cipherText
-          .map((b) => b.toRadixString(16).padLeft(2, '0'))
-          .join();
+      final encryptedHex =
+          secretBox.cipherText.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
       debugPrint('Encrypted output (hex): $encryptedHex');
 
       return encryptedHex;
@@ -300,9 +290,7 @@ class GetxTapController extends GetxController {
         nonce: iv,
       );
 
-      final hexOutput = secretBox.cipherText
-          .map((b) => b.toRadixString(16).padLeft(2, '0'))
-          .join();
+      final hexOutput = secretBox.cipherText.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
       debugPrint('Encrypted hex output: $hexOutput');
       return hexOutput;
     } catch (e, stackTrace) {
@@ -391,8 +379,7 @@ class GetxTapController extends GetxController {
       required String name,
       required String amount,
       required String address}) async {
-    String reqJsonData =
-        _getJsonPayloadData(name: name, amount: amount, address: address);
+    String reqJsonData = _getJsonPayloadData(name: name, amount: amount, address: address);
     debugPrint(reqJsonData);
 
     try {
@@ -417,14 +404,11 @@ class GetxTapController extends GetxController {
         log('200');
         var authApiResponse = await response.stream.bytesToString();
         final split = authApiResponse.trim().split('&');
-        final Map<int, String> values = {
-          for (int i = 0; i < split.length; i++) i: split[i]
-        };
+        final Map<int, String> values = {for (int i = 0; i < split.length; i++) i: split[i]};
         try {
           final splitTwo = values[1]!.split('=');
           if (splitTwo[0] == 'encData') {
-            final encDataPart =
-                split.firstWhere((element) => element.startsWith('encData'));
+            final encDataPart = split.firstWhere((element) => element.startsWith('encData'));
             final encryptedData = encDataPart.split('=')[1];
             final extractedData = ['encData', encryptedData];
             try {
@@ -438,8 +422,7 @@ class GetxTapController extends GetxController {
                 // debugPrint("atomTokenId: $_atomTokenId");
                 final String payDetails =
                     '{"atomTokenId" : "$_atomTokenId","merchId": "$login","emailId": "ffdsf@gmail.com","mobileNumber":"+913245672452", "returnUrl":"$returnUrl"}';
-                _openNdpsPG(payDetails, context, responseHashKey,
-                    responseDecryptionKey);
+                _openNdpsPG(payDetails, context, responseHashKey, responseDecryptionKey);
               } else {
                 debugPrint("Problem in auth API response");
               }
@@ -466,10 +449,8 @@ class GetxTapController extends GetxController {
     }
   }
 
-  _openNdpsPG(payDetails, BuildContext context, responseHashKey,
-      responseDecryptionKey) {
-    Get.to(PaymentFinalPage(
-        mode, payDetails, responseHashKey, responseDecryptionKey));
+  _openNdpsPG(payDetails, BuildContext context, responseHashKey, responseDecryptionKey) {
+    Get.to(PaymentFinalPage(mode, payDetails, responseHashKey, responseDecryptionKey));
     //     .whenComplete(() {
     //   _ispaymentprocessstarted = false;
     //   update();
@@ -481,20 +462,18 @@ class GetxTapController extends GetxController {
     if (s != null) {
       GlobalKey key = GlobalKey();
       Get.dialog(AlertDialog(
-        content: RepaintBoundary(
-            key: key, child: ReceiptWidget(applicantName: "", applicantId: s)),
+        content: RepaintBoundary(key: key, child: ReceiptWidget(applicantName: "", applicantId: s)),
       ));
       await Future.delayed(Duration(seconds: 2));
       RenderRepaintBoundary boundary =
           key.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
       print("nav Keys image in save receipt");
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List barcodes = byteData!.buffer.asUint8List();
       Get.back();
       try {
-        printUsbReceiptWindows(barcodes, s,"The online payment failed to process");
+        printUsbReceiptWindows(barcodes, s, "The online payment failed to process");
       } catch (e) {
         print("Printere Exception");
       }
@@ -505,8 +484,7 @@ class GetxTapController extends GetxController {
     }
   }
 
-  _getJsonPayloadData(
-      {required String name, required String amount, required String address}) {
+  _getJsonPayloadData({required String name, required String amount, required String address}) {
     var payDetails = {};
     payDetails['login'] = login;
     payDetails['password'] = password;
@@ -627,9 +605,13 @@ class GetxTapController extends GetxController {
 
     try {
       print("In payment amount : $amount");
-      Payment p = Payment(paymentId: transactionid,status: remark,amount: double.tryParse(amount)??100,method: "DC");
-     await Get.find<Managementcontroller>().addPayments(p,key);
-                                                        
+      Payment p = Payment(
+          paymentId: transactionid,
+          status: remark,
+          deviceId: 1,
+          amount: double.tryParse(amount) ?? 100,
+          method: "DC");
+      await Get.find<Managementcontroller>().addPayments(p, key);
     } catch (e) {
       _ispaymentinfosend = false;
       update();

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
@@ -7,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
+
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
-import 'widgets/dummy.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,15 +35,27 @@ class MyApp extends StatelessWidget {
       scrollBehavior: NoScrollbarBehavior(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              visualDensity: VisualDensity.standard,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white,
+              textStyle: GoogleFonts.robotoCondensedTextTheme().bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ),
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorSchemeSeed: Colors.white),
       home: LandingPage(),
-    // home: MyWidget()
+      // home: MyWidget()
       // home:PermitGenerateWidget(applicantId: "123485986768"),
     );
   }
 }
- 
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -54,6 +67,7 @@ class MyHttpOverrides extends HttpOverrides {
       };
   }
 }
+
 class NoScrollbarBehavior extends ScrollBehavior {
   @override
   Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {

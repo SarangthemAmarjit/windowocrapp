@@ -1,19 +1,18 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'dart:developer';
 import 'dart:io';
-
-import 'dart:developer' as dev;
 import 'dart:ui' as ui;
-import 'package:camera_windows_example/cons/printimages.dart';
-import 'package:flutter/rendering.dart';
 
-import 'package:uuid/uuid.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:crop_image/crop_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
+import 'package:uuid/uuid.dart';
 
 import 'pagecontroller.dart';
 
@@ -76,26 +75,23 @@ class Imagecontroller extends GetxController {
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
     _fetchCameras();
-
-
+    demoImage();
   }
 
-
-Future<Uint8List> assetImageToUint8List(String path) async {
-  final byteData = await rootBundle.load(path); // Load asset
-  return byteData.buffer.asUint8List(); // Convert to Uint8List
-}
-
+  Future<Uint8List> assetImageToUint8List(String path) async {
+    final byteData = await rootBundle.load(path); // Load asset
+    return byteData.buffer.asUint8List(); // Convert to Uint8List
+  }
 
   Future<void> demoImage() async {
-        profileImage = await assetImageToUint8List('assets/images/ilplogo.png');
-        frontImages = await assetImageToUint8List('assets/images/ilplogo.png');
-        backImages = await assetImageToUint8List('assets/images/ilplogo.png');
-        idCardimage = await assetImageToUint8List('assets/images/ilplogo.png');
-      
-        signature = await assetImageToUint8List('assets/images/ilplogo.png');
-        
-        update();   
+    profileImage = await assetImageToUint8List('assets/images/ilplogo.png');
+    frontImages = await assetImageToUint8List('assets/images/ilplogo.png');
+    backImages = await assetImageToUint8List('assets/images/ilplogo.png');
+    idCardimage = await assetImageToUint8List('assets/images/ilplogo.png');
+
+    signature = await assetImageToUint8List('assets/images/ilplogo.png');
+
+    update();
   }
 
   @override
@@ -117,11 +113,10 @@ Future<Uint8List> assetImageToUint8List(String path) async {
     iscardProcess = true;
     update();
     try {
-      RenderRepaintBoundary boundary = _globalKey.currentContext!
-          .findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       idCardimage = byteData!.buffer.asUint8List();
 
       Get.back();
@@ -140,19 +135,18 @@ Future<Uint8List> assetImageToUint8List(String path) async {
     // await file.writeAsBytes(pngBytes);
   }
 
-  Future<void> saveReceipt(GlobalKey _globalKey, String applicantId,String reason) async {
+  Future<void> saveReceipt(GlobalKey _globalKey, String applicantId, String reason) async {
     iscardProcess = true;
     update();
     try {
-      RenderRepaintBoundary boundary = _globalKey.currentContext!
-          .findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
       print("nav Keys image in save receipt");
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
 
-      printUsbReceiptWindows(receipt!, applicantId,reason);
+      printUsbReceiptWindows(receipt!, applicantId, reason);
     } on Exception catch (e) {
       print("failed to save card image");
       // TODO
@@ -168,19 +162,17 @@ Future<Uint8List> assetImageToUint8List(String path) async {
     // await file.writeAsBytes(pngBytes);
   }
 
-
   Future<void> saveReceiptimages(GlobalKey _globalKey) async {
     iscardProcess = true;
     update();
     try {
-      RenderRepaintBoundary boundary = _globalKey.currentContext!
-          .findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
       print("nav Keys image in save receipt");
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
-      printUsbReceiptWindowsimages (receipt!);
+      printUsbReceiptWindowsimages(receipt!);
     } on Exception catch (e) {
       print("failed to save card image");
       // TODO
@@ -197,18 +189,16 @@ Future<Uint8List> assetImageToUint8List(String path) async {
   }
 
   Future<Uint8List> rotateImage(Uint8List uint8list, int angle) async {
-  // Decode the image from Uint8List
-  img.Image? image = await img.decodeImage(uint8list);
-  if (image == null) return uint8list; // Return original if decoding fails
+    // Decode the image from Uint8List
+    img.Image? image = await img.decodeImage(uint8list);
+    if (image == null) return uint8list; // Return original if decoding fails
 
-  // Rotate the image
-  img.Image rotatedImage = await img.copyRotate(image, angle);
+    // Rotate the image
+    img.Image rotatedImage = await img.copyRotate(image, angle);
 
-  // Encode back to Uint8List
-  return Uint8List.fromList(img.encodePng(rotatedImage));
-}
-
-
+    // Encode back to Uint8List
+    return Uint8List.fromList(img.encodePng(rotatedImage));
+  }
 
   /// Fetches list of available cameras from camera_windows plugin.
   Future<void> _fetchCameras() async {
@@ -357,9 +347,8 @@ Future<Uint8List> assetImageToUint8List(String path) async {
             children: [
               Container(
                 height: 300,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all()),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all()),
                 // constraints: const BoxConstraints(
                 //     maxHeight: 120, maxWidth: 160),
                 child: Center(
@@ -384,8 +373,7 @@ Future<Uint8List> assetImageToUint8List(String path) async {
                   children: [
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                       icon: Icon(
                         Icons.repeat,
                       ),
@@ -447,8 +435,7 @@ Future<Uint8List> assetImageToUint8List(String path) async {
           ),
         ),
       ),
-      barrierDismissible:
-          false, // Prevent the dialog from closing when tapping outside
+      barrierDismissible: false, // Prevent the dialog from closing when tapping outside
     );
   }
 
@@ -485,8 +472,6 @@ Future<Uint8List> assetImageToUint8List(String path) async {
               ele.name.toString().toLowerCase().contains('logi') ||
               ele.name.toString().toLowerCase().contains('integrated camera'));
           update();
-
-
         } else {
           await CameraPlatform.instance.dispose(_cameraId);
           cameraIndex = _allavailablecameras.indexWhere((ele) =>
@@ -505,14 +490,12 @@ Future<Uint8List> assetImageToUint8List(String path) async {
         );
 
         unawaited(_errorStreamSubscription?.cancel());
-        _errorStreamSubscription = CameraPlatform.instance
-            .onCameraError(cameraId)
-            .listen(_onCameraError);
+        _errorStreamSubscription =
+            CameraPlatform.instance.onCameraError(cameraId).listen(_onCameraError);
 
         unawaited(_cameraClosingStreamSubscription?.cancel());
-        _cameraClosingStreamSubscription = CameraPlatform.instance
-            .onCameraClosing(cameraId)
-            .listen(_onCameraClosing);
+        _cameraClosingStreamSubscription =
+            CameraPlatform.instance.onCameraClosing(cameraId).listen(_onCameraClosing);
 
         final Future<CameraInitializedEvent> initialized =
             CameraPlatform.instance.onCameraInitialized(cameraId).first;
@@ -558,10 +541,10 @@ Future<Uint8List> assetImageToUint8List(String path) async {
     }
   }
 
-  Future<void> initializeCameraAgain(
-      {required bool isfront,
-      required bool isback,
-      required bool isprofilecam,
+  Future<void> initializeCameraAgain({
+    required bool isfront,
+    required bool isback,
+    required bool isprofilecam,
   }) async {
     int cameraIndex = 0;
 
@@ -586,11 +569,11 @@ Future<Uint8List> assetImageToUint8List(String path) async {
               ele.name.toString().toLowerCase().contains('webcam') ||
               ele.name.toString().toLowerCase().contains('logi') ||
               ele.name.toString().toLowerCase().contains('integrated camera'));
-          
+
           update();
         } else {
-          cameraIndex = _allavailablecameras.indexWhere(
-              (ele) => ele.name.toString().toLowerCase().contains('czur'));
+          cameraIndex = _allavailablecameras
+              .indexWhere((ele) => ele.name.toString().toLowerCase().contains('czur'));
           update();
         }
 
@@ -602,14 +585,12 @@ Future<Uint8List> assetImageToUint8List(String path) async {
         );
 
         unawaited(_errorStreamSubscription?.cancel());
-        _errorStreamSubscription = CameraPlatform.instance
-            .onCameraError(cameraId)
-            .listen(_onCameraError);
+        _errorStreamSubscription =
+            CameraPlatform.instance.onCameraError(cameraId).listen(_onCameraError);
 
         unawaited(_cameraClosingStreamSubscription?.cancel());
-        _cameraClosingStreamSubscription = CameraPlatform.instance
-            .onCameraClosing(cameraId)
-            .listen(_onCameraClosing);
+        _cameraClosingStreamSubscription =
+            CameraPlatform.instance.onCameraClosing(cameraId).listen(_onCameraClosing);
 
         final Future<CameraInitializedEvent> initialized =
             CameraPlatform.instance.onCameraInitialized(cameraId).first;
@@ -674,31 +655,25 @@ Future<Uint8List> assetImageToUint8List(String path) async {
       // Calculate cropping rectangle based on `defaultCrop`
       final int x = (defaultCrop.left * imageWidth).toInt();
       final int y = (defaultCrop.top * imageHeight).toInt();
-      final int cropWidth =
-          ((defaultCrop.right - defaultCrop.left) * imageWidth).toInt();
-      final int cropHeight =
-          ((defaultCrop.bottom - defaultCrop.top) * imageHeight).toInt();
+      final int cropWidth = ((defaultCrop.right - defaultCrop.left) * imageWidth).toInt();
+      final int cropHeight = ((defaultCrop.bottom - defaultCrop.top) * imageHeight).toInt();
 
       // Ensure the crop respects the aspect ratio
       final int adjustedCropHeight = (cropWidth / aspectRatio).toInt();
       final int adjustedCropWidth = (cropHeight * aspectRatio).toInt();
 
       // Adjust the final crop dimensions
-      final finalWidth =
-          cropWidth < adjustedCropWidth ? cropWidth : adjustedCropWidth;
-      final finalHeight =
-          cropHeight < adjustedCropHeight ? cropHeight : adjustedCropHeight;
+      final finalWidth = cropWidth < adjustedCropWidth ? cropWidth : adjustedCropWidth;
+      final finalHeight = cropHeight < adjustedCropHeight ? cropHeight : adjustedCropHeight;
 
       // Crop the image
-      final cropped =
-          img.copyCrop(originalImage, x, y, finalWidth, finalHeight);
+      final cropped = img.copyCrop(originalImage, x, y, finalWidth, finalHeight);
 
       // Encode the cropped image back to PNG or JPG
       final croppedBytes = img.encodePng(cropped);
 
 // Generate a unique file name
-      final uniqueFileName =
-          'cropped_image_${Uuid().v4()}.png'; // Using UUID for uniqueness
+      final uniqueFileName = 'cropped_image_${Uuid().v4()}.png'; // Using UUID for uniqueness
       final tempDir = Directory.systemTemp;
       final croppedFilePath = '${tempDir.path}/$uniqueFileName';
       final croppedFile = File(croppedFilePath);
@@ -734,8 +709,6 @@ Future<Uint8List> assetImageToUint8List(String path) async {
       }
     }
   }
-
-
 
   Future<void> takePicture() async {
     PagenavControllers pngcon = Get.put(PagenavControllers());
@@ -775,8 +748,7 @@ Future<Uint8List> assetImageToUint8List(String path) async {
       RenderRepaintBoundary boundary =
           prokey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       profileImage = byteData!.buffer.asUint8List();
 
       Get.back();
@@ -796,8 +768,7 @@ Future<Uint8List> assetImageToUint8List(String path) async {
       RenderRepaintBoundary boundary =
           docKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
       if (isFront) {
         frontImages = byteData!.buffer.asUint8List();
@@ -818,15 +789,17 @@ Future<Uint8List> assetImageToUint8List(String path) async {
   Future<void> retakeImage() async {
     profileImage = null;
     log('isinitialised:  ${isinitialized}');
-    if(isinitialized==false){
-    await  initializeCameraAgain(isfront: false, isback: false, isprofilecam: true);
-    } 
+    if (isinitialized == false) {
+      await initializeCameraAgain(isfront: false, isback: false, isprofilecam: true);
+    }
     update();
   }
+
   void retakeSignature() {
     signature = null;
     update();
   }
+
   Widget buildPreview() {
     return CameraPlatform.instance.buildPreview(_cameraId);
   }
@@ -836,15 +809,13 @@ Future<Uint8List> assetImageToUint8List(String path) async {
     update();
   }
 
-
-  void retakeIdDocument(bool isFront){
+  void retakeIdDocument(bool isFront) {
     _isFrontcapturebuttonpress = isFront;
-      if(isFront){
-        frontImages = null;
-        
-      }else{
-        backImages = null;
-      }
-      update();
+    if (isFront) {
+      frontImages = null;
+    } else {
+      backImages = null;
+    }
+    update();
   }
 }

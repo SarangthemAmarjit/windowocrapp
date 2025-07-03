@@ -5,6 +5,7 @@ class Payment {
   final String method;
   final String status;
   final double amount;
+  final int? deviceId;
   String? transactionDate;
 
   Payment({
@@ -12,7 +13,8 @@ class Payment {
     required this.method,
     required this.status,
     required this.amount,
-   this.transactionDate,
+    required this.deviceId,
+    this.transactionDate,
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class Payment {
       method: json['Method'],
       status: json['Status'],
       amount: json['Amount'],
+      deviceId: json['DeviceId'],
       transactionDate: json['TransactionDate'],
     );
   }
@@ -30,15 +33,15 @@ class Payment {
       'PaymentId': paymentId,
       'Method': method,
       'Status': status.toUpperCase(),
+      'DeviceId': deviceId,
       // 'Status': 'Success'.toUpperCase(),
-      'Amount': amount  // 'TransactionDate': transactionDate,
+      'Amount': amount // 'TransactionDate': transactionDate,
     };
   }
 
   @override
   String toString() => jsonEncode(toJson());
 }
-
 
 class PaymentResponse {
   final String permitType;
@@ -114,5 +117,3 @@ class PaymentResponse {
   @override
   String toString() => jsonEncode(toJson());
 }
-
-

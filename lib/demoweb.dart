@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:camera_windows_example/widgets/customkeys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -113,12 +111,10 @@ class _WebViewPageState extends State<WebViewPage> {
                 debugPrint('Failed to load $url: $message');
               },
               onJsAlert: (controller, jsAlertRequest) async {
-                return await JsAlertResponse(
-                    action: JsAlertResponseAction.fromNativeValue(10));
+                return await JsAlertResponse(action: JsAlertResponseAction.fromNativeValue(10));
               },
               onConsoleMessage: (controller, consoleMessage) {
-                debugPrint(
-                    "Console Message: ${consoleMessage.message}"); // Log console messages
+                debugPrint("Console Message: ${consoleMessage.message}"); // Log console messages
               },
             ),
           ),

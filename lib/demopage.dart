@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'widgets/webtouchwrapper.dart';
 
@@ -36,7 +33,6 @@ class _WebViewPageState extends State<WebViewPage> {
           Expanded(
             child: WebviewTouchWrapper(
               child: InAppWebView(
-                
                 initialUrlRequest: URLRequest(
                   url: WebUri("https://google.com"),
                 ),
