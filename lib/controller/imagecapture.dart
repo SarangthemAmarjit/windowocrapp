@@ -75,7 +75,7 @@ class Imagecontroller extends GetxController {
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
     _fetchCameras();
-    demoImage();
+    // demoImage();
   }
 
   Future<Uint8List> assetImageToUint8List(String path) async {

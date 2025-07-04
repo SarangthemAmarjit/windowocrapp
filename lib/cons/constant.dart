@@ -48,12 +48,7 @@ List<String> states = [
   "West Bengal"
 ];
 
-final List<String> documentTypes = [
-  'Driving License',
-  'Passport',
-  'Aadhaar Card',
-  'Pan Card'
-];
+final List<String> documentTypes = ['Driving License', 'Passport', 'Aadhaar Card', 'Pan Card'];
 
 List<String> termcondition = [
   "a)I shall be responsible for the good conduct during my stay in the state of Manipur.",
@@ -75,9 +70,6 @@ Map<String, dynamic> paymentmethod = {
   "UP": "Unified Payment Interface",
 };
 
-
-
-
 List<String> districts = [
   "Senapati",
   "Imphal East",
@@ -96,8 +88,6 @@ List<String> districts = [
   "Kakching",
   "Kamjong",
 ];
-
-
 
 final dummyVisitorEntrys = VisitorEntry()
   ..idProof = 'Aadhar Card'

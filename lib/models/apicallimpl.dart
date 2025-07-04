@@ -132,45 +132,60 @@ class ApicallImpl extends ApiCall {
 
   @override
   Future<List<Gate>> getAllGates() async {
-    final response = await http.get(headers: {
-      'X-Key': key,
-    }, Uri.parse("$localapi/api/kiosk/getactivegates"));
-    print("In response gates ");
-    if (response.statusCode == 200) {
-      print(response.body);
-      final respo = jsonDecode(response.body) as List<dynamic>;
-      return respo.map((e) => Gate.fromJson(e)).toList(); // Parsing JSON
-    } else {
-      print(response.statusCode);
+    try {
+      final response = await http.get(headers: {
+        'X-Key': key,
+      }, Uri.parse("$localapi/api/kiosk/getactivegates"));
+      print("In response gates:  ");
+      if (response.statusCode == 200) {
+        print(response.body);
+        final respo = jsonDecode(response.body) as List<dynamic>;
+        return respo.map((e) => Gate.fromJson(e)).toList(); // Parsing JSON
+      } else {
+        print(response.statusCode);
+        return [];
+      }
+    } on Exception catch (e) {
       return [];
+      // TODO
     }
   }
 
   @override
   Future<List<String>> getDocumentType() async {
-    final response = await http.get(Uri.parse("$localapi/api/kiosk/getallidtype"), headers: {
-      'X-Key': key,
-    });
-    print("In response");
-    if (response.statusCode == 200) {
-      print(response.body);
-      final respo = jsonDecode(response.body) as List<dynamic>;
-      return respo.map((e) => e.toString()).toList(); // Parsing JSON
-    } else {
+    try {
+      final response = await http.get(Uri.parse("$localapi/api/kiosk/getallidtype"), headers: {
+        'X-Key': key,
+      });
+      print("In response");
+      if (response.statusCode == 200) {
+        print(response.body);
+        final respo = jsonDecode(response.body) as List<dynamic>;
+        return respo.map((e) => e.toString()).toList(); // Parsing JSON
+      } else {
+        return [];
+      }
+    } on Exception catch (e) {
       return [];
+      // TODO
     }
   }
 
   @override
   Future<List<PermitPriceModel>> getallpremitprice() async {
-    final response = await http.get(Uri.parse("$localapi/api/kiosk/getallfees"), headers: {
-      'X-Key': key,
-    });
-    if (response.statusCode == 200) {
-      print(response.body);
-      final respo = jsonDecode(response.body) as List<dynamic>;
-      return respo.map((e) => PermitPriceModel.fromJson(e)).toList(); // Parsing JSON
-    } else {
+    try {
+      final response = await http.get(Uri.parse("$localapi/api/kiosk/getallfees"), headers: {
+        'X-Key': key,
+      });
+      if (response.statusCode == 200) {
+        print(response.body);
+        final respo = jsonDecode(response.body) as List<dynamic>;
+        return respo.map((e) => PermitPriceModel.fromJson(e)).toList(); // Parsing JSON
+      } else {
+        return [];
+      }
+    } on Exception catch (e) {
+      // TODO
       return [];
     }
   }

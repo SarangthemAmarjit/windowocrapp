@@ -5,7 +5,8 @@ class Payment {
   final String method;
   final String status;
   final double amount;
-  final int? deviceId;
+  int? deviceId;
+  int? gateId;
   String? transactionDate;
 
   Payment({
@@ -14,6 +15,7 @@ class Payment {
     required this.status,
     required this.amount,
     required this.deviceId,
+    this.gateId,
     this.transactionDate,
   });
 
@@ -24,6 +26,7 @@ class Payment {
       status: json['Status'],
       amount: json['Amount'],
       deviceId: json['DeviceId'],
+      gateId: json[' '],
       transactionDate: json['TransactionDate'],
     );
   }
@@ -34,6 +37,7 @@ class Payment {
       'Method': method,
       'Status': status.toUpperCase(),
       'DeviceId': deviceId,
+      'GateId': gateId,
       // 'Status': 'Success'.toUpperCase(),
       'Amount': amount // 'TransactionDate': transactionDate,
     };

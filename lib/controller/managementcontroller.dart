@@ -381,7 +381,16 @@ class Managementcontroller extends GetxController {
   }
 
   Future<void> addPayments(Payment pays, GlobalKey key) async {
-    PaymentResponse? payres = await apicall.sendPayment(pays);
+    Payment payment = Payment(
+        paymentId: pays.paymentId,
+        method: pays.method,
+        status: pays.status,
+        amount: pays.amount,
+        deviceId: int.tryParse(deviceId!) ?? 0,
+        gateId: int.tryParse(gateId!));
+    print(payment.toJson().toString());
+
+    PaymentResponse? payres = await apicall.sendPayment(payment);
 
     if (payres != null && payres.permitNo.isNotEmpty) {
       paymentresult = payres;

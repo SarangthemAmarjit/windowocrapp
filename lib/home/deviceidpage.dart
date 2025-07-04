@@ -1,11 +1,8 @@
 import 'dart:io';
 
 import 'package:camera_windows_example/controller/managementcontroller.dart';
-import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../widgets/customkeys.dart';
 
 class ConfigSaverWidget extends StatefulWidget {
   const ConfigSaverWidget({super.key});
@@ -16,27 +13,8 @@ class ConfigSaverWidget extends StatefulWidget {
 
 class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
   final TextEditingController _deviceIdController = TextEditingController();
-  final TextEditingController _gateIdController = TextEditingController();
-
-  Map<String, TextEditingController>? controllers;
-
-  final _focusNodes = {
-    'deviceid': FocusNode(),
-    'gateid': FocusNode(),
-    // 'idNo': FocusNode(),
-    // 'email': FocusNode(),
-    // 'mobile': FocusNode(),
-    // 'placeStay': FocusNode(),
-    // 'visitPurpose': FocusNode(),
-    // 'nearestPolice': FocusNode(),
-    // 'village': FocusNode(),
-    // 'district': FocusNode(),
-    // 'tehsil': FocusNode(),
-    // 'localPincode': FocusNode(),
-    // 'localPoliceStation': FocusNode(),
-    // 'localResidenceName': FocusNode(),
-  };
-
+  String gateId = "";
+  String gatename = "";
   late final Future<void> _loadFuture;
 
   @override
@@ -48,7 +26,6 @@ class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
   @override
   void dispose() {
     _deviceIdController.dispose();
-    _gateIdController.dispose();
     // TODO: implement dispose
     super.dispose();
   }
@@ -59,7 +36,6 @@ class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
 
   Future<void> _saveToFile() async {
     final deviceId = _deviceIdController.text.trim();
-    final gateId = _gateIdController.text.trim();
 
     if (deviceId.isEmpty || gateId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -97,7 +73,7 @@ class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
           if (line.startsWith('device_id=')) {
             _deviceIdController.text = line.split('=')[1];
           } else if (line.startsWith('gate_id=')) {
-            _gateIdController.text = line.split('=')[1];
+            gateId = line.split('=')[1];
           }
         }
       }
@@ -106,78 +82,118 @@ class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
     }
   }
 
-  void _onKeyTap(String key) {
-    if (_activeField != null && controllers != null) {
-      if (_activeField == 'email') {
-        controllers![_activeField]!.text += key;
-      } else {
-        String d = controllers?[_activeField]?.text ?? "";
-        d += key;
-        controllers![_activeField]!.text = d.capitalize!;
-      }
-    }
-  }
-
-  void _onBackspace() {
-    if (_activeField != null && controllers != null) {
-      final controller = controllers![_activeField]!;
-      if (controller.text.isNotEmpty) {
-        controller.text = controller.text.substring(0, controller.text.length - 1);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _loadFuture,
-      builder: (context, snapshot) {
-        return Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600, minHeight: 400),
-            child: Container(
-              padding: EdgeInsets.all(32),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('First Time Installation'),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Text('Please enter configuration file'),
-                    TextFieldWidget(
-                      controller: _deviceIdController,
-                      label: 'Device ID',
-                    ),
-                    TextFieldWidget(
-                      controller: _gateIdController,
-                      label: 'Gate ID',
-                    ),
-                    const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: _saveToFile,
-                      child: Center(child: const Text('Save Config')),
-                    ),
-                    CustomKeyboard(
-                      onKeyTap: _onKeyTap,
-                      onBackspace: _onBackspace,
-                      onToggle: _toggleKeyboard,
-                      isAlpha: !isKeyboardnum,
-                    ),
-                  ],
+    return GetBuilder<Managementcontroller>(builder: (mngctrl) {
+      return FutureBuilder(
+        future: _loadFuture,
+        builder: (context, snapshot) {
+          return Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 600, minHeight: 400),
+              child: Container(
+                padding: EdgeInsets.all(32),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.install_desktop),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            'First Time Installation',
+                            style: TextTheme.of(context)
+                                .bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.bold, fontSize: 24),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        'Before continuing the application please set Device Id and Gate Id for the application.\n  > Device ID must be unique for all kiosk devices.\n  > Gate Id is the unique Id assign to each ILP Gates.',
+                        style: TextTheme.of(context).bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey[600]),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        'Please enter configuration file'.capitalize!,
+                        style: TextTheme.of(context).bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Enter Device Id'),
+                                TextField(
+                                  controller: _deviceIdController,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Select Gate "),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                DropdownButton(
+                                  hint: Text(gatename),
+                                  items: mngctrl.getAllgate
+                                      .map((e) => DropdownMenuItem(
+                                            value: e,
+                                            child: Text(e.name),
+                                          ))
+                                      .toList(),
+                                  onChanged: (v) {
+                                    setState(() {
+                                      gateId = v!.id;
+                                      gatename = v.name;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton(
+                        onPressed: _saveToFile,
+                        child: Center(child: const Text('Save & Continue')),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    });
   }
 }

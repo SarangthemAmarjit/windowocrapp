@@ -1,0 +1,2 @@
+device_id=3
+gate_id=7
