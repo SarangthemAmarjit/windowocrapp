@@ -1287,6 +1287,12 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   if (s != null) {
                                                     mngctrl.setOnlineApplId(s);
                                                     gcontroller.initNdpsPayment(
+                                                      email: mngctrl.getPermit
+                                                              ?.applcntEmail ??
+                                                          "",
+                                                      number: mngctrl.getPermit
+                                                              ?.applcntMobile ??
+                                                          "",
                                                       transId: mngctrl.getPermit
                                                               ?.transactionId ??
                                                           "",

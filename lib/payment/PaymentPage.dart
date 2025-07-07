@@ -215,6 +215,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                                   "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
                                                                   "userAgent": "mobile_webView"
                                                                 };
+                                                                
                                                                 new AtomPaynetz(options, 'uat');
                                                               }
                                                               document.addEventListener('DOMContentLoaded', openPay);
@@ -448,6 +449,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                             transactionid:
                                                                 gcontroller
                                                                     .transacid,
+                                                            paymentmethod:
+                                                                paymentmethodname,
                                                             remark: remark);
 
                                                     Get.off(

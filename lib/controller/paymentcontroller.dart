@@ -173,8 +173,10 @@ class GetxTapController extends GetxController {
   // final String prodid = 'NSE'; //mandatory
   // final String requestHashKey = 'KEY123657234'; //mandatory
   // final String responseHashKey = 'KEYRESP123657234'; //mandatory
-  // final String requestEncryptionKey = 'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
-  // final String responseDecryptionKey = '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+  // final String requestEncryptionKey =
+  //     'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+  // final String responseDecryptionKey =
+  //     '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
   // // final String txnid =
   // //     'test240223'; // mandatory // this should be unique each time
   // final String clientcode = "NAVIN"; //mandatory
@@ -203,11 +205,13 @@ class GetxTapController extends GetxController {
   // static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
 
   // final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
-  // final String paymentDomainURL = "https://caller.atomtech.in/ots/aipay/auth"; // uat
+  // final String paymentDomainURL =
+  //     "https://caller.atomtech.in/ots/aipay/auth"; // uat
   // // final String auth_API_url =
   // //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
-  // final String returnUrl = "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
+  // final String returnUrl =
+  //     "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
   // // // final String returnUrl =
   // // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 
@@ -365,6 +369,8 @@ class GetxTapController extends GetxController {
       required String name,
       required String transId,
       required String amount,
+      required String email,
+      required String number,
       required String address}) {
     _ispaymentprocessstarted = true;
     gettransactionid(transId);
@@ -373,7 +379,8 @@ class GetxTapController extends GetxController {
         responseHashKey: responseHashKey,
         responseDecryptionKey: responseDecryptionKey,
         name: name,
-        // amount: amount,
+        email: email,
+        number: number,
         amount: amount,
         address: address);
   }
@@ -383,10 +390,17 @@ class GetxTapController extends GetxController {
       required String responseHashKey,
       required String responseDecryptionKey,
       required String name,
+      required String email,
+      required String number,
       required String amount,
       required String address}) async {
-    String reqJsonData =
-        _getJsonPayloadData(name: name, amount: amount, address: address);
+    String reqJsonData = _getJsonPayloadData(
+      name: name,
+      amount: amount,
+      address: address,
+      email: email,
+      number: number,
+    );
     debugPrint(reqJsonData);
 
     try {
@@ -394,14 +408,16 @@ class GetxTapController extends GetxController {
       String authEncryptedString = encDataR.toString();
       // here is result.toString() parameter you will receive encrypted string
       // debugPrint("generated encrypted string: '$authEncryptedString'");
-      _getAtomTokenId(context, authEncryptedString);
+      _getAtomTokenId(context, authEncryptedString,
+          email: email, number: number);
     } on PlatformException catch (e) {
       debugPrint("Failed to get encryption string: '${e.message}'.");
     }
   }
 
 //"https://caller.atomtech.in/ots/aipay/auth"
-  _getAtomTokenId(context, authEncryptedString) async {
+  _getAtomTokenId(context, authEncryptedString,
+      {required String email, required String number}) async {
     var request = http.Request('POST', Uri.parse(paymentDomainURL));
     request.bodyFields = {'encData': authEncryptedString, 'merchId': login};
 
@@ -431,7 +447,7 @@ class GetxTapController extends GetxController {
                 update();
                 // debugPrint("atomTokenId: $_atomTokenId");
                 final String payDetails =
-                    '{"atomTokenId" : "$_atomTokenId","merchId": "$login","emailId": "ffdsf@gmail.com","mobileNumber":"+913245672452", "returnUrl":"$returnUrl"}';
+                    '{"atomTokenId" : "$_atomTokenId","merchId": "$login","emailId": $email,"mobileNumber":$number, "returnUrl":"$returnUrl"}';
                 _openNdpsPG(payDetails, context, responseHashKey,
                     responseDecryptionKey);
               } else {
@@ -501,7 +517,11 @@ class GetxTapController extends GetxController {
   }
 
   _getJsonPayloadData(
-      {required String name, required String amount, required String address}) {
+      {required String name,
+      required String amount,
+      required String address,
+      required String email,
+      required String number}) {
     var payDetails = {};
     payDetails['login'] = login;
     payDetails['password'] = password;
@@ -509,9 +529,11 @@ class GetxTapController extends GetxController {
     payDetails['custFirstName'] = name;
     payDetails['custLastName'] = '';
     payDetails['amount'] = amount;
-    payDetails['mobile'] = '+913234656543';
+    // payDetails['mobile'] = '+913234656543';
+    payDetails['mobile'] = number;
     payDetails['address'] = address;
-    payDetails['email'] = 'fsdfs@gmail.com';
+    // payDetails['email'] = 'fsdfs@gmail.com';
+    payDetails['email'] = email;
     payDetails['txnid'] = _transacid;
     payDetails['custacc'] = custacc;
     payDetails['requestHashKey'] = requestHashKey;
@@ -611,12 +633,12 @@ class GetxTapController extends GetxController {
   //     print(e.toString());
   //   }
   // }
-  updatepaymentremark({
-    required String transactionid,
-    required String remark,
-    required GlobalKey key,
-    required String amount,
-  }) async {
+  updatepaymentremark(
+      {required String transactionid,
+      required String remark,
+      required GlobalKey key,
+      required String amount,
+      required String paymentmethod}) async {
     _isdownloadedfile = null;
     update();
 
@@ -627,7 +649,7 @@ class GetxTapController extends GetxController {
           status: remark,
           deviceId: 1,
           amount: double.tryParse(amount) ?? 100,
-          method: "DC");
+          method: paymentmethod);
       await Get.find<Managementcontroller>().addPayments(p, key);
     } catch (e) {
       _ispaymentinfosend = false;
