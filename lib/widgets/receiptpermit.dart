@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class ReceiptWidget extends StatelessWidget {
   final String applicantName;

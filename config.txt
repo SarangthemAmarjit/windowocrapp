@@ -1,0 +1,4 @@
+device_id=5
+gate_id=7
+ilpapi=
+printer=CUSTOM K80

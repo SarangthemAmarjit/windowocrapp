@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:typed_data';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 import '../../controller/pagecontroller.dart';
 import '../../widgets/bannercard.dart';
@@ -19,7 +20,6 @@ class PhotoSignaturePage extends StatefulWidget {
 }
 
 class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
-
   GlobalKey _profilekey = GlobalKey();
   final player = AudioPlayer();
   Uint8List? image;
@@ -31,13 +31,10 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     // loadcascade();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
-       if(Get.find<Imagecontroller>().profileImage==null){
-
-    initialise();
-    }
-   
+      if (Get.find<Imagecontroller>().profileImage == null) {
+        initialise();
+      }
     });
-
   }
 
   void playTimerSound(String audio) {
@@ -45,13 +42,11 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   }
 
   void initialise() async {
-          await Get.find<Imagecontroller>().initializeCameraAgain(
-          isfront: false, isback: false, isprofilecam: true
-        
-          );
-      if (Get.find<Imagecontroller>().isinitialized) {
-        countdownTimer();
-      }
+    await Get.find<Imagecontroller>()
+        .initializeCameraAgain(isfront: false, isback: false, isprofilecam: true);
+    if (Get.find<Imagecontroller>().isinitialized) {
+      countdownTimer();
+    }
     // if (Get.find<Imagecontroller>().isinitialized) {
     //   countdownTimer();
     // } else {
@@ -69,7 +64,6 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     super.dispose();
   }
 
-
   int timer = 0;
   var _sched;
   Future<void> countdownTimer() async {
@@ -80,17 +74,16 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
       (TabController) {
         setState(() {
           timer--;
-    
         });
-              if (timer <= 1) {
-            if (_sched != null) {
-              playTimerSound('camera.mp3');
-              Get.find<Imagecontroller>().takeprofilePicture(_profilekey);
-              _sched.cancel();
-            }
-          }else{
-                playTimerSound('dng.mp3');
+        if (timer <= 1) {
+          if (_sched != null) {
+            playTimerSound('camera.mp3');
+            Get.find<Imagecontroller>().takeprofilePicture(_profilekey);
+            _sched.cancel();
           }
+        } else {
+          playTimerSound('dng.mp3');
+        }
       },
     );
   }
@@ -111,9 +104,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(),
                     boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 5)
+                      BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 5)
                     ]),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,8 +114,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                     imgcon.profileImage != null
                         ? BannerContainer(
                             color: Colors.blue,
-                            text:
-                                "Check if your face fits within the frame. Retake if necessary.",
+                            text: "Check if your face fits within the frame. Retake if necessary.",
                           ).animate().fadeIn()
                         : Container(
                             padding: EdgeInsets.all(32),
@@ -136,8 +126,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                   )
                                 : Text(
                                     "Initializing Camera. Please Wait",
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.green),
+                                    style: TextStyle(fontSize: 20, color: Colors.green),
                                   )),
                     timer <= 1
                         ? SizedBox(
@@ -170,27 +159,27 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: ClipRRect(
-                                    //  borderRadius: BorderRadius.circular(10),
-                                    child: imgcon.profileImage != null
-                                        ? Image.memory(
-                                            fit: BoxFit.cover,
-                                            imgcon.profileImage!,
-                                          )
-                                        :imgcon.isinitialized
-                                ?  imgcon.buildPreview(): Center(
-                                    child: Icon(
-                                      Icons.camera,
-                                      color: Colors.grey,
-                                      size: 60,
-                                    ).animate(
-                                      onComplete: (controller) {
-                                        controller.repeat();
-                                      },
-                                    ).rotate(
-                                      duration: Duration(seconds: 2),
-                                    ),
-                                  ))
-                          ,
+                                //  borderRadius: BorderRadius.circular(10),
+                                child: imgcon.profileImage != null
+                                    ? Image.memory(
+                                        fit: BoxFit.cover,
+                                        imgcon.profileImage!,
+                                      )
+                                    : imgcon.isinitialized
+                                        ? imgcon.buildPreview()
+                                        : Center(
+                                            child: Icon(
+                                              Icons.camera,
+                                              color: Colors.grey,
+                                              size: 60,
+                                            ).animate(
+                                              onComplete: (controller) {
+                                                controller.repeat();
+                                              },
+                                            ).rotate(
+                                              duration: Duration(seconds: 2),
+                                            ),
+                                          )),
                           ),
                         ),
                         Positioned(
@@ -205,200 +194,108 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                   child: Text(
                                 '$timer',
                                 style: TextStyle(
-                                    fontSize: 200,
-                                    color: Colors.green.withValues(alpha: 0.6)),
+                                    fontSize: 200, color: Colors.green.withValues(alpha: 0.6)),
                               ).animate().fadeIn())),
                         ),
 
                         // Draw bounding boxes on top of the image
                       ],
-                    ).animate().fadeIn(
-                        duration: Duration(),
-                        delay: Duration(milliseconds: 200)),
+                    ).animate().fadeIn(duration: Duration(), delay: Duration(milliseconds: 200)),
 
                     SizedBox(
                       height: 20,
                     ),
 //
-                    imgcon.isinitialized || imgcon.profileImage!=null?
-
-                   timer>1?SizedBox(): Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () async {
-                             await imgcon.retakeImage();
-                                 
-                              countdownTimer();
-                              controller.listenPageChange();
-                            },
-                            child: Container(
-                              // margin: EdgeInsets.symmetric(horizontal: 16),
-                              width: double.infinity,
-                              padding: EdgeInsets.all(32),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                // borderRadius: BorderRadius.circular(8)
-                              ),
-                              clipBehavior: Clip.antiAlias,
-                              child: Center(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                    imgcon.isinitialized || imgcon.profileImage != null
+                        ? timer > 1
+                            ? SizedBox()
+                            : Row(
                                 children: [
-                                  Icon(
-                                    Icons.camera_sharp,
-                                    color: Colors.white,
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await imgcon.retakeImage();
+
+                                        countdownTimer();
+                                        controller.listenPageChange();
+                                      },
+                                      child: Container(
+                                        // margin: EdgeInsets.symmetric(horizontal: 16),
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(32),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          // borderRadius: BorderRadius.circular(8)
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Center(
+                                            child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.camera_sharp,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text(
+                                              "Retake",
+                                              style: TextStyle(color: Colors.white, fontSize: 24),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+                                    ),
                                   ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(
-                                    "Retake",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        controller.changePage(3);
+
+                                        // imgcon.initializeCamera(
+                                        //   isfront: true,
+                                        //   isback: false,
+                                        //   isprofilecam: false,
+                                        // );
+                                        controller.changePage(3);
+                                        controller.pageIncremeter(3);
+                                        controller.listenPageChange();
+                                      },
+                                      child: Container(
+                                        //  margin: EdgeInsets.symmetric(horizontal: 16),
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(32),
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          //  borderRadius: BorderRadius.circular(8)
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Center(
+                                            child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Proceed",
+                                              style: TextStyle(color: Colors.white, fontSize: 24),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Icon(
+                                              Icons.check,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+                                    ),
                                   ),
                                 ],
-                              )),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              controller.changePage(3);
-
-                              // imgcon.initializeCamera(
-                              //   isfront: true,
-                              //   isback: false,
-                              //   isprofilecam: false,
-                              // );
-                              controller.changePage(3);
-                              controller.pageIncremeter(3);
-                              controller.listenPageChange();
-                            },
-                            child: Container(
-                              //  margin: EdgeInsets.symmetric(horizontal: 16),
-                              width: double.infinity,
-                              padding: EdgeInsets.all(32),
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                //  borderRadius: BorderRadius.circular(8)
-                              ),
-                              clipBehavior: Clip.antiAlias,
-                              child: Center(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Proceed",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              )),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ).animate().fadeIn(
-                        duration: Duration(milliseconds: 1200),
-                        delay: Duration(milliseconds: 400))
-// // 
-                    :SizedBox(),
-
-                  // timer>1?SizedBox():  Row(
-                  //     children: [
-                  //       Expanded(
-                  //         child: InkWell(
-                  //           onTap: () {
-                  //             imgcon.retakeImage();
-                  //             countdownTimer();
-                  //             controller.listenPageChange();
-                  //           },
-                  //           child: Container(
-                  //             // margin: EdgeInsets.symmetric(horizontal: 16),
-                  //             width: double.infinity,
-                  //             padding: EdgeInsets.all(32),
-                  //             decoration: BoxDecoration(
-                  //               color: Colors.red,
-                  //               // borderRadius: BorderRadius.circular(8)
-                  //             ),
-                  //             clipBehavior: Clip.antiAlias,
-                  //             child: Center(
-                  //                 child: Row(
-                  //               mainAxisAlignment: MainAxisAlignment.center,
-                  //               children: [
-                  //                 Icon(
-                  //                   Icons.camera_sharp,
-                  //                   color: Colors.white,
-                  //                 ),
-                  //                 SizedBox(
-                  //                   width: 20,
-                  //                 ),
-                  //                 Text(
-                  //                   "Retake",
-                  //                   style: TextStyle(
-                  //                       color: Colors.white, fontSize: 24),
-                  //                 ),
-                  //               ],
-                  //             )),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       Expanded(
-                  //         child: InkWell(
-                  //           onTap: () {
-                  //             controller.changePage(3);
-
-                  //             imgcon.initializeCamera(
-                  //               isfront: true,
-                  //               isback: false,
-                  //               isprofilecam: false,
-                  //             );
-                  //             controller.changePage(3);
-                  //               controller.pageIncremeter(3);
-                  //             controller.listenPageChange();
-                  //           },
-                  //           child: Container(
-                  //             //  margin: EdgeInsets.symmetric(horizontal: 16),
-                  //             width: double.infinity,
-                  //             padding: EdgeInsets.all(32),
-                  //             decoration: BoxDecoration(
-                  //               color: Colors.green,
-                  //               //  borderRadius: BorderRadius.circular(8)
-                  //             ),
-                  //             clipBehavior: Clip.antiAlias,
-                  //             child: Center(
-                  //                 child: Row(
-                  //               mainAxisAlignment: MainAxisAlignment.center,
-                  //               children: [
-                  //                 Text(
-                  //                   "Proceed",
-                  //                   style: TextStyle(
-                  //                       color: Colors.white, fontSize: 24),
-                  //                 ),
-                  //                 SizedBox(
-                  //                   width: 20,
-                  //                 ),
-                  //                 Icon(
-                  //                   Icons.check,
-                  //                   color: Colors.white,
-                  //                 ),
-                  //               ],
-                  //             )),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   )
-
+                              ).animate().fadeIn(
+                                duration: Duration(milliseconds: 1200),
+                                delay: Duration(milliseconds: 400))
+                        : SizedBox(),
                   ],
                 ),
               )

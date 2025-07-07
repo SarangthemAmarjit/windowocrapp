@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:camera_windows_example/cons/utils.dart';
@@ -16,14 +17,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../cons/constant.dart';
-import '../home/landingpage.dart';
 import '../models/gate.dart';
 import '../models/paymentresponse.dart';
 import '../models/permitverifymodel.dart';
 
 class Managementcontroller extends GetxController {
   String gender = genders[0];
-  final ApiCall apicall = ApicallImpl();
+  ApiCall? apicall = ApicallImpl();
   String? state;
   String? purpose;
   bool isCheckFaces = false;
@@ -38,7 +38,7 @@ class Managementcontroller extends GetxController {
   List<String> _docnames = [];
   List<String> get getDocNames => _docnames;
 
-  PermitApplication?_applicid;
+  PermitApplication? _applicid;
   PermitApplication? get applicid => _applicid;
   String? onlineAplicant;
   Gate? _selectedGate;
@@ -50,16 +50,67 @@ class Managementcontroller extends GetxController {
   bool _ispressverified = false;
   bool get ispressverified => _ispressverified;
   bool isVeriflyloading = false;
-  Timer?  timer;
-  bool isloading =false;
+  Timer? timer;
+  bool isloading = false;
   PermitPriceModel? _permitPrice;
-  PermitPriceModel?  get getPermitPrice=>  _permitPrice;
+  PermitPriceModel? get getPermitPrice => _permitPrice;
+  String? deviceId;
+  String? gateId;
+  String? ilpapi;
+  String? printername;
+  bool isdeviceCheck = false;
   @override
   void onInit() {
     super.onInit();
-    getpermitprice();
-    getallGates();
-    schedulerForGetdocs();
+    loadDatas();
+  }
+
+  Future<String> _getFilePath() async {
+    return '${Directory.current.path}/config.txt';
+  }
+
+  Future<String> _getFilePathapi() async {
+    return '${Directory.current.path}/const.txt';
+  }
+
+  Future<void> loadDatas() async {
+    await loadDeviceConfig();
+    await getpermitprice();
+    await getallGates();
+    await schedulerForGetdocs();
+  }
+
+  Future<void> loadDeviceConfig() async {
+    isdeviceCheck = true;
+    update();
+    try {
+      final path = await _getFilePath();
+      final file = File(path);
+
+      if (await file.exists()) {
+        final lines = await file.readAsLines();
+
+        for (var line in lines) {
+          if (line.startsWith('device_id=')) {
+            deviceId = line.split('=')[1];
+          } else if (line.startsWith('gate_id=')) {
+            gateId = line.split('=')[1];
+          } else if (line.startsWith('printer=')) {
+            printername = line.split('=')[1];
+          }
+        }
+      }
+
+      print('deviceId:  $deviceId');
+      print('gateid:  $gateId');
+      print('ilpapi:  $ilpapi');
+      print('printername:  $printername');
+    } catch (e) {
+      debugPrint('Error loading config: $e');
+    }
+
+    isdeviceCheck = false;
+    update();
   }
 
   void changeGender(String gen) {
@@ -78,12 +129,12 @@ class Managementcontroller extends GetxController {
   }
 
   void readPermit() {
-    apicall.readPermit();
+    apicall!.readPermit();
   }
 
-  void setOnlineApplId(String? s){
+  void setOnlineApplId(String? s) {
     onlineAplicant = s;
-    update(); 
+    update();
   }
 
   String? validateAadhar(String? value) {
@@ -107,20 +158,37 @@ class Managementcontroller extends GetxController {
     return null;
   }
 
+  String? isValidDrivingLicense(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Driving License number is required';
+    }
+    final regex = RegExp(r'^[A-Za-z]{2}\d{13}$');
+    if (!regex.hasMatch(value)) {
+      return "Enter a valid Driving license (e.g: MN0619981234567)";
+    }
+    return null;
+  }
 
+  String? isValidPassport(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Pssport ID is required';
+    }
+    final regex = RegExp(r'^[a-zA-Z0-9]+$');
+    if (!(regex.hasMatch(value) && value.length > 6)) {
+      return "Enter a valid ID. Must be > 6 letters and alphanumeric";
+    }
+    return null;
+  }
 
   Future<void> getallGates() async {
-    _allGates = await apicall.getAllGates();
+    _allGates = await apicall!.getAllGates();
 
     if (_allGates.isNotEmpty) {
       _selectedGate = _allGates.firstWhereOrNull(
-      
         (element) => element.name == "Imphal Airport",
       );
-
-  
     }
-          print("Selected gate = ${_selectedGate?.id } ${_selectedGate?.name}}");
+    print("Selected gate = ${_selectedGate?.id} ${_selectedGate?.name}}");
     update();
   }
 
@@ -129,18 +197,16 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-
-
   Future<String> verifydocid(
       {required String doctype, required String docid}) async {
     isVeriflyloading = true;
     update();
     try {
-      var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
+      var appid = await apicall!.verifydoc(doctype: doctype, idnumber: docid);
       print(" doctype: $doctype  dociDno.: $docid");
       print("Appid : ${appid?.toJson().toString()}");
       _applicid = appid;
-      state = _applicid?.state; 
+      state = _applicid?.state;
       isVeriflyloading = false;
       update();
       return _applicid!.applicationNo;
@@ -153,50 +219,48 @@ class Managementcontroller extends GetxController {
     return '';
   }
 
-
-
-
   Future<void> getallDocs() async {
     isloading = true;
     update();
-    _docnames = await apicall.getDocumentType();
+    _docnames = await apicall!.getDocumentType();
     isloading = false;
     update();
   }
 
   Future<void> getallDocscheck() async {
-    _docnames = await apicall.getDocumentType();
+    _docnames = await apicall!.getDocumentType();
+    getpermitprice();
+    getallGates();
     update();
   }
 
-    Future<void> schedulerForGetdocs() async {
-      await getallDocs();
-      if(_docnames.isEmpty){
-        // start checking if the server is live periodically
+  Future<void> schedulerForGetdocs() async {
+    await getallDocs();
+    if (_docnames.isEmpty) {
+      // start checking if the server is live periodically
       //to check if the server is down and check for if the server is okay and running
-        timer = Timer.periodic(Duration(seconds: 4), (_) async {
-            print("in timers");
-          if(_docnames.isNotEmpty){
-            if(timer!=null){
-              timer!.cancel();
-              print("get timer cancel");
-            }
+      timer = Timer.periodic(Duration(seconds: 4), (_) async {
+        print("in timers");
+        if (_docnames.isNotEmpty) {
+          if (timer != null) {
+            timer!.cancel();
+            print("get timer cancel");
           }
-             await getallDocscheck();
-        });
-
-      }else{
-        print("no timer initialise");
-      }
-
+        }
+        await getallDocscheck();
+      });
+    } else {
+      print("no timer initialise");
     }
-
+  }
 
   getpermitprice() async {
     print("fdjhkfh");
-   _allpermitprices = await apicall.getallpremitprice();
-    _allpermitprices.map((e) =>print(" permit prices : ${e.toJson()} "));   
-    _permitPrice = _allpermitprices.firstWhereOrNull((element) => element.permitName.toLowerCase().contains("temporary"),);
+    _allpermitprices = await apicall!.getallpremitprice();
+    _allpermitprices.map((e) => print(" permit prices : ${e.toJson()} "));
+    _permitPrice = _allpermitprices.firstWhereOrNull(
+      (element) => element.permitName.toLowerCase().contains("temporary"),
+    );
     print("_permit : ${_permitPrice?.toJson()}");
     update();
   }
@@ -204,14 +268,11 @@ class Managementcontroller extends GetxController {
   //get document verification details from api
   Future<void> getDocumentDetails(
       {required String docID, required String docType}) async {
-
     //fetch doc from api
     _permit = VisitorEntry(idProof: docType, idNo: docID);
-   
+
     update();
   }
-
-
 
   Future<String?> addtemporaryPermit(
       bool isCash, Uint8List passport, Uint8List idcard, Uint8List signature,
@@ -243,7 +304,7 @@ class Managementcontroller extends GetxController {
         category: purpose,
         purposeVisit: purposeVisits,
         placeOfStay: placestay,
-        visitDate:DateTime.now().toIso8601String(),
+        visitDate: DateTime.now().toIso8601String(),
         // visitDate: visitDates,
         applcntName: name,
         applcntParent: parentname,
@@ -270,43 +331,30 @@ class Managementcontroller extends GetxController {
         nearestPS: localnearestpol,
         // transactionId:"Cash"
         transactionId: isCash ? "CASH" : generateRandomString(12));
-        _permit!.transactionId = isCash ? "CASH" : generateRandomString(12);
-        _permit!.amount = _permitPrice?.fee.toString();
-        print(":::::::::::");
-        print("TransactionID ::: ${_permit?.transactionId} ${_applicid?.applicationNo} ");
-        print(":::::::::::");
-     
-     
-      _permit!.transactionId = dummyVisitor.transactionId;
-   
-      
+    _permit!.transactionId = isCash ? "CASH" : generateRandomString(12);
+    _permit!.amount = _permitPrice?.fee.toString();
+
+    // print(":::::::::::");
+    // print("TransactionID ::: ${_permit?.transactionId} ${_applicid?.applicationNo} ");
+    // print(":::::::::::");
+
+    _permit!.transactionId = dummyVisitor.transactionId;
+
     print(" permit to post: ${_permit?.toJson().toString()}");
     currentPermit = _permit;
     update();
-    
-    // if (isCash) {
-      //dialog for printing cash payments and going to counter
-      // Get.dialog(AlertDialog(
-      //   content: Text(ds.entries.first.value ?? "no messae"),
-      // ));
 
-      //ffhdjf
-
-      // printImageDirectly("Microsoft Print to PDF",);
-      // printUsbReceiptWindows(passport,ds.entries.first.value);
-    // }
-
-    if(_applicid!=null && _applicid!.applicationNo.isNotEmpty){
-  Map<String?, dynamic> ds = await apicall.updatePermit(passport, idcard, signature, _permit!,_applicid!.applicationNo);
-     print('$ds $isLoading');
-   return ds.entries.first.value==0?null:ds.entries.first.value;
-    }else{
- Map<String?, dynamic> ds =
-        await apicall.addPermit(passport, idcard, signature, _permit!);
-    print('$ds $isLoading');
-return ds.entries.first.value==0?null:ds.entries.first.value;
+    if (_applicid != null && _applicid!.applicationNo.isNotEmpty) {
+      Map<String?, dynamic> ds = await apicall!.updatePermit(
+          passport, idcard, signature, _permit!, _applicid!.applicationNo);
+      print('$ds $isLoading');
+      return ds.entries.first.value == 0 ? null : ds.entries.first.value;
+    } else {
+      Map<String?, dynamic> ds =
+          await apicall!.addPermit(passport, idcard, signature, _permit!);
+      print('$ds $isLoading');
+      return ds.entries.first.value == 0 ? null : ds.entries.first.value;
     }
-
   }
 
   void addPermit(VisitorEntry? permits) {
@@ -330,7 +378,7 @@ return ds.entries.first.value==0?null:ds.entries.first.value;
     facesDetect = "";
     update();
 
-    Map<String, dynamic> res = await apicall.detectFaces(face);
+    Map<String, dynamic> res = await apicall!.detectFaces(face);
     facesDetect = res.entries.first.value.toString();
     isCheckFaces = false;
     update();
@@ -340,7 +388,7 @@ return ds.entries.first.value==0?null:ds.entries.first.value;
     // isFetchPermit = true;
     // currentPermit = permit;
     update();
-    Map<String, IlPmodel?> x = await apicall.fetchPermitData(permitnnum);
+    Map<String, IlPmodel?> x = await apicall!.fetchPermitData(permitnnum);
     // _currentPermitData = x.entries.first.value;
 
     // fetchPermitmessage = x.entries.first.key;
@@ -350,55 +398,54 @@ return ds.entries.first.value==0?null:ds.entries.first.value;
     //     double.tryParse(permit.longitude ?? '') ?? 0);
 
     update();
-    // log("_currentPermitData : " +
-    //     _currentPermitData!.applicantCategory.toString());
   }
 
-  Future<void> addPayments(Payment pays,GlobalKey key)async{
-  
+  Future<void> addPayments(Payment pays, GlobalKey key) async {
+    Payment payment = Payment(
+        paymentId: pays.paymentId,
+        method: pays.method,
+        status: pays.status,
+        amount: pays.amount,
+        deviceId: int.tryParse(deviceId!) ?? 0,
+        gateId: int.tryParse(gateId!));
+    print(payment.toJson().toString());
 
-    PaymentResponse? payres =   await apicall.sendPayment(pays);
-   
-    if(payres!=null && payres.permitNo.isNotEmpty){
-         paymentresult = payres;
-         update();
-      
-          Get.dialog(
-        barrierDismissible:pays.status.toLowerCase() !='success',
-          Dialog( 
-          
-            child: PaymentResultDialog(isSuccess: pays.status.toLowerCase()=='success', callback: () async {
-   
+    PaymentResponse? payres = await apicall!.sendPayment(payment);
 
-           },),));
-       if(payres.permitNo.isNotEmpty){
+    if (payres != null && payres.permitNo.isNotEmpty) {
+      paymentresult = payres;
+      update();
 
- 
-  await Future.delayed(Duration(milliseconds: 2000));
-  
-    
-    await Get.find<Imagecontroller>().saveReceiptimages(key);
-    Future.delayed(Duration(milliseconds: 2000));
-    Get.back();
-    Get.find<PagenavControllers>().setmainpageindex(ind:5);
-                            Get.offAll(()=>LandingPage());
-  
-  }else{
-    printUsbReceiptWindowsonline( onlineAplicant??"",payres?.permitNo??"");
+      Get.dialog(
+          barrierDismissible: pays.status.toLowerCase() != 'success',
+          Dialog(
+            child: PaymentResultDialog(
+              isSuccess: pays.status.toLowerCase() == 'success',
+              callback: () async {},
+            ),
+          ));
+      if (payres.permitNo.isNotEmpty) {
+        await Future.delayed(Duration(milliseconds: 2000));
+        await Get.find<Imagecontroller>()
+            .saveReceiptimages(key, printername ?? "CUSTOM K80");
+        Future.delayed(Duration(milliseconds: 2000));
+        Get.back();
+        Get.find<PagenavControllers>().setmainpageindex(ind: 5);
+      } else {
+        printUsbReceiptWindowsonline(
+            onlineAplicant ?? "", payres.permitNo ?? "",
+            printername: printername ?? "CUSTOM K80");
 
-
-     Get.find<PagenavControllers>().setmainpageindex(ind:6);
-     Get.offAll(()=>LandingPage());
-    }
+        Get.find<PagenavControllers>().setmainpageindex(ind: 6);
+      }
       setOnlineApplId(null);
-
-  }else{
-    printUsbReceiptWindowsonline( onlineAplicant??"",payres?.permitNo??"");
-     setOnlineApplId(null);
-      Get.find<PagenavControllers>().setmainpageindex(ind:6);
-     Get.offAll(()=>LandingPage());
+    } else {
+      printUsbReceiptWindowsonline(onlineAplicant ?? "", payres?.permitNo ?? "",
+          printername: printername ?? "CUSTOM K80");
+      setOnlineApplId(null);
+      Get.find<PagenavControllers>().setmainpageindex(ind: 6);
     }
-  
+
     update();
   }
 

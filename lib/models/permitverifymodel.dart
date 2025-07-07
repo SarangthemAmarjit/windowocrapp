@@ -48,8 +48,8 @@ class PermitApplication {
     required this.houseNo,
     required this.tehsil,
     required this.address,
-    required this.mobile, 
-    required this.email, 
+    required this.mobile,
+    required this.email,
     required this.village,
     this.applicationDate,
     required this.entryBy,
@@ -66,7 +66,7 @@ class PermitApplication {
       idProof: json['idProof'],
       idNo: json['idNo'],
       gender: json['gender'],
-      dob: json['dob']!=null?parseAnyDate(json['dob']):null,
+      dob: json['dob'] != null ? parseAnyDate(json['dob']) : null,
       idMark: json['idMark'] ?? '',
       occupation: json['occupation'] ?? '',
       photo: json['photo'],
@@ -81,11 +81,11 @@ class PermitApplication {
       mobile: json['mobile'],
       email: json['email'],
       village: json['village'],
-      applicationDate:json['applicationDate']!=null?parseAnyDate(json['applicationDate']):null,
+      applicationDate:
+          json['applicationDate'] != null ? parseAnyDate(json['applicationDate']) : null,
       entryBy: json['entryBy'],
       entryType: json['entryType'],
-    
-      statusExit: json['statusExit'].toString().toLowerCase() == 'false'?false:true,
+      statusExit: json['statusExit'].toString().toLowerCase() == 'false' ? false : true,
     );
   }
 

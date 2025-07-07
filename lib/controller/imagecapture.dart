@@ -1,19 +1,18 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'dart:developer';
 import 'dart:io';
-
-import 'dart:developer' as dev;
 import 'dart:ui' as ui;
-import 'package:camera_windows_example/cons/printimages.dart';
-import 'package:flutter/rendering.dart';
 
-import 'package:uuid/uuid.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
+import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:crop_image/crop_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
+import 'package:uuid/uuid.dart';
 
 import 'pagecontroller.dart';
 
@@ -76,6 +75,23 @@ class Imagecontroller extends GetxController {
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
     _fetchCameras();
+    // demoImage();
+  }
+
+  Future<Uint8List> assetImageToUint8List(String path) async {
+    final byteData = await rootBundle.load(path); // Load asset
+    return byteData.buffer.asUint8List(); // Convert to Uint8List
+  }
+
+  Future<void> demoImage() async {
+    profileImage = await assetImageToUint8List('assets/images/ilplogo.png');
+    frontImages = await assetImageToUint8List('assets/images/ilplogo.png');
+    backImages = await assetImageToUint8List('assets/images/ilplogo.png');
+    idCardimage = await assetImageToUint8List('assets/images/ilplogo.png');
+
+    signature = await assetImageToUint8List('assets/images/ilplogo.png');
+
+    update();
   }
 
   @override
@@ -120,7 +136,8 @@ class Imagecontroller extends GetxController {
     // await file.writeAsBytes(pngBytes);
   }
 
-  Future<void> saveReceipt(GlobalKey _globalKey, String applicantId,String reason) async {
+  Future<void> saveReceipt(
+      GlobalKey _globalKey, String applicantId, String reason) async {
     iscardProcess = true;
     update();
     try {
@@ -132,7 +149,7 @@ class Imagecontroller extends GetxController {
           await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
 
-      printUsbReceiptWindows(receipt!, applicantId,reason);
+      printUsbReceiptWindows(receipt!, applicantId, reason);
     } on Exception catch (e) {
       print("failed to save card image");
       // TODO
@@ -148,8 +165,8 @@ class Imagecontroller extends GetxController {
     // await file.writeAsBytes(pngBytes);
   }
 
-
-  Future<void> saveReceiptimages(GlobalKey _globalKey) async {
+  Future<void> saveReceiptimages(
+      GlobalKey _globalKey, String printername) async {
     iscardProcess = true;
     update();
     try {
@@ -160,7 +177,7 @@ class Imagecontroller extends GetxController {
       ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
-      printUsbReceiptWindowsimages (receipt!);
+      printUsbReceiptWindowsimages(receipt!, printername);
     } on Exception catch (e) {
       print("failed to save card image");
       // TODO
@@ -177,18 +194,16 @@ class Imagecontroller extends GetxController {
   }
 
   Future<Uint8List> rotateImage(Uint8List uint8list, int angle) async {
-  // Decode the image from Uint8List
-  img.Image? image = await img.decodeImage(uint8list);
-  if (image == null) return uint8list; // Return original if decoding fails
+    // Decode the image from Uint8List
+    img.Image? image = await img.decodeImage(uint8list);
+    if (image == null) return uint8list; // Return original if decoding fails
 
-  // Rotate the image
-  img.Image rotatedImage = await img.copyRotate(image, angle);
+    // Rotate the image
+    img.Image rotatedImage = await img.copyRotate(image, angle);
 
-  // Encode back to Uint8List
-  return Uint8List.fromList(img.encodePng(rotatedImage));
-}
-
-
+    // Encode back to Uint8List
+    return Uint8List.fromList(img.encodePng(rotatedImage));
+  }
 
   /// Fetches list of available cameras from camera_windows plugin.
   Future<void> _fetchCameras() async {
@@ -320,7 +335,6 @@ class Imagecontroller extends GetxController {
     idCardimage = null;
     profileImage = null;
     iscardProcess = false;
-
     signature = null;
     receipt = null;
   }
@@ -465,8 +479,6 @@ class Imagecontroller extends GetxController {
               ele.name.toString().toLowerCase().contains('logi') ||
               ele.name.toString().toLowerCase().contains('integrated camera'));
           update();
-
-
         } else {
           await CameraPlatform.instance.dispose(_cameraId);
           cameraIndex = _allavailablecameras.indexWhere((ele) =>
@@ -538,10 +550,10 @@ class Imagecontroller extends GetxController {
     }
   }
 
-  Future<void> initializeCameraAgain(
-      {required bool isfront,
-      required bool isback,
-      required bool isprofilecam,
+  Future<void> initializeCameraAgain({
+    required bool isfront,
+    required bool isback,
+    required bool isprofilecam,
   }) async {
     int cameraIndex = 0;
 
@@ -566,7 +578,7 @@ class Imagecontroller extends GetxController {
               ele.name.toString().toLowerCase().contains('webcam') ||
               ele.name.toString().toLowerCase().contains('logi') ||
               ele.name.toString().toLowerCase().contains('integrated camera'));
-          
+
           update();
         } else {
           cameraIndex = _allavailablecameras.indexWhere(
@@ -715,8 +727,6 @@ class Imagecontroller extends GetxController {
     }
   }
 
-
-
   Future<void> takePicture() async {
     PagenavControllers pngcon = Get.put(PagenavControllers());
     final XFile file = await CameraPlatform.instance.takePicture(_cameraId);
@@ -798,15 +808,18 @@ class Imagecontroller extends GetxController {
   Future<void> retakeImage() async {
     profileImage = null;
     log('isinitialised:  ${isinitialized}');
-    if(isinitialized==false){
-    await  initializeCameraAgain(isfront: false, isback: false, isprofilecam: true);
-    } 
+    if (isinitialized == false) {
+      await initializeCameraAgain(
+          isfront: false, isback: false, isprofilecam: true);
+    }
     update();
   }
+
   void retakeSignature() {
     signature = null;
     update();
   }
+
   Widget buildPreview() {
     return CameraPlatform.instance.buildPreview(_cameraId);
   }
@@ -816,15 +829,13 @@ class Imagecontroller extends GetxController {
     update();
   }
 
-
-  void retakeIdDocument(bool isFront){
+  void retakeIdDocument(bool isFront) {
     _isFrontcapturebuttonpress = isFront;
-      if(isFront){
-        frontImages = null;
-        
-      }else{
-        backImages = null;
-      }
-      update();
+    if (isFront) {
+      frontImages = null;
+    } else {
+      backImages = null;
+    }
+    update();
   }
 }

@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'widgets/webtouchwrapper.dart';
 
@@ -35,20 +32,27 @@ class _WebViewPageState extends State<WebViewPage> {
       ),
       body: Column(
         children: [
-          Center(
-              child: ElevatedButton(
-                  onPressed: () {
-                    paycon.initNdpsPayment(
-                      transId: "dfgsdgggsdg",
-                      context: context,
-                      responseHashKey: paycon.responseHashKey,
-                      responseDecryptionKey: paycon.responseDecryptionKey,
-                      amount: "2",
-                      address: 'fsdfsdf',
-                      name: 'amarjit',
-                    );
-                  },
-                  child: Text('Pay Now')))
+          LinearProgressIndicator(value: progress),
+          Expanded(
+            child: WebviewTouchWrapper(
+              child: InAppWebView(
+                initialUrlRequest: URLRequest(
+                  url: WebUri("https://google.com"),
+                ),
+                onWebViewCreated: (controller) {
+                  webViewController = controller;
+                },
+                onConsoleMessage: (controller, consoleMessage) async {
+                  // Ensure window stays on top when keyboard is shown
+                },
+                onProgressChanged: (controller, progressValue) {
+                  setState(() {
+                    progress = progressValue / 100;
+                  });
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

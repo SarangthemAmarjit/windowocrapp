@@ -19,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+import '../home/landingpage.dart';
 import '../widgets/webtouchwrapper.dart';
 import 'atom_pay_helper.dart';
 
@@ -328,7 +329,10 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                               String remark = "";
                                               if (response.trim().contains(
                                                   "cancelTransaction")) {
-                                                remark = "Cancelled";
+                                                remark = remark.isEmpty ||
+                                                        remark != 'failed'
+                                                    ? "Cancelled"
+                                                    : remark;
                                                 totalamount = "0";
                                                 transactionResult = "CANCELLED";
                                                 transactionstatus = 100;
@@ -436,8 +440,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                               }
 
                                               _closeWebView(
-                                                  callback: () {
-                                                    gcontroller
+                                                  callback: () async {
+                                                    await gcontroller
                                                         .updatepaymentremark(
                                                             amount: totalamount,
                                                             key: _keys,
@@ -445,6 +449,9 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                                 gcontroller
                                                                     .transacid,
                                                             remark: remark);
+
+                                                    Get.off(
+                                                        () => LandingPage());
                                                   },
                                                   context: context,
                                                   transactionResult:
@@ -486,12 +493,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
       required String paymentname,
       required String totalamount,
       required VoidCallback callback}) async {
-    // Get.find<Managementcontroller>().send
-
-    // ignore: use_build_context_synchronously
     callback();
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Transaction Status = $transactionResult ")));
   }
 
   Future<bool> _handleBackButtonAction(BuildContext context) async {
@@ -523,8 +525,4 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
             ));
     return Future.value(true);
   }
-
-  ///
-
-  ///////////////////////////
 }
