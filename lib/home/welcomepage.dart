@@ -37,54 +37,47 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       return GetBuilder<PagenavControllers>(builder: (pagecon) {
         return Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 70.0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Text(
-                    'Welcome to the Inner Line Permit (ILP)\nSystem – Manipur',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Facilitating Hassle-Free Entry for Visitors',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  Text(
-                    'Manipur welcomes you to experience its rich culture, breathtaking landscapes, and vibrant traditions. To ensure smooth and lawful entry, the Government of Manipur mandates the issuance of an Inner Line Permit (ILP) for visitors. This system is designed to make the process simple, efficient, and user-friendly.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  Text(
-                    'LET’S GET STARTED',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 42,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                ],
+            SizedBox(
+              height: 100,
+            ),
+            Text(
+              'Welcome to the Inner Line Permit (ILP)\nSystem – Manipur',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
+            SizedBox(height: 8),
+            Text(
+              'Facilitating Hassle-Free Entry for Visitors',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 40),
+            Text(
+              'Manipur welcomes you to experience its rich culture, breathtaking landscapes, and vibrant traditions. To ensure smooth and lawful entry, the Government of Manipur mandates the issuance of an Inner Line Permit (ILP) for visitors. This system is designed to make the process simple, efficient, and user-friendly.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 40),
+            Text(
+              'LET’S GET STARTED',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 42,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 20),
             const SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(

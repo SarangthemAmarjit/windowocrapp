@@ -41,7 +41,7 @@ class _MyWidgetState extends State<MyWidget> {
                   paymentMode: "online")),
           ElevatedButton(
             onPressed: () {
-              Get.find<Imagecontroller>().saveReceiptimages(d);
+              Get.find<Imagecontroller>().saveReceiptimages(d, "CUSTOM K80");
             },
             child: Text("Press"),
           ),

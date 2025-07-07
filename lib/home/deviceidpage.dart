@@ -13,6 +13,8 @@ class ConfigSaverWidget extends StatefulWidget {
 
 class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
   final TextEditingController _deviceIdController = TextEditingController();
+  final TextEditingController _printercontroller = TextEditingController();
+  final TextEditingController _apicontroller = TextEditingController();
   String gateId = "";
   String gatename = "";
   late final Future<void> _loadFuture;
@@ -36,10 +38,12 @@ class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
 
   Future<void> _saveToFile() async {
     final deviceId = _deviceIdController.text.trim();
+    final printer = _printercontroller.text.trim();
+    final baseurl = _apicontroller.text.trim();
 
-    if (deviceId.isEmpty || gateId.isEmpty) {
+    if (deviceId.isEmpty || gateId.isEmpty || printer.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter both fields.')),
+        const SnackBar(content: Text('Please enter all fields.')),
       );
       return;
     }
@@ -47,7 +51,7 @@ class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
     try {
       final path = await _getFilePath();
       final file = File(path);
-      final content = 'device_id=$deviceId\ngate_id=$gateId';
+      final content = 'device_id=$deviceId\ngate_id=$gateId\nilpapi=$baseurl\nprinter=$printer';
       await file.writeAsString(content);
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -180,6 +184,21 @@ class _ConfigSaverWidgetState extends State<ConfigSaverWidget> {
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Printer Name "),
+                          TextField(
+                            controller: _printercontroller,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 16,
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(

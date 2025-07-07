@@ -50,8 +50,9 @@ class LandingPage extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: Obx(() => connectcontrol.isConnectivity.value ||
-                                (mngctrl.getDocNames.isEmpty && mngctrl.isloading == false)
+                        child: Obx(() => connectcontrol.isConnectivity.value
+                            //  ||
+                            //         (mngctrl.getDocNames.isEmpty && mngctrl.isloading == false)
                             ? ErrorPages()
                             : Container(
                                 decoration: BoxDecoration(

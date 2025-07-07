@@ -985,6 +985,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                                 title: "Try again",
                                                                 onpress: () {
                                                                   pagectrl.setmainpageindex(ind: 0);
+                                                                  imgcon.disposeAll();
                                                                   Get.back();
                                                                   // Get.off(()=>LandingPage());
                                                                   pagectrl.listenPageChange();
@@ -1144,6 +1145,8 @@ class _PaymentCardState extends State<PaymentCard> {
                                                                 onpress: () {
                                                                   pagectrl.setmainpageindex(ind: 0);
                                                                   Get.back();
+                                                                  imgcon.disposeAll();
+
                                                                   // Get.off(()=>LandingPage());
                                                                   pagectrl.listenPageChange();
                                                                 })

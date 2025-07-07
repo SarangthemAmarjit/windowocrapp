@@ -85,78 +85,6 @@ class _IdSelectionAndScanningScreenState extends State<IdSelectionAndScanningScr
                             textAlign: TextAlign.center,
                           ),
                         ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(vertical: 50),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       ElevatedButton(
-                  //         style: ButtonStyle(
-                  //             shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                  //                 side: BorderSide(color: Colors.green),
-                  //                 borderRadius: BorderRadius.circular(10))),
-                  //             backgroundColor: WidgetStatePropertyAll(
-                  //                 imgcon.isFrontcapturebuttonpress
-                  //                     ? const Color.fromARGB(255, 216, 236, 217)
-                  //                     : Colors.white)),
-                  //         onPressed: () {
-                  //           imgcon.initializeCamera(
-                  //               isfront: true,
-                  //               isback: false,
-                  //               isprofilecam: false,
-                  //               context: context);
-                  //           // _initializeCamera(isfront: true);
-                  //         },
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.symmetric(
-                  //               vertical: 30, horizontal: 20),
-                  //           child: Text(
-                  //             'Capture Front Side',
-                  //             style: TextStyle(fontSize: 23),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       pngcon.docindex == 3
-                  //           ? SizedBox()
-                  //           : SizedBox(
-                  //               width: 30,
-                  //             ),
-                  //       // Csizebapture back side of the ID card
-
-                  //       pngcon.docindex == 3
-                  //           ? SizedBox()
-                  //           : ElevatedButton(
-                  //               style: ButtonStyle(
-                  //                   shape: WidgetStatePropertyAll(
-                  //                       RoundedRectangleBorder(
-                  //                           side: BorderSide(color: Colors.green),
-                  //                           borderRadius: BorderRadius.circular(10))),
-                  //                   backgroundColor: WidgetStatePropertyAll(
-                  //                       imgcon.isBackcapturebuttonpress
-                  //                           ? const Color.fromARGB(255, 216, 236, 217)
-                  //                           : Colors.white)),
-                  //               onPressed: () {
-                  //                 imgcon.initializeCamera(
-                  //                     isfront: false,
-                  //                     isback: true,
-                  //                     isprofilecam: false,
-                  //                     context: context);
-                  //                 // _initializeCamera(isfront: false);
-                  //               },
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.symmetric(
-                  //                     vertical: 30, horizontal: 20),
-                  //                 child: Text(
-                  //                   'Capture Back Side',
-                  //                   style: TextStyle(fontSize: 23),
-                  //                 ),
-                  //               ),
-                  //             ),
-
-                  //       // Csizebapture back side of the ID card
-                  //     ],
-                  //   ),
-                  // ),
                   imgcon.frontImages != null && imgcon.backImages != null
                       ? SizedBox()
                       : Padding(
@@ -221,9 +149,12 @@ class _IdSelectionAndScanningScreenState extends State<IdSelectionAndScanningScr
                                               child: RepaintBoundary(
                                                 key: IdcaptureKey,
                                                 child: Container(
+                                                  clipBehavior: Clip.antiAlias,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(8)),
                                                   constraints: BoxConstraints(
-                                                      maxHeight: pngcon.docindex == 3 ? 195 : 250,
-                                                      maxWidth: pngcon.docindex == 3 ? 600 : 500
+                                                      maxHeight: pngcon.docindex == 3 ? 300 : 250,
+                                                      maxWidth: pngcon.docindex == 3 ? 630 : 500
                                                       // maxHeight: 160, maxWidth: 500
                                                       ),
                                                   child: Transform.flip(
@@ -232,28 +163,32 @@ class _IdSelectionAndScanningScreenState extends State<IdSelectionAndScanningScr
                                                     child: SizedBox(
                                                       height: 700,
                                                       width: 400,
-                                                      child: Center(
-                                                          child: ClipRect(
-                                                        child: OverflowBox(
-                                                          alignment: Alignment.center,
-                                                          maxWidth:
-                                                              pngcon.docindex == 3 ? 500 : 800,
-                                                          maxHeight:
-                                                              pngcon.docindex == 3 ? 300 : 600,
-                                                          // maxWidth: 600,
-                                                          // maxHeight: 420,
-                                                          child: FittedBox(
-                                                            fit: BoxFit
-                                                                .cover, // Ensure it covers the entire aspect ratio
-                                                            child: SizedBox(
-                                                              width: imgcon.previewsize!.width,
-                                                              height: imgcon.previewsize!.height,
-                                                              child: imgcon
-                                                                  .buildPreview(), // Your camera preview
+                                                      child: Transform.scale(
+                                                        scaleX: pngcon.docindex == 3 ? 1.4 : 1.5,
+                                                        scaleY: pngcon.docindex == 3 ? 1.4 : 1.5,
+                                                        child: Center(
+                                                            child: ClipRect(
+                                                          child: OverflowBox(
+                                                            alignment: Alignment.center,
+                                                            maxWidth:
+                                                                pngcon.docindex == 3 ? 500 : 800,
+                                                            maxHeight:
+                                                                pngcon.docindex == 3 ? 300 : 600,
+                                                            // maxWidth: 600,
+                                                            // maxHeight: 420,
+                                                            child: FittedBox(
+                                                              fit: BoxFit
+                                                                  .cover, // Ensure it covers the entire aspect ratio
+                                                              child: SizedBox(
+                                                                width: imgcon.previewsize!.width,
+                                                                height: imgcon.previewsize!.height,
+                                                                child: imgcon
+                                                                    .buildPreview(), // Your camera preview
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      )),
+                                                        )),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

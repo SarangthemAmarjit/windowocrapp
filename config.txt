@@ -1,2 +1,4 @@
 device_id=3
 gate_id=7
+ilpapi=
+printer=CUSTOM K80 (Copy 1)

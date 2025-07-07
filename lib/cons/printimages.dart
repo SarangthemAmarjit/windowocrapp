@@ -1,24 +1,25 @@
 import 'dart:ffi';
-import 'dart:typed_data';
+
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:ffi/ffi.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:win32/win32.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
+
 class Sizes {
   final int width;
   final int height;
   Sizes(this.width, this.height);
 }
+
 const int DM_PAPERLENGTH = 0x00000100;
 const int DM_PAPERWIDTH = 0x00000080;
-const int DM_UPDATE = 0x00000001;     // Updates printer defaults
-const int DM_COPY = 0x00000002;       // Copies the current DEVMODE settings
+const int DM_UPDATE = 0x00000001; // Updates printer defaults
+const int DM_COPY = 0x00000002; // Copies the current DEVMODE settings
 const int DM_OUT_BUFFER = 0x00000002; // Retrieves the current DEVMODE
-const int DM_IN_BUFFER = 0x00000008;  // Loads input values into DEVMODE
-const int DM_IN_PROMPT = 0x00000004;  // Prompts the user for changes
-const int DM_MODIFY = 0x00000008;     // Modifies the printer settings
+const int DM_IN_BUFFER = 0x00000008; // Loads input values into DEVMODE
+const int DM_IN_PROMPT = 0x00000004; // Prompts the user for changes
+const int DM_MODIFY = 0x00000008; // Modifies the printer settings
 
 Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes size) async {
   final hPrinter = calloc<HANDLE>();
@@ -34,7 +35,7 @@ Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes 
     }
 
     final hPrinterRef = hPrinter.value;
-    
+
     // // Get printer settings
     // final pDevMode = calloc<DEVMODE>();
     // if (DocumentProperties(0, hPrinterRef, printerName.toNativeUtf16(), pDevMode, nullptr, DM_OUT_BUFFER) != IDOK) {
@@ -46,7 +47,7 @@ Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes 
     // pDevMode.ref.dmFields |= (DM_PAPERLENGTH | DM_PAPERWIDTH);
     // pDevMode.ref.dmPaperWidth = size.width * 10;
     // pDevMode.ref.dmPaperLength = size.height * 10;
-    
+
     // if (DocumentProperties(0, hPrinterRef, printerName.toNativeUtf16(), pDevMode, pDevMode, (DM_IN_BUFFER | DM_OUT_BUFFER)) != IDOK) {
     //   print('Failed to set custom paper size');
     //   return;
@@ -74,7 +75,7 @@ Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes 
     }
 
     // Convert image to BMP format (DIB)
-    final Uint8List bmpData = Uint8List.fromList( img.encodeBmp(image));
+    final Uint8List bmpData = Uint8List.fromList(img.encodeBmp(image));
     final written = calloc<DWORD>();
 
     final Pointer<Uint8> bmpPointer = malloc.allocate<Uint8>(bmpData.length);
@@ -134,19 +135,21 @@ Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes 
 //   return bytes;
 // }
 
-
 Future<Uint8List> getBytesFromAsset(String path) async {
   ByteData data = await rootBundle.load(path);
   return data.buffer.asUint8List();
 }
-void printUsbReceiptWindows(Uint8List d,String applicantID,String reason) async {
+
+void printUsbReceiptWindows(Uint8List d, String applicantID, String reason) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
-Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
+  Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
 
   // Add text
-  bytes.addAll(generator.image(img.decodeImage(imageBytes)!,align: PosAlign.center),);
+  bytes.addAll(
+    generator.image(img.decodeImage(imageBytes)!, align: PosAlign.center),
+  );
   bytes.addAll(generator.text(
     'ILP MANIPUR',
     styles: const PosStyles(
@@ -155,31 +158,33 @@ Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
       width: PosTextSize.size2,
     ),
   ));
-  bytes.addAll(generator.text('Date: ${DateTime.now().day} /${DateTime.now().month} /${DateTime.now().year} ',
+  bytes.addAll(generator.text(
+      'Date: ${DateTime.now().day} /${DateTime.now().month} /${DateTime.now().year} ',
       styles: const PosStyles(align: PosAlign.center)));
-        bytes.addAll(generator.feed(2));
+  bytes.addAll(generator.feed(2));
 
- bytes.addAll(generator.text('Applicant ID',
-      styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.text('Applicant ID', styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(generator.text('$applicantID',
-      styles: const PosStyles(align: PosAlign.center,
-       height: PosTextSize.size3,
-      width: PosTextSize.size3,
+      styles: const PosStyles(
+        align: PosAlign.center,
+        height: PosTextSize.size3,
+        width: PosTextSize.size3,
       )));
   bytes.addAll(generator.feed(1));
-  
-  bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
- 
+
+  bytes.addAll(
+    generator.image(img.decodeImage(d)!, align: PosAlign.center),
+  );
+
   // bytes.addAll(generator.feed(2));
   //    bytes.addAll(generator.text('$reason',
   //     styles: const PosStyles(align: PosAlign.center)));
- bytes.addAll(generator.text('',
-      styles: const PosStyles(align: PosAlign.center)));
-       bytes.addAll(generator.text('Please go at the counter',
-      styles: const PosStyles(align: PosAlign.center)));
-         bytes.addAll(generator.text('to complete the process',
-      styles: const PosStyles(align: PosAlign.center)));
-    bytes.addAll(generator.feed(1));
+  bytes.addAll(generator.text('', styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(
+      generator.text('Please go at the counter', styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(
+      generator.text('to complete the process', styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.feed(1));
   bytes.addAll(generator.text(' ---------------------------------------------------------------'));
 
   // bytes.addAll(generator.text('Enjoy your stay!',
@@ -188,25 +193,28 @@ Uint8List imageBytes = await getBytesFromAsset('assets/images/ILPLOGOSS.png');
   bytes.addAll(generator.cut());
 
   // Send raw bytes to USB printer
-  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes),Sizes(80,180));
+  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes), Sizes(80, 180));
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
-void printUsbReceiptWindowsimages(Uint8List d) async {
+
+void printUsbReceiptWindowsimages(Uint8List d, String printername) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
-  
-  bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
 
-  
+  bytes.addAll(
+    generator.image(img.decodeImage(d)!, align: PosAlign.center),
+  );
+
   bytes.addAll(generator.cut());
 
   // Send raw bytes to USB printer
-  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes),Sizes(80,180));
+  printToWindowsPrinter(printername, Uint8List.fromList(bytes), Sizes(80, 180));
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
 
-void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
+void printUsbReceiptWindowsonline(String applicantID, String permitno,
+    {required String printername}) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
@@ -220,48 +228,46 @@ void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
       width: PosTextSize.size2,
     ),
   ));
-  bytes.addAll(generator.text('Date: ${DateTime.now()}',
-      styles: const PosStyles(align: PosAlign.center)));
-        bytes.addAll(generator.feed(2));
+  bytes.addAll(
+      generator.text('Date: ${DateTime.now()}', styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.feed(2));
 
- bytes.addAll(generator.text('Applicant ID',
-      styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.text('Applicant ID', styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(generator.feed(1));
   bytes.addAll(generator.text('$applicantID',
-      styles: const PosStyles(align: PosAlign.center,
-       height: PosTextSize.size3,
-      width: PosTextSize.size3,
+      styles: const PosStyles(
+        align: PosAlign.center,
+        height: PosTextSize.size3,
+        width: PosTextSize.size3,
       )));
   bytes.addAll(generator.feed(1));
-  if(permitno.isEmpty){
-    bytes.addAll(generator.text('',
-      styles: const PosStyles(align: PosAlign.center)));
-       bytes.addAll(generator.text('Your payment failed to process.',
-      styles: const PosStyles(align: PosAlign.center)));
-         bytes.addAll(generator.text('Please go to the counter for further queries.',
-      styles: const PosStyles(align: PosAlign.center)));
+  if (permitno.isEmpty) {
+    bytes.addAll(generator.text('', styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.text('Your payment failed to process.',
+        styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.text('Please go to the counter for further queries.',
+        styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.feed(1));
-  }else{
- bytes.addAll(generator.text('Permit No:',
-      styles: const PosStyles(align: PosAlign.center)));
-  bytes.addAll(generator.feed(1));
-  bytes.addAll(generator.text('$permitno',
-      styles: const PosStyles(align: PosAlign.center,
-       height: PosTextSize.size3,
-      width: PosTextSize.size3,
-      )));
-  bytes.addAll(generator.feed(2));
- 
- bytes.addAll(generator.text('',
-      styles: const PosStyles(align: PosAlign.center)));
-       bytes.addAll(generator.text('A message will be sent to your number with the link.',
-      styles: const PosStyles(align: PosAlign.center)));
-         bytes.addAll(generator.text('Download the receipt.',
-      styles: const PosStyles(align: PosAlign.center)));
+  } else {
+    bytes.addAll(generator.text('Permit No:', styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.feed(1));
+    bytes.addAll(generator.text('$permitno',
+        styles: const PosStyles(
+          align: PosAlign.center,
+          height: PosTextSize.size3,
+          width: PosTextSize.size3,
+        )));
+    bytes.addAll(generator.feed(2));
+
+    bytes.addAll(generator.text('', styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.text('A message will be sent to your number with the link.',
+        styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(
+        generator.text('Download the receipt.', styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.feed(1));
   }
   // bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
- 
+
   bytes.addAll(generator.text(' ---------------------------------------------------------------'));
 
   // bytes.addAll(generator.text('Enjoy your stay!',
@@ -270,14 +276,14 @@ void printUsbReceiptWindowsonline(String applicantID,String permitno) async {
   bytes.addAll(generator.cut());
 
   // Send raw bytes to USB printer
-  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes),Sizes(80,180));
+  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes), Sizes(80, 180));
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
 
-void printToWindowsPrinter(String printerName, Uint8List data,Sizes size) {
+void printToWindowsPrinter(String printerName, Uint8List data, Sizes size) {
   final hPrinter = calloc<HANDLE>();
 
-      print("open printer $printerName");
+  print("open printer $printerName");
 
   final pDocInfo = calloc<DOC_INFO_1>()
     ..ref.pDocName = "Flutter Print sign".toNativeUtf16()

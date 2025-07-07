@@ -207,95 +207,94 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                     ),
 //
                     imgcon.isinitialized || imgcon.profileImage != null
-                        ?
+                        ? timer > 1
+                            ? SizedBox()
+                            : Row(
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await imgcon.retakeImage();
 
-                        //  timer>1?SizedBox():
-                        Row(
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () async {
-                                    await imgcon.retakeImage();
-
-                                    countdownTimer();
-                                    controller.listenPageChange();
-                                  },
-                                  child: Container(
-                                    // margin: EdgeInsets.symmetric(horizontal: 16),
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(32),
-                                    decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      // borderRadius: BorderRadius.circular(8)
+                                        countdownTimer();
+                                        controller.listenPageChange();
+                                      },
+                                      child: Container(
+                                        // margin: EdgeInsets.symmetric(horizontal: 16),
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(32),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          // borderRadius: BorderRadius.circular(8)
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Center(
+                                            child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.camera_sharp,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Text(
+                                              "Retake",
+                                              style: TextStyle(color: Colors.white, fontSize: 24),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
                                     ),
-                                    clipBehavior: Clip.antiAlias,
-                                    child: Center(
-                                        child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.camera_sharp,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          "Retake",
-                                          style: TextStyle(color: Colors.white, fontSize: 24),
-                                        ),
-                                      ],
-                                    )),
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {
-                                    controller.changePage(3);
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        controller.changePage(3);
 
-                                    // imgcon.initializeCamera(
-                                    //   isfront: true,
-                                    //   isback: false,
-                                    //   isprofilecam: false,
-                                    // );
-                                    controller.changePage(3);
-                                    controller.pageIncremeter(3);
-                                    controller.listenPageChange();
-                                  },
-                                  child: Container(
-                                    //  margin: EdgeInsets.symmetric(horizontal: 16),
-                                    width: double.infinity,
-                                    padding: EdgeInsets.all(32),
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      //  borderRadius: BorderRadius.circular(8)
+                                        // imgcon.initializeCamera(
+                                        //   isfront: true,
+                                        //   isback: false,
+                                        //   isprofilecam: false,
+                                        // );
+                                        controller.changePage(3);
+                                        controller.pageIncremeter(3);
+                                        controller.listenPageChange();
+                                      },
+                                      child: Container(
+                                        //  margin: EdgeInsets.symmetric(horizontal: 16),
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(32),
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          //  borderRadius: BorderRadius.circular(8)
+                                        ),
+                                        clipBehavior: Clip.antiAlias,
+                                        child: Center(
+                                            child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Proceed",
+                                              style: TextStyle(color: Colors.white, fontSize: 24),
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Icon(
+                                              Icons.check,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        )),
+                                      ),
                                     ),
-                                    clipBehavior: Clip.antiAlias,
-                                    child: Center(
-                                        child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Proceed",
-                                          style: TextStyle(color: Colors.white, fontSize: 24),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Icon(
-                                          Icons.check,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    )),
                                   ),
-                                ),
-                              ),
-                            ],
-                          ).animate().fadeIn(
-                            duration: Duration(milliseconds: 1200),
-                            delay: Duration(milliseconds: 400))
+                                ],
+                              ).animate().fadeIn(
+                                duration: Duration(milliseconds: 1200),
+                                delay: Duration(milliseconds: 400))
                         : SizedBox(),
                   ],
                 ),

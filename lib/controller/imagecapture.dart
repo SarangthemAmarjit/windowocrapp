@@ -162,7 +162,7 @@ class Imagecontroller extends GetxController {
     // await file.writeAsBytes(pngBytes);
   }
 
-  Future<void> saveReceiptimages(GlobalKey _globalKey) async {
+  Future<void> saveReceiptimages(GlobalKey _globalKey, String printername) async {
     iscardProcess = true;
     update();
     try {
@@ -172,7 +172,7 @@ class Imagecontroller extends GetxController {
       print("nav Keys image in save receipt");
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
-      printUsbReceiptWindowsimages(receipt!);
+      printUsbReceiptWindowsimages(receipt!, printername);
     } on Exception catch (e) {
       print("failed to save card image");
       // TODO
@@ -330,7 +330,6 @@ class Imagecontroller extends GetxController {
     idCardimage = null;
     profileImage = null;
     iscardProcess = false;
-
     signature = null;
     receipt = null;
   }
