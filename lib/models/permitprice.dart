@@ -2,12 +2,10 @@
 //
 //     final permitPriceModel = permitPriceModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 List<PermitPriceModel> permitPriceModelFromJson(String str) =>
-    List<PermitPriceModel>.from(
-        json.decode(str).map((x) => PermitPriceModel.fromJson(x)));
+    List<PermitPriceModel>.from(json.decode(str).map((x) => PermitPriceModel.fromJson(x)));
 
 String permitPriceModelToJson(List<PermitPriceModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -27,8 +25,7 @@ class PermitPriceModel {
     required this.validityDays,
   });
 
-  factory PermitPriceModel.fromJson(Map<String, dynamic> json) =>
-      PermitPriceModel(
+  factory PermitPriceModel.fromJson(Map<String, dynamic> json) => PermitPriceModel(
         permitId: json["permitId"],
         permitName: json["permitName"],
         fee: json["fee"],

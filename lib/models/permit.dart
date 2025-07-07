@@ -1,40 +1,40 @@
 class VisitorEntry {
- String? idProof;
- String? idNo;
- String? category;
- String? purposeVisit;
- String? placeOfStay;
- String? visitDate;
- String? applcntName;
- String? applcntParent;
- String? applcntGender;
- String? applcntDOB;
- String? applcntEmail;
- String? applcntMobile;
- String? applcntAddress;
- String? applcntState;
- String? applcntPoliceStation;
- String? applcntDistrict;
- String? applcntVillage;
- String? applcntHNo;
- String? applcntTehsil;
- String? gateID;
- String? entryType;
- String? applyDistrictID;
- String? residingPeriod;
- String? landmark;
- String? district;
- String? pinCode;
- String? amount;
- String? transactionId;
- String? lrName;
- String? nearestPS;
+  String? idProof;
+  String? idNo;
+  String? category;
+  String? purposeVisit;
+  String? placeOfStay;
+  String? visitDate;
+  String? applcntName;
+  String? applcntParent;
+  String? applcntGender;
+  String? applcntDOB;
+  String? applcntEmail;
+  String? applcntMobile;
+  String? applcntAddress;
+  String? applcntState;
+  String? applcntPoliceStation;
+  String? applcntDistrict;
+  String? applcntVillage;
+  String? applcntHNo;
+  String? applcntTehsil;
+  String? gateID;
+  String? entryType;
+  String? applyDistrictID;
+  String? residingPeriod;
+  String? landmark;
+  String? district;
+  String? pinCode;
+  String? amount;
+  String? transactionId;
+  String? lrName;
+  String? nearestPS;
 
-  VisitorEntry( {
+  VisitorEntry({
     this.idProof,
     this.idNo,
     this.category,
-    this.purposeVisit, 
+    this.purposeVisit,
     this.placeOfStay,
     this.visitDate,
     this.applcntName,
@@ -98,73 +98,73 @@ class VisitorEntry {
     );
   }
 
-  Map<String,String> toJson() {
+  Map<String, String> toJson() {
     return {
-      'ID_Proof': idProof??"NA",
-      'ID_No': idNo??"NA",
-      'Category': category??"NA",
-      'Purpose_Visit': purposeVisit??"NA",
-      'PlaceOfStay': placeOfStay??"NA",
-      'VisitDate': visitDate??"NA",
-      'Applcnt_Name': applcntName??"NA",
-      'Applcnt_Parent': applcntParent??"NA",
-      'Applcnt_Gender': applcntGender??"NA",
-      'Applcnt_DOB': applcntDOB??"NA",
-      'Applcnt_Email': applcntEmail??"NA",
-      'Applcnt_Mobile': applcntMobile??"NA",
-      'Applcnt_Address': applcntAddress??"NA",
-      'Applcnt_State': applcntState??"NA",
-      'Applcnt_PoliceStation': applcntPoliceStation??"NA",
-      'Applcnt_District': applcntDistrict??"NA",
-      'Applcnt_Village': applcntVillage??"NA",
-      'Applcnt_HNo': applcntHNo??"NA",
-      'Applcnt_Tehsil': applcntTehsil??"NA",
-      'Gate_ID': gateID??"NA",
-      'EntryType': entryType??"NA",
-      'Apply_District_ID': applyDistrictID??"NA",
-      'ResidingPeriod': residingPeriod??"NA",
-      'Landmark': landmark??"NA",
-      'District': district??"NA",
-      'PinCode': pinCode??"NA",
-      'Amount': amount??"NA",
-      'TransactionId': transactionId??"NA",
-      'LRName': lrName??"NA",
-      'NearestPS': nearestPS??"NA",
+      'ID_Proof': idProof ?? "NA",
+      'ID_No': idNo ?? "NA",
+      'Category': category ?? "NA",
+      'Purpose_Visit': purposeVisit ?? "NA",
+      'PlaceOfStay': placeOfStay ?? "NA",
+      'VisitDate': visitDate ?? "NA",
+      'Applcnt_Name': applcntName ?? "NA",
+      'Applcnt_Parent': applcntParent ?? "NA",
+      'Applcnt_Gender': applcntGender ?? "NA",
+      'Applcnt_DOB': applcntDOB ?? "NA",
+      'Applcnt_Email': applcntEmail ?? "NA",
+      'Applcnt_Mobile': applcntMobile ?? "NA",
+      'Applcnt_Address': applcntAddress ?? "NA",
+      'Applcnt_State': applcntState ?? "NA",
+      'Applcnt_PoliceStation': applcntPoliceStation ?? "NA",
+      'Applcnt_District': applcntDistrict ?? "NA",
+      'Applcnt_Village': applcntVillage ?? "NA",
+      'Applcnt_HNo': applcntHNo ?? "NA",
+      'Applcnt_Tehsil': applcntTehsil ?? "NA",
+      'Gate_ID': gateID ?? "NA",
+      'EntryType': entryType ?? "NA",
+      'Apply_District_ID': applyDistrictID ?? "NA",
+      'ResidingPeriod': residingPeriod ?? "NA",
+      'Landmark': landmark ?? "NA",
+      'District': district ?? "NA",
+      'PinCode': pinCode ?? "NA",
+      'Amount': amount ?? "NA",
+      'TransactionId': transactionId ?? "NA",
+      'LRName': lrName ?? "NA",
+      'NearestPS': nearestPS ?? "NA",
     };
   }
 
-    Map<String,String> toJsonupdate() {
+  Map<String, String> toJsonupdate() {
     return {
-      'ID_Proof': idProof??"NA",
-      'ID_No': idNo??"NA",
-      'Category': category??"NA",
-      'Purpose_Visit': purposeVisit??"NA",
-      'PlaceOfStay': placeOfStay??"NA",
-      'VisitDate': visitDate??"NA",
-      'Applcnt_Name': applcntName??"NA",
-      'Applcnt_Parent': applcntParent??"NA",
-      'Applcnt_Gender': applcntGender??"NA",
-      'Applcnt_DOB': applcntDOB??"NA",
-      'Applcnt_Email': applcntEmail??"NA",
-      'Applcnt_Mobile': applcntMobile??"NA",
-      'Applcnt_Address': applcntAddress??"NA",
-      'Applcnt_State': applcntState??"NA",
-      'Applcnt_PoliceStation': applcntPoliceStation??"NA",
-      'Applcnt_District': applcntDistrict??"NA",
-      'Applcnt_Village': applcntVillage??"NA",
-      'Applcnt_HNo': applcntHNo??"NA",
-      'Applcnt_Tehsil': applcntTehsil??"NA",
-      'Gate_ID': gateID??"NA",
-      'EntryType': entryType??"NA",
-      'Apply_District_ID': applyDistrictID??"NA",
-      'ResidingPeriod': residingPeriod??"NA",
-      'Landmark': landmark??"NA",
-      'District': district??"NA",
-      'PinCode': pinCode??"NA",
-      'Amount': amount??"NA",
-      'TransactionId': transactionId??"NA",
-      'LRName': lrName??"NA",
-      'NearestPS': nearestPS??"NA",
+      'ID_Proof': idProof ?? "NA",
+      'ID_No': idNo ?? "NA",
+      'Category': category ?? "NA",
+      'Purpose_Visit': purposeVisit ?? "NA",
+      'PlaceOfStay': placeOfStay ?? "NA",
+      'VisitDate': visitDate ?? "NA",
+      'Applcnt_Name': applcntName ?? "NA",
+      'Applcnt_Parent': applcntParent ?? "NA",
+      'Applcnt_Gender': applcntGender ?? "NA",
+      'Applcnt_DOB': applcntDOB ?? "NA",
+      'Applcnt_Email': applcntEmail ?? "NA",
+      'Applcnt_Mobile': applcntMobile ?? "NA",
+      'Applcnt_Address': applcntAddress ?? "NA",
+      'Applcnt_State': applcntState ?? "NA",
+      'Applcnt_PoliceStation': applcntPoliceStation ?? "NA",
+      'Applcnt_District': applcntDistrict ?? "NA",
+      'Applcnt_Village': applcntVillage ?? "NA",
+      'Applcnt_HNo': applcntHNo ?? "NA",
+      'Applcnt_Tehsil': applcntTehsil ?? "NA",
+      'Gate_ID': gateID ?? "NA",
+      'EntryType': entryType ?? "NA",
+      'Apply_District_ID': applyDistrictID ?? "NA",
+      'ResidingPeriod': residingPeriod ?? "NA",
+      'Landmark': landmark ?? "NA",
+      'District': district ?? "NA",
+      'PinCode': pinCode ?? "NA",
+      'Amount': amount ?? "NA",
+      'TransactionId': transactionId ?? "NA",
+      'LRName': lrName ?? "NA",
+      'NearestPS': nearestPS ?? "NA",
     };
   }
 }

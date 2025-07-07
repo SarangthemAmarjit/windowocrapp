@@ -1,8 +1,7 @@
-import 'dart:io';
-
+import 'package:camera_windows_example/controller/paymentcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:get/get.dart';
 
 import 'widgets/webtouchwrapper.dart';
 
@@ -17,6 +16,7 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
+    GetxTapController paycon = Get.put(GetxTapController());
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -36,7 +36,6 @@ class _WebViewPageState extends State<WebViewPage> {
           Expanded(
             child: WebviewTouchWrapper(
               child: InAppWebView(
-                
                 initialUrlRequest: URLRequest(
                   url: WebUri("https://google.com"),
                 ),

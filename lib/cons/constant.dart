@@ -75,9 +75,6 @@ Map<String, dynamic> paymentmethod = {
   "UP": "Unified Payment Interface",
 };
 
-
-
-
 List<String> districts = [
   "Senapati",
   "Imphal East",
@@ -96,8 +93,6 @@ List<String> districts = [
   "Kakching",
   "Kamjong",
 ];
-
-
 
 final dummyVisitorEntrys = VisitorEntry()
   ..idProof = 'Aadhar Card'

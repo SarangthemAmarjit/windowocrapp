@@ -1,9 +1,7 @@
 import 'dart:developer';
 
-import 'package:camera_windows_example/cons/constant.dart';
-import 'package:camera_windows_example/cons/utils.dart';
-import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
+import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
 import 'package:camera_windows_example/models/permit.dart';
@@ -23,24 +21,19 @@ class DocumentScanPage extends StatefulWidget {
 class _DocumentScanPageState extends State<DocumentScanPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // Get.find(Managementcontroller());
   }
 
   @override
   void dispose() {
-   
     Get.find<PagenavControllers>().changeIdSelectionnoUpdate();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    PagenavControllers pagecon = Get.find<PagenavControllers>();
-
     return GetBuilder<Managementcontroller>(builder: (mngctrl) {
-      return GetBuilder<PagenavControllers>(builder: (_) {
+      return GetBuilder<PagenavControllers>(builder: (pagecon) {
         return Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
@@ -205,7 +198,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   bool? isEmpty;
   bool isLoading = false;
   bool iskeyboardAlpha = true;
-  bool isOtpscreen  = false;
+  bool isOtpscreen = false;
   @override
   void initState() {
     super.initState();
@@ -226,12 +219,10 @@ class _GetDocumentIdState extends State<GetDocumentId> {
     }
   }
 
-    void _onKeyTapOtp(String key) {
-   
-      if (aadharotpController.text.length < 6) {
-       aadharotpController.text += key;
-      }
-    
+  void _onKeyTapOtp(String key) {
+    if (aadharotpController.text.length < 6) {
+      aadharotpController.text += key;
+    }
   }
 
   void _onBackspace() {
@@ -242,11 +233,10 @@ class _GetDocumentIdState extends State<GetDocumentId> {
     }
   }
 
-    void _onBackspaceotp() {
-  
+  void _onBackspaceotp() {
     if (aadharotpController.text.isNotEmpty) {
-      aadharotpController.text =
-          aadharotpController.text.substring(0, aadharotpController.text.length - 1);
+      aadharotpController.text = aadharotpController.text
+          .substring(0, aadharotpController.text.length - 1);
     }
   }
 
@@ -283,125 +273,127 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   topLeft: Radius.circular(16), topRight: Radius.circular(16))),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child:isOtpscreen?Column(
-             crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-               Row(
-                
-                 children: [
-             
-                   Expanded(
-                     child: Center(
-                       child: Text(
-                          "Enter 6 Digit OTP",
-                          style: TextStyle(color: Colors.white, fontSize: 24),
-                        ),
-                     ),
-                   ),
-                  
-                    IconButton(onPressed: (){
-                      setState(() {
-                        isOtpscreen = false;
-                        aadharotpController.clear();
-                      });
-                    }, icon:Icon(Icons.close,color: Colors.white,))
-                 ],
-               ),
-                 SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                    width: 600,
-                    child: Form(
-                      key: _formKeyotp,
-                      child: TextFieldWidget(
-                        counter:6,
-                        errorSize: 24,
-                        focusnode: otpFocus,
-                        keytype: pagectrl.docindex == 0
-                            ? TextInputType.number
-                            : null,
-                        fontSize: 30,
-                        contentpadding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        
-                        controller: aadharotpController,
-                        label: "OTP",
-                        validator:(v){
-                         if(v!=null && v.length==6 && v.isNumericOnly ){
-                          return null;
-                         }
-                         return "OTP must be 6 digits";
-                        }
-                      ),
-                    )),
-                    SizedBox(height: 20,),
-                   Text(
-                        "*** A six digit OTP is sent to the mobile number link with your Aadhar",
-                        style: TextStyle(color: Colors.grey[800], fontSize: 18),
-                      ),
-          SizedBox(height: 20,),
-            Container(
-                    // height: 400,
-                    child: CustomKeyboard(
-                  onKeyTap: (p0) {
-                    _onKeyTapOtp(p0);
-                  },
-                  onBackspace: _onBackspaceotp,
-                  onToggle: () {},
-                  isAlpha: iskeyboardAlpha,
-                  isCapital: true,
-                )),
-                      SizedBox(height: 20,),
-                    ElevatedButton(onPressed: (){
-                            if(_formKeyotp.currentState!.validate()){
-                                //send otp and dss
-                                pagectrl.setmainpageindex(ind: 2);
-                            }
+            child:
+                //   child:isOtpscreen?Column(
+                //    crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //      Row(
 
-                    }, child:  Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Verify",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        mngctrl.isVeriflyloading
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                    height: 30,
-                                    width: 30,
-                                    child: Center(
-                                        child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ))),
-                              )
-                            : Icon(
-                                Icons.check,
-                                size: 30,
-                                color: Colors.white,
-                              )
-                      ],
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 66, 234),
-                    foregroundColor: Colors.white,
-                    textStyle: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),),
-                    )
-              ],
-            ) : Column(
+                //        children: [
+
+                //          Expanded(
+                //            child: Center(
+                //              child: Text(
+                //                 "Enter 6 Digit OTP",
+                //                 style: TextStyle(color: Colors.white, fontSize: 24),
+                //               ),
+                //            ),
+                //          ),
+
+                //           IconButton(onPressed: (){
+                //             setState(() {
+                //               isOtpscreen = false;
+                //               aadharotpController.clear();
+                //             });
+                //           }, icon:Icon(Icons.close,color: Colors.white,))
+                //        ],
+                //      ),
+                //        SizedBox(
+                //         height: 20,
+                //       ),
+                //       SizedBox(
+                //           width: 600,
+                //           child: Form(
+                //             key: _formKeyotp,
+                //             child: TextFieldWidget(
+                //               counter:6,
+                //               errorSize: 24,
+                //               focusnode: otpFocus,
+                //               keytype: pagectrl.docindex == 0
+                //                   ? TextInputType.number
+                //                   : null,
+                //               fontSize: 30,
+                //               contentpadding:
+                //                   EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+
+                //               controller: aadharotpController,
+                //               label: "OTP",
+                //               validator:(v){
+                //                if(v!=null && v.length==6 && v.isNumericOnly ){
+                //                 return null;
+                //                }
+                //                return "OTP must be 6 digits";
+                //               }
+                //             ),
+                //           )),
+                //           SizedBox(height: 20,),
+                //          Text(
+                //               "*** A six digit OTP is sent to the mobile number link with your Aadhar",
+                //               style: TextStyle(color: Colors.grey[800], fontSize: 18),
+                //             ),
+                // SizedBox(height: 20,),
+                //   Container(
+                //           // height: 400,
+                //           child: CustomKeyboard(
+                //         onKeyTap: (p0) {
+                //           _onKeyTapOtp(p0);
+                //         },
+                //         onBackspace: _onBackspaceotp,
+                //         onToggle: () {},
+                //         isAlpha: iskeyboardAlpha,
+                //         isCapital: true,
+                //       )),
+                //             SizedBox(height: 20,),
+                //           ElevatedButton(onPressed: (){
+                //                   if(_formKeyotp.currentState!.validate()){
+                //                       //send otp and dss
+                //                       pagectrl.setmainpageindex(ind: 2);
+                //                   }
+
+                //           }, child:  Padding(
+                //           padding: const EdgeInsets.all(32.0),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               Text(
+                //                 "Verify",
+                //                 style: TextStyle(fontSize: 18),
+                //               ),
+                //               SizedBox(
+                //                 width: 10,
+                //               ),
+                //               mngctrl.isVeriflyloading
+                //                   ? Padding(
+                //                       padding: const EdgeInsets.all(8.0),
+                //                       child: SizedBox(
+                //                           height: 30,
+                //                           width: 30,
+                //                           child: Center(
+                //                               child: CircularProgressIndicator(
+                //                             strokeWidth: 2,
+                //                             color: Colors.white,
+                //                           ))),
+                //                     )
+                //                   : Icon(
+                //                       Icons.check,
+                //                       size: 30,
+                //                       color: Colors.white,
+                //                     )
+                //             ],
+                //           ),
+                //         ),
+                //         style: ElevatedButton.styleFrom(
+                //           backgroundColor: const Color.fromARGB(255, 0, 66, 234),
+                //           foregroundColor: Colors.white,
+                //           textStyle: const TextStyle(
+                //               fontSize: 16, fontWeight: FontWeight.bold),
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(8),
+                //           ),),
+                //           )
+                //     ],
+                //   ) :
+                Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
@@ -436,7 +428,9 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                             ? mngctrl.validateAadhar
                             : pagectrl.docindex == 2
                                 ? mngctrl.validatePAN
-                                :pagectrl.docindex==1?mngctrl.isValidDrivingLicense:mngctrl.isValidPassport,
+                                : pagectrl.docindex == 1
+                                    ? mngctrl.isValidDrivingLicense
+                                    : mngctrl.isValidPassport,
                       ),
                     )),
                 isEmpty == true
@@ -480,21 +474,24 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   onPressed: mngctrl.isVeriflyloading
                       ? null
                       : () async {
-
                           if (_formKey.currentState!.validate()) {
                             await mngctrl.verifydocid(
                                 doctype: mngctrl.getPermit?.idProof ?? "",
                                 docid: docIdController.text);
-                    mngctrl.getDocumentDetails(
-                                  docID: docIdController.text, docType:mngctrl.getPermit?.idProof ?? "" );
-                              
+                            mngctrl.getDocumentDetails(
+                                docID: docIdController.text,
+                                docType: mngctrl.getPermit?.idProof ?? "");
+
                             // if the applicant already exists and the exit status is true
                             if (mngctrl.applicid == null ||
                                 (mngctrl.applicid != null &&
                                     mngctrl.applicid!.statusExit != false)) {
                               if (mngctrl.applicid != null) {
                                 mngctrl.addPermit(VisitorEntry(
-                                  applcntDOB: mngctrl.applicid?.dob?.toIso8601String(),
+                                  applcntDOB: mngctrl.applicid != null &&
+                                          mngctrl.applicid!.dob != null
+                                      ? mngctrl.applicid!.dob!.toIso8601String()
+                                      : "",
                                   applcntDistrict:
                                       mngctrl.applicid?.district ?? "",
                                   applcntEmail: mngctrl.applicid?.email,
@@ -514,47 +511,38 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                   entryType: "ONLINE",
                                   applcntAddress: mngctrl.applicid?.address,
                                 ));
-                             pagectrl.setmainpageindex(ind: 2); 
-
-                              }else{
-
-
+                                pagectrl.setmainpageindex(ind: 2);
+                              } else {
                                 //demo
-                            mngctrl.addPermit(dummyVisitorEntrys);
-                            imgcon.demoImage();
-                                  if( mngctrl.getPermit?.idProof == "Aadhaar Card"){
+                                // mngctrl.addPermit(dummyVisitorEntrys);
+                                // imgcon.demoImage();
+                                // if( mngctrl.getPermit?.idProof == "Aadhaar Card"){
 
+                                //       setState(() {
+                                //         isOtpscreen = true;
+                                //       });
 
+                                // } else{
 
-
-                                        setState(() {
-                                          isOtpscreen = true;
-                                        });
-
-
-
-                                  } else{
-
-                                    pagectrl.setmainpageindex(ind: 2);
-                                  }
-
-
+                                //   pagectrl.setmainpageindex(ind: 2);
+                                // }
+                                pagectrl.setmainpageindex(ind: 2);
                               }
-                             
                             } else {
                               ///here is the exit status part if the user is not yet exited
                               ///instruct to go to the counter
-                                      if (mngctrl.applicid != null) {
-                                                    Get.dialog(AlertDialog(
-                                                      content: RepaintBoundary(
-                                                          key: _globlkey,
-                                                          child: ReceiptWidget(
-                                                              applicantName: mngctrl
-                                                                      .getPermit
-                                                                      ?.applcntName ??
-                                                                  "NA",
-                                                              applicantId: mngctrl.applicid!.applicationNo)),
-                                                    ));}
+                              if (mngctrl.applicid != null) {
+                                Get.dialog(AlertDialog(
+                                  content: RepaintBoundary(
+                                      key: _globlkey,
+                                      child: ReceiptWidget(
+                                          applicantName:
+                                              mngctrl.getPermit?.applcntName ??
+                                                  "NA",
+                                          applicantId:
+                                              mngctrl.applicid!.applicationNo)),
+                                ));
+                              }
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -563,7 +551,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                       'Applicant Already Exist',
                                       style: TextStyle(fontSize: 30),
                                     ),
-                                    content: Text( 
+                                    content: Text(
                                       'You must first exit your Permit. Please ensure you have officially checked out before proceeding with a new application.',
                                       style: TextStyle(fontSize: 20),
                                     ),
@@ -601,64 +589,6 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                               pagectrl.listenPageChange();
                             }
                           }
-                          //   if (mngctrl.applicid!= null) {
-
-                          //     String s = mngctrl.getPermit?.idProof ?? "";
-                          //     mngctrl.getDocumentDetails(
-                          //         docID: docIdController.text, docType: s);
-                          //     pagectrl.setmainpageindex(ind: 2);
-                          //     pagectrl.changeIdSelection();
-                          //   } else {
-                          //     // Get.dialog(AlertDialog(
-                          //     //   content: RepaintBoundary(
-                          //     //       key: _globlkey,
-                          //     //       child: ReceiptWidget(
-                          //     //           applicantName: '',
-                          //     //           applicantId: mngctrl.applicid)),
-                          //     // ));
-                          //     showDialog(
-                          //       context: context,
-                          //       builder: (BuildContext context) {
-                          //         return AlertDialog(
-                          //           title: Text(
-                          //             'Applicant Already Exist',
-                          //             style: TextStyle(fontSize: 30),
-                          //           ),
-                          //           content: Text(
-                          //             'Please collect the receipt and proceed to the counter for further processing.',
-                          //             style: TextStyle(fontSize: 20),
-                          //           ),
-                          //           actions: [
-                          //             TextButton(
-                          //               onPressed: () {
-                          //                 Navigator.of(context).pop();
-                          //               },
-                          //               child: Text('OK'),
-                          //             ),
-                          //           ],
-                          //         );
-                          //       },
-                          //     );
-
-                          //     Future.delayed(Duration(seconds: 2)).then(
-                          //       (value) async {
-                          //         print("nav Keys sdsd");
-                          //         await imgcon.saveReceipt(
-                          //             _globlkey, mngctrl.applicid?.applicationNo??"");
-                          //         print("nav Keys");
-
-                          //         Get.back();
-                          //         Get.back();
-
-                          //         pagectrl.setmainpageindex(ind: 7);
-                          //       },
-                          //     );
-
-                          //     /////dsadsadasd
-                          //     log('already exist');
-                          //   }
-                          // }
-                          // pagectrl.listenPageChange();
                         },
                   child: Padding(
                     padding: const EdgeInsets.all(32.0),

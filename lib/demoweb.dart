@@ -1,8 +1,9 @@
-import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:camera_windows_example/widgets/customkeys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:win32/win32.dart';
 
 class WebViewPage extends StatefulWidget {
   const WebViewPage({super.key});
@@ -13,8 +14,23 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   late InAppWebViewController _webViewController;
-  final String _initialUrl = 'https://www.atomtech.in/aipay-demo/uat';
+  final String _initialUrl = 'https://www.google.com';
   String inputText = ""; // To store the input from the custom keyboard
+
+  void openTouchKeyboard() {
+    final hInstance = ShellExecute(
+      0,
+      TEXT('open'),
+      TEXT(r'C:\Program Files\Common Files\microsoft shared\ink\TabTip.exe'),
+      nullptr,
+      nullptr,
+      SW_SHOWNORMAL,
+    );
+
+    if (hInstance <= 32) {
+      print('Failed to open touch keyboard with error code: $hInstance');
+    }
+  }
 
 // Focus the target input field after page load
   Future<void> _focusWebViewTextField() async {
@@ -104,7 +120,7 @@ class _WebViewPageState extends State<WebViewPage> {
               },
               onLoadStop: (controller, url) async {
                 debugPrint('Page finished loading: $url');
-                await _focusWebViewTextField(); // Focus the input field after loading
+                openTouchKeyboard();
               },
               onPrintRequest: (controller, url, printJobController) async {
                 return await true;
@@ -120,15 +136,6 @@ class _WebViewPageState extends State<WebViewPage> {
                 debugPrint(
                     "Console Message: ${consoleMessage.message}"); // Log console messages
               },
-            ),
-          ),
-          Container(
-            color: Colors.grey[200], // Background for custom keyboard
-            child: CustomKeyboard(
-              onKeyTap: _onKeyTap,
-              onBackspace: _onBackspace,
-              onToggle: () {},
-              isAlpha: true,
             ),
           ),
         ],

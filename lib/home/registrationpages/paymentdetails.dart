@@ -1,21 +1,15 @@
-import 'dart:io';
-
 import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
-import 'package:camera_windows_example/home/landingpage.dart';
-import 'package:camera_windows_example/home/registrationpages/linkpage.dart';
-import 'package:camera_windows_example/home/registrationpages/succespage.dart';
-import 'package:camera_windows_example/payment/successpage.dart';
 import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+
 import '../../cons/constant.dart';
 import '../../cons/tandcpolicy.dart';
 import '../../controller/pagecontroller.dart';
-import '../../payment/PaymentPage.dart';
 import '../../widgets/receiptpermit.dart';
 
 class PaymentDetails extends StatelessWidget {
@@ -369,7 +363,7 @@ class PaymentDetails extends StatelessWidget {
                                                   ),
                                                   imgcon.signature != null
                                                       ? Image.memory(
-                                                          imgcon.signature !,
+                                                          imgcon.signature!,
                                                           width: 120,
                                                           height: 40,
                                                           fit: BoxFit.fill,
@@ -625,7 +619,8 @@ class _PaymentCardState extends State<PaymentCard> {
                                   indent: 80,
                                 )),
                             Expanded(
-                                child: Text("${mngctrl.getPermitPrice?.validityDays??30}",
+                                child: Text(
+                                    "${mngctrl.getPermitPrice?.validityDays ?? 30}",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold))),
@@ -678,7 +673,10 @@ class _PaymentCardState extends State<PaymentCard> {
                                 child: Text(
                               getDate(
                                   dateTime: mngctrl.getPermit?.visitDate ?? "",
-                                  duration: (mngctrl.getPermitPrice?.validityDays??30)-1),
+                                  duration:
+                                      (mngctrl.getPermitPrice?.validityDays ??
+                                              30) -
+                                          1),
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
@@ -703,7 +701,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                 )),
                             Expanded(
                                 child: Text(
-                              "$rupee ${mngctrl.getPermitPrice?.fee??100}",
+                              "$rupee ${mngctrl.getPermitPrice?.fee ?? 100}",
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
@@ -715,59 +713,101 @@ class _PaymentCardState extends State<PaymentCard> {
                         ),
                         Center(
                             child: Text(
-                              "$rupee ${mngctrl.getPermitPrice?.fee??100}",
+                          "$rupee ${mngctrl.getPermitPrice?.fee ?? 100}",
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         )),
                       ],
                     ),
                   ),
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("By Clicking on Register permit you agree to our following terms and conditions.",style: TextStyle(fontSize: 18),textAlign: TextAlign.center,),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Please read the following privacy policy, payments instructions and refund policy before proceeding.",style: TextStyle(fontSize: 18),textAlign: TextAlign.center,),
-              ),
-                   Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: terms.asMap().entries.map((e) => Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: InkWell(
-                    onTap: (){
-                      Get.dialog(Dialog(child: Container(
-                        padding: EdgeInsets.all(32),
-                        height: e.key==2?300:700,
-                        width: 600,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("${e.value}",style: TextStyle(fontSize:18),),
-                                IconButton(onPressed: (){
-                                  Get.back();
-                                }, icon: Icon(Icons.close))
-                              ],
-                            ),
-                            Divider(),
-                            Expanded(
-                              child: ListView(
-                                shrinkWrap: true,
-                                children: termspolicies[e.key].asMap().entries.map((f) => ListTile(
-                                  title: Text("${f.key+1}",style: TextStyle(fontSize:16),),
-                                  subtitle: Text(f.value,style: TextStyle(fontSize:20),),
-                                ),).toList(),
-                              ),
-                            ),
-                          ],
-                        ),),));
-                    },
-                    child: Text(e.value,style: TextStyle(fontSize:24,color: Colors.blue,),)),
-                ),).toList(),
-              ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "By Clicking on Register permit you agree to our following terms and conditions.",
+                      style: TextStyle(fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Please read the following privacy policy, payments instructions and refund policy before proceeding.",
+                      style: TextStyle(fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: terms
+                        .asMap()
+                        .entries
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: InkWell(
+                                onTap: () {
+                                  Get.dialog(Dialog(
+                                    child: Container(
+                                      padding: EdgeInsets.all(32),
+                                      height: e.key == 2 ? 300 : 700,
+                                      width: 600,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "${e.value}",
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    Get.back();
+                                                  },
+                                                  icon: Icon(Icons.close))
+                                            ],
+                                          ),
+                                          Divider(),
+                                          Expanded(
+                                            child: ListView(
+                                              shrinkWrap: true,
+                                              children: termspolicies[e.key]
+                                                  .asMap()
+                                                  .entries
+                                                  .map(
+                                                    (f) => ListTile(
+                                                      title: Text(
+                                                        "${f.key + 1}",
+                                                        style: TextStyle(
+                                                            fontSize: 16),
+                                                      ),
+                                                      subtitle: Text(
+                                                        f.value,
+                                                        style: TextStyle(
+                                                            fontSize: 20),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ));
+                                },
+                                child: Text(
+                                  e.value,
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.blue,
+                                  ),
+                                )),
+                          ),
+                        )
+                        .toList(),
+                  ),
                   ButtonCard(
                       title: "Register Permit",
                       icon: isload
@@ -834,7 +874,8 @@ class _PaymentCardState extends State<PaymentCard> {
                             Future.delayed(Duration(seconds: 3)).then(
                               (value) async {
                                 print("nav Keys sdsd");
-                                await imgcon.saveReceipt(_globlkey, s,"Your permit request is registered.");
+                                await imgcon.saveReceipt(_globlkey, s,
+                                    "Your permit request is registered.");
                                 print("nav Keys");
 
                                 Get.back();
@@ -861,7 +902,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "Processing Permit"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ,
+                                                "Processing Permit",
                                                 style: TextStyle(fontSize: 24),
                                               ),
                                               IconButton(
@@ -904,8 +945,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                       .symmetric(
                                                       horizontal: 8.0),
                                                   child: Icon(
-                                                    Icons
-                                                        .laptop_mac_rounded,
+                                                    Icons.laptop_mac_rounded,
                                                     color: Colors.white,
                                                   ),
                                                 ),
@@ -1011,9 +1051,10 @@ class _PaymentCardState extends State<PaymentCard> {
                                                         .then(
                                                       (value) async {
                                                         print("nav Keys sdsd");
-                                                        await imgcon
-                                                            .saveReceipt(
-                                                                _globlkey, s,"Your Permit request is registered.");
+                                                        await imgcon.saveReceipt(
+                                                            _globlkey,
+                                                            s,
+                                                            "Your Permit request is registered.");
                                                         print("nav Keys");
 
                                                         Get.back();
@@ -1025,59 +1066,113 @@ class _PaymentCardState extends State<PaymentCard> {
                                                       },
                                                     );
                                                   } else {
-
                                                     Get.back();
-                                                
-                                                  
+
                                                     Get.dialog(
-                                                      barrierDismissible:  false,
-                                                      AlertDialog(
-                                                      title: Text("Failed to generate Permit.",style: TextStyle(fontSize: 24),),
-                                                      content: Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                              "There are some technical issues at our end.",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                                                           Text(
-                                                              "Some reasons maybe: ",style: TextStyle(fontSize: 16)),   
-                                                              SizedBox(height: 16,), 
-                                                               Text(
-                                                              "The photo provided may be unclear. Please retry again",style: TextStyle(fontSize: 16)),
-                                                                SizedBox(height: 8,), 
-                                                               Text(
-                                                              "The server failed to load during the permit generation process.",style: TextStyle(fontSize: 16)),
-                                                               SizedBox(height: 8,), 
-                                                               Text(
-                                                              "The server maybe down.",style: TextStyle(fontSize: 16)),
-                                                               SizedBox(height: 8,), 
-                                                                 Text(
-                                                              "The internet connection is slow",style: TextStyle(fontSize: 16)),
-                                                               SizedBox(height: 8,), 
-                                                                 Text(
-                                                              "There is no network coverage.",style: TextStyle(fontSize: 16)),
-                                                           SizedBox(height: 16,), 
-                                                            
+                                                        barrierDismissible:
+                                                            false,
+                                                        AlertDialog(
+                                                          title: Text(
+                                                            "Failed to generate Permit.",
+                                                            style: TextStyle(
+                                                                fontSize: 24),
+                                                          ),
+                                                          content: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                  "There are some technical issues at our end.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              Text(
+                                                                  "Some reasons maybe: ",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 16,
+                                                              ),
+                                                              Text(
+                                                                  "The photo provided may be unclear. Please retry again",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                  "The server failed to load during the permit generation process.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                  "The server maybe down.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                  "The internet connection is slow",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                  "There is no network coverage.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 16,
+                                                              ),
                                                               Divider(),
                                                               Text(
-                                                              "For any issues and queries please go to the ILP COUNTER.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
-                                                        ],
-                                                      ),
-                                                      actions: [
-                                                        ButtonCard(
-                                                          padding: EdgeInsets.zero,
-                                                            title: "Try again",
-                                                            onpress: () {
-                                                              pagectrl
-                                                                  .setmainpageindex(
-                                                                      ind: 0);
-                                                                      Get.back();
-                                                              // Get.off(()=>LandingPage());        
-                                                              pagectrl
-                                                                  .listenPageChange();
-                                                            })
-                                                      ],
-                                                    ));
+                                                                  "For any issues and queries please go to the ILP COUNTER.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                            ],
+                                                          ),
+                                                          actions: [
+                                                            ButtonCard(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                title:
+                                                                    "Try again",
+                                                                onpress: () {
+                                                                  pagectrl
+                                                                      .setmainpageindex(
+                                                                          ind:
+                                                                              0);
+                                                                  imgcon
+                                                                      .disposeAll();
+                                                                  Get.back();
+                                                                  // Get.off(()=>LandingPage());
+                                                                  pagectrl
+                                                                      .listenPageChange();
+                                                                })
+                                                          ],
+                                                        ));
                                                   }
 
                                                   // Get.back();
@@ -1193,6 +1288,12 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   if (s != null) {
                                                     mngctrl.setOnlineApplId(s);
                                                     gcontroller.initNdpsPayment(
+                                                      email: mngctrl.getPermit
+                                                              ?.applcntEmail ??
+                                                          "",
+                                                      number: mngctrl.getPermit
+                                                              ?.applcntMobile ??
+                                                          "",
                                                       transId: mngctrl.getPermit
                                                               ?.transactionId ??
                                                           "",
@@ -1204,65 +1305,122 @@ class _PaymentCardState extends State<PaymentCard> {
                                                           gcontroller
                                                               .responseDecryptionKey,
                                                       amount: mngctrl
-                                                          .getPermitPrice?.fee.toString()??"100",
+                                                              .getPermitPrice
+                                                              ?.fee
+                                                              .toString() ??
+                                                          "100",
                                                       address: 'fsdfsdf',
                                                       name: 'amarjit',
                                                     );
-                                                  
                                                   } else {
-
                                                     Get.back();
-                                                
-                                                  
+
                                                     Get.dialog(
-                                                      barrierDismissible:  false,
-                                                      AlertDialog(
-                                                      title: Text("Failed to generate Permit.",style: TextStyle(fontSize: 24),),
-                                                      content: Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                              "There are some technical issues at our end.",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                                                           Text(
-                                                              "Some reasons maybe: ",style: TextStyle(fontSize: 16)),   
-                                                              SizedBox(height: 16,), 
-                                                               Text(
-                                                              "The photo provided may be unclear. Please retry again",style: TextStyle(fontSize: 16)),
-                                                                SizedBox(height: 8,), 
-                                                               Text(
-                                                              "The server failed to load during the permit generation process.",style: TextStyle(fontSize: 16)),
-                                                               SizedBox(height: 8,), 
-                                                               Text(
-                                                              "The server maybe down.",style: TextStyle(fontSize: 16)),
-                                                               SizedBox(height: 8,), 
-                                                                 Text(
-                                                              "The internet connection is slow",style: TextStyle(fontSize: 16)),
-                                                               SizedBox(height: 8,), 
-                                                                 Text(
-                                                              "There is no network coverage.",style: TextStyle(fontSize: 16)),
-                                                           SizedBox(height: 16,), 
-                                                            
+                                                        barrierDismissible:
+                                                            false,
+                                                        AlertDialog(
+                                                          title: Text(
+                                                            "Failed to generate Permit.",
+                                                            style: TextStyle(
+                                                                fontSize: 24),
+                                                          ),
+                                                          content: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                  "There are some technical issues at our end.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                              Text(
+                                                                  "Some reasons maybe: ",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 16,
+                                                              ),
+                                                              Text(
+                                                                  "The photo provided may be unclear. Please retry again",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                  "The server failed to load during the permit generation process.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                  "The server maybe down.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                  "The internet connection is slow",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              Text(
+                                                                  "There is no network coverage.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          16)),
+                                                              SizedBox(
+                                                                height: 16,
+                                                              ),
                                                               Divider(),
                                                               Text(
-                                                              "For any issues and queries please go to the ILP COUNTER.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
-                                                        ],
-                                                      ),
-                                                      actions: [
-                                                        ButtonCard(
-                                                          padding: EdgeInsets.zero,
-                                                            title: "Try again",
-                                                            onpress: () {
-                                                              pagectrl
-                                                                  .setmainpageindex(
-                                                                      ind: 0);
-                                                                      Get.back();
-                                                              // Get.off(()=>LandingPage());        
-                                                              pagectrl
-                                                                  .listenPageChange();
-                                                            })
-                                                      ],
-                                                    ));
+                                                                  "For any issues and queries please go to the ILP COUNTER.",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                            ],
+                                                          ),
+                                                          actions: [
+                                                            ButtonCard(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                title:
+                                                                    "Try again",
+                                                                onpress: () {
+                                                                  pagectrl
+                                                                      .setmainpageindex(
+                                                                          ind:
+                                                                              0);
+                                                                  Get.back();
+                                                                  imgcon
+                                                                      .disposeAll();
+
+                                                                  // Get.off(()=>LandingPage());
+                                                                  pagectrl
+                                                                      .listenPageChange();
+                                                                })
+                                                          ],
+                                                        ));
                                                   }
                                                 }),
                                           ],
@@ -1319,7 +1477,9 @@ class ButtonCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon ?? SizedBox(),
-              SizedBox(width:icon==null?0: 10,),
+              SizedBox(
+                width: icon == null ? 0 : 10,
+              ),
               Text(
                 title,
                 style: TextStyle(color: Colors.white, fontSize: 26),

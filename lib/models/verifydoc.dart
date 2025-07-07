@@ -1,12 +1,6 @@
-// To parse this JSON data, do
-//
-//     final verifydocModel = verifydocModelFromJson(jsonString);
-
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
-VerifydocModel verifydocModelFromJson(String str) =>
-    VerifydocModel.fromJson(json.decode(str));
+VerifydocModel verifydocModelFromJson(String str) => VerifydocModel.fromJson(json.decode(str));
 
 String verifydocModelToJson(VerifydocModel data) => json.encode(data.toJson());
 

@@ -48,19 +48,19 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
   bool loadComplete = false;
   final Completer<InAppWebViewController> _controllerCompleter =
       Completer<InAppWebViewController>();
-      final GlobalKey _keys = GlobalKey();
-bool isLoading = false;
+  final GlobalKey _keys = GlobalKey();
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
     isLoading = true;
     // if (Platform.isAndroid) WebView.platform  = SurfaceAndroidViewController();
   }
+
   _PaymentFinalPageState(this.mode, this.payDetails, this._responsehashKey,
       this._responseDecryptionKey);
   @override
   void dispose() {
- 
     // TODO: implement dispose
     super.dispose();
   }
@@ -78,105 +78,121 @@ bool isLoading = false;
               backgroundColor: Colors.transparent,
               automaticallyImplyLeading: false,
               elevation: 0,
-              toolbarHeight:2,
+              toolbarHeight: 2,
             ),
             body: Stack(
               children: [
-                        mngctrl.paymentresult!=null && mngctrl.paymentresult!.permitNo.isNotEmpty? Stack(
-                      children: [
-                        PermitGenerateWidgetcopy(applicantId: mngctrl.paymentresult!.permitNo, keys: _keys, paymentResponse: mngctrl.paymentresult!,),
-                      Positioned.fill(child: Container(color: Colors.transparent,))
-                      ],
-                    ):SizedBox(),
+                mngctrl.paymentresult != null &&
+                        mngctrl.paymentresult!.permitNo.isNotEmpty
+                    ? Stack(
+                        children: [
+                          PermitGenerateWidgetcopy(
+                            applicantId: mngctrl.paymentresult!.permitNo,
+                            keys: _keys,
+                            paymentResponse: mngctrl.paymentresult!,
+                          ),
+                          Positioned.fill(
+                              child: Container(
+                            color: Colors.transparent,
+                          ))
+                        ],
+                      )
+                    : SizedBox(),
                 Container(
-                  color:const Color.fromARGB(255, 160, 207, 240),
+                  color: const Color.fromARGB(255, 160, 207, 240),
                   child: Container(
                     decoration: BoxDecoration(
-                          image: DecorationImage(
-                                            alignment: Alignment.bottomCenter,
-                                            image: AssetImage(
-                                              
-                                              'assets/images/Untitled21.png',
-                                            ))
-                    ),
+                        image: DecorationImage(
+                            alignment: Alignment.bottomCenter,
+                            image: AssetImage(
+                              'assets/images/Untitled21.png',
+                            ))),
                     child: Column(
                       children: [
-                         Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 30),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  'assets/images/kanglashaok.png',
-                                  height: 60,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Image.asset(
-                                  'assets/images/ilplogo2.png',
-                                  height: 60,
-                                )
-                              ],
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Image.asset(
+                                'assets/images/kanglashaok.png',
+                                height: 60,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Image.asset(
+                                'assets/images/ilplogo2.png',
+                                height: 60,
+                              )
+                            ],
                           ),
-
-            
+                        ),
                         Expanded(
                           child: DefaultTextStyle(
-                                        style: TextStyle(
-                          fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
-                          // Retrieve fontFamily from the current theme
-                                        ),
-                                        child:
-                              
-                  
-                                        
-                            Center(
+                            style: TextStyle(
+                              fontFamily: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .fontFamily,
+                              // Retrieve fontFamily from the current theme
+                            ),
+                            child: Center(
                               child: Container(
                                 height: 1300,
                                 width: 700,
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
-                                 color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16)
-                                ),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16)),
                                 child: Stack(
                                   children: [
-                                    Center(child: Padding(
-                   padding: const EdgeInsets.all(8.0),
-                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                     children: [
-                       SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: CircularProgressIndicator()),
-                          SizedBox(height: 20,),
-                          Text("Processing your Payment",style: GoogleFonts.lobster(color: Theme.of(context).colorScheme.secondary,fontSize: 30))
-                     ],
-                   ),
-                                 ),), 
+                                    Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                                height: 40,
+                                                width: 40,
+                                                child:
+                                                    CircularProgressIndicator()),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text("Processing your Payment",
+                                                style: GoogleFonts.lobster(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary,
+                                                    fontSize: 30))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                     Positioned(
                                       child: WebviewTouchWrapper(
                                         child: InAppWebView(
-                                         
                                           initialSettings: InAppWebViewSettings(
-                                              javaScriptEnabled: true, // ✅ Enable JS
-                                              allowFileAccessFromFileURLs:
-                                                  true, // ✅ Allow asset file access
-                                              allowUniversalAccessFromFileURLs:
-                                                  true, // ✅ Avoid CORS issues
-                                              useShouldOverrideUrlLoading: true,
-                                              useOnLoadResource: true,
-                                              allowContentAccess: true,
-                                              // javaScriptCanOpenWindowsAutomatically: true
-                                              ),
+                                            javaScriptEnabled:
+                                                true, // ✅ Enable JS
+                                            allowFileAccessFromFileURLs:
+                                                true, // ✅ Allow asset file access
+                                            allowUniversalAccessFromFileURLs:
+                                                true, // ✅ Avoid CORS issues
+                                            useShouldOverrideUrlLoading: true,
+                                            useOnLoadResource: true,
+                                            allowContentAccess: true,
+                                            // javaScriptCanOpenWindowsAutomatically: true
+                                          ),
                                           // initialUrl: 'about:blank',
                                           key: UniqueKey(),
                                           initialData: InAppWebViewInitialData(
-                                            data:isDebugmode?'''
+                                            data: isDebugmode
+                                                ? '''
                                                     <!DOCTYPE html>
                                                     <html>
                                                     <head>
@@ -199,14 +215,15 @@ bool isLoading = false;
                                                                   "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
                                                                   "userAgent": "mobile_webView"
                                                                 };
+                                                                
                                                                 new AtomPaynetz(options, 'uat');
                                                               }
                                                               document.addEventListener('DOMContentLoaded', openPay);
                                                             </script>
                                                           </body>
                                                           </html>
-                                                        ''':
-                                             '''
+                                                        '''
+                                                : '''
                                                   <!DOCTYPE html>
                                                   <html>
                                                   <head>
@@ -225,8 +242,8 @@ bool isLoading = false;
                                                         const options = {
                                                           "atomTokenId": "${gcontroller.atomTokenId}",
                                                 "merchId": "${gcontroller.login}",
-                                                "custEmail": "${mngctrl.getPermit?.applcntEmail??"nouser@gmail.com"}",
-                                                "custMobile": "${mngctrl.getPermit?.applcntMobile??"9898989898"}",
+                                                "custEmail": "${mngctrl.getPermit?.applcntEmail ?? "nouser@gmail.com"}",
+                                                "custMobile": "${mngctrl.getPermit?.applcntMobile ?? "9898989898"}",
                                                 "returnUrl": "https://payment.atomtech.in/mobilesdk/param",
                                                 "userAgent": "mobile_webView"
                                               };
@@ -242,23 +259,27 @@ bool isLoading = false;
                                             _controller = controller;
                                             gcontroller.resetloading();
                                           },
-                                      
-                                        
-                                          
-                                          onConsoleMessage: (controller, consoleMessage) {
-                                            debugPrint("WebView Console: ${consoleMessage.message}");
+
+                                          onConsoleMessage:
+                                              (controller, consoleMessage) {
+                                            debugPrint(
+                                                "WebView Console: ${consoleMessage.message}");
                                           },
-                                          shouldOverrideUrlLoading:
-                                              (controller, navigationAction) async {
-                                            String url = navigationAction.request.url.toString();
-                                            var uri = navigationAction.request.url!;
+                                          shouldOverrideUrlLoading: (controller,
+                                              navigationAction) async {
+                                            String url = navigationAction
+                                                .request.url
+                                                .toString();
+                                            var uri =
+                                                navigationAction.request.url!;
                                             if (url.startsWith("upi://")) {
-                                              debugPrint("upi url started loading");
+                                              debugPrint(
+                                                  "upi url started loading");
                                               try {
                                                 await launchUrl(uri);
                                               } catch (e) {
                                                 _closeWebView(
-                                                  callback: (){},
+                                                    callback: () {},
                                                     context: context,
                                                     transactionResult:
                                                         "Transaction Status = cannot open UPI applications",
@@ -266,138 +287,185 @@ bool isLoading = false;
                                                     transstatus: 0,
                                                     paymentname: 'NA',
                                                     totalamount: '');
-                                        
+
                                                 throw 'custom error for UPI Intent';
                                               }
-                                              return NavigationActionPolicy.CANCEL;
+                                              return NavigationActionPolicy
+                                                  .CANCEL;
                                             }
                                             return NavigationActionPolicy.ALLOW;
                                           },
-                                        
+
                                           onLoadStop: (controller, url) async {
-                                            
-                                             
                                             debugPrint("onloadstop_url: $url");
-                                        
-                                      
-                                                          
-                                            if (url.toString().contains("AIPAYLocalFile")) {
-                                              debugPrint(" AIPAYLocalFile Now url loaded: $url");
+
+                                            if (url
+                                                .toString()
+                                                .contains("AIPAYLocalFile")) {
+                                              debugPrint(
+                                                  " AIPAYLocalFile Now url loaded: $url");
                                               await _controller.evaluateJavascript(
-                                                  source: "${"openPay('" + payDetails}')");
-                                        
+                                                  source:
+                                                      "${"openPay('" + payDetails}')");
+
                                               log('Checking 1 $url');
                                             }
-                                        
-                                            if (url.toString().contains('/mobilesdk/param')) {
+
+                                            if (url
+                                                .toString()
+                                                .contains('/mobilesdk/param')) {
                                               log('Checking 2');
                                               final String response =
-                                                  await _controller.evaluateJavascript(
-                                                      source:
-                                                          "document.getElementsByTagName('h5')[0].innerHTML");
-                                              debugPrint("HTML response : $response");
+                                                  await _controller
+                                                      .evaluateJavascript(
+                                                          source:
+                                                              "document.getElementsByTagName('h5')[0].innerHTML");
+                                              debugPrint(
+                                                  "HTML response : $response");
                                               var transactionResult = "";
                                               String transactionid = '';
                                               int? transactionstatus;
                                               String paymentmethodname = '';
                                               String totalamount = '';
                                               String remark = "";
-                                              if (response.trim().contains("cancelTransaction")) {
-
-                                              remark =remark.isEmpty || remark!='failed'?"Cancelled":remark; 
-                                              totalamount = "0";
+                                              if (response.trim().contains(
+                                                  "cancelTransaction")) {
+                                                remark = remark.isEmpty ||
+                                                        remark != 'failed'
+                                                    ? "Cancelled"
+                                                    : remark;
+                                                totalamount = "0";
                                                 transactionResult = "CANCELLED";
                                                 transactionstatus = 100;
                                               } else {
-                                                final split = response.trim().split('|');
-                                                final Map<int, String> values = {
-                                                  for (int i = 0; i < split.length; i++) i: split[i]
+                                                final split =
+                                                    response.trim().split('|');
+                                                final Map<int, String> values =
+                                                    {
+                                                  for (int i = 0;
+                                                      i < split.length;
+                                                      i++)
+                                                    i: split[i]
                                                 };
-                                        
-                                                final splitTwo = values[1]!.split('=');
+
+                                                final splitTwo =
+                                                    values[1]!.split('=');
                                                 // const platform = MethodChannel('flutter.dev/NDPSAESLibrary');
-                                        
+
                                                 try {
-                                                  final String result = await gcontroller
-                                                      .decrypt(splitTwo[1].toString());
+                                                  final String result =
+                                                      await gcontroller.decrypt(
+                                                          splitTwo[1]
+                                                              .toString());
                                                   //     await platform.invokeMethod('NDPSAESInit', {
                                                   //   'AES_Method': 'decrypt',
                                                   //   'text': splitTwo[1].toString(),
                                                   //   'encKey': _responseDecryptionKey
                                                   // });
-                                                  var respJsonStr = result.toString();
-                                                  Map<String, dynamic> jsonInput =
+                                                  var respJsonStr =
+                                                      result.toString();
+                                                  Map<String, dynamic>
+                                                      jsonInput =
                                                       jsonDecode(respJsonStr);
-                                                  debugPrint("read full respone : $jsonInput");
-                                        
+                                                  debugPrint(
+                                                      "read full respone : $jsonInput");
+
                                                   //calling validateSignature function from atom_pay_helper file
                                                   var checkFinalTransaction =
-                                                      validateSignature(jsonInput, _responsehashKey);
-                                        
+                                                      validateSignature(
+                                                          jsonInput,
+                                                          _responsehashKey);
+
                                                   if (checkFinalTransaction) {
-                                                    if (jsonInput["payInstrument"]["responseDetails"]
-                                                                ["statusCode"] ==
+                                                    if (jsonInput["payInstrument"]
+                                                                    [
+                                                                    "responseDetails"]
+                                                                [
+                                                                "statusCode"] ==
                                                             'OTS0000' ||
-                                                        jsonInput["payInstrument"]["responseDetails"]
-                                                                ["statusCode"] ==
+                                                        jsonInput["payInstrument"]
+                                                                    [
+                                                                    "responseDetails"]
+                                                                [
+                                                                "statusCode"] ==
                                                             'OTS0551') {
-                                                      debugPrint("Transaction success");
-                                                      transactionid = jsonInput['payInstrument']
-                                                          ['merchDetails']['merchTxnId'];
-                                              
-                                        
-                                                      var paymethod = jsonInput['payInstrument']
-                                                              ['payModeSpecificData']['subChannel'][0]
+                                                      debugPrint(
+                                                          "Transaction success");
+                                                      transactionid = jsonInput[
+                                                                  'payInstrument']
+                                                              ['merchDetails']
+                                                          ['merchTxnId'];
+
+                                                      var paymethod = jsonInput[
+                                                                      'payInstrument']
+                                                                  [
+                                                                  'payModeSpecificData']
+                                                              ['subChannel'][0]
                                                           .toString();
-                                                      paymentmethodname = paymentmethod[paymethod];
-                                                      totalamount = jsonInput['payInstrument']
-                                                              ['payDetails']['totalAmount']
+                                                      paymentmethodname =
+                                                          paymentmethod[
+                                                              paymethod];
+                                                      totalamount = jsonInput[
+                                                                      'payInstrument']
+                                                                  ['payDetails']
+                                                              ['totalAmount']
                                                           .toStringAsFixed(2);
                                                       remark = "SUCCESS";
-                                                      transactionResult = "SUCCESS";
+                                                      transactionResult =
+                                                          "SUCCESS";
                                                       transactionstatus = 200;
-                                                          
-                                                  
                                                     } else {
                                                       totalamount = "0";
                                                       remark = "Failed";
-                                                      debugPrint("Transaction failed");
-                                                      transactionResult = "FAILED";
+                                                      debugPrint(
+                                                          "Transaction failed");
+                                                      transactionResult =
+                                                          "FAILED";
                                                       transactionstatus = 300;
                                                     }
                                                   } else {
-                                                     totalamount = "0";
-                                                      remark = "Failed";
-                                                      
-                                                   
-                                                    debugPrint("signature mismatched");
-                                                    transactionResult = "FAILED";
-                                                    
+                                                    totalamount = "0";
+                                                    remark = "Failed";
+
+                                                    debugPrint(
+                                                        "signature mismatched");
+                                                    transactionResult =
+                                                        "FAILED";
                                                   }
-                                                  debugPrint("Transaction Response : $jsonInput");
+                                                  debugPrint(
+                                                      "Transaction Response : $jsonInput");
                                                 } on PlatformException catch (e) {
-                                                  debugPrint("Failed to decrypt: '${e.message}'.");
+                                                  debugPrint(
+                                                      "Failed to decrypt: '${e.message}'.");
                                                 }
                                               }
-                                        
-                                              _closeWebView(
-                                                  callback: ()async{
-                                                   await gcontroller.updatepaymentremark(
-                                                      amount: totalamount,
-                                                        key: _keys,
-                                                        transactionid: gcontroller.transacid,
-                                                        remark: remark);
 
-                                                           Get.off(()=>LandingPage());
+                                              _closeWebView(
+                                                  callback: () async {
+                                                    await gcontroller
+                                                        .updatepaymentremark(
+                                                            amount: totalamount,
+                                                            key: _keys,
+                                                            transactionid:
+                                                                gcontroller
+                                                                    .transacid,
+                                                            paymentmethod:
+                                                                paymentmethodname,
+                                                            remark: remark);
+
+                                                    Get.off(
+                                                        () => LandingPage());
                                                   },
                                                   context: context,
-                                                  transactionResult: transactionResult,
+                                                  transactionResult:
+                                                      transactionResult,
                                                   txid: transactionid,
-                                                  transstatus: transactionstatus!,
-                                                  paymentname: paymentmethodname,
+                                                  transstatus:
+                                                      transactionstatus!,
+                                                  paymentname:
+                                                      paymentmethodname,
                                                   totalamount: totalamount);
                                             }
-                                      
                                           },
                                         ),
                                       ),
@@ -406,18 +474,12 @@ bool isLoading = false;
                                 ),
                               ),
                             ),
-                                        
-                                        
-                                      ),
+                          ),
                         ),
-                  
-                        
                       ],
                     ),
                   ),
                 ),
-
-           
               ],
             ),
           );
@@ -433,12 +495,8 @@ bool isLoading = false;
       required String txid,
       required String paymentname,
       required String totalamount,
-      required VoidCallback callback
-      
-      }) async {
-    
-         callback();
-      
+      required VoidCallback callback}) async {
+    callback();
   }
 
   Future<bool> _handleBackButtonAction(BuildContext context) async {
@@ -470,8 +528,4 @@ bool isLoading = false;
             ));
     return Future.value(true);
   }
-
-  ///
-
-  ///////////////////////////
 }

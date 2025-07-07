@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
+
 import 'package:camera_windows_example/cons/apis.dart';
 import 'package:camera_windows_example/models/aadharotpresponse.dart';
 import 'package:camera_windows_example/models/aadharverificationresult.dart';
 import 'package:camera_windows_example/models/gate.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
-import 'package:camera_windows_example/models/verifydoc.dart';
 import 'package:http/http.dart' as http;
-import '../cons/constant.dart';
+
 import 'apicall.dart';
 import 'paymentresponse.dart';
 import 'permit.dart';
@@ -18,6 +18,7 @@ import 'permitverifymodel.dart';
 class ApicallImpl extends ApiCall {
   static const String baseUrl =
       "https://jsonplaceholder.typicode.com/posts"; // Replace with your API URL
+  final String key = "KJBSDLFJHOGHDFJKSJBVKJBZCVB354S3F4VKJKJSDCV654SDV";
   @override
   Future<void> readPermit() async {
     final response = await http.get(Uri.parse(baseUrl));
@@ -31,26 +32,23 @@ class ApicallImpl extends ApiCall {
   }
 
   @override
-  Future<Map<String, dynamic>> addPermit(Uint8List passportPhotoBytes,
-      Uint8List idCardBytes, Uint8List SignPhoto, VisitorEntry permit) async {
+  Future<Map<String, dynamic>> addPermit(Uint8List passportPhotoBytes, Uint8List idCardBytes,
+      Uint8List SignPhoto, VisitorEntry permit) async {
     var headers = {
-      'X-Key': 'hfuygf765r76yu',
+      'X-Key': key,
     };
 
-    var request =
-        http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/submit'));
+    var request = http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/submit'));
 
     print("Permit in apicallfinctions post :\n\n ${permit.toJson().toString()}");
 
     request.fields.addAll(permit.toJson());
 
-    request.files.add(http.MultipartFile.fromBytes(
-        'PassportPhoto', passportPhotoBytes,
+    request.files.add(http.MultipartFile.fromBytes('PassportPhoto', passportPhotoBytes,
         filename: 'passportPhoto.jpg'));
-    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes,
-        filename: 'idCard.jpg'));
-    request.files.add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto,
-        filename: 'signature.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes, filename: 'idCard.jpg'));
+    request.files
+        .add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto, filename: 'signature.jpg'));
 
     // Adding headers
     request.headers.addAll(headers);
@@ -70,13 +68,11 @@ class ApicallImpl extends ApiCall {
     return {"Failed": 0};
   }
 
-
-
-    @override
-  Future<Map<String, dynamic>> updatePermit(Uint8List passportPhotoBytes,
-      Uint8List idCardBytes, Uint8List SignPhoto, VisitorEntry permit,String applicantNo) async {
+  @override
+  Future<Map<String, dynamic>> updatePermit(Uint8List passportPhotoBytes, Uint8List idCardBytes,
+      Uint8List SignPhoto, VisitorEntry permit, String applicantNo) async {
     var headers = {
-      'X-Key': 'hfuygf765r76yu',
+      'X-Key': key,
     };
 
     var request =
@@ -86,13 +82,11 @@ class ApicallImpl extends ApiCall {
 
     request.fields.addAll(permit.toJson());
 
-    request.files.add(http.MultipartFile.fromBytes(
-        'PassportPhoto', passportPhotoBytes,
+    request.files.add(http.MultipartFile.fromBytes('PassportPhoto', passportPhotoBytes,
         filename: 'passportPhoto.jpg'));
-    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes,
-        filename: 'idCard.jpg'));
-    request.files.add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto,
-        filename: 'signature.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes, filename: 'idCard.jpg'));
+    request.files
+        .add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto, filename: 'signature.jpg'));
 
     // Adding headers
     request.headers.addAll(headers);
@@ -113,14 +107,12 @@ class ApicallImpl extends ApiCall {
     return {"Failed": 0};
   }
 
-
   @override
   Future<Map<String, dynamic>> detectFaces(Uint8List profileImage) async {
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('http://127.0.0.1:8000/detect_faces/'));
+    var request = http.MultipartRequest('POST', Uri.parse('http://127.0.0.1:8000/detect_faces/'));
     try {
-      request.files.add(await http.MultipartFile.fromBytes('file', profileImage,
-          filename: 'passportPhoto.jpg'));
+      request.files.add(
+          await http.MultipartFile.fromBytes('file', profileImage, filename: 'passportPhoto.jpg'));
 
       http.StreamedResponse response = await request.send();
 
@@ -140,68 +132,66 @@ class ApicallImpl extends ApiCall {
 
   @override
   Future<List<Gate>> getAllGates() async {
-    final response = await http
-        .get(
-          
-          headers:
-         {
-          'X-Key': 'hfuygf765r76yu',
-         },
-          Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getactivegates"));
-    print("In response gates ");
-    if (response.statusCode == 200) {
-      print(response.body);
-      final respo = jsonDecode(response.body) as List<dynamic>;
-      return respo.map((e) => Gate.fromJson(e)).toList(); // Parsing JSON
-    } else {
-         print(response.statusCode);
+    try {
+      final response = await http.get(headers: {
+        'X-Key': key,
+      }, Uri.parse("$localapi/api/kiosk/getactivegates"));
+      print("In response gates:  ");
+      if (response.statusCode == 200) {
+        print(response.body);
+        final respo = jsonDecode(response.body) as List<dynamic>;
+        return respo.map((e) => Gate.fromJson(e)).toList(); // Parsing JSON
+      } else {
+        print(response.statusCode);
+        return [];
+      }
+    } on Exception catch (e) {
       return [];
+      // TODO
     }
   }
 
   @override
   Future<List<String>> getDocumentType() async {
-    final response = await http
-        .get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getallidtype"),
-        headers:
-         {
-          'X-Key': 'hfuygf765r76yu',
-         }
-        );
-    print("In response");
-    if (response.statusCode == 200) {
-      print(response.body);
-      final respo = jsonDecode(response.body) as List<dynamic>;
-      return respo.map((e) => e.toString()).toList(); // Parsing JSON
-    } else {
-    return [];
+    try {
+      final response = await http.get(Uri.parse("$localapi/api/kiosk/getallidtype"), headers: {
+        'X-Key': key,
+      });
+      print("In response");
+      if (response.statusCode == 200) {
+        print(response.body);
+        final respo = jsonDecode(response.body) as List<dynamic>;
+        return respo.map((e) => e.toString()).toList(); // Parsing JSON
+      } else {
+        return [];
+      }
+    } on Exception catch (e) {
+      return [];
+      // TODO
     }
   }
 
   @override
   Future<List<PermitPriceModel>> getallpremitprice() async {
-
-      final response = await http
-        .get(Uri.parse("$localapi/api/kiosk/getallfees"),
-        headers:
-         {
-          'X-Key': 'hfuygf765r76yu',
-         }
-        );
- if (response.statusCode == 200) {
-      print(response.body);
-      final respo = jsonDecode(response.body) as List<dynamic>;
-      return respo.map((e) => PermitPriceModel.fromJson(e)).toList(); // Parsing JSON
-    } else {
+    try {
+      final response = await http.get(Uri.parse("$localapi/api/kiosk/getallfees"), headers: {
+        'X-Key': key,
+      });
+      if (response.statusCode == 200) {
+        print(response.body);
+        final respo = jsonDecode(response.body) as List<dynamic>;
+        return respo.map((e) => PermitPriceModel.fromJson(e)).toList(); // Parsing JSON
+      } else {
+        return [];
+      }
+    } on Exception catch (e) {
+      // TODO
       return [];
     }
-      
-  
   }
 
   @override
-  Future<PermitApplication?> verifydoc(
-      {required String doctype, required String idnumber}) async {
+  Future<PermitApplication?> verifydoc({required String doctype, required String idnumber}) async {
     // var headers = {'Content-Type': 'application/json'};
     // var request = http.Request('POST',
     //     Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'));
@@ -211,17 +201,12 @@ class ApicallImpl extends ApiCall {
     // request.headers.addAll(headers);
 
     // http.StreamedResponse response = await request.send();
-  final response = await http.post(
-    
-    
-    Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'),
-  body: json.encode({"IdType": doctype, "IdNumber": idnumber}),
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Key': 'hfuygf765r76yu',
-  }
-  
-  );
+    final response = await http.post(Uri.parse('$localapi/api/kiosk/checkdocument'),
+        body: json.encode({"IdType": doctype, "IdNumber": idnumber}),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key': key,
+        });
     if (response.statusCode == 200) {
       print("shfjfh");
       print(response.body);
@@ -238,13 +223,10 @@ class ApicallImpl extends ApiCall {
   Future<Map<String, IlPmodel?>> fetchPermitData(String permitnum) async {
     IlPmodel? d;
     try {
-      final response = await http.get(
-          headers: {
-    'Content-Type': 'application/json',
-    'X-Key': 'hfuygf765r76yu',
-  },
-  
-        Uri.parse('$permitapi$permitnum'));
+      final response = await http.get(headers: {
+        'Content-Type': 'application/json',
+        'X-Key': key,
+      }, Uri.parse('$permitapi$permitnum'));
       print(response.statusCode.toString());
       if (response.statusCode >= 200 && response.statusCode < 300) {
         log("response.body : " + response.body);
@@ -268,106 +250,97 @@ class ApicallImpl extends ApiCall {
     }
   }
 
-Future<PaymentResponse?> sendPayment(Payment payment) async {
-  final url = Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/callback');
-  print("to send payment data: ${payment.toJson()}");
-  try {
-    final response = await http.post(
+  Future<PaymentResponse?> sendPayment(Payment payment) async {
+    final url = Uri.parse('$localapi/api/kiosk/callback');
+    print("to send payment data: ${payment.toJson()}");
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key': key,
+        },
+        body: jsonEncode(payment.toJson()),
+      );
+      print("payments ::    ${response.statusCode} --  ${response.body}");
 
-  
-      url,
-      headers: {'Content-Type': 'application/json',
-         'X-Key': 'hfuygf765r76yu',
-      },
-      body: jsonEncode(payment.toJson()),
-    );
-    print("payments ::    ${response.statusCode} --  ${response.body}");
-   
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return PaymentResponse.fromJson(jsonDecode(response.body));
-    } else if (response.statusCode == 400) {
-      print('Bad Request: ${response.body}');
-    } else {
-      print('Failed to send payment: ${response.statusCode} - ${response.body}');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return PaymentResponse.fromJson(jsonDecode(response.body));
+      } else if (response.statusCode == 400) {
+        print('Bad Request: ${response.body}');
+      } else {
+        print('Failed to send payment: ${response.statusCode} - ${response.body}');
+      }
+    } catch (e) {
+      print('Error gett payment: $e');
     }
-  } catch (e) {
-    print('Error gett payment: $e');
-  }
-  return null;
-}
-
-Future<OtpResponse?> aadharOtpResponse(String aadharid, String referenceId) async {
-  final url = Uri.parse('https://your-api-endpoint.com/otp-request');
-
-  final headers = {
-    'Content-Type': 'application/json',
-    'x-parse-rest-api-id': 'YOUR_API_ID',
-    'x-parse-application-id': 'YOUR_APP_ID',
-    'x-parse-rest-api-key': 'YOUR_API_KEY',
-  };
-
-  final body = jsonEncode({
-    "reference_id": referenceId,
-    "source": aadharid,
-  });
-
-  final response = await http.post(url, headers: headers, body: body);
-  try{
-  if (response.statusCode == 200) {
-    final json = jsonDecode(response.body);
-    return OtpResponse.fromJson(json);
-  } else {
-    print('HTTP error: ${response.statusCode}');
     return null;
   }
-  }catch(e){
-        print('HTTP error: ${e}');
-    return null;
 
-  }
+  Future<OtpResponse?> aadharOtpResponse(String aadharid, String referenceId) async {
+    final url = Uri.parse('https://your-api-endpoint.com/otp-request');
 
-}
+    final headers = {
+      'Content-Type': 'application/json',
+      'x-parse-rest-api-id': 'YOUR_API_ID',
+      'x-parse-application-id': 'YOUR_APP_ID',
+      'x-parse-rest-api-key': 'YOUR_API_KEY',
+    };
 
+    final body = jsonEncode({
+      "reference_id": referenceId,
+      "source": aadharid,
+    });
 
-
-
-Future<AadhaarVerificationResult?> aadharVerification(String otp, String referencdId, String transactionId, String timestamp) async {
-  final url = Uri.parse('https://your-api-endpoint.com/aadhaar_xml_verify_otp');
-
-  final headers = {
-    'Content-Type': 'application/json',
-  };
-
-  final body = jsonEncode({
-    "reference_id": referencdId,
-    "transaction_id": transactionId,
-    "otp": otp,
-  });
-
-  final response = await http.post(url, headers: headers, body: body);
-
-  try {
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-  
-    if (data['status'] == 'success') {
-      return AadhaarVerificationResult.fromJson(data['result']);
-    } else {
-      print("OTP verification failed: ${data['error']} (${data['error_code']})");
+    final response = await http.post(url, headers: headers, body: body);
+    try {
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        return OtpResponse.fromJson(json);
+      } else {
+        print('HTTP error: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('HTTP error: ${e}');
       return null;
     }
-  } else {
-    print("HTTP Error: ${response.statusCode}");
-    return null;
   }
-} on Exception catch (e) {
-  // TODO
-     print("Error on call ${e}");
-    return null;
+
+  Future<AadhaarVerificationResult?> aadharVerification(
+      String otp, String referencdId, String transactionId, String timestamp) async {
+    final url = Uri.parse('https://your-api-endpoint.com/aadhaar_xml_verify_otp');
+
+    final headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final body = jsonEncode({
+      "reference_id": referencdId,
+      "transaction_id": transactionId,
+      "otp": otp,
+    });
+
+    final response = await http.post(url, headers: headers, body: body);
+
+    try {
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        if (data['status'] == 'success') {
+          return AadhaarVerificationResult.fromJson(data['result']);
+        } else {
+          print("OTP verification failed: ${data['error']} (${data['error_code']})");
+          return null;
+        }
+      } else {
+        print("HTTP Error: ${response.statusCode}");
+        return null;
+      }
+    } on Exception catch (e) {
+      // TODO
+      print("Error on call ${e}");
+      return null;
+    }
+  }
 }
-}
-
-
-}
-
-

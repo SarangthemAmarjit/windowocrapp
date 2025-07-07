@@ -2,26 +2,15 @@ import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../controller/managementcontroller.dart';
 import '../controller/pagecontroller.dart';
 import 'registrationpages/ilpformreplica.dart';
 import 'registrationpages/paymentdetails.dart';
 import 'registrationpages/photodetails.dart';
 
-class RegistrationPage extends StatefulWidget {
+class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
-  @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
-}
-
-
-class _RegistrationPageState extends State<RegistrationPage> {
- 
- @override
-  void dispose() {
-
-    super.dispose();
-  }
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PagenavControllers>(builder: (controller) {
@@ -30,8 +19,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+            borderRadius:
+                BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -47,30 +36,57 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     hoverColor: Colors.transparent,
                     onTap: () {
                       if (controller.page == 1) {
-                            Get.dialog(AlertDialog(
-                              title: Text("Registration",style: TextStyle(fontSize: 24),),
-                              content:Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text("Are you sure you want to cancel the registration ? ",style: TextStyle(fontSize: 16),)
-                              ],
-                            ),
-                            
-                            actions: [
-                            ElevatedButton(child: Text('Cancel',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.red[700]),), onPressed: (){
-                                                        controller.setmainpageindex(ind: 0);
-                                                        Get.find<Imagecontroller>().disposeAll();
-                                                        Get.find<Managementcontroller>().disposeAll();
-                                                        Get.find<PagenavControllers>().reset();
-                                                            Get.back();
-                            }),
-                            
-                                    ElevatedButton(child: Text('Continue',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.green[700]),), onPressed:  (){
-                                                     Get.back();
-                            }),
+                        Get.dialog(AlertDialog(
+                          title: Text(
+                            "Registration",
+                            style: TextStyle(fontSize: 24),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Are you sure you want to cancel the registration ? ",
+                                style: TextStyle(fontSize: 16),
+                              )
                             ],
-                            ));
-                          
+                          ),
+                          actions: [
+                            ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: WidgetStateColor.resolveWith(
+                                  (states) => Colors.red.withValues(alpha: 0.3),
+                                )),
+                                child: Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  controller.setmainpageindex(ind: 0);
+                                  Get.find<Imagecontroller>().disposeAll();
+                                  Get.find<Managementcontroller>().disposeAll();
+                                  Get.find<PagenavControllers>().reset();
+                                  Get.back();
+                                }),
+                            ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: WidgetStateColor.resolveWith(
+                                  (states) => Colors.blueAccent,
+                                )),
+                                child: Text(
+                                  'Continue',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  Get.back();
+                                }),
+                          ],
+                        ));
                       } else {
                         controller.changeDashboardPage(controller.page - 1);
                       }
@@ -101,9 +117,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap:controller.incrementPage>0? () {
-                      controller.changePage(1);
-                    }:null,
+                    onTap: controller.incrementPage > 0
+                        ? () {
+                            controller.changePage(1);
+                          }
+                        : null,
                     child: Center(
                         child: Text(
                       "Personal Details",
@@ -115,9 +133,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap:controller.incrementPage>1? () {
-                      controller.changePage(2);
-                    }:null,
+                    onTap: controller.incrementPage > 1
+                        ? () {
+                            controller.changePage(2);
+                          }
+                        : null,
                     child: Center(
                         child: Text(
                       "Profile Image",
@@ -129,11 +149,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     )),
                   ),
                 ),
-                         Expanded(
+                Expanded(
                   child: InkWell(
-                    onTap:controller.incrementPage>2? () {
-                      controller.changePage(3);
-                    }:null,
+                    onTap: controller.incrementPage > 2
+                        ? () {
+                            controller.changePage(3);
+                          }
+                        : null,
                     child: Center(
                         child: Text(
                       "Card  & Signature",
@@ -147,9 +169,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap:controller.incrementPage>3? () {
-                      controller.changePage(4);
-                    }:null,
+                    onTap: controller.incrementPage > 3
+                        ? () {
+                            controller.changePage(4);
+                          }
+                        : null,
                     child: Center(
                         child: Text(
                       "Payment",
@@ -189,20 +213,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             controller.page == 1
                 ? TemporaryILPFormReplica()
-                              
 
                 //     : controller.page == 3
                 //         ? PermitDetails()
                 : controller.page == 2
                     ? PhotoSignaturePage()
                     // ?FaceDetectionPage()
-                    :controller.page==3? IdSelectionAndScanningScreen():
-                    PaymentDetails()
-          
+                    : controller.page == 3
+                        ? IdSelectionAndScanningScreen()
+                        : PaymentDetails()
           ],
         ),
       );
     });
   }
 }
-
