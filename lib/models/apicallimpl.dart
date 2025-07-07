@@ -10,6 +10,8 @@ import '../cons/constant.dart';
 import 'apicall.dart';
 import 'paymentresponse.dart';
 import 'permit.dart';
+import 'permitprice.dart';
+import 'permitverifymodel.dart';
 
 class ApicallImpl extends ApiCall {
   static const String baseUrl =
@@ -36,7 +38,7 @@ class ApicallImpl extends ApiCall {
     var request =
         http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/submit'));
 
-    print("Permit in apicallfinctions:\n\n ${permit.toJson().toString()}");
+    print("Permit in apicallfinctions post :\n\n ${permit.toJson().toString()}");
 
     request.fields.addAll(permit.toJson());
 
@@ -66,6 +68,50 @@ class ApicallImpl extends ApiCall {
     return {"Failed": 0};
   }
 
+
+
+    @override
+  Future<Map<String, dynamic>> updatePermit(Uint8List passportPhotoBytes,
+      Uint8List idCardBytes, Uint8List SignPhoto, VisitorEntry permit,String applicantNo) async {
+    var headers = {
+      'X-Key': 'hfuygf765r76yu',
+    };
+
+    var request =
+        http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/update?appno=${applicantNo}'));
+
+    print("Permit in apicallfinctions updates :\n\n ${permit.toJson().toString()}");
+
+    request.fields.addAll(permit.toJson());
+
+    request.files.add(http.MultipartFile.fromBytes(
+        'PassportPhoto', passportPhotoBytes,
+        filename: 'passportPhoto.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes,
+        filename: 'idCard.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto,
+        filename: 'signature.jpg'));
+
+    // Adding headers
+    request.headers.addAll(headers);
+
+    // Sending the request
+    http.StreamedResponse response = await request.send();
+
+    // Handling the response
+    if (response.statusCode == 200) {
+      var json = jsonDecode(await response.stream.bytesToString());
+      String? applicant = json["applicationId"];
+      print("in update api ss ${response.statusCode}");
+      return {json["message"] ?? "message": applicant};
+      // return  {jsonDecode( response.stream.bytesToString().toString())["message"]??"message":jsonDecode( response.stream.first.toString())["applicationId"]??null};
+    } else {
+      print("${response.reasonPhrase} ${response.statusCode}");
+    }
+    return {"Failed": 0};
+  }
+
+
   @override
   Future<Map<String, dynamic>> detectFaces(Uint8List profileImage) async {
     var request = http.MultipartRequest(
@@ -93,13 +139,20 @@ class ApicallImpl extends ApiCall {
   @override
   Future<List<Gate>> getAllGates() async {
     final response = await http
-        .get(Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getactivegates"));
-    print("In response");
+        .get(
+          
+          headers:
+         {
+          'X-Key': 'hfuygf765r76yu',
+         },
+          Uri.parse("https://ilpdemo.cubeten.com/api/kiosk/getactivegates"));
+    print("In response gates ");
     if (response.statusCode == 200) {
       print(response.body);
       final respo = jsonDecode(response.body) as List<dynamic>;
       return respo.map((e) => Gate.fromJson(e)).toList(); // Parsing JSON
     } else {
+         print(response.statusCode);
       return [];
     }
   }
@@ -124,31 +177,28 @@ class ApicallImpl extends ApiCall {
   }
 
   @override
-  Future<String> getallpremitprice() async {
-      var headers = {
-    'Content-Type': 'application/json',
-    'X-Key': 'hfuygf765r76yu',
-  };
+  Future<List<PermitPriceModel>> getallpremitprice() async {
 
-      
-    var request =
-        http.Request('GET', Uri.parse('$localapi/api/kiosk/getallfees',
-        
-        ));
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    request.headers.addAll(headers);
-    if (response.statusCode == 200) {
-      String alldata = await response.stream.bytesToString();
-      return alldata;
+      final response = await http
+        .get(Uri.parse("$localapi/api/kiosk/getallfees"),
+        headers:
+         {
+          'X-Key': 'hfuygf765r76yu',
+         }
+        );
+ if (response.statusCode == 200) {
+      print(response.body);
+      final respo = jsonDecode(response.body) as List<dynamic>;
+      return respo.map((e) => PermitPriceModel.fromJson(e)).toList(); // Parsing JSON
     } else {
-      print(response.reasonPhrase);
-      return 'Error';
+      return [];
     }
+      
+  
   }
 
   @override
-  Future<String> verifydoc(
+  Future<PermitApplication?> verifydoc(
       {required String doctype, required String idnumber}) async {
     // var headers = {'Content-Type': 'application/json'};
     // var request = http.Request('POST',
@@ -173,12 +223,12 @@ class ApicallImpl extends ApiCall {
     if (response.statusCode == 200) {
       print("shfjfh");
       print(response.body);
-      var appliid = verifydocModelFromJson(response.body);
-      print("application ID:${appliid.applicationId}");
-      return appliid.applicationId;
+      var appliid = PermitApplication.fromJson(jsonDecode(response.body));
+      print("application ID:${appliid.applicationNo}");
+      return appliid;
     } else {
       print(response.reasonPhrase);
-      return 'not found';
+      return null;
     }
   }
 

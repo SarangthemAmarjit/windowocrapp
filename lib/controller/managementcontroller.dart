@@ -3,17 +3,23 @@ import 'dart:developer';
 
 import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:camera_windows_example/cons/utils.dart';
+import 'package:camera_windows_example/controller/imagecapture.dart';
+import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/models/apicall.dart';
 import 'package:camera_windows_example/models/apicallimpl.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/models/permitprice.dart';
+import 'package:camera_windows_example/widgets/paymentresultdialog.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../cons/constant.dart';
+import '../home/landingpage.dart';
 import '../models/gate.dart';
 import '../models/paymentresponse.dart';
+import '../models/permitverifymodel.dart';
 
 class Managementcontroller extends GetxController {
   String gender = genders[0];
@@ -27,24 +33,27 @@ class Managementcontroller extends GetxController {
   List<PermitPriceModel> get allpermitprices => _allpermitprices;
   VisitorEntry? _permit;
   VisitorEntry? get getPermit => _permit;
+  VisitorEntry? currentPermit;
 
   List<String> _docnames = [];
   List<String> get getDocNames => _docnames;
 
-  String _applicid = '';
-  String get applicid => _applicid;
+  PermitApplication?_applicid;
+  PermitApplication? get applicid => _applicid;
   String? onlineAplicant;
   Gate? _selectedGate;
   Gate? get selectedGate => _selectedGate;
 
   List<Gate> _allGates = [];
   List<Gate> get getAllgate => _allGates;
-
+  PaymentResponse? paymentresult;
   bool _ispressverified = false;
   bool get ispressverified => _ispressverified;
   bool isVeriflyloading = false;
   Timer?  timer;
   bool isloading =false;
+  PermitPriceModel? _permitPrice;
+  PermitPriceModel?  get getPermitPrice=>  _permitPrice;
   @override
   void onInit() {
     super.onInit();
@@ -102,21 +111,22 @@ class Managementcontroller extends GetxController {
 
   Future<void> getallGates() async {
     _allGates = await apicall.getAllGates();
+
     if (_allGates.isNotEmpty) {
       _selectedGate = _allGates.firstWhereOrNull(
+      
         (element) => element.name == "Imphal Airport",
       );
+
+  
     }
+          print("Selected gate = ${_selectedGate?.id } ${_selectedGate?.name}}");
     update();
   }
 
   void setverifybuttonbool(bool isfinish) {
     _ispressverified = isfinish;
     update();
-  }
-
-  void applicidVerifynull() {
-    _applicid = "";
   }
 
 
@@ -128,18 +138,23 @@ class Managementcontroller extends GetxController {
     try {
       var appid = await apicall.verifydoc(doctype: doctype, idnumber: docid);
       print(" doctype: $doctype  dociDno.: $docid");
+      print("Appid : ${appid?.toJson().toString()}");
       _applicid = appid;
+      state = _applicid?.state; 
       isVeriflyloading = false;
       update();
-      return appid;
+      return _applicid!.applicationNo;
     } catch (e) {
       print(e);
-      _applicid = "";
+      _applicid = null;
     }
     isVeriflyloading = false;
     update();
     return '';
   }
+
+
+
 
   Future<void> getallDocs() async {
     isloading = true;
@@ -178,8 +193,11 @@ class Managementcontroller extends GetxController {
 
 
   getpermitprice() async {
-    var allprice = await apicall.getallpremitprice();
-    _allpermitprices = permitPriceModelFromJson(allprice);
+    print("fdjhkfh");
+   _allpermitprices = await apicall.getallpremitprice();
+    _allpermitprices.map((e) =>print(" permit prices : ${e.toJson()} "));   
+    _permitPrice = _allpermitprices.firstWhereOrNull((element) => element.permitName.toLowerCase().contains("temporary"),);
+    print("_permit : ${_permitPrice?.toJson()}");
     update();
   }
 
@@ -222,16 +240,15 @@ class Managementcontroller extends GetxController {
         // idProof: "Aadhar",
         idProof: idProofs,
         idNo: idno,
-        category: "General",
+        category: purpose,
         purposeVisit: purposeVisits,
         placeOfStay: placestay,
-        visitDate: DateTime(visitDates.year, visitDates.month, visitDates.day)
-            .toIso8601String(),
+        visitDate:DateTime.now().toIso8601String(),
         // visitDate: visitDates,
         applcntName: name,
         applcntParent: parentname,
         applcntGender: gender,
-        applcntDOB: DateTime.now().toIso8601String(),
+        applcntDOB: dob,
         applcntEmail: email,
         applcntMobile: mobile,
         applcntAddress: address,
@@ -248,26 +265,26 @@ class Managementcontroller extends GetxController {
         landmark: "",
         district: applydistrict,
         pinCode: pincode,
-        amount: '100',
+        amount: _permitPrice?.fee.toString(),
         lrName: localres,
         nearestPS: localnearestpol,
         // transactionId:"Cash"
         transactionId: isCash ? "CASH" : generateRandomString(12));
-       
+        _permit!.transactionId = isCash ? "CASH" : generateRandomString(12);
+        _permit!.amount = _permitPrice?.fee.toString();
         print(":::::::::::");
-        print("TransactionID ::: ${dummyVisitor.transactionId} ");
+        print("TransactionID ::: ${_permit?.transactionId} ${_applicid?.applicationNo} ");
         print(":::::::::::");
      
      
       _permit!.transactionId = dummyVisitor.transactionId;
    
       
-    print(" permit to post: ${dummyVisitor.toJson().toString()}");
-
-    Map<String?, dynamic> ds =
-        await apicall.addPermit(passport, idcard, signature, dummyVisitor);
-    print('$ds $isLoading');
-    if (isCash) {
+    print(" permit to post: ${_permit?.toJson().toString()}");
+    currentPermit = _permit;
+    update();
+    
+    // if (isCash) {
       //dialog for printing cash payments and going to counter
       // Get.dialog(AlertDialog(
       //   content: Text(ds.entries.first.value ?? "no messae"),
@@ -277,9 +294,19 @@ class Managementcontroller extends GetxController {
 
       // printImageDirectly("Microsoft Print to PDF",);
       // printUsbReceiptWindows(passport,ds.entries.first.value);
+    // }
+
+    if(_applicid!=null && _applicid!.applicationNo.isNotEmpty){
+  Map<String?, dynamic> ds = await apicall.updatePermit(passport, idcard, signature, _permit!,_applicid!.applicationNo);
+     print('$ds $isLoading');
+   return ds.entries.first.value==0?null:ds.entries.first.value;
+    }else{
+ Map<String?, dynamic> ds =
+        await apicall.addPermit(passport, idcard, signature, _permit!);
+    print('$ds $isLoading');
+return ds.entries.first.value==0?null:ds.entries.first.value;
     }
 
-    return ds.entries.first.value==0?null:ds.entries.first.value;
   }
 
   void addPermit(VisitorEntry? permits) {
@@ -327,14 +354,52 @@ class Managementcontroller extends GetxController {
     //     _currentPermitData!.applicantCategory.toString());
   }
 
-  Future<void> addPayments(Payment pays)async{
-  PaymentResponse? payres =   await apicall.sendPayment(pays);
-  if(payres!=null){
-    printUsbReceiptWindowsonline( onlineAplicant??"",payres.permitNo);
-    setOnlineApplId(null);
-  }
-  update();
+  Future<void> addPayments(Payment pays,GlobalKey key)async{
+  
 
+    PaymentResponse? payres =   await apicall.sendPayment(pays);
+   
+    if(payres!=null && payres.permitNo.isNotEmpty){
+         paymentresult = payres;
+         update();
+      
+          Get.dialog(
+        barrierDismissible:pays.status.toLowerCase() !='success',
+          Dialog( 
+          
+            child: PaymentResultDialog(isSuccess: pays.status.toLowerCase()=='success', callback: () async {
+   
+
+           },),));
+       if(payres.permitNo.isNotEmpty){
+
+ 
+  await Future.delayed(Duration(milliseconds: 2000));
+  
+    
+    await Get.find<Imagecontroller>().saveReceiptimages(key);
+    Future.delayed(Duration(milliseconds: 2000));
+    Get.back();
+    Get.find<PagenavControllers>().setmainpageindex(ind:5);
+                            Get.offAll(()=>LandingPage());
+  
+  }else{
+    printUsbReceiptWindowsonline( onlineAplicant??"",payres?.permitNo??"");
+
+
+     Get.find<PagenavControllers>().setmainpageindex(ind:6);
+     Get.offAll(()=>LandingPage());
+    }
+      setOnlineApplId(null);
+
+  }else{
+    printUsbReceiptWindowsonline( onlineAplicant??"",payres?.permitNo??"");
+     setOnlineApplId(null);
+      Get.find<PagenavControllers>().setmainpageindex(ind:6);
+     Get.offAll(()=>LandingPage());
+    }
+  
+    update();
   }
 
   void disposeAll() {
@@ -346,5 +411,8 @@ class Managementcontroller extends GetxController {
     isLoading = false;
     onlineAplicant = null;
     _permit = null;
+    paymentresult = null;
+    currentPermit = null;
+    _applicid = null;
   }
 }

@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:camera_windows_example/cons/constant.dart';
+import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
+import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/widgets/customkeys.dart';
 import 'package:camera_windows_example/widgets/receiptpermit.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,7 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
 
   @override
   void dispose() {
-    Get.find<Managementcontroller>().applicidVerifynull();
+   
     Get.find<PagenavControllers>().changeIdSelectionnoUpdate();
     super.dispose();
   }
@@ -196,6 +198,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   final TextEditingController docIdController = TextEditingController();
   final FocusNode docFocus = FocusNode();
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey _globlkey = GlobalKey();
   bool? isEmpty;
   bool isLoading = false;
   bool iskeyboardAlpha = true;
@@ -237,7 +240,6 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey _globlkey = GlobalKey();
     Imagecontroller imgcon = Get.put(Imagecontroller());
     return GetBuilder<PagenavControllers>(builder: (pagectrl) {
       return GetBuilder<Managementcontroller>(builder: (mngctrl) {
@@ -313,12 +315,14 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                 // SizedBox(
                 //   height: 20,
                 // ),
-                mngctrl.applicid.isEmpty
-                    ? SizedBox()
-                    : RepaintBoundary(
-                        key: _globlkey,
-                        child: ReceiptWidget(
-                            applicantName: '', applicantId: mngctrl.applicid)),
+                // mngctrl.applicid != null
+                //     ? RepaintBoundary(
+                //         key: _globlkey,
+                //         child: ReceiptWidget(
+                //           applicantName: '',
+                //           applicantId: mngctrl.applicid?.applicationNo ?? "",
+                //         ))
+                //     : SizedBox(),
 
                 Container(
                     // height: 400,
@@ -329,6 +333,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   onBackspace: _onBackspace,
                   onToggle: () {},
                   isAlpha: iskeyboardAlpha,
+                  isCapital: true,
                 )),
 
                 ElevatedButton(
@@ -339,21 +344,51 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                             await mngctrl.verifydocid(
                                 doctype: mngctrl.getPermit?.idProof ?? "",
                                 docid: docIdController.text);
-                            if (mngctrl.applicid.isNotEmpty &&
-                                mngctrl.applicid == 'not found') {
-                              String s = mngctrl.getPermit?.idProof ?? "";
-                              mngctrl.getDocumentDetails(
-                                  docID: docIdController.text, docType: s);
+                    mngctrl.getDocumentDetails(
+                                  docID: docIdController.text, docType:mngctrl.getPermit?.idProof ?? "" );
+                              
+                            // if the applicant already exists and the exit status is true
+                            if (mngctrl.applicid == null ||
+                                (mngctrl.applicid != null &&
+                                    mngctrl.applicid!.statusExit != false)) {
+                              if (mngctrl.applicid != null) {
+                                mngctrl.addPermit(VisitorEntry(
+                                  applcntDOB: mngctrl.applicid?.dob?.toIso8601String(),
+                                  applcntDistrict:
+                                      mngctrl.applicid?.district ?? "",
+                                  applcntEmail: mngctrl.applicid?.email,
+                                  applcntGender: mngctrl.applicid?.gender ?? "",
+                                  applcntParent: mngctrl.applicid?.parentName,
+                                  applcntMobile: mngctrl.applicid?.mobile,
+                                  applcntPoliceStation:
+                                      mngctrl.applicid?.policeStation,
+                                  applcntName: mngctrl.applicid?.name,
+                                  applcntHNo: mngctrl.applicid?.houseNo,
+                                  idProof: mngctrl.getPermit?.idProof ?? "",
+                                  idNo: docIdController.text,
+                                  applcntState: mngctrl.applicid?.state,
+                                  applcntTehsil: mngctrl.applicid?.tehsil,
+                                  applcntVillage: mngctrl.applicid?.village,
+                                  gateID: mngctrl.selectedGate?.id,
+                                  entryType: "ONLINE",
+                                  applcntAddress: mngctrl.applicid?.address,
+                                ));
+                              }
                               pagectrl.setmainpageindex(ind: 2);
-                              pagectrl.changeIdSelection();
                             } else {
-                              Get.dialog(AlertDialog(
-                                content: RepaintBoundary(
-                                    key: _globlkey,
-                                    child: ReceiptWidget(
-                                        applicantName: '',
-                                        applicantId: mngctrl.applicid)),
-                              ));
+                              ///here is the exit status part if the user is not yet exited
+                              ///instruct to go to the counter
+                                      if (mngctrl.applicid != null) {
+                                                    Get.dialog(AlertDialog(
+                                                      content: RepaintBoundary(
+                                                          key: _globlkey,
+                                                          child: ReceiptWidget(
+                                                              applicantName: mngctrl
+                                                                      .getPermit
+                                                                      ?.applcntName ??
+                                                                  "NA",
+                                                              applicantId: mngctrl.applicid!.applicationNo)),
+                                                    ));}
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -362,8 +397,8 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                       'Applicant Already Exist',
                                       style: TextStyle(fontSize: 30),
                                     ),
-                                    content: Text(
-                                      'Please collect the receipt and proceed to the counter for further processing.',
+                                    content: Text( 
+                                      'You must first exit your Permit. Please ensure you have officially checked out before proceeding with a new application.',
                                       style: TextStyle(fontSize: 20),
                                     ),
                                     actions: [
@@ -378,11 +413,14 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                 },
                               );
 
-                              Future.delayed(Duration(seconds: 2)).then(
+                              Future.delayed(Duration(seconds: 3)).then(
                                 (value) async {
                                   print("nav Keys sdsd");
                                   await imgcon.saveReceipt(
-                                      _globlkey, mngctrl.applicid);
+                                      _globlkey,
+                                      mngctrl.applicid?.applicationNo ?? "",
+                                      // . Please ensure you have officially checked out before proceeding with a new application.
+                                      "First exit your Permit");
                                   print("nav Keys");
 
                                   Get.back();
@@ -394,9 +432,67 @@ class _GetDocumentIdState extends State<GetDocumentId> {
 
                               /////dsadsadasd
                               log('already exist');
+                              pagectrl.listenPageChange();
                             }
                           }
-                          pagectrl.listenPageChange();
+                          //   if (mngctrl.applicid!= null) {
+
+                          //     String s = mngctrl.getPermit?.idProof ?? "";
+                          //     mngctrl.getDocumentDetails(
+                          //         docID: docIdController.text, docType: s);
+                          //     pagectrl.setmainpageindex(ind: 2);
+                          //     pagectrl.changeIdSelection();
+                          //   } else {
+                          //     // Get.dialog(AlertDialog(
+                          //     //   content: RepaintBoundary(
+                          //     //       key: _globlkey,
+                          //     //       child: ReceiptWidget(
+                          //     //           applicantName: '',
+                          //     //           applicantId: mngctrl.applicid)),
+                          //     // ));
+                          //     showDialog(
+                          //       context: context,
+                          //       builder: (BuildContext context) {
+                          //         return AlertDialog(
+                          //           title: Text(
+                          //             'Applicant Already Exist',
+                          //             style: TextStyle(fontSize: 30),
+                          //           ),
+                          //           content: Text(
+                          //             'Please collect the receipt and proceed to the counter for further processing.',
+                          //             style: TextStyle(fontSize: 20),
+                          //           ),
+                          //           actions: [
+                          //             TextButton(
+                          //               onPressed: () {
+                          //                 Navigator.of(context).pop();
+                          //               },
+                          //               child: Text('OK'),
+                          //             ),
+                          //           ],
+                          //         );
+                          //       },
+                          //     );
+
+                          //     Future.delayed(Duration(seconds: 2)).then(
+                          //       (value) async {
+                          //         print("nav Keys sdsd");
+                          //         await imgcon.saveReceipt(
+                          //             _globlkey, mngctrl.applicid?.applicationNo??"");
+                          //         print("nav Keys");
+
+                          //         Get.back();
+                          //         Get.back();
+
+                          //         pagectrl.setmainpageindex(ind: 7);
+                          //       },
+                          //     );
+
+                          //     /////dsadsadasd
+                          //     log('already exist');
+                          //   }
+                          // }
+                          // pagectrl.listenPageChange();
                         },
                   child: Padding(
                     padding: const EdgeInsets.all(32.0),

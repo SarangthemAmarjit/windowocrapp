@@ -1,3 +1,4 @@
+import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
@@ -82,7 +83,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   void initState() {
     super.initState();
     VisitorEntry? d = Get.find<Managementcontroller>().getPermit;
-
+     _dob = parseAnyDate(d!.applcntDOB ?? "");
     controllers = {
       'name': _nameController,
       'parentName': _parentNameController,
@@ -142,7 +143,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
           _localpincodeController.text = d.pinCode ?? "";
           _localpolicestationController.text = d.nearestPS ?? "";
           _localresidencename.text = d.lrName ?? "";
-          _dob = DateTime.tryParse(d.applcntDOB ?? "");
+        
           if (d.district != null && d.district!.isNotEmpty) {
             district = d.district ?? "";
           }
@@ -228,356 +229,360 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         height: 20,
                       ),
                       Container(
-                        // height: 500,
+                        height:firspage? 600:null,
                         child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              firspage
-                                  ? Column(
+                          child: firspage
+                              ? Column(
+                                  children: [
+                                    Row(
                                       children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child:
-                                                  mngctrl.getPermit?.idProof !=
-                                                          null
-                                                      ? _buildDropdownField(
-                                                          "ID Proof",
-                                                          [
-                                                            mngctrl.getPermit
-                                                                    ?.idProof ??
-                                                                "Id Card"
-                                                          ],
-                                                          mngctrl.getPermit
-                                                                  ?.idProof ??
-                                                              "",
-                                                          (value) {},
-                                                          null)
-                                                      : SizedBox(),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                                child: _buildTextField(
-                                                    'ID No.', _idNoController,
-                                                    node: _focusNodes['idNo']!,
-                                                    enabled: false)),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay: Duration(milliseconds: 0)),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                                child: _buildTextField(
-                                                    'Applicant Name',
-                                                    _nameController,
-                                                    node:
-                                                        _focusNodes['name']!)),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: _buildTextField(
-                                                  'Parent/Guardian Name',
-                                                  _parentNameController,
-                                                  node: _focusNodes[
-                                                      'parentName']!),
-                                            )
-                                            // Expanded(
-                                            //   flex: 4,
-                                            //   child: Column(
-                                            //     children: [
-                                            //       _buildTextField('Applicant Name', _nameController),
-                                            //       _buildTextField(
-                                            //           'Parent/Guardian Name', _parentNameController),
-                                            //     ],
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay: Duration(milliseconds: 300)),
-
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: _buildTextField(
-                                                  iscapitalize: false,
-                                                  'Email',
-                                                  _emailController,
-                                                  node: _focusNodes['email']!,
-                                                  mandatory: false,
-                                                  validator: _emailValidator),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: _buildTextField(
-                                                  'Mobile No.',
-                                                  _mobileController,
-                                                  node: _focusNodes['mobile']!,
-                                                  counter: 10,
-                                                  validator: _phoneValidator),
-                                            ),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay: Duration(milliseconds: 400)),
-
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: _buildDateField(
-                                                  '* Date of Birth', _dob,
-                                                  (value) {
-                                                setState(() {
-                                                  _dob = value;
-                                                });
-
-                                                if (_dob == null) {
-                                                  setState(() {
-                                                    datenullText =
-                                                        "DOB cannot be empty";
-                                                  });
-                                                } else {
-                                                  setState(() {
-                                                    datenullText = null;
-                                                  });
-                                                }
-                                              }, datenullText),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: _buildTextField(
-                                                  node: _focusNodes['village']!,
-                                                  'Village/Street',
-                                                  _villageController),
-                                            ),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay: Duration(milliseconds: 600)),
-
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: _buildDropdownFieldState(
-                                                  '* State',
+                                        Expanded(
+                                          child:
+                                              mngctrl.getPermit?.idProof !=
+                                                      null
+                                                  ? _buildDropdownField(
+                                                      "ID Proof",
+                                                      [
+                                                        mngctrl.getPermit
+                                                                ?.idProof ??
+                                                            "Id Card"
+                                                      ],
+                                                      mngctrl.getPermit
+                                                              ?.idProof ??
+                                                          "",
+                                                      (value) {},
+                                                      null)
+                                                  : SizedBox(),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                            child: _buildTextField(
+                                                'ID No.', _idNoController,
+                                                node: _focusNodes['idNo']!,
+                                                enabled: false)),
+                                      ],
+                                    ).animate().fadeIn(
+                                        delay: Duration(milliseconds: 0)),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            child: _buildTextField(
+                                                'Applicant Name',
+                                                _nameController,
+                                                node:
+                                                    _focusNodes['name']!)),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: _buildTextField(
+                                              'Parent/Guardian Name',
+                                              _parentNameController,
+                                              node: _focusNodes[
+                                                  'parentName']!),
+                                        )
+                                        // Expanded(
+                                        //   flex: 4,
+                                        //   child: Column(
+                                        //     children: [
+                                        //       _buildTextField('Applicant Name', _nameController),
+                                        //       _buildTextField(
+                                        //           'Parent/Guardian Name', _parentNameController),
+                                        //     ],
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ).animate().fadeIn(
+                                        delay: Duration(milliseconds: 300)),
+                                                
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _buildTextField(
+                                              iscapitalize: false,
+                                              'Email',
+                                              _emailController,
+                                              node: _focusNodes['email']!,
+                                              mandatory: false,
+                                              validator: _emailValidator),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: _buildTextField(
+                                              'Mobile No.',
+                                              _mobileController,
+                                              node: _focusNodes['mobile']!,
+                                              counter: 10,
+                                              validator: _phoneValidator),
+                                        ),
+                                       
+                                      ],
+                                    ).animate().fadeIn(
+                                        delay: Duration(milliseconds: 400)),
+                                                
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: _buildDateField(
+                                              '* Date of Birth', _dob,
+                                              (value) {
+                                            setState(() {
+                                              _dob = value;
+                                            });
+                                                
+                                            if (_dob == null) {
+                                              setState(() {
+                                                datenullText =
+                                                    "DOB cannot be empty";
+                                              });
+                                            } else {
+                                              setState(() {
+                                                datenullText = null;
+                                              });
+                                            }
+                                          }, datenullText),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: _buildTextField(
+                                              node: _focusNodes['village']!,
+                                              'Village/Street',
+                                              _villageController),
+                                        ),
+                                      ],
+                                    ).animate().fadeIn(
+                                        delay: Duration(milliseconds: 600)),
+                                                
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                             
+                                              _buildDropdownField(
+                                                
+                                                  'State',
                                                   states,
                                                   mngctrl.state, (value) {
                                                 mngctrl.changeState(value!);
                                               }, statenullText),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                                child: _buildTextField(
-                                                    node: _focusNodes[
-                                                        'district']!,
-                                                    'District',
-                                                    _districtController)),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay: Duration(milliseconds: 800)),
-
-                                        //
-
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: _buildTextField(
-                                                  node: _focusNodes[
-                                                      'nearestPolice']!,
-                                                  'Police Station',
-                                                  _nearestpliceController),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                                child: _buildTextField(
-                                                    node:
-                                                        _focusNodes['tehsil']!,
-                                                    'Tehsil',
-                                                    _tehsilController)),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay:
-                                                Duration(milliseconds: 1000)),
-                                        _buildRadioGroup(
-                                            '* Gender', genders, mngctrl.gender,
-                                            (value) {
-                                          mngctrl.changeGender(value!);
-                                        }).animate().fadeIn(
-                                            delay:
-                                                Duration(milliseconds: 1200)),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                            child: _buildTextField(
+                                                node: _focusNodes[
+                                                    'district']!,
+                                                'District',
+                                                _districtController)),
                                       ],
-                                    )
-                                  : Column(
+                                    ).animate().fadeIn(
+                                        delay: Duration(milliseconds: 800)),
+                                                
+                                    //
+                                                
+                                    Row(
                                       children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: _buildDropdownField(
-                                                  '* District',
-                                                  districts,
-                                                  district, (value) {
-                                                setState(() {
-                                                  if (value != null) {
-                                                    district = value;
-                                                  }
-                                                });
-                                              }, null),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: _buildTextField(
-                                                node: _focusNodes[
-                                                    'localPincode']!,
-                                                'PinCode',
-                                                _localpincodeController,
-                                                mandatory: false,
-                                                validator: (p0) {
-                                                  if (p0 != null &&
-                                                      p0.isNotEmpty) {
-                                                    if (p0.isNumericOnly &&
-                                                        p0.length == 6) {
-                                                      return null;
-                                                    }
-                                                    return "Pincode must be 6 digits";
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay: Duration(milliseconds: 0)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                                child: _buildTextField(
-                                                    node: _focusNodes[
-                                                        'placeStay']!,
-                                                    'Place of Stay in Manipur',
-                                                    _placeStayController)),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: _buildTextField(
-                                                node: _focusNodes[
-                                                    'localPoliceStation']!,
-                                                'Nearest Police Station',
-                                                validator: (p) {
-                                                  return null;
-                                                },
-                                                _localpolicestationController,
-                                                mandatory: false,
-                                              ),
-                                            ),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay: Duration(milliseconds: 200)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: AnimatedContainer(
-                                                height:
-                                                    mngctrl.purpose == "Others"
-                                                        ? 220
-                                                        : 100,
-                                                padding:
-                                                    mngctrl.purpose == "Others"
-                                                        ? EdgeInsets.all(8)
-                                                        : null,
-                                                duration:
-                                                    Duration(milliseconds: 800),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  color: mngctrl.purpose ==
-                                                          "Others"
-                                                      ? Colors.blue.withValues(
-                                                          alpha: 0.2)
-                                                      : Colors.white,
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    _buildDropdownField(
-                                                        '* Purpose of Visit',
-                                                        purposes,
-                                                        mngctrl.purpose,
-                                                        (value) {
-                                                      mngctrl.changePurpose(
-                                                          value!);
-                                                    }, purposevisitnulltext),
-                                                    mngctrl.purpose == "Others"
-                                                        ? AnimatedOpacity(
-                                                            duration: Duration(
-                                                                milliseconds:
-                                                                    600),
-                                                            opacity:
-                                                                mngctrl.purpose ==
-                                                                        "Others"
-                                                                    ? 1
-                                                                    : 0,
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                _buildTextField(
-                                                                    node: _focusNodes[
-                                                                        'visitPurpose']!,
-                                                                    padding: EdgeInsets.only(
-                                                                        bottom:
-                                                                            4),
-                                                                    'Purpose',
-                                                                    _visitPurposeController),
-                                                                Text(
-                                                                    "Please provide a purpose.")
-                                                              ],
-                                                            ),
-                                                          )
-                                                        : SizedBox(),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: _buildTextField(
-                                                node: _focusNodes[
-                                                    'localResidenceName']!,
-                                                'Local Residence',
-                                                validator: (p) {
-                                                  return null;
-                                                },
-                                                _localresidencename,
-                                                mandatory: false,
-                                              ),
-                                            ),
-                                          ],
-                                        ).animate().fadeIn(
-                                            delay: Duration(milliseconds: 400)),
-                                        const SizedBox(height: 20),
+                                        Expanded(
+                                          child: _buildTextField(
+                                              node: _focusNodes[
+                                                  'nearestPolice']!,
+                                              'Police Station',
+                                              _nearestpliceController),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                            child: _buildTextField(
+                                                node:
+                                                    _focusNodes['tehsil']!,
+                                                'Tehsil',
+                                                _tehsilController)),
                                       ],
-                                    ),
-                            ],
-                          ),
+                                    ).animate().fadeIn(
+                                        delay:
+                                            Duration(milliseconds: 1000)),
+                                    _buildRadioGroup(
+                                        '* Gender', genders, mngctrl.gender,
+                                        (value) {
+                                      mngctrl.changeGender(value!);
+                                    }).animate().fadeIn(
+                                        delay:
+                                            Duration(milliseconds: 1200)),
+                                  ],
+                                )
+                              : Column(
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: _buildDropdownField(
+                                              '* District',
+                                              districts,
+                                              district, (value) {
+                                            setState(() {
+                                              if (value != null) {
+                                                district = value;
+                                              }
+                                            });
+                                          }, null),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: _buildTextField(
+                                             counter: 6,
+                                            node: _focusNodes[
+                                                'localPincode']!,
+                                            'PinCode',
+                                            _localpincodeController,
+                                            mandatory: false,
+                                            validator: (p0) {
+                                              if (p0 != null &&
+                                                  p0.isNotEmpty) {
+                                                if (p0.isNumericOnly &&
+                                                    p0.length == 6) {
+                                                  return null;
+                                                }
+                                                return "Pincode must be 6 digits";
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ).animate().fadeIn(
+                                        delay: Duration(milliseconds: 0)),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                            child: _buildTextField(
+                                                node: _focusNodes[
+                                                    'placeStay']!,
+                                                'Place of Stay in Manipur',
+                                                _placeStayController)),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: _buildTextField(
+                                            node: _focusNodes[
+                                                'localPoliceStation']!,
+                                            'Nearest Police Station',
+                                            validator: (p) {
+                                              return null;
+                                            },
+                                            _localpolicestationController,
+                                            mandatory: false,
+                                          ),
+                                        ),
+                                      ],
+                                    ).animate().fadeIn(
+                                        delay: Duration(milliseconds: 200)),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: AnimatedContainer(
+                                            height:
+                                                mngctrl.purpose == "Others"
+                                                    ? 220
+                                                    : 100,
+                                            padding:
+                                                mngctrl.purpose == "Others"
+                                                    ? EdgeInsets.all(8)
+                                                    : null,
+                                            duration:
+                                                Duration(milliseconds: 800),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              color: mngctrl.purpose ==
+                                                      "Others"
+                                                  ? Colors.blue.withValues(
+                                                      alpha: 0.2)
+                                                  : Colors.white,
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                _buildDropdownField(
+                                                    '* Purpose of Visit',
+                                                    purposes,
+                                                    mngctrl.purpose,
+                                                    (value) {
+                                                  mngctrl.changePurpose(
+                                                      value!);
+                                                }, purposevisitnulltext),
+                                                mngctrl.purpose == "Others"
+                                                    ? AnimatedOpacity(
+                                                        duration: Duration(
+                                                            milliseconds:
+                                                                600),
+                                                        opacity:
+                                                            mngctrl.purpose ==
+                                                                    "Others"
+                                                                ? 1
+                                                                : 0,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            _buildTextField(
+                                                                node: _focusNodes[
+                                                                    'visitPurpose']!,
+                                                                padding: EdgeInsets.only(
+                                                                    bottom:
+                                                                        4),
+                                                                'Purpose',
+                                                                _visitPurposeController),
+                                                            Text(
+                                                                "Please provide a purpose.")
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : SizedBox(),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: _buildTextField(
+                                            node: _focusNodes[
+                                                'localResidenceName']!,
+                                            'Local Residence',
+                                            validator: (p) {
+                                              return null;
+                                            },
+                                            _localresidencename,
+                                            mandatory: false,
+                                          ),
+                                        ),
+                                      ],
+                                    ).animate().fadeIn(
+                                        delay: Duration(milliseconds: 400)),
+                                    const SizedBox(height: 20),
+                                  ],
+                                ),
                         ),
                       ),
                       InkWell(
@@ -608,16 +613,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 });
                               }
 
-                              if (mngctrl.purpose == null) {
-                                setState(() {
-                                  purposevisitnulltext =
-                                      "Purpose cannot be empty";
-                                });
-                              } else {
-                                setState(() {
-                                  purposevisitnulltext = null;
-                                });
-                              }
+                          
                               controller.listenPageChange();
                             }
                           } else {
@@ -646,9 +642,9 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 gateID: mngctrl.selectedGate?.id ?? "",
                                 placeOfStay: _placeStayController.text.trim(),
                                 pinCode: _localpincodeController.text.trim(),
-                                residingPeriod: "30",
+                                residingPeriod:"${mngctrl.getPermitPrice?.validityDays??"30"}",
                                 entryType: "ONLINE",
-                                applcntHNo: "NA",
+                                applcntHNo: mngctrl.applicid?.houseNo??"NA",
                                 applyDistrictID: "NA",
                                 category: "NA",
                                 district: district.trim(),
@@ -786,6 +782,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       onChanged: onChanged,
       autoValidateMode: AutovalidateMode.onUserInteraction,
       selectedItem: selectedValue,
+      
       decoratorProps: DropDownDecoratorProps(
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
@@ -826,11 +823,20 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: InputDecorator(
         decoration: InputDecoration(
+constraints: BoxConstraints(
+  maxHeight: 60
+),
           labelText: label,
           errorText: errorText,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+          
+          border: OutlineInputBorder(
+          
+            borderRadius: BorderRadius.circular(4),
+          
+          ),
         ),
         child: DropdownButtonHideUnderline(
+      
           child: DropdownButton<String>(
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             hint: Text("Select $label"),
@@ -1046,7 +1052,8 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           color: widget.enable == false ? Colors.black : null,
         ),
         focusNode: widget.focusnode,
-        maxLength: widget.counter ?? 40,
+        maxLength: widget.counter ?? 10,
+    
         controller: widget.controller,
         cursorColor: Colors.black,
         readOnly: true,
@@ -1056,6 +1063,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
                 required maxLength}) =>
             SizedBox(),
         decoration: InputDecoration(
+          
           enabled: widget.enable!,
           errorStyle: TextStyle(
             color: Colors.red, // Change error text color

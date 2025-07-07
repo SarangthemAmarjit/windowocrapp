@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 String getDate({ required String? dateTime,int duration = 0}){
   try{
@@ -31,4 +32,39 @@ void hideKeyboard() {
 
   // Kill the Windows on-screen keyboard process
   Process.run('taskkill', ['/IM', 'TabTip.exe', '/F']);
+}
+
+
+DateTime? parseAnyDate(String input) {
+       print(input);
+  // Try native DateTime.parse()
+  try {
+    return DateTime.parse(input);
+  } catch (d) {
+
+     print(d.toString());
+  }
+
+  // Fallback formats
+  final formats = [
+    DateFormat('mm/dd/yyyy'),
+    DateFormat('m/d/yyyy'),
+    DateFormat('MM-dd-yyyy'),
+    DateFormat('M-d-yyyy'),
+     DateFormat('M/d/yyyy h:mm:ss a'),
+    DateFormat('MM/dd/yyyy h:mm:ss a'),
+    DateFormat('M-d-yyyy h:mm:ss a'),
+    DateFormat('MM-dd-yyyy h:mm:ss a'),
+  ];
+
+  for (final format in formats) {
+    try {
+      return format.parseStrict(input);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  // Parsing failed
+  return null;
 }

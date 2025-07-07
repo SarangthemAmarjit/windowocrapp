@@ -5,12 +5,14 @@ class CustomKeyboard extends StatefulWidget {
   final VoidCallback onBackspace;
   final VoidCallback onToggle;
   final bool isAlpha;
+  final bool isCapital;
 
   CustomKeyboard({
     required this.onKeyTap,
     required this.onBackspace,
     required this.onToggle, 
     this.isAlpha = true,
+    this.isCapital = false
   });
 
   @override
@@ -20,6 +22,15 @@ class CustomKeyboard extends StatefulWidget {
 class _CustomKeyboardState extends State<CustomKeyboard> {
 
   bool isCap = false;
+      @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      
+    isCap = widget.isCapital;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +67,9 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
               children: [
                       SizedBox(
                           width:80,
-                  child: _buildSpecialButton(icon: Icon(Icons.arrow_upward),onTap: (){ setState(() {
+                  child: _buildSpecialButton(icon: Icon(Icons.arrow_upward),onTap:widget.isCapital?(){
+                    
+                  }: (){ setState(() {
                     isCap = !isCap;
                   });})),
                 Expanded(child: isCap?_buildKeyRow(['Z', 'X', 'C', 'V', 'B', 'N', 'M','.']) : _buildKeyRow(['z', 'x', 'c', 'v', 'b', 'n', 'm','.'])),
@@ -103,18 +116,6 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
     return KeyboardKey(widget: widget,keys: key,);
   }
 
-  // Widget _buildBottomRow() {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: [
-  //       _buildSpecialButton( label: '@', onTap: () => widget.onKeyTap('@')),
-   
-  //       _buildSpecialButton( widget.isAlpha ? '123' : 'ABC', widget.onToggle),
-  //       _buildSpecialButton('⌫', widget.onBackspace),
-  //     ],
-  //   );
-  // }
-
   Widget _buildSpecialButton({Icon? icon,String? label, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
@@ -135,26 +136,6 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
     );
   }
 
-
-  //   Widget _buildSpecialButton2(String label, VoidCallback onTap) {
-  //   return GestureDetector(
-  //     onTap: onTap,
-  //     child: Container(
-  //          height: 70,
-  //       alignment: Alignment.center,
-  //       // margin: EdgeInsets.all(4),
-  //       decoration: BoxDecoration(
-  //         color: Colors.blue[300],
-  //         // borderRadius: BorderRadius.circular(8),
-  //         boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-  //       ),
-  //       child: Text(
-  //         label,
-  //         style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
 class KeyboardKey extends StatefulWidget {
@@ -181,7 +162,7 @@ class _KeyboardKeyState extends State<KeyboardKey> {
         setState((){
           hov = true;
         });
-        Future.delayed(Duration(milliseconds: 300)).then((v){
+        Future.delayed(Duration(milliseconds: 200)).then((v){
             setState(() {
               hov = false;
             });
@@ -190,11 +171,9 @@ class _KeyboardKeyState extends State<KeyboardKey> {
       child: AnimatedContainer(
         width: 80,
         height: 70,
-        // margin: EdgeInsets.all(4),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color:hov?const Color.fromARGB(255, 137, 195, 243):Colors.white,
-          // borderRadius: BorderRadius.circular(8),
           boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
         ),
         duration: Duration(milliseconds: 400),

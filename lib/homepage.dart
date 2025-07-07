@@ -8,23 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
-class IdSelectionAndScanningScreen extends StatefulWidget {
+class IdSelectionAndScanningScreen extends StatefulWidget  {
   @override
   _IdSelectionAndScanningScreenState createState() =>
       _IdSelectionAndScanningScreenState();
 }
 
 class _IdSelectionAndScanningScreenState
-    extends State<IdSelectionAndScanningScreen> {
+    extends State<IdSelectionAndScanningScreen> with SingleTickerProviderStateMixin {
   final GlobalKey _key = GlobalKey();
   final GlobalKey IdcaptureKey = GlobalKey();
   bool signaturePage = false;
   bool saveId = false;
+  late AnimationController _animationcontroller;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-   
+    _animationcontroller = AnimationController(vsync: this,);
     WidgetsBinding.instance.addPostFrameCallback((_) {
        Get.find<Imagecontroller>().initializeCamera(isfront: true, isback: false, isprofilecam: false);
       saveId = false;
@@ -250,13 +251,24 @@ class _IdSelectionAndScanningScreenState
                                             ),
                                           ),
                                         ),
-                                      ),
+                                      ).animate(controller: _animationcontroller).flipH()
                                     ),
                                     SizedBox(height: 16,),
 
                                     InkWell(
                             onTap: () {
+                              if(imgcon.frontImages==null && imgcon.backImages==null ){
+                                if(_animationcontroller.isCompleted ){
+                                  _animationcontroller.reset();
+                                    _animationcontroller.forward();
+                              }else{
+
+                              _animationcontroller.forward();
+                              }
+                                }
+                             
                             imgcon.takeDocIDImage(
+                            
                                                 IdcaptureKey,
                                                 imgcon
                                                     .frontImages==null);
@@ -329,7 +341,7 @@ class _IdSelectionAndScanningScreenState
                                     // ),
                                   ],
                                 )
-                              : Center(child: Text('Camera Preview Area'))
+                              : Center(child: Text(''))
                         ],
                       ),
                     ),
@@ -597,7 +609,7 @@ class _IdSelectionAndScanningScreenState
                                   ),
                                 ),
                               ),
-                              Expanded(
+                           imgcon.frontImages!=null && imgcon.backImages!=null?   Expanded(
                                 child: InkWell(
                                   onTap: imgcon.backImages!=null && imgcon.frontImages!=null? () async {
                                     //going to payment after success
@@ -647,7 +659,7 @@ class _IdSelectionAndScanningScreenState
                                     )),
                                   ),
                                 ),
-                              ),
+                              ):SizedBox(),
                             ],
                           ).animate().fadeIn(
                               duration: Duration(milliseconds: 1200),

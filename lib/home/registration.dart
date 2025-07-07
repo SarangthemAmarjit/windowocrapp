@@ -1,9 +1,5 @@
 import 'package:camera_windows_example/controller/imagecapture.dart';
-import 'package:camera_windows_example/home/printpage.dart';
-import 'package:camera_windows_example/home/registrationpages/facedetect.dart';
-import 'package:camera_windows_example/home/registrationpages/succespage.dart';
 import 'package:camera_windows_example/homepage.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/pagecontroller.dart';
@@ -22,7 +18,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
  
  @override
   void dispose() {
-    // TODO: implement dispose
 
     super.dispose();
   }

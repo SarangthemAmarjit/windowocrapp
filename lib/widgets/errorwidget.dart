@@ -17,7 +17,8 @@ class ErrorPages extends StatelessWidget {
               builder: (pagectrl) {
                 return Center(
                   child: Container(
-                    child: Column(
+                    padding: EdgeInsets.all(16),
+                    child: Column( 
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
               
@@ -32,7 +33,6 @@ class ErrorPages extends StatelessWidget {
                       SizedBox(height: 20,),
                    Text("Service is temporarily down. We will get back soon.",style: TextStyle(fontSize: 50),textAlign: TextAlign.center,).animate().fadeIn().slideY(begin: 1,end:0,delay: Duration(milliseconds: 400)),
                       SizedBox(height: 20,),
-           
                     ],
                     ),
                   ),

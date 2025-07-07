@@ -31,7 +31,12 @@ class _SuccesspagesState extends State<Successpages> {
   final player = AudioPlayer();
 
   void playTimerSound(String audio) {
+    try{
+
     player.play(AssetSource(audio)); // Plays the sound once
+    }catch(e){
+
+    }
   }
 
   Timer? _timer;
@@ -40,7 +45,7 @@ class _SuccesspagesState extends State<Successpages> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if( Get.find<PagenavControllers>().mainpageindex == 7 || Get.find<Imagecontroller>().receipt!=null ){
+      if( Get.find<PagenavControllers>().mainpageindex == 7 || Get.find<PagenavControllers>().mainpageindex == 5 || Get.find<Imagecontroller>().receipt!=null ){
 
           playTimerSound('success.mp3');
       } 
@@ -81,19 +86,19 @@ class _SuccesspagesState extends State<Successpages> {
             child: Container(
               child: Column(
                 children: [
+                  // SizedBox(
+                  //   height: 100,
+                  //   width: 100,
+                  //   child: Image.asset("assets/images/kanglashaok.png"),
+                  // ),
                   SizedBox(
                     height: 100,
-                    width: 100,
-                    child: Image.asset("assets/images/kanglashaok.png"),
-                  ),
-                  SizedBox(
-                    height: 20,
                   ),
                   Container(
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16)),
-                          child:pagectrl.mainpageindex == 7||imgcon.receipt != null?  Lottie.asset('assets/receipt.json',
+                          child:pagectrl.mainpageindex == 7 || pagectrl.mainpageindex==5  ||imgcon.receipt != null?  Lottie.asset('assets/receipt.json',
                               repeat: false):SizedBox() )
                       .animate()
                       .fadeIn()
@@ -102,9 +107,9 @@ class _SuccesspagesState extends State<Successpages> {
                           end: 0,
                           duration: Duration(milliseconds: 800)),
                   SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
-                        pagectrl.mainpageindex == 7
+                        pagectrl.mainpageindex == 7 
                       ? Text(
                           "User already exists.\nPlease collect your receipt and go to the ILP Counter",
                           style: TextStyle(fontSize: 30),textAlign: TextAlign.center
@@ -117,7 +122,7 @@ class _SuccesspagesState extends State<Successpages> {
                           textAlign: TextAlign.center
                         ).animate().fadeIn().slideY(
                           begin: 1, end: 0, delay: Duration(milliseconds: 400))
-                      : imgcon.receipt != null
+                      : imgcon.receipt != null 
                           ? Text(
                               "Your Receipt Has been Generated. Please collect your receipt and go to the ILP Counter",
                               style: TextStyle(fontSize: 30),
@@ -126,7 +131,14 @@ class _SuccesspagesState extends State<Successpages> {
                               begin: 1,
                               end: 0,
                               delay: Duration(milliseconds: 400))
-                          : Text("Failed to generate permit.Please try again",
+                          : pagectrl.mainpageindex==5?Text("Your Receipt Has been Generated. Please collect your receipt",
+                                  style: TextStyle(fontSize: 30),textAlign: TextAlign.center,)
+                              .animate()
+                              .fadeIn()
+                              .slideY(
+                                  begin: 0,
+                                  end: 0,
+                                  delay: Duration(milliseconds: 400)) : Text("Failed to generate permit.Please try again",
                                   style: TextStyle(fontSize: 30),textAlign: TextAlign.center,)
                               .animate()
                               .fadeIn()
@@ -156,11 +168,15 @@ class _SuccesspagesState extends State<Successpages> {
                   ),
 
                   SizedBox(height: 100,),
-                 pagectrl.mainpageindex == 7||imgcon.receipt != null?   Text("Please collect your receipt.",style: GoogleFonts.montserrat(fontSize: 30,fontWeight: FontWeight.bold),):SizedBox(),
-                 pagectrl.mainpageindex == 7||imgcon.receipt != null? Image.asset(
+                //  pagectrl.mainpageindex == 7||imgcon.receipt != null?
+                    Text("Please collect your receipt.",style: GoogleFonts.montserrat(fontSize: 30,fontWeight: FontWeight.bold),)
+                    // :SizedBox(),
+                //  pagectrl.mainpageindex == 7||imgcon.receipt != null?
+                  ,Image.asset(
                     
                     colorBlendMode: BlendMode.colorBurn,
-                    "assets/images/downloads.gif",height: 300,width: 300,fit: BoxFit.cover,):SizedBox()
+                    "assets/images/downloads.gif",height: 300,width: 300,fit: BoxFit.cover,)
+                    // :SizedBox()
                 ],
               ),
             ),

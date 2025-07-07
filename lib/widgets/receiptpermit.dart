@@ -39,7 +39,6 @@ class ReceiptWidget extends StatelessWidget {
           //   ),
           // ),
           // Divider(thickness: 1),
-
           // /// Applicant Details
           // Align(alignment: Alignment.centerLeft, child: Text("Applicant Name:", style: TextStyle(fontWeight: FontWeight.bold))),
           // Align(alignment: Alignment.centerLeft, child: Text(applicantName)),
@@ -47,7 +46,6 @@ class ReceiptWidget extends StatelessWidget {
           // Align(alignment: Alignment.centerLeft, child: Text("Applicant ID:", style: TextStyle(fontWeight: FontWeight.bold))),
           // Align(alignment: Alignment.centerLeft, child: Text(applicantId)),
           // SizedBox(height: 10),
-
    
  
           // SizedBox(height: 10),
