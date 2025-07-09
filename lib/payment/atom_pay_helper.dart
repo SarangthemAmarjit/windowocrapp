@@ -11,9 +11,7 @@ getRequestJsonData(Map data) {
           data['login'] +
           '", "userId": "", "password": "' +
           data['password'] +
-          '", "userId": "", "clientCode": "' +
-          data['clientcode'] +
-          '", "merchTxnDate": "' +
+          '", "userId": "",  "merchTxnDate": "' +
           datetime +
           '", "merchTxnId": "' +
           data['txnid'] +
@@ -22,7 +20,14 @@ getRequestJsonData(Map data) {
           '", "product": "' +
           data['prodid'] +
           '", "custAccNo": "' +
+
+
           data['custacc'] +
+         '","clientCode": "' +
+          data['clientcode'] 
+          
+          
+          +
           '", "txnCurrency": "' +
           data['txncurr'] +
           '" }, "custDetails": { "custEmail": "' +

@@ -15,10 +15,10 @@ import 'controller/pagecontroller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await windowManager.ensureInitialized();
-  // windowManager.waitUntilReadyToShow().then((_) async {
-  //   await windowManager.setFullScreen(true);
-  // });
+  await windowManager.ensureInitialized();
+  windowManager.waitUntilReadyToShow().then((_) async {
+    await windowManager.setFullScreen(true);
+  });
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
   Get.put(Imagecontroller());
