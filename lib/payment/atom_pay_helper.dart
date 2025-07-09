@@ -11,6 +11,8 @@ getRequestJsonData(Map data) {
           data['login'] +
           '", "userId": "", "password": "' +
           data['password'] +
+          '", "userId": "", "clientCode": "' +
+          data['clientcode'] +
           '", "merchTxnDate": "' +
           datetime +
           '", "merchTxnId": "' +
