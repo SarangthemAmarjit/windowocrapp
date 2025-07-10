@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
-import 'package:camera_windows_example/demopayment.dart';
 import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,14 +39,12 @@ class MyApp extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               visualDensity: VisualDensity.standard,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               backgroundColor: Colors.blueAccent,
               foregroundColor: Colors.white,
-              textStyle:
-                  GoogleFonts.robotoCondensedTextTheme().bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+              textStyle: GoogleFonts.robotoCondensedTextTheme().bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
           ),
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
@@ -74,14 +71,12 @@ class MyHttpOverrides extends HttpOverrides {
 
 class NoScrollbarBehavior extends ScrollBehavior {
   @override
-  Widget buildScrollbar(
-      BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 
   @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }
