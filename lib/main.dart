@@ -52,8 +52,8 @@ class MyApp extends StatelessWidget {
           ),
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorSchemeSeed: Colors.white),
-      home: Paymentdemo(),
-      // home: LandingPage(),
+      // home: Paymentdemo(),
+      home: LandingPage(),
       // home: MyWidget()
       // home:PermitGenerateWidget(applicantId: "123485986768"),
     );
