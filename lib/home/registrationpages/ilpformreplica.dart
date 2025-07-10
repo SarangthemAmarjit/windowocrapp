@@ -111,7 +111,9 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
             _activeField = key;
           });
 
-          if (_activeField == 'mobile' || _activeField == 'localPincode') {
+          if (_activeField == 'mobile' ||
+              _activeField == 'localPincode' ||
+              _activeField == 'localResidencePhone') {
             if (!isKeyboardnum) {
               setState(() {
                 isKeyboardnum = true;
@@ -519,7 +521,14 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                                 node: _focusNodes['localResidencePhone']!,
                                                 'Local Residence Phone',
                                                 validator: (p) {
-                                                  return null;
+                                                  if (p == null) {
+                                                    return null;
+                                                  }
+                                                  if (p.isNumericOnly && p.length == 10) {
+                                                    return null;
+                                                  }
+
+                                                  return 'Must be a Number';
                                                 },
                                                 _localresidencephone,
                                                 mandatory: false,

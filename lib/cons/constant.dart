@@ -48,12 +48,7 @@ List<String> states = [
   "West Bengal"
 ];
 
-final List<String> documentTypes = [
-  'Driving License',
-  'Passport',
-  'Aadhaar Card',
-  'Pan Card'
-];
+final List<String> documentTypes = ['Driving License', 'Passport', 'Aadhaar Card', 'Pan Card'];
 
 List<String> termcondition = [
   "a)I shall be responsible for the good conduct during my stay in the state of Manipur.",

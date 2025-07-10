@@ -13,15 +13,17 @@ List<String> privacyPolicy = [
 
 List<String> paymentInstructions = [
   "Applicants are advised to pay the ILP fee online. Applicants may use a valid Bank Account for making payment.",
-
   "Online payment of the ILP fee can be made using the following modes:\nNet Banking\nDebit Card (VISA, MASTER, MAESTRO and RUPAY)\nCredit Card (VISA, MASTER, MAESTRO and RUPAY)",
   "For making online payment of ILP fee, applicants are requested to log in at the portal, furnish the required details and follow the instructions thereafter.",
-
   "After successful completion of the payment, the system will be directed back to the ILP application to generate receipt of the payment made and produce the same as and when required.",
-
   "However, the Applicants have to pay the charges as applicable for online payments in banks."
 ];
-String cancelandrefund = "Permits once generated through this application cannot be cancelled hence amount paid to generate the permit cannot be refunded. ";
+String cancelandrefund =
+    "Permits once generated through this application cannot be cancelled hence amount paid to generate the permit cannot be refunded. ";
 
- List<String> terms = ["Privacy Policy","Payments","Cancel & Refunds"];
-    List<List<String>> termspolicies = [privacyPolicy,paymentInstructions,[cancelandrefund]];
+List<String> terms = ["Privacy Policy", "Payment Policy", "Cancel & Refund Policy"];
+List<List<String>> termspolicies = [
+  privacyPolicy,
+  paymentInstructions,
+  [cancelandrefund]
+];

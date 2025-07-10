@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'main.dart';
-
 class InAppWebViewExampleScreen extends StatefulWidget {
   @override
-  _InAppWebViewExampleScreenState createState() =>
-      _InAppWebViewExampleScreenState();
+  _InAppWebViewExampleScreenState createState() => _InAppWebViewExampleScreenState();
 }
 
 class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
@@ -63,24 +60,22 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
               contextMenuItemClicked.title);
         });
 
-    pullToRefreshController = kIsWeb ||
-            ![TargetPlatform.iOS, TargetPlatform.android]
-                .contains(defaultTargetPlatform)
-        ? null
-        : PullToRefreshController(
-            settings: PullToRefreshSettings(
-              color: Colors.blue,
-            ),
-            onRefresh: () async {
-              if (defaultTargetPlatform == TargetPlatform.android) {
-                webViewController?.reload();
-              } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-                webViewController?.loadUrl(
-                    urlRequest:
-                        URLRequest(url: await webViewController?.getUrl()));
-              }
-            },
-          );
+    pullToRefreshController =
+        kIsWeb || ![TargetPlatform.iOS, TargetPlatform.android].contains(defaultTargetPlatform)
+            ? null
+            : PullToRefreshController(
+                settings: PullToRefreshSettings(
+                  color: Colors.blue,
+                ),
+                onRefresh: () async {
+                  if (defaultTargetPlatform == TargetPlatform.android) {
+                    webViewController?.reload();
+                  } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+                    webViewController?.loadUrl(
+                        urlRequest: URLRequest(url: await webViewController?.getUrl()));
+                  }
+                },
+              );
   }
 
   @override
@@ -116,8 +111,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                 InAppWebView(
                   key: webViewKey,
                   // webViewEnvironment: webViewEnvironment,
-                  initialUrlRequest:
-                      URLRequest(url: WebUri('https://flutter.dev')),
+                  initialUrlRequest: URLRequest(url: WebUri('https://flutter.dev')),
                   // initialUrlRequest:
                   // URLRequest(url: WebUri(Uri.base.toString().replaceFirst("/#/", "/") + 'page.html')),
                   // initialFile: "assets/index.html",
@@ -139,19 +133,11 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                   //   //     resources: request.resources,
                   //   //     action: PermissionResponseAction.GRANT);
                   // },
-                  shouldOverrideUrlLoading:
-                      (controller, navigationAction) async {
+                  shouldOverrideUrlLoading: (controller, navigationAction) async {
                     var uri = navigationAction.request.url!;
 
-                    if (![
-                      "http",
-                      "https",
-                      "file",
-                      "chrome",
-                      "data",
-                      "javascript",
-                      "about"
-                    ].contains(uri.scheme)) {
+                    if (!["http", "https", "file", "chrome", "data", "javascript", "about"]
+                        .contains(uri.scheme)) {
                       if (await canLaunchUrl(uri)) {
                         // Launch the App
                         await launchUrl(
@@ -193,13 +179,11 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                     print(consoleMessage);
                   },
                 ),
-                progress < 1.0
-                    ? LinearProgressIndicator(value: progress)
-                    : Container(),
+                progress < 1.0 ? LinearProgressIndicator(value: progress) : Container(),
               ],
             ),
           ),
-          ButtonBar(
+          OverflowBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(

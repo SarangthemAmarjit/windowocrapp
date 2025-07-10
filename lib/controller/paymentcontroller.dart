@@ -127,17 +127,14 @@ class GetxTapController extends GetxController {
   final String prodid = 'ILP'; //mandatory
   final String requestHashKey = '750fa5f3c01f9a4b3e'; //mandatory
   final String responseHashKey = 'd5110c2964f4ae7bbd'; //mandatory
-  final String requestEncryptionKey =
-      'C11CB813ACE571A313DBF397B8F8057E'; //mandatory
-  final String responseDecryptionKey =
-      '789257B2A0EFA675273732B9E07747BD'; //mandatory
+  final String requestEncryptionKey = 'C11CB813ACE571A313DBF397B8F8057E'; //mandatory
+  final String responseDecryptionKey = '789257B2A0EFA675273732B9E07747BD'; //mandatory
   // final String txnid =
   //     'test240223'; // mandatory // this should be unique each time
   final String clientcode = "01950075"; //mandatory
   final String txncurr = "INR"; //mandatory
   final String mccCode = "9399"; //mandatory
-  final String merchType =
-      "R"; //mandatory// final String amount = "1.00"; //mandat
+  final String merchType = "R"; //mandatory// final String amount = "1.00"; //mandat
   final String mode = "live"; // change live for production
 
   // final String custFirstName = 'test'; //optional
@@ -161,8 +158,7 @@ class GetxTapController extends GetxController {
   // final String auth_API_url =
   //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
-  final String returnUrl =
-      "https://payment.atomtech.in/mobilesdk/param"; //return url uat
+  final String returnUrl = "https://payment.atomtech.in/mobilesdk/param"; //return url uat
   // final String returnUrl =
   //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 ////////
@@ -221,8 +217,7 @@ class GetxTapController extends GetxController {
   final salt = Uint8List.fromList(utf8.encode(req_Salt));
   final resPassword = Uint8List.fromList(utf8.encode(res_DecKey));
   final resSalt = Uint8List.fromList(utf8.encode(res_Salt));
-  final iv = Uint8List.fromList(
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+  final iv = Uint8List.fromList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
 
   Future<String> encrypt22(String text) async {
     debugPrint('Input text for encryption: $text');
@@ -239,8 +234,7 @@ class GetxTapController extends GetxController {
         nonce: salt, // Salt value
       );
 
-      final keyBytes = (await derivedKey.extractBytes())
-          .sublist(0, 16); // Extract 128-bit key
+      final keyBytes = (await derivedKey.extractBytes()).sublist(0, 16); // Extract 128-bit key
       debugPrint(
           'Derived AES key: ${keyBytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join()}');
 
@@ -255,9 +249,8 @@ class GetxTapController extends GetxController {
         nonce: iv,
       );
 
-      final encryptedHex = secretBox.cipherText
-          .map((b) => b.toRadixString(16).padLeft(2, '0'))
-          .join();
+      final encryptedHex =
+          secretBox.cipherText.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
       debugPrint('Encrypted output (hex): $encryptedHex');
 
       return encryptedHex;
@@ -297,9 +290,7 @@ class GetxTapController extends GetxController {
         nonce: iv,
       );
 
-      final hexOutput = secretBox.cipherText
-          .map((b) => b.toRadixString(16).padLeft(2, '0'))
-          .join();
+      final hexOutput = secretBox.cipherText.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
       debugPrint('Encrypted hex output: $hexOutput');
       return hexOutput;
     } catch (e, stackTrace) {
@@ -412,8 +403,7 @@ class GetxTapController extends GetxController {
       String authEncryptedString = encDataR.toString();
       // here is result.toString() parameter you will receive encrypted string
       // debugPrint("generated encrypted string: '$authEncryptedString'");
-      _getAtomTokenId(context, authEncryptedString,
-          email: email, number: number);
+      _getAtomTokenId(context, authEncryptedString, email: email, number: number);
     } on PlatformException catch (e) {
       debugPrint("Failed to get encryption string: '${e.message}'.");
     }
@@ -431,14 +421,11 @@ class GetxTapController extends GetxController {
         log('200');
         var authApiResponse = await response.stream.bytesToString();
         final split = authApiResponse.trim().split('&');
-        final Map<int, String> values = {
-          for (int i = 0; i < split.length; i++) i: split[i]
-        };
+        final Map<int, String> values = {for (int i = 0; i < split.length; i++) i: split[i]};
         try {
           final splitTwo = values[1]!.split('=');
           if (splitTwo[0] == 'encData') {
-            final encDataPart =
-                split.firstWhere((element) => element.startsWith('encData'));
+            final encDataPart = split.firstWhere((element) => element.startsWith('encData'));
             final encryptedData = encDataPart.split('=')[1];
             final extractedData = ['encData', encryptedData];
             try {
@@ -452,8 +439,7 @@ class GetxTapController extends GetxController {
                 // debugPrint("atomTokenId: $_atomTokenId");
                 final String payDetails =
                     '{"atomTokenId" : "$_atomTokenId","merchId": "$login","emailId": $email,"mobileNumber":$number, "returnUrl":"$returnUrl"}';
-                _openNdpsPG(payDetails, context, responseHashKey,
-                    responseDecryptionKey);
+                _openNdpsPG(payDetails, context, responseHashKey, responseDecryptionKey);
               } else {
                 debugPrint("Problem in auth API response");
               }
@@ -480,10 +466,8 @@ class GetxTapController extends GetxController {
     }
   }
 
-  _openNdpsPG(payDetails, BuildContext context, responseHashKey,
-      responseDecryptionKey) {
-    Get.to(PaymentFinalPage(
-        mode, payDetails, responseHashKey, responseDecryptionKey));
+  _openNdpsPG(payDetails, BuildContext context, responseHashKey, responseDecryptionKey) {
+    Get.to(PaymentFinalPage(mode, payDetails, responseHashKey, responseDecryptionKey));
     //     .whenComplete(() {
     //   _ispaymentprocessstarted = false;
     //   update();
@@ -495,23 +479,20 @@ class GetxTapController extends GetxController {
     if (s != null) {
       GlobalKey key = GlobalKey();
       Get.dialog(AlertDialog(
-        content: RepaintBoundary(
-            key: key, child: ReceiptWidget(applicantName: "", applicantId: s)),
+        content: RepaintBoundary(key: key, child: ReceiptWidget(applicantName: "", applicantId: s)),
       ));
       await Future.delayed(Duration(seconds: 2));
       RenderRepaintBoundary boundary =
           key.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
-      print("nav Keys image in save receipt");
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      debugPrint("nav Keys image in save receipt");
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List barcodes = byteData!.buffer.asUint8List();
       Get.back();
       try {
-        printUsbReceiptWindows(
-            barcodes, s, "The online payment failed to process");
+        printUsbReceiptWindows(barcodes, s, "The online payment failed to process");
       } catch (e) {
-        print("Printere Exception");
+        debugPrint("Printere Exception");
       }
       _ispaymentprocessstarted = false;
       update();
@@ -598,7 +579,7 @@ class GetxTapController extends GetxController {
   //     if (response.statusCode == 200) {
   //       log('Done Post Successfully');
   //     } else {
-  //       print('Failedrerer to Getdata.');
+  //       debugPrint('Failedrerer to Getdata.');
   //       //  _isserverok = false;
   //     }
   //     return null;
@@ -628,14 +609,14 @@ class GetxTapController extends GetxController {
   //     if (response.statusCode == 200) {
   //       log('Done updated Successfully');
   //     } else {
-  //       print('Failedrerer to Getdata.');
+  //       debugPrint('Failedrerer to Getdata.');
   //       //  _isserverok = false;
   //     }
   //     return null;
   //   } catch (e) {
   //     // _isserverok = false;
 
-  //     print(e.toString());
+  //     debugPrint(e.toString());
   //   }
   // }
   updatepaymentremark(
@@ -648,7 +629,7 @@ class GetxTapController extends GetxController {
     update();
 
     try {
-      print("In payment amount : $amount");
+      debugPrint("In payment amount : $amount");
       Payment p = Payment(
           paymentId: transactionid,
           status: remark,
@@ -659,7 +640,7 @@ class GetxTapController extends GetxController {
     } catch (e) {
       _ispaymentinfosend = false;
       update();
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
@@ -668,7 +649,7 @@ class GetxTapController extends GetxController {
   void gettransactionid(String transId) {
     _transacid = transId;
     update();
-    print(_transacid);
+    debugPrint(_transacid);
   }
 
   // Downloadfile({required String trnxid}) async {
@@ -694,7 +675,7 @@ class GetxTapController extends GetxController {
   //         // NotificationService().showDownloadNotification(payLoad: value.path);
   //       });
 
-  //       print('File downloaded to: $filePath');
+  //       debugPrint('File downloaded to: $filePath');
 
   //       _isdownloadedfile = true;
   //       // ignore: use_build_context_synchronously
@@ -710,7 +691,7 @@ class GetxTapController extends GetxController {
   //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
   //           backgroundColor: Colors.red,
   //           content: Text('Download Fail Check Network')));
-  //       print('Failedrerer to Getdata.');
+  //       debugPrint('Failedrerer to Getdata.');
   //       //  _isserverok = false;
   //     }
   //     return null;
@@ -722,7 +703,7 @@ class GetxTapController extends GetxController {
   //         content: Text('Download Fail Newtwork Error')));
   //     // _isserverok = false;
 
-  //     print(e.toString());
+  //     debugPrint(e.toString());
   //   }
   // }
 
@@ -740,15 +721,15 @@ class GetxTapController extends GetxController {
   //       : await Permission.manageExternalStorage.request();
 
   //   if (status.isGranted) {
-  //     print("Storage permission granted");
+  //     debugPrint("Storage permission granted");
   //     Downloadfile(trnxid: trnxid);
   //   } else if (status.isDenied) {
-  //     print("Storage permission denied");
+  //     debugPrint("Storage permission denied");
   //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
   //         backgroundColor: Colors.red,
   //         content: Text('Error Storage Permission Denied')));
   //   } else if (status.isPermanentlyDenied) {
-  //     print("Storage permission permanently denied");
+  //     debugPrint("Storage permission permanently denied");
   //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
   //         backgroundColor: Colors.red,
   //         content: Text('Error Storage Permission Denied permanently')));
@@ -766,7 +747,7 @@ class GetxTapController extends GetxController {
   //       : await Permission.manageExternalStorage.request();
 
   //   if (status.isGranted) {
-  //     print("Storage permission granted");
+  //     debugPrint("Storage permission granted");
 
   //     final imageFile =
   //         await getImageFileFromAssets('assets/images/reciept.png');
@@ -892,12 +873,12 @@ class GetxTapController extends GetxController {
   //       // NotificationService().showDownloadNotification(payLoad: value.path);
   //     });
   //   } else if (status.isDenied) {
-  //     print("Storage permission denied");
+  //     debugPrint("Storage permission denied");
   //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
   //         backgroundColor: Colors.red,
   //         content: Text('Error Storage Permission Denied')));
   //   } else if (status.isPermanentlyDenied) {
-  //     print("Storage permission permanently denied");
+  //     debugPrint("Storage permission permanently denied");
   //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
   //         backgroundColor: Colors.red,
   //         content: Text('Error Storage Permission Denied permanently')));
