@@ -18,8 +18,7 @@ class TemporaryILPFormReplica extends StatefulWidget {
   const TemporaryILPFormReplica({super.key});
 
   @override
-  State<TemporaryILPFormReplica> createState() =>
-      _TemporaryILPFormReplicaState();
+  State<TemporaryILPFormReplica> createState() => _TemporaryILPFormReplicaState();
 }
 
 class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
@@ -39,6 +38,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   final _localpincodeController = TextEditingController();
   final _localpolicestationController = TextEditingController();
   final _localresidencename = TextEditingController();
+  final _localresidencephone = TextEditingController();
 
   Map<String, TextEditingController>? controllers;
 
@@ -57,6 +57,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     'localPincode': FocusNode(),
     'localPoliceStation': FocusNode(),
     'localResidenceName': FocusNode(),
+    'localResidencePhone': FocusNode(),
   };
 
   final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
@@ -99,6 +100,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       'localPincode': _localpincodeController,
       'localPoliceStation': _localpolicestationController,
       'localResidenceName': _localresidencename,
+      'localResidencePhone': _localresidencephone,
     };
 
     // Attach focus listeners
@@ -166,8 +168,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     if (_activeField != null && controllers != null) {
       final controller = controllers![_activeField]!;
       if (controller.text.isNotEmpty) {
-        controller.text =
-            controller.text.substring(0, controller.text.length - 1);
+        controller.text = controller.text.substring(0, controller.text.length - 1);
       }
     }
   }
@@ -222,17 +223,15 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         height: firspage ? 0 : 20,
                       ),
                       Center(
-                              child: SizedBox(
-                                  width: double.maxFinite,
-                                  child: BannerContainer(
-                                    padding: EdgeInsets.symmetric(vertical: 8),
-                                    margin: EdgeInsets.zero,
-                                    text: "All fields with * are mandatory",
-                                    color: Colors.orange,
-                                    isCenter: true,
-                                  )))
-                          .animate()
-                          .fadeIn(delay: Duration(milliseconds: 0)),
+                          child: SizedBox(
+                              width: double.maxFinite,
+                              child: BannerContainer(
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                margin: EdgeInsets.zero,
+                                text: "All fields with * are mandatory",
+                                color: Colors.orange,
+                                isCenter: true,
+                              ))).animate().fadeIn(delay: Duration(milliseconds: 0)),
                       SizedBox(
                         height: 20,
                       ),
@@ -245,17 +244,11 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: mngctrl.getPermit?.idProof !=
-                                                  null
+                                          child: mngctrl.getPermit?.idProof != null
                                               ? _buildDropdownField(
                                                   "ID Proof",
-                                                  [
-                                                    mngctrl.getPermit
-                                                            ?.idProof ??
-                                                        "Id Card"
-                                                  ],
-                                                  mngctrl.getPermit?.idProof ??
-                                                      "",
+                                                  [mngctrl.getPermit?.idProof ?? "Id Card"],
+                                                  mngctrl.getPermit?.idProof ?? "",
                                                   (value) {},
                                                   null)
                                               : SizedBox(),
@@ -264,27 +257,22 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                           width: 20,
                                         ),
                                         Expanded(
-                                            child: _buildTextField(
-                                                'ID No.', _idNoController,
-                                                node: _focusNodes['idNo']!,
-                                                enabled: false)),
+                                            child: _buildTextField('ID No.', _idNoController,
+                                                node: _focusNodes['idNo']!, enabled: false)),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 0)),
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 0)),
                                     Row(
                                       children: [
                                         Expanded(
                                             child: _buildTextField(
-                                                'Applicant Name',
-                                                _nameController,
+                                                'Applicant Name', _nameController,
                                                 node: _focusNodes['name']!)),
                                         SizedBox(
                                           width: 20,
                                         ),
                                         Expanded(
                                           child: _buildTextField(
-                                              'Parent/Guardian Name',
-                                              _parentNameController,
+                                              'Parent/Guardian Name', _parentNameController,
                                               node: _focusNodes['parentName']!),
                                         )
                                         // Expanded(
@@ -298,8 +286,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                         //   ),
                                         // ),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 300)),
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 300)),
 
                                     Row(
                                       children: [
@@ -316,37 +303,32 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                           width: 20,
                                         ),
                                         Expanded(
-                                          child: _buildTextField(
-                                              'Mobile No.', _mobileController,
+                                          child: _buildTextField('Mobile No.', _mobileController,
                                               node: _focusNodes['mobile']!,
                                               counter: 10,
                                               validator: _phoneValidator),
                                         ),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 400)),
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 400)),
 
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: _buildDateField(
-                                              '* Date of Birth', _dob, (value) {
+                                          child: _buildDateField('* Date of Birth', _dob, (value) {
                                             setState(() {
                                               _dob = value;
                                             });
 
                                             if (_dob == null) {
                                               setState(() {
-                                                datenullText =
-                                                    "DOB cannot be empty";
+                                                datenullText = "DOB cannot be empty";
                                               });
                                             } else {
                                               setState(() {
                                                 datenullText = null;
                                               });
                                             }
-                                          }, datenullText,
-                                              lastdate: DateTime.now()),
+                                          }, datenullText, lastdate: DateTime.now()),
                                         ),
                                         SizedBox(
                                           width: 20,
@@ -358,18 +340,15 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                               _villageController),
                                         ),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 600)),
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 600)),
 
                                     Row(
                                       children: [
                                         Expanded(
                                           child: Column(
                                             children: [
-                                              _buildDropdownField(
-                                                  'State',
-                                                  states,
-                                                  mngctrl.state, (value) {
+                                              _buildDropdownField('State', states, mngctrl.state,
+                                                  (value) {
                                                 mngctrl.changeState(value!);
                                               }, statenullText),
                                             ],
@@ -384,8 +363,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                                 'District',
                                                 _districtController)),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 800)),
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 800)),
 
                                     //
 
@@ -393,8 +371,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                       children: [
                                         Expanded(
                                           child: _buildTextField(
-                                              node:
-                                                  _focusNodes['nearestPolice']!,
+                                              node: _focusNodes['nearestPolice']!,
                                               'Police Station',
                                               _nearestpliceController),
                                         ),
@@ -405,29 +382,24 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                             child: _buildTextField(
                                                 mandatory: false,
                                                 node: _focusNodes['tehsil']!,
-                                                'Tehsil',
-                                                _tehsilController)),
+                                                'Tehsil', validator: (p) {
+                                          return null;
+                                        }, _tehsilController)),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 1000)),
-                                    _buildRadioGroup(
-                                        '* Gender', genders, mngctrl.gender,
-                                        (value) {
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 1000)),
+                                    _buildRadioGroup('* Gender', genders, mngctrl.gender, (value) {
                                       mngctrl.changeGender(value!);
-                                    }).animate().fadeIn(
-                                        delay: Duration(milliseconds: 1200)),
+                                    }).animate().fadeIn(delay: Duration(milliseconds: 1200)),
                                   ],
                                 )
                               : Column(
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: _buildDropdownField(
-                                              '* District', districts, district,
-                                              (value) {
+                                              '* District', districts, district, (value) {
                                             setState(() {
                                               if (value != null) {
                                                 district = value;
@@ -447,8 +419,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                             mandatory: false,
                                             validator: (p0) {
                                               if (p0 != null && p0.isNotEmpty) {
-                                                if (p0.isNumericOnly &&
-                                                    p0.length == 6) {
+                                                if (p0.isNumericOnly && p0.length == 6) {
                                                   return null;
                                                 }
                                                 return "Pincode must be 6 digits";
@@ -458,11 +429,9 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                           ),
                                         ),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 0)),
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 0)),
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                             child: _buildTextField(
@@ -474,8 +443,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                         ),
                                         Expanded(
                                           child: _buildTextField(
-                                            node: _focusNodes[
-                                                'localPoliceStation']!,
+                                            node: _focusNodes['localPoliceStation']!,
                                             'Nearest Police Station',
                                             validator: (p) {
                                               return null;
@@ -485,63 +453,45 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                           ),
                                         ),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 200)),
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 200)),
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: AnimatedContainer(
-                                            height: mngctrl.purpose == "Others"
-                                                ? 220
-                                                : 100,
+                                            height: mngctrl.purpose == "Others" ? 220 : 100,
                                             padding: mngctrl.purpose == "Others"
                                                 ? EdgeInsets.all(8)
                                                 : null,
-                                            duration:
-                                                Duration(milliseconds: 800),
+                                            duration: Duration(milliseconds: 800),
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
+                                              borderRadius: BorderRadius.circular(8),
                                               color: mngctrl.purpose == "Others"
-                                                  ? Colors.blue
-                                                      .withValues(alpha: 0.2)
+                                                  ? Colors.blue.withValues(alpha: 0.2)
                                                   : Colors.white,
                                             ),
                                             child: Column(
                                               children: [
                                                 _buildDropdownField(
-                                                    '* Purpose of Visit',
-                                                    purposes,
-                                                    mngctrl.purpose, (value) {
+                                                    '* Purpose of Visit', purposes, mngctrl.purpose,
+                                                    (value) {
                                                   mngctrl.changePurpose(value!);
                                                 }, purposevisitnulltext),
                                                 mngctrl.purpose == "Others"
                                                     ? AnimatedOpacity(
-                                                        duration: Duration(
-                                                            milliseconds: 600),
+                                                        duration: Duration(milliseconds: 600),
                                                         opacity:
-                                                            mngctrl.purpose ==
-                                                                    "Others"
-                                                                ? 1
-                                                                : 0,
+                                                            mngctrl.purpose == "Others" ? 1 : 0,
                                                         child: Column(
                                                           crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                              CrossAxisAlignment.start,
                                                           children: [
                                                             _buildTextField(
-                                                                node: _focusNodes[
-                                                                    'visitPurpose']!,
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        bottom:
-                                                                            4),
+                                                                node: _focusNodes['visitPurpose']!,
+                                                                padding: EdgeInsets.only(bottom: 4),
                                                                 'Purpose',
                                                                 _visitPurposeController),
-                                                            Text(
-                                                                "Please provide a purpose.")
+                                                            Text("Please provide a purpose.")
                                                           ],
                                                         ),
                                                       )
@@ -554,20 +504,31 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                           width: 20,
                                         ),
                                         Expanded(
-                                          child: _buildTextField(
-                                            node: _focusNodes[
-                                                'localResidenceName']!,
-                                            'Local Residence',
-                                            validator: (p) {
-                                              return null;
-                                            },
-                                            _localresidencename,
-                                            mandatory: false,
+                                          child: Column(
+                                            children: [
+                                              _buildTextField(
+                                                node: _focusNodes['localResidenceName']!,
+                                                'Local Residence',
+                                                validator: (p) {
+                                                  return null;
+                                                },
+                                                _localresidencename,
+                                                mandatory: false,
+                                              ),
+                                              _buildTextField(
+                                                node: _focusNodes['localResidencePhone']!,
+                                                'Local Residence Phone',
+                                                validator: (p) {
+                                                  return null;
+                                                },
+                                                _localresidencephone,
+                                                mandatory: false,
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
-                                    ).animate().fadeIn(
-                                        delay: Duration(milliseconds: 400)),
+                                    ).animate().fadeIn(delay: Duration(milliseconds: 400)),
                                     const SizedBox(height: 20),
                                   ],
                                 ),
@@ -613,15 +574,12 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 applcntAddress: _villageController.text.trim(),
                                 idProof: mngctrl.getPermit?.idProof ?? "",
                                 applcntDOB: _dob?.toIso8601String(),
-                                applcntDistrict:
-                                    _districtController.text.trim(),
+                                applcntDistrict: _districtController.text.trim(),
                                 applcntEmail: _emailController.text.trim(),
                                 applcntGender: mngctrl.gender,
                                 applcntMobile: _mobileController.text.trim(),
-                                applcntParent:
-                                    _parentNameController.text.trim(),
-                                applcntPoliceStation:
-                                    _nearestpliceController.text.trim(),
+                                applcntParent: _parentNameController.text.trim(),
+                                applcntPoliceStation: _nearestpliceController.text.trim(),
                                 applcntState: mngctrl.state,
                                 idNo: _idNoController.text,
                                 applcntTehsil: _tehsilController.text.trim(),
@@ -629,8 +587,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 gateID: mngctrl.selectedGate?.id ?? "",
                                 placeOfStay: _placeStayController.text.trim(),
                                 pinCode: _localpincodeController.text.trim(),
-                                residingPeriod:
-                                    "${mngctrl.getPermitPrice?.validityDays ?? "30"}",
+                                residingPeriod: "${mngctrl.getPermitPrice?.validityDays ?? "30"}",
                                 entryType: "ONLINE",
                                 applcntHNo: mngctrl.applicid?.houseNo ?? "NA",
                                 applyDistrictID: "NA",
@@ -639,9 +596,8 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 landmark: "NA",
                                 nearestPS: _nearestpliceController.text.trim(),
                                 lrName: _localresidencename.text.trim(),
-                                visitDate: DateTime(
-                                        DateTime.now().year,
-                                        DateTime.now().month,
+                                lrPhone: _localresidencephone.text.trim(),
+                                visitDate: DateTime(DateTime.now().year, DateTime.now().month,
                                         DateTime.now().day)
                                     .toIso8601String(),
                                 purposeVisit: mngctrl.purpose == "Others"
@@ -679,8 +635,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
 
                               if (mngctrl.purpose == null) {
                                 setState(() {
-                                  purposevisitnulltext =
-                                      "Purpose cannot be empty";
+                                  purposevisitnulltext = "Purpose cannot be empty";
                                 });
                               } else {
                                 setState(() {
@@ -695,8 +650,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                           width: double.infinity,
                           padding: EdgeInsets.all(32),
                           decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(8)),
+                              color: Colors.green, borderRadius: BorderRadius.circular(8)),
                           clipBehavior: Clip.antiAlias,
                           child: Center(
                               child: Text(
@@ -724,9 +678,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                         height: 30,
                       )
                     ],
-                  )
-                      .animate()
-                      .fadeIn(duration: const Duration(milliseconds: 500)),
+                  ).animate().fadeIn(duration: const Duration(milliseconds: 500)),
                 ),
               );
             }),
@@ -801,12 +753,8 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
   //   );
   // }
 
-  Widget _buildDropdownField(
-      String label,
-      List<String> items,
-      String? selectedValue,
-      ValueChanged<String?> onChanged,
-      String? errorText) {
+  Widget _buildDropdownField(String label, List<String> items, String? selectedValue,
+      ValueChanged<String?> onChanged, String? errorText) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: InputDecorator(
@@ -828,9 +776,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
             value: selectedValue,
             isExpanded: false,
             onChanged: onChanged,
-            items: items
-                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
-                .toList(),
+            items: items.map((item) => DropdownMenuItem(value: item, child: Text(item))).toList(),
           ),
         ),
       ),
@@ -865,8 +811,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                 ),
               ),
               errorText: errorText,
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide: BorderSide(color: Colors.green))),
@@ -878,17 +823,15 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
     );
   }
 
-  Widget _buildRadioGroup(String label, List<String> options,
-      String? selectedValue, ValueChanged<String?> onChanged) {
+  Widget _buildRadioGroup(
+      String label, List<String> options, String? selectedValue, ValueChanged<String?> onChanged) {
     Managementcontroller mngctrl = Get.find<Managementcontroller>();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label,
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(label, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           Row(
             children: options
                 .map((option) => Expanded(
@@ -897,16 +840,13 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                           mngctrl.changeGender(option);
                         },
                         child: AnimatedContainer(
-                          margin:
-                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                           duration: Duration(milliseconds: 800),
                           height: 60,
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: selectedValue == option
-                                ? Colors.blue
-                                : Colors.grey[200],
+                            color: selectedValue == option ? Colors.blue : Colors.grey[200],
                           ),
                           child: Center(
                               child: Row(
@@ -919,9 +859,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                       width: 1,
-                                      color: selectedValue == option
-                                          ? Colors.white
-                                          : Colors.grey),
+                                      color: selectedValue == option ? Colors.white : Colors.grey),
                                 ),
                                 child: selectedValue == option
                                     ? Container(
@@ -939,9 +877,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 option,
                                 style: TextStyle(
                                     fontSize: 18,
-                                    color: selectedValue == option
-                                        ? Colors.white
-                                        : null),
+                                    color: selectedValue == option ? Colors.white : null),
                               ),
                             ],
                           )),
@@ -968,8 +904,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
       return null;
     }
 
-    return RegExp(
-                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(value)
         ? null
         : "Email doesnt match";
@@ -1041,10 +976,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         readOnly: true,
         showCursor: true, // Still show the cursor
         enableInteractiveSelection: true,
-        buildCounter: (context,
-                {required currentLength,
-                required isFocused,
-                required maxLength}) =>
+        buildCounter: (context, {required currentLength, required isFocused, required maxLength}) =>
             SizedBox(),
         decoration: InputDecoration(
           enabled: widget.enable!,
