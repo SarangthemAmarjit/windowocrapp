@@ -274,7 +274,7 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<String?> addtemporaryPermit(
+  Future<Map<String, dynamic>> addtemporaryPermit(
       bool isCash, Uint8List passport, Uint8List idcard, Uint8List signature,
       {required String idProofs,
       required String idno,
@@ -353,7 +353,10 @@ class Managementcontroller extends GetxController {
       Map<String?, dynamic> ds =
           await apicall!.addPermit(passport, idcard, signature, _permit!);
       print('$ds $isLoading');
-      return ds.entries.first.value == 0 ? null : ds.entries.first.value;
+      String? appid = ds["applicationId"];
+      var orderid = ds["orderId"];
+      log('Return Orderid map : ' + ds.toString());
+      return appid == null ? {} : {"appid": appid, "orderid": orderid};
     }
   }
 

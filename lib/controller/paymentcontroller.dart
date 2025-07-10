@@ -370,6 +370,7 @@ class GetxTapController extends GetxController {
       required String transId,
       required String amount,
       required String email,
+      required String clientcodeok,
       required String number,
       required String address}) {
     _ispaymentprocessstarted = true;
@@ -382,6 +383,7 @@ class GetxTapController extends GetxController {
         email: email,
         number: number,
         amount: amount,
+        clientid: clientcodeok,
         address: address);
   }
 
@@ -393,6 +395,7 @@ class GetxTapController extends GetxController {
       required String email,
       required String number,
       required String amount,
+      required String clientid,
       required String address}) async {
     String reqJsonData = _getJsonPayloadData(
       name: name,
@@ -400,6 +403,7 @@ class GetxTapController extends GetxController {
       address: address,
       email: email,
       number: number,
+      clientid: clientid,
     );
     log("All Data before sending for encrypt : " + reqJsonData);
 
@@ -521,6 +525,7 @@ class GetxTapController extends GetxController {
       required String amount,
       required String address,
       required String email,
+      required String clientid,
       required String number}) {
     var payDetails = {};
     payDetails['login'] = login;
@@ -540,7 +545,7 @@ class GetxTapController extends GetxController {
     payDetails['responseHashKey'] = responseHashKey;
     payDetails['requestencryptionKey'] = requestEncryptionKey;
     payDetails['responseencypritonKey'] = responseDecryptionKey;
-    payDetails['clientcode'] = _transacid;
+    payDetails['clientcode'] = clientid;
     payDetails['txncurr'] = txncurr;
     payDetails['mccCode'] = mccCode;
     payDetails['merchType'] = merchType;

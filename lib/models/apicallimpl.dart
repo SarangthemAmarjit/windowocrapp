@@ -32,23 +32,27 @@ class ApicallImpl extends ApiCall {
   }
 
   @override
-  Future<Map<String, dynamic>> addPermit(Uint8List passportPhotoBytes, Uint8List idCardBytes,
-      Uint8List SignPhoto, VisitorEntry permit) async {
+  Future<Map<String, dynamic>> addPermit(Uint8List passportPhotoBytes,
+      Uint8List idCardBytes, Uint8List SignPhoto, VisitorEntry permit) async {
     var headers = {
       'X-Key': key,
     };
 
-    var request = http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/submit'));
+    var request =
+        http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/submit'));
 
-    print("Permit in apicallfinctions post :\n\n ${permit.toJson().toString()}");
+    print(
+        "Permit in apicallfinctions post :\n\n ${permit.toJson().toString()}");
 
     request.fields.addAll(permit.toJson());
 
-    request.files.add(http.MultipartFile.fromBytes('PassportPhoto', passportPhotoBytes,
+    request.files.add(http.MultipartFile.fromBytes(
+        'PassportPhoto', passportPhotoBytes,
         filename: 'passportPhoto.jpg'));
-    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes, filename: 'idCard.jpg'));
-    request.files
-        .add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto, filename: 'signature.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes,
+        filename: 'idCard.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto,
+        filename: 'signature.jpg'));
 
     // Adding headers
     request.headers.addAll(headers);
@@ -60,7 +64,7 @@ class ApicallImpl extends ApiCall {
     if (response.statusCode == 200) {
       var json = jsonDecode(await response.stream.bytesToString());
       String? applicant = json["applicationId"];
-      return {json["message"] ?? "message": applicant};
+      return json;
       // return  {jsonDecode( response.stream.bytesToString().toString())["message"]??"message":jsonDecode( response.stream.first.toString())["applicationId"]??null};
     } else {
       print("${response.reasonPhrase} ${response.statusCode}");
@@ -69,24 +73,31 @@ class ApicallImpl extends ApiCall {
   }
 
   @override
-  Future<Map<String, dynamic>> updatePermit(Uint8List passportPhotoBytes, Uint8List idCardBytes,
-      Uint8List SignPhoto, VisitorEntry permit, String applicantNo) async {
+  Future<Map<String, dynamic>> updatePermit(
+      Uint8List passportPhotoBytes,
+      Uint8List idCardBytes,
+      Uint8List SignPhoto,
+      VisitorEntry permit,
+      String applicantNo) async {
     var headers = {
       'X-Key': key,
     };
 
-    var request =
-        http.MultipartRequest('POST', Uri.parse('$localapi/api/Kiosk/update?appno=${applicantNo}'));
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('$localapi/api/Kiosk/update?appno=${applicantNo}'));
 
-    print("Permit in apicallfinctions updates :\n\n ${permit.toJson().toString()}");
+    print(
+        "Permit in apicallfinctions updates :\n\n ${permit.toJson().toString()}");
 
     request.fields.addAll(permit.toJson());
 
-    request.files.add(http.MultipartFile.fromBytes('PassportPhoto', passportPhotoBytes,
+    request.files.add(http.MultipartFile.fromBytes(
+        'PassportPhoto', passportPhotoBytes,
         filename: 'passportPhoto.jpg'));
-    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes, filename: 'idCard.jpg'));
-    request.files
-        .add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto, filename: 'signature.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('IdCard', idCardBytes,
+        filename: 'idCard.jpg'));
+    request.files.add(http.MultipartFile.fromBytes('SignPhoto', SignPhoto,
+        filename: 'signature.jpg'));
 
     // Adding headers
     request.headers.addAll(headers);
@@ -109,10 +120,11 @@ class ApicallImpl extends ApiCall {
 
   @override
   Future<Map<String, dynamic>> detectFaces(Uint8List profileImage) async {
-    var request = http.MultipartRequest('POST', Uri.parse('http://127.0.0.1:8000/detect_faces/'));
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('http://127.0.0.1:8000/detect_faces/'));
     try {
-      request.files.add(
-          await http.MultipartFile.fromBytes('file', profileImage, filename: 'passportPhoto.jpg'));
+      request.files.add(await http.MultipartFile.fromBytes('file', profileImage,
+          filename: 'passportPhoto.jpg'));
 
       http.StreamedResponse response = await request.send();
 
@@ -154,7 +166,8 @@ class ApicallImpl extends ApiCall {
   @override
   Future<List<String>> getDocumentType() async {
     try {
-      final response = await http.get(Uri.parse("$localapi/api/kiosk/getallidtype"), headers: {
+      final response = await http
+          .get(Uri.parse("$localapi/api/kiosk/getallidtype"), headers: {
         'X-Key': key,
       });
       print("In response");
@@ -174,13 +187,16 @@ class ApicallImpl extends ApiCall {
   @override
   Future<List<PermitPriceModel>> getallpremitprice() async {
     try {
-      final response = await http.get(Uri.parse("$localapi/api/kiosk/getallfees"), headers: {
+      final response =
+          await http.get(Uri.parse("$localapi/api/kiosk/getallfees"), headers: {
         'X-Key': key,
       });
       if (response.statusCode == 200) {
         print(response.body);
         final respo = jsonDecode(response.body) as List<dynamic>;
-        return respo.map((e) => PermitPriceModel.fromJson(e)).toList(); // Parsing JSON
+        return respo
+            .map((e) => PermitPriceModel.fromJson(e))
+            .toList(); // Parsing JSON
       } else {
         return [];
       }
@@ -191,7 +207,8 @@ class ApicallImpl extends ApiCall {
   }
 
   @override
-  Future<PermitApplication?> verifydoc({required String doctype, required String idnumber}) async {
+  Future<PermitApplication?> verifydoc(
+      {required String doctype, required String idnumber}) async {
     // var headers = {'Content-Type': 'application/json'};
     // var request = http.Request('POST',
     //     Uri.parse('https://ilpdemo.cubeten.com/api/kiosk/checkdocument'));
@@ -201,7 +218,8 @@ class ApicallImpl extends ApiCall {
     // request.headers.addAll(headers);
 
     // http.StreamedResponse response = await request.send();
-    final response = await http.post(Uri.parse('$localapi/api/kiosk/checkdocument'),
+    final response = await http.post(
+        Uri.parse('$localapi/api/kiosk/checkdocument'),
         body: json.encode({"IdType": doctype, "IdNumber": idnumber}),
         headers: {
           'Content-Type': 'application/json',
@@ -269,7 +287,8 @@ class ApicallImpl extends ApiCall {
       } else if (response.statusCode == 400) {
         print('Bad Request: ${response.body}');
       } else {
-        print('Failed to send payment: ${response.statusCode} - ${response.body}');
+        print(
+            'Failed to send payment: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       print('Error gett payment: $e');
@@ -277,7 +296,8 @@ class ApicallImpl extends ApiCall {
     return null;
   }
 
-  Future<OtpResponse?> aadharOtpResponse(String aadharid, String referenceId) async {
+  Future<OtpResponse?> aadharOtpResponse(
+      String aadharid, String referenceId) async {
     final url = Uri.parse('https://your-api-endpoint.com/otp-request');
 
     final headers = {
@@ -307,9 +327,10 @@ class ApicallImpl extends ApiCall {
     }
   }
 
-  Future<AadhaarVerificationResult?> aadharVerification(
-      String otp, String referencdId, String transactionId, String timestamp) async {
-    final url = Uri.parse('https://your-api-endpoint.com/aadhaar_xml_verify_otp');
+  Future<AadhaarVerificationResult?> aadharVerification(String otp,
+      String referencdId, String transactionId, String timestamp) async {
+    final url =
+        Uri.parse('https://your-api-endpoint.com/aadhaar_xml_verify_otp');
 
     final headers = {
       'Content-Type': 'application/json',
@@ -330,7 +351,8 @@ class ApicallImpl extends ApiCall {
         if (data['status'] == 'success') {
           return AadhaarVerificationResult.fromJson(data['result']);
         } else {
-          print("OTP verification failed: ${data['error']} (${data['error_code']})");
+          print(
+              "OTP verification failed: ${data['error']} (${data['error_code']})");
           return null;
         }
       } else {
