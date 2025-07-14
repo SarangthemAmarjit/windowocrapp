@@ -34,16 +34,13 @@ class Managementcontroller extends GetxController {
   VisitorEntry? _permit;
   VisitorEntry? get getPermit => _permit;
   VisitorEntry? currentPermit;
-
   List<String> _docnames = [];
   List<String> get getDocNames => _docnames;
-
   PermitApplication? _applicid;
   PermitApplication? get applicid => _applicid;
   String? onlineAplicant;
-  Gate? _selectedGate;
-  Gate? get selectedGate => _selectedGate;
-
+  // Gate? _selectedGate;
+  // Gate? get selectedGate => _selectedGate;
   List<Gate> _allGates = [];
   List<Gate> get getAllgate => _allGates;
   PaymentResponse? paymentresult;
@@ -179,11 +176,11 @@ class Managementcontroller extends GetxController {
   Future<void> getallGates() async {
     _allGates = await apicall!.getAllGates();
 
-    if (_allGates.isNotEmpty) {
-      _selectedGate = _allGates.firstWhereOrNull(
-        (element) => element.name == "Imphal Airport",
-      );
-    }
+    // if (_allGates.isNotEmpty) {
+    //   _selectedGate = _allGates.firstWhereOrNull(
+    //     (element) => element.name == "Imphal Airport",
+    //   );
+    // }
     // print("Selected gate = ${_selectedGate?.id} ${_selectedGate?.name}}");
     update();
   }
@@ -193,7 +190,8 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<String> verifydocid({required String doctype, required String docid}) async {
+  Future<String> verifydocid(
+      {required String doctype, required String docid}) async {
     isVeriflyloading = true;
     update();
     try {
@@ -261,7 +259,8 @@ class Managementcontroller extends GetxController {
   }
 
   //get document verification details from api
-  Future<void> getDocumentDetails({required String docID, required String docType}) async {
+  Future<void> getDocumentDetails(
+      {required String docID, required String docType}) async {
     //fetch doc from api
     _permit = VisitorEntry(idProof: docType, idNo: docID);
 
@@ -313,7 +312,7 @@ class Managementcontroller extends GetxController {
         applcntVillage: village,
         applcntHNo: "",
         applcntTehsil: tehsl,
-        gateID: _selectedGate?.id ?? "",
+        gateID: gateId,
         entryType: "Online",
         applyDistrictID: "",
         residingPeriod: "30",
@@ -339,12 +338,13 @@ class Managementcontroller extends GetxController {
     update();
 
     if (_applicid != null && _applicid!.applicationNo.isNotEmpty) {
-      Map<String?, dynamic> ds = await apicall!
-          .updatePermit(passport, idcard, signature, _permit!, _applicid!.applicationNo);
+      Map<String?, dynamic> ds = await apicall!.updatePermit(
+          passport, idcard, signature, _permit!, _applicid!.applicationNo);
       // print('$ds $isLoading');
       return ds.entries.first.value == 0 ? null : ds.entries.first.value;
     } else {
-      Map<String?, dynamic> ds = await apicall!.addPermit(passport, idcard, signature, _permit!);
+      Map<String?, dynamic> ds =
+          await apicall!.addPermit(passport, idcard, signature, _permit!);
       // print('$ds $isLoading');
       String? appid = ds["applicationId"];
       var orderid = ds["orderId"];
@@ -422,12 +422,14 @@ class Managementcontroller extends GetxController {
           ));
       if (payres.permitNo.isNotEmpty) {
         await Future.delayed(Duration(milliseconds: 2000));
-        await Get.find<Imagecontroller>().saveReceiptimages(key, printername ?? "CUSTOM K80");
+        await Get.find<Imagecontroller>()
+            .saveReceiptimages(key, printername ?? "CUSTOM K80");
         Future.delayed(Duration(milliseconds: 2000));
         Get.back();
         Get.find<PagenavControllers>().setmainpageindex(ind: 5);
       } else {
-        printUsbReceiptWindowsonline(onlineAplicant ?? "", payres.permitNo ?? "",
+        printUsbReceiptWindowsonline(
+            onlineAplicant ?? "", payres.permitNo ?? "",
             printername: printername ?? "CUSTOM K80");
 
         Get.find<PagenavControllers>().setmainpageindex(ind: 6);

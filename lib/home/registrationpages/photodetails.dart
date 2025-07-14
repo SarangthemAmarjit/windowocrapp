@@ -21,33 +21,42 @@ class PhotoSignaturePage extends StatefulWidget {
 class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
   GlobalKey _profilekey = GlobalKey();
   final player = AudioPlayer();
-  Uint8List? image;
+
+  int timernew = 0;
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
     // loadcascade();
+    timernew = 0;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
+      debugPrint("First timernew = $timernew");
+      // Hide keyboard when the screen starts
       if (Get.find<Imagecontroller>().profileImage == null) {
+        debugPrint("In Initialise data : Image if null profile");
         initialise();
       }
     });
   }
 
-  void playTimerSound(String audio) {
-    player.play(AssetSource(audio)); // Plays the sound once
+  void playtimernewSound(String audio) {
+    try {
+      player.play(AssetSource(audio)); // Plays the sound once
+    } catch (e) {
+      debugPrint("Audio Error");
+    }
   }
 
   void initialise() async {
-    await Get.find<Imagecontroller>()
-        .initializeCameraAgain(isfront: false, isback: false, isprofilecam: true);
+    await Get.find<Imagecontroller>().retakeImage();
+    // await Get.find<Imagecontroller>().initializeCameraAgain(
+    //     isfront: false, isback: false, isprofilecam: true);
     if (Get.find<Imagecontroller>().isinitialized) {
-      countdownTimer();
+      countdowntimernew();
     }
     // if (Get.find<Imagecontroller>().isinitialized) {
-    //   countdownTimer();
+    //   countdowntimernew();
     // } else {
 
     // }
@@ -63,25 +72,32 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     super.dispose();
   }
 
-  int timer = 0;
   var _sched;
-  Future<void> countdownTimer() async {
-    timer = 5;
-    await Future.delayed(Duration(seconds: 2));
+  Future<void> countdowntimernew() async {
+    debugPrint("In Initialise data : Image if null countdown");
+
+    timernew = 5;
+
+    await Future.delayed(Duration(seconds: 1));
+
     _sched = Timer.periodic(
       Duration(seconds: 1),
-      (TabController) {
+      (t) {
         setState(() {
-          timer--;
+          timernew--;
+          debugPrint("timernew update");
         });
-        if (timer <= 1) {
+
+        if (timernew <= 1) {
           if (_sched != null) {
-            playTimerSound('camera.mp3');
+            playtimernewSound('camera.mp3');
             Get.find<Imagecontroller>().takeprofilePicture(_profilekey);
-            _sched.cancel();
+
+            t.cancel();
           }
         } else {
-          playTimerSound('dng.mp3');
+          debugPrint("In timernew camera: $timernew");
+          playtimernewSound('dng.mp3');
         }
       },
     );
@@ -89,6 +105,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("timernew in Build: $timernew");
     return GetBuilder<Managementcontroller>(builder: (mngctrl) {
       return GetBuilder<PagenavControllers>(builder: (controller) {
         return GetBuilder<Imagecontroller>(builder: (imgcon) {
@@ -106,7 +123,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(),
                         boxShadow: [
-                          BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 5)
+                          BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.2),
+                              blurRadius: 5)
                         ]),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,14 +148,15 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                       )
                                     : Text(
                                         "Initializing Camera. Please Wait",
-                                        style: TextStyle(fontSize: 20, color: Colors.green),
+                                        style: TextStyle(
+                                            fontSize: 20, color: Colors.green),
                                       )),
-                        timer <= 1
+                        timernew <= 1
                             ? SizedBox(
                                 height: 20,
                               )
                             : Text(
-                                ' Capturing in $timer seconds.',
+                                ' Capturing in $timernew seconds.',
                                 style: TextStyle(fontSize: 20),
                               ).animate().fadeIn(),
                         // Divider(),
@@ -180,7 +200,8 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                                     controller.repeat();
                                                   },
                                                 ).rotate(
-                                                  duration: Duration(seconds: 2),
+                                                  duration:
+                                                      Duration(seconds: 2),
                                                 ),
                                               )),
                               ),
@@ -191,38 +212,46 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                               left: 0,
                               bottom: 0,
                               child: AnimatedOpacity(
-                                  opacity: timer <= 1 ? 0 : 1,
+                                  opacity: timernew <= 1 ? 0 : 1,
                                   duration: Duration(seconds: 1),
                                   child: Center(
                                       child: Text(
-                                    '$timer',
+                                    '$timernew',
                                     style: TextStyle(
-                                        fontSize: 200, color: Colors.green.withValues(alpha: 0.6)),
+                                        fontSize: 200,
+                                        color: Colors.green
+                                            .withValues(alpha: 0.6)),
                                   ).animate().fadeIn())),
+                              // child: Center(
+                              //     child: Text(
+                              //   '$timernew',
+                              //   style: TextStyle(
+                              //       fontSize: 200,
+                              //       color: Colors.green.withValues(alpha: 0.6)),
+                              // ).animate().fadeIn()),
                             ),
 
                             // Draw bounding boxes on top of the image
                           ],
-                        )
-                            .animate()
-                            .fadeIn(duration: Duration(), delay: Duration(milliseconds: 200)),
+                        ).animate().fadeIn(
+                            duration: Duration(),
+                            delay: Duration(milliseconds: 200)),
 
                         SizedBox(
                           height: 20,
                         ),
                         //
-                        imgcon.isinitialized || imgcon.profileImage != null
-                            ? timer > 1
-                                ? SizedBox()
-                                : Row(
+                        timernew > 1
+                            ? SizedBox.shrink()
+                            : imgcon.isinitialized ||
+                                    imgcon.profileImage != null
+                                ? Row(
                                     children: [
                                       Expanded(
                                         child: InkWell(
                                           onTap: () async {
                                             await imgcon.retakeImage();
-
-                                            countdownTimer();
-                                            controller.listenPageChange();
+                                            countdowntimernew();
                                           },
                                           child: Container(
                                             // margin: EdgeInsets.symmetric(horizontal: 16),
@@ -235,7 +264,8 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                             clipBehavior: Clip.antiAlias,
                                             child: Center(
                                                 child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Icon(
                                                   Icons.camera_sharp,
@@ -246,8 +276,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                                 ),
                                                 Text(
                                                   "Retake",
-                                                  style:
-                                                      TextStyle(color: Colors.white, fontSize: 24),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 24),
                                                 ),
                                               ],
                                             )),
@@ -279,12 +310,14 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                             clipBehavior: Clip.antiAlias,
                                             child: Center(
                                                 child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   "Proceed",
-                                                  style:
-                                                      TextStyle(color: Colors.white, fontSize: 24),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 24),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
@@ -302,7 +335,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                   ).animate().fadeIn(
                                     duration: Duration(milliseconds: 1200),
                                     delay: Duration(milliseconds: 400))
-                            : SizedBox(),
+                                : SizedBox(),
                       ],
                     ),
                   )
@@ -328,7 +361,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           Text(
                             '📸 Face Capture Instructions',
                             style: TextStyle(
-                                color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 24),
+                                color: Colors.grey[900],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24),
                           ),
                           SizedBox(
                             height: 32,
@@ -336,12 +371,16 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           Text(
                             '1. Stand close to the camera',
                             style: TextStyle(
-                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 20),
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
                           ),
                           Text(
                             '→ Maintain a distance of 1 - 2 ft',
                             style: TextStyle(
-                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 16),
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
                           SizedBox(
                             height: 16,
@@ -349,12 +388,16 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           Text(
                             '2. Align your face within the frame',
                             style: TextStyle(
-                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 20),
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
                           ),
                           Text(
                             '→ Make sure your entire face is visible — no cropping',
                             style: TextStyle(
-                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 16),
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
                           SizedBox(
                             height: 16,
@@ -362,12 +405,16 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           Text(
                             "3. Avoid background faces",
                             style: TextStyle(
-                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 20),
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
                           ),
                           Text(
                             '→ Only one face must be clearly visible in the frame',
                             style: TextStyle(
-                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 16),
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
                         ],
                       ),

@@ -1225,7 +1225,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                             email: mngctrl
                                                                     .getPermit
                                                                     ?.applcntEmail ??
-                                                                "",
+                                                                "ilppay@gmail.com",
                                                             gender: mngctrl
                                                                     .getPermit
                                                                     ?.applcntGender ??

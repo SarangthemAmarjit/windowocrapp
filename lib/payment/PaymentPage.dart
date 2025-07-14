@@ -452,7 +452,6 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                             paymentmethod:
                                                                 paymentmethodname,
                                                             remark: remark);
-
                                                     Get.off(
                                                         () => LandingPage());
                                                   },
