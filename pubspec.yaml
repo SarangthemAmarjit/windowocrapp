@@ -27,7 +27,7 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   url_launcher: ^6.3.1
   cryptography: ^2.7.0
-  window_manager: ^0.4.3
+  window_manager:
   win32: ^5.10.1
   barcode_widget: ^2.0.4
   qr_flutter: ^4.1.0

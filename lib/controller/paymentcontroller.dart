@@ -122,70 +122,23 @@ class GetxTapController extends GetxController {
   // P A Y M E N T   GATEWAY
 
   // merchant configuration data
-  final String login = "684703"; //"445842"; //mandatory
-  final String password = "0e464700"; //mandatory
-  final String prodid = 'ILP'; //mandatory
-  final String requestHashKey = '750fa5f3c01f9a4b3e'; //mandatory
-  final String responseHashKey = 'd5110c2964f4ae7bbd'; //mandatory
-  final String requestEncryptionKey =
-      'C11CB813ACE571A313DBF397B8F8057E'; //mandatory
-  final String responseDecryptionKey =
-      '789257B2A0EFA675273732B9E07747BD'; //mandatory
-  // final String txnid =
-  //     'test240223'; // mandatory // this should be unique each time
-  final String clientcode = "01950075"; //mandatory
-  final String txncurr = "INR"; //mandatory
-  final String mccCode = "9399"; //mandatory
-  final String merchType =
-      "R"; //mandatory// final String amount = "1.00"; //mandat
-  final String mode = "live"; // change live for production
-
-  // final String custFirstName = 'test'; //optional
-  // final String custLastName = 'user'; //optional
-  // final String mobile = '8888888888'; //optional
-  // final String email = 'test@gmail.com'; //optional
-  // final String address = 'mumbai'; //optional
-  final String custacc = '639827'; //optional
-  final String udf1 = "udf1"; //optional
-  final String udf2 = "udf2"; //optional
-  final String udf3 = "udf3"; //optional
-  final String udf4 = "udf4"; //optional
-  final String udf5 = "udf5"; //optional
-
-  static const req_EncKey = 'C11CB813ACE571A313DBF397B8F8057E';
-  static const req_Salt = 'C11CB813ACE571A313DBF397B8F8057E';
-  static const res_DecKey = '789257B2A0EFA675273732B9E07747BD';
-  static const res_Salt = '789257B2A0EFA675273732B9E07747BD';
-
-  final String paymentDomainURL = "https://payment1.atomtech.in/ots/aipay/auth";
-  // final String auth_API_url =
-  //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
-
-  final String returnUrl =
-      "https://payment.atomtech.in/mobilesdk/param"; //return url uat
-  // final String returnUrl =
-  //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
-////////
-
-  // merchant configuration data
-  // final String login = "317159"; //"445842"; //mandatory
-  // final String password = 'Test@123'; //mandatory
-  // final String prodid = 'NSE'; //mandatory
-  // final String requestHashKey = 'KEY123657234'; //mandatory
-  // final String responseHashKey = 'KEYRESP123657234'; //mandatory
+  // final String login = "684703"; //"445842"; //mandatory
+  // final String password = "0e464700"; //mandatory
+  // final String prodid = 'ILP'; //mandatory
+  // final String requestHashKey = '750fa5f3c01f9a4b3e'; //mandatory
+  // final String responseHashKey = 'd5110c2964f4ae7bbd'; //mandatory
   // final String requestEncryptionKey =
-  //     'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+  //     'C11CB813ACE571A313DBF397B8F8057E'; //mandatory
   // final String responseDecryptionKey =
-  //     '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+  //     '789257B2A0EFA675273732B9E07747BD'; //mandatory
   // // final String txnid =
   // //     'test240223'; // mandatory // this should be unique each time
-  // final String clientcode = "NAVIN"; //mandatory
+  // final String clientcode = "01950075"; //mandatory
   // final String txncurr = "INR"; //mandatory
-  // final String mccCode = "5499"; //mandatory
-  // final String merchType = "R"; //mandatory
-  // // final String amount = "1.00"; //mandatory
-
-  // final String mode = "uat"; // change live for production
+  // final String mccCode = "9399"; //mandatory
+  // final String merchType =
+  //     "R"; //mandatory// final String amount = "1.00"; //mandat
+  // final String mode = "live"; // change live for production
 
   // // final String custFirstName = 'test'; //optional
   // // final String custLastName = 'user'; //optional
@@ -199,19 +152,62 @@ class GetxTapController extends GetxController {
   // final String udf4 = "udf4"; //optional
   // final String udf5 = "udf5"; //optional
 
-  // static const req_EncKey = 'A4476C2062FFA58980DC8F79EB6A799E';
-  // static const req_Salt = 'A4476C2062FFA58980DC8F79EB6A799E';
-  // static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
-  // static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
+  // static const req_EncKey = 'C11CB813ACE571A313DBF397B8F8057E';
+  // static const req_Salt = 'C11CB813ACE571A313DBF397B8F8057E';
+  // static const res_DecKey = '789257B2A0EFA675273732B9E07747BD';
+  // static const res_Salt = '789257B2A0EFA675273732B9E07747BD';
 
-  // final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
-  // final String paymentDomainURL =
-  //     "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
+  // final String paymentDomainURL = "https://payment1.atomtech.in/ots/aipay/auth";
   // // final String auth_API_url =
   // //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
   // final String returnUrl =
-  //     "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
+  //     "https://payment.atomtech.in/mobilesdk/param"; //return url uat
+  // final String returnUrl =
+  //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
+////////
+
+  // merchant configuration data
+  final String login = "317159"; //"445842"; //mandatory
+  final String password = 'Test@123'; //mandatory
+  final String prodid = 'NSE'; //mandatory
+  final String requestHashKey = 'KEY123657234'; //mandatory
+  final String responseHashKey = 'KEYRESP123657234'; //mandatory
+  final String requestEncryptionKey = 'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+  final String responseDecryptionKey = '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+  // final String txnid =
+  //     'test240223'; // mandatory // this should be unique each time
+  final String clientcode = "NAVIN"; //mandatory
+  final String txncurr = "INR"; //mandatory
+  final String mccCode = "5499"; //mandatory
+  final String merchType = "R"; //mandatory
+  // final String amount = "1.00"; //mandatory
+
+  final String mode = "uat"; // change live for production
+
+  // final String custFirstName = 'test'; //optional
+  // final String custLastName = 'user'; //optional
+  // final String mobile = '8888888888'; //optional
+  // final String email = 'test@gmail.com'; //optional
+  // final String address = 'mumbai'; //optional
+  final String custacc = '639827'; //optional
+  final String udf1 = "udf1"; //optional
+  final String udf2 = "udf2"; //optional
+  final String udf3 = "udf3"; //optional
+  final String udf4 = "udf4"; //optional
+  final String udf5 = "udf5"; //optional
+
+  static const req_EncKey = 'A4476C2062FFA58980DC8F79EB6A799E';
+  static const req_Salt = 'A4476C2062FFA58980DC8F79EB6A799E';
+  static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
+  static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
+
+  final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
+  final String paymentDomainURL = "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
+  // final String auth_API_url =
+  //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
+
+  final String returnUrl = "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
   // // final String returnUrl =
   // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 
@@ -221,8 +217,7 @@ class GetxTapController extends GetxController {
   final salt = Uint8List.fromList(utf8.encode(req_Salt));
   final resPassword = Uint8List.fromList(utf8.encode(res_DecKey));
   final resSalt = Uint8List.fromList(utf8.encode(res_Salt));
-  final iv = Uint8List.fromList(
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+  final iv = Uint8List.fromList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
 
   Future<String> encrypt22(String text) async {
     debugPrint('Input text for encryption: $text');
@@ -239,8 +234,7 @@ class GetxTapController extends GetxController {
         nonce: salt, // Salt value
       );
 
-      final keyBytes = (await derivedKey.extractBytes())
-          .sublist(0, 16); // Extract 128-bit key
+      final keyBytes = (await derivedKey.extractBytes()).sublist(0, 16); // Extract 128-bit key
       debugPrint(
           'Derived AES key: ${keyBytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join()}');
 
@@ -255,9 +249,8 @@ class GetxTapController extends GetxController {
         nonce: iv,
       );
 
-      final encryptedHex = secretBox.cipherText
-          .map((b) => b.toRadixString(16).padLeft(2, '0'))
-          .join();
+      final encryptedHex =
+          secretBox.cipherText.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
       debugPrint('Encrypted output (hex): $encryptedHex');
 
       return encryptedHex;
@@ -297,9 +290,7 @@ class GetxTapController extends GetxController {
         nonce: iv,
       );
 
-      final hexOutput = secretBox.cipherText
-          .map((b) => b.toRadixString(16).padLeft(2, '0'))
-          .join();
+      final hexOutput = secretBox.cipherText.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
       debugPrint('Encrypted hex output: $hexOutput');
       return hexOutput;
     } catch (e, stackTrace) {
@@ -412,8 +403,7 @@ class GetxTapController extends GetxController {
       String authEncryptedString = encDataR.toString();
       // here is result.toString() parameter you will receive encrypted string
       // debugPrint("generated encrypted string: '$authEncryptedString'");
-      _getAtomTokenId(context, authEncryptedString,
-          email: email, number: number);
+      _getAtomTokenId(context, authEncryptedString, email: email, number: number);
     } on PlatformException catch (e) {
       debugPrint("Failed to get encryption string: '${e.message}'.");
     }
@@ -431,14 +421,11 @@ class GetxTapController extends GetxController {
         log('200');
         var authApiResponse = await response.stream.bytesToString();
         final split = authApiResponse.trim().split('&');
-        final Map<int, String> values = {
-          for (int i = 0; i < split.length; i++) i: split[i]
-        };
+        final Map<int, String> values = {for (int i = 0; i < split.length; i++) i: split[i]};
         try {
           final splitTwo = values[1]!.split('=');
           if (splitTwo[0] == 'encData') {
-            final encDataPart =
-                split.firstWhere((element) => element.startsWith('encData'));
+            final encDataPart = split.firstWhere((element) => element.startsWith('encData'));
             final encryptedData = encDataPart.split('=')[1];
             final extractedData = ['encData', encryptedData];
             try {
@@ -452,8 +439,7 @@ class GetxTapController extends GetxController {
                 // debugPrint("atomTokenId: $_atomTokenId");
                 final String payDetails =
                     '{"atomTokenId" : "$_atomTokenId","merchId": "$login","emailId": $email,"mobileNumber":$number, "returnUrl":"$returnUrl"}';
-                _openNdpsPG(payDetails, context, responseHashKey,
-                    responseDecryptionKey);
+                _openNdpsPG(payDetails, context, responseHashKey, responseDecryptionKey);
               } else {
                 debugPrint("Problem in auth API response");
               }
@@ -480,10 +466,8 @@ class GetxTapController extends GetxController {
     }
   }
 
-  _openNdpsPG(payDetails, BuildContext context, responseHashKey,
-      responseDecryptionKey) {
-    Get.to(PaymentFinalPage(
-        mode, payDetails, responseHashKey, responseDecryptionKey));
+  _openNdpsPG(payDetails, BuildContext context, responseHashKey, responseDecryptionKey) {
+    Get.to(PaymentFinalPage(mode, payDetails, responseHashKey, responseDecryptionKey));
     //     .whenComplete(() {
     //   _ispaymentprocessstarted = false;
     //   update();
@@ -495,21 +479,18 @@ class GetxTapController extends GetxController {
     if (s != null) {
       GlobalKey key = GlobalKey();
       Get.dialog(AlertDialog(
-        content: RepaintBoundary(
-            key: key, child: ReceiptWidget(applicantName: "", applicantId: s)),
+        content: RepaintBoundary(key: key, child: ReceiptWidget(applicantName: "", applicantId: s)),
       ));
       await Future.delayed(Duration(seconds: 2));
       RenderRepaintBoundary boundary =
           key.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
       debugPrint("nav Keys image in save receipt");
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List barcodes = byteData!.buffer.asUint8List();
       Get.back();
       try {
-        printUsbReceiptWindows(
-            barcodes, s, "The online payment failed to process");
+        printUsbReceiptWindows(barcodes, s, "The online payment failed to process");
       } catch (e) {
         debugPrint("Printere Exception");
       }

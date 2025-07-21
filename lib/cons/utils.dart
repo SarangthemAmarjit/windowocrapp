@@ -5,26 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-String getDate({ required String? dateTime,int duration = 0}){
-  try{
-
-  
- DateTime d  =  DateTime.parse( dateTime!).add(Duration(days: duration));
-  return '${d.day}/${d.month}/${d.year}';
-
-  }catch(e){
-
-  }
+String getDate({required String? dateTime, int duration = 0}) {
+  try {
+    DateTime d = DateTime.parse(dateTime!).add(Duration(days: duration));
+    return '${d.day}/${d.month}/${d.year}';
+  } catch (e) {}
   return "NA";
 }
 
 String generateRandomString(int length) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   Random random = Random();
-  
+
   return List.generate(length, (index) => chars[random.nextInt(chars.length)]).join();
 }
-
 
 void hideKeyboard() {
   FocusManager.instance.primaryFocus?.unfocus(); // Unfocus input fields
@@ -34,37 +28,18 @@ void hideKeyboard() {
   Process.run('taskkill', ['/IM', 'TabTip.exe', '/F']);
 }
 
-
 DateTime? parseAnyDate(String input) {
-       print(input);
-  // Try native DateTime.parse()
+  print("date format $input");
   try {
-    return DateTime.parse(input);
-  } catch (d) {
-
-     print(d.toString());
-  }
-
-  // Fallback formats
-  final formats = [
-    DateFormat('mm/dd/yyyy'),
-    DateFormat('m/d/yyyy'),
-    DateFormat('MM-dd-yyyy'),
-    DateFormat('M-d-yyyy'),
-     DateFormat('M/d/yyyy h:mm:ss a'),
-    DateFormat('MM/dd/yyyy h:mm:ss a'),
-    DateFormat('M-d-yyyy h:mm:ss a'),
-    DateFormat('MM-dd-yyyy h:mm:ss a'),
-  ];
-
-  for (final format in formats) {
-    try {
-      return format.parseStrict(input);
-    } catch (e) {
-      print(e.toString());
+    if (input.contains(':')) {
+      // Contains time
+      return DateFormat('dd-MM-yyyy HH:mm:ss').parse(input);
+    } else {
+      // Date only
+      return DateFormat('dd-MM-yyyy').parse(input);
     }
+  } catch (e) {
+    print("Invalid Date format:$e");
+    return null;
   }
-
-  // Parsing failed
-  return null;
 }

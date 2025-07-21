@@ -190,26 +190,30 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<String> verifydocid(
-      {required String doctype, required String docid}) async {
+  Future<Map<String, int>> verifydocid({required String doctype, required String docid}) async {
     isVeriflyloading = true;
+    String applicationId = '';
+    int response = -1;
     update();
     try {
       var appid = await apicall!.verifydoc(doctype: doctype, idnumber: docid);
+      response = appid['status'];
+      print("INVERFIY DOC:$response");
       // print(" doctype: $doctype  dociDno.: $docid");
       // print("Appid : ${appid?.toJson().toString()}");
-      _applicid = appid;
-      state = _applicid?.state;
-      isVeriflyloading = false;
-      update();
-      return _applicid!.applicationNo;
+      if (appid['status'] == 200) {
+        _applicid = appid['data'];
+        state = _applicid?.state;
+        applicationId = _applicid!.applicationNo;
+      }
     } catch (e) {
-      // print(e);
-      _applicid = null;
+      applicationId = '';
+      response = -1;
     }
     isVeriflyloading = false;
     update();
-    return '';
+    print("in status of update: $response");
+    return {applicationId: response};
   }
 
   Future<void> getallDocs() async {
@@ -259,8 +263,7 @@ class Managementcontroller extends GetxController {
   }
 
   //get document verification details from api
-  Future<void> getDocumentDetails(
-      {required String docID, required String docType}) async {
+  Future<void> getDocumentDetails({required String docID, required String docType}) async {
     //fetch doc from api
     _permit = VisitorEntry(idProof: docType, idNo: docID);
 
@@ -277,7 +280,7 @@ class Managementcontroller extends GetxController {
       required String name,
       required String parentname,
       required String gender,
-      required String dob,
+      required DateTime dob,
       required String email,
       required String mobile,
       required String address,
@@ -338,13 +341,14 @@ class Managementcontroller extends GetxController {
     update();
 
     if (_applicid != null && _applicid!.applicationNo.isNotEmpty) {
-      Map<String?, dynamic> ds = await apicall!.updatePermit(
-          passport, idcard, signature, _permit!, _applicid!.applicationNo);
+      Map<String?, dynamic> ds = await apicall!
+          .updatePermit(passport, idcard, signature, _permit!, _applicid!.applicationNo);
       // print('$ds $isLoading');
-      return ds.entries.first.value == 0 ? null : ds.entries.first.value;
+      String? appid = ds["applicationId"];
+      var orderid = ds["orderId"];
+      return ds.entries.first.value == 0 ? {} : {'appid': appid, 'orderid': orderid};
     } else {
-      Map<String?, dynamic> ds =
-          await apicall!.addPermit(passport, idcard, signature, _permit!);
+      Map<String?, dynamic> ds = await apicall!.addPermit(passport, idcard, signature, _permit!);
       // print('$ds $isLoading');
       String? appid = ds["applicationId"];
       var orderid = ds["orderId"];
@@ -422,14 +426,12 @@ class Managementcontroller extends GetxController {
           ));
       if (payres.permitNo.isNotEmpty) {
         await Future.delayed(Duration(milliseconds: 2000));
-        await Get.find<Imagecontroller>()
-            .saveReceiptimages(key, printername ?? "CUSTOM K80");
+        await Get.find<Imagecontroller>().saveReceiptimages(key, printername ?? "CUSTOM K80");
         Future.delayed(Duration(milliseconds: 2000));
         Get.back();
         Get.find<PagenavControllers>().setmainpageindex(ind: 5);
       } else {
-        printUsbReceiptWindowsonline(
-            onlineAplicant ?? "", payres.permitNo ?? "",
+        printUsbReceiptWindowsonline(onlineAplicant ?? "", payres.permitNo ?? "",
             printername: printername ?? "CUSTOM K80");
 
         Get.find<PagenavControllers>().setmainpageindex(ind: 6);

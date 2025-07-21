@@ -6,6 +6,7 @@ import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../cons/constant.dart';
 import '../../cons/tandcpolicy.dart';
@@ -20,8 +21,7 @@ class PaymentDetails extends StatelessWidget {
     GetxTapController gcontroller = Get.put(GetxTapController());
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context)
-            .unfocus(); // Hide keyboard when the screen starts
+        FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
       },
       child: GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return GetBuilder<Imagecontroller>(builder: (imgcon) {
@@ -41,8 +41,7 @@ class PaymentDetails extends StatelessWidget {
                             child: SizedBox(
                               height: 150,
                               width: 150,
-                              child:
-                                  Image.asset('assets/images/processing.gif'),
+                              child: Image.asset('assets/images/processing.gif'),
                             ),
                           ),
                         ),
@@ -72,20 +71,16 @@ class PaymentDetails extends StatelessWidget {
                                   children: [
                                     Text(
                                       "Verify Details",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
                                       height: 20,
                                     ),
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               height: 100,
@@ -93,8 +88,7 @@ class PaymentDetails extends StatelessWidget {
                                               clipBehavior: Clip.antiAlias,
                                               decoration: BoxDecoration(
                                                   color: Colors.grey[300],
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
+                                                  borderRadius: BorderRadius.circular(8)),
                                               child: imgcon.profileImage != null
                                                   ? Image.memory(
                                                       imgcon.profileImage!,
@@ -138,17 +132,12 @@ class PaymentDetails extends StatelessWidget {
                                               width: 20,
                                             ),
                                             Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  mngctrl.getPermit
-                                                          ?.applcntName ??
-                                                      "NA",
+                                                  mngctrl.getPermit?.applcntName ?? "NA",
                                                   style: TextStyle(
-                                                      fontSize: 24,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                      fontSize: 24, fontWeight: FontWeight.bold),
                                                 ),
                                                 SizedBox(
                                                   height: 20,
@@ -156,43 +145,27 @@ class PaymentDetails extends StatelessWidget {
                                                 Row(
                                                   children: [
                                                     Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         TextLabel(
-                                                            text: (mngctrl
-                                                                    .getPermit
-                                                                    ?.idProof ??
+                                                            text: (mngctrl.getPermit?.idProof ??
                                                                 "NA")),
                                                         BannerContainer(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    8),
-                                                            margin:
-                                                                EdgeInsets.zero,
-                                                            text: mngctrl
-                                                                    .getPermit
-                                                                    ?.idNo ??
-                                                                "NA",
-                                                            color:
-                                                                Colors.green),
+                                                            padding: EdgeInsets.all(8),
+                                                            margin: EdgeInsets.zero,
+                                                            text: mngctrl.getPermit?.idNo ?? "NA",
+                                                            color: Colors.green),
                                                       ],
                                                     ),
                                                     SizedBox(
                                                       width: 40,
                                                     ),
                                                     Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        TextLabel(
-                                                            text: "Gender"),
+                                                        TextLabel(text: "Gender"),
                                                         TextSubtitle(
-                                                          text: mngctrl
-                                                                  .getPermit
-                                                                  ?.applcntGender ??
+                                                          text: mngctrl.getPermit?.applcntGender ??
                                                               "NA",
                                                         ),
                                                       ],
@@ -201,18 +174,16 @@ class PaymentDetails extends StatelessWidget {
                                                       width: 60,
                                                     ),
                                                     Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        TextLabel(
-                                                            text: "D.O.B"),
+                                                        TextLabel(text: "D.O.B"),
                                                         TextSubtitle(
-                                                            text: getDate(
-                                                                dateTime: mngctrl
-                                                                        .getPermit
-                                                                        ?.applcntDOB ??
-                                                                    "")),
+                                                            text: mngctrl.getPermit != null &&
+                                                                    mngctrl.getPermit!.applcntDOB !=
+                                                                        null
+                                                                ? DateFormat.yMMMEd().format(
+                                                                    mngctrl.getPermit!.applcntDOB!)
+                                                                : ""),
                                                       ],
                                                     ),
                                                   ],
@@ -226,43 +197,34 @@ class PaymentDetails extends StatelessWidget {
                                           children: [
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  TextLabel(
-                                                      text: "Parent's Name"),
+                                                  TextLabel(text: "Parent's Name"),
                                                   TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntParent ??
-                                                        "NA",
+                                                    text: mngctrl.getPermit?.applcntParent ?? "NA",
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   TextLabel(text: "Email"),
                                                   TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntEmail ??
-                                                        "NA",
+                                                    text: mngctrl.getPermit?.applcntEmail ?? "NA",
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   TextLabel(text: "Phone"),
                                                   TextSubtitle(
-                                                      text: mngctrl.getPermit
-                                                              ?.applcntMobile ??
-                                                          "NA"),
+                                                      text:
+                                                          mngctrl.getPermit?.applcntMobile ?? "NA"),
                                                 ],
                                               ),
                                             ),
@@ -275,42 +237,33 @@ class PaymentDetails extends StatelessWidget {
                                           children: [
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   TextLabel(text: "State"),
                                                   TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntState ??
-                                                        "NA",
+                                                    text: mngctrl.getPermit?.applcntState ?? "NA",
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   TextLabel(text: "District"),
                                                   TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.district ??
-                                                        "NA",
+                                                    text: mngctrl.getPermit?.district ?? "NA",
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   TextLabel(text: "Address"),
                                                   TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntAddress ??
-                                                        "NA",
+                                                    text: mngctrl.getPermit?.applcntAddress ?? "NA",
                                                   ),
                                                 ],
                                               ),
@@ -324,15 +277,11 @@ class PaymentDetails extends StatelessWidget {
                                           children: [
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  TextLabel(
-                                                      text:
-                                                          "Nearest Police Station"),
+                                                  TextLabel(text: "Nearest Police Station"),
                                                   TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntPoliceStation ??
+                                                    text: mngctrl.getPermit?.applcntPoliceStation ??
                                                         "NA",
                                                   ),
                                                 ],
@@ -340,22 +289,18 @@ class PaymentDetails extends StatelessWidget {
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   TextLabel(text: "Tehsil"),
                                                   TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.applcntTehsil ??
-                                                        "NA",
+                                                    text: mngctrl.getPermit?.applcntTehsil ?? "NA",
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   TextLabel(text: "Signature"),
                                                   SizedBox(
@@ -370,14 +315,11 @@ class PaymentDetails extends StatelessWidget {
                                                         )
                                                       : Container(
                                                           decoration:
-                                                              BoxDecoration(
-                                                                  color: Colors
-                                                                      .grey),
+                                                              BoxDecoration(color: Colors.grey),
                                                           height: 100,
                                                           width: 300,
                                                           child: Center(
-                                                            child: Text(
-                                                                "sig empty"),
+                                                            child: Text("sig empty"),
                                                           ),
                                                         )
                                                 ],
@@ -444,11 +386,9 @@ class PaymentDetails extends StatelessWidget {
                                           children: [
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  TextLabel(
-                                                      text: "Period Of Stay"),
+                                                  TextLabel(text: "Period Of Stay"),
                                                   TextSubtitle(
                                                     text: '30 days',
                                                   ),
@@ -457,30 +397,23 @@ class PaymentDetails extends StatelessWidget {
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  TextLabel(
-                                                      text: "Starting Date"),
+                                                  TextLabel(text: "Starting Date"),
                                                   TextSubtitle(
                                                       text: getDate(
-                                                          dateTime: mngctrl
-                                                                  .getPermit
-                                                                  ?.visitDate ??
-                                                              "")),
+                                                          dateTime:
+                                                              mngctrl.getPermit?.visitDate ?? "")),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   TextLabel(text: "Purpose"),
                                                   TextSubtitle(
-                                                    text: mngctrl.getPermit
-                                                            ?.purposeVisit ??
-                                                        "NA",
+                                                    text: mngctrl.getPermit?.purposeVisit ?? "NA",
                                                   ),
                                                 ],
                                               ),
@@ -491,14 +424,11 @@ class PaymentDetails extends StatelessWidget {
                                           height: 10,
                                         ),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             TextLabel(text: "Place of Stay"),
                                             TextSubtitle(
-                                              text: mngctrl
-                                                      .getPermit?.placeOfStay ??
-                                                  "NA",
+                                              text: mngctrl.getPermit?.placeOfStay ?? "NA",
                                             ),
                                           ],
                                         ),
@@ -569,8 +499,7 @@ class _PaymentCardState extends State<PaymentCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         BannerContainer(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           margin: EdgeInsets.zero,
                           text: "Payments",
                           color: Colors.green,
@@ -596,8 +525,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "Temporary Permit",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             )),
                           ],
                         ),
@@ -619,11 +547,8 @@ class _PaymentCardState extends State<PaymentCard> {
                                   indent: 80,
                                 )),
                             Expanded(
-                                child: Text(
-                                    "${mngctrl.getPermitPrice?.validityDays ?? 30}",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold))),
+                                child: Text("${mngctrl.getPermitPrice?.validityDays ?? 30}",
+                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
                           ],
                         ),
                         SizedBox(
@@ -645,10 +570,8 @@ class _PaymentCardState extends State<PaymentCard> {
                                 )),
                             Expanded(
                                 child: Text(
-                              getDate(
-                                  dateTime: mngctrl.getPermit?.visitDate ?? ""),
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              getDate(dateTime: mngctrl.getPermit?.visitDate ?? ""),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             )),
                           ],
                         ),
@@ -673,12 +596,8 @@ class _PaymentCardState extends State<PaymentCard> {
                                 child: Text(
                               getDate(
                                   dateTime: mngctrl.getPermit?.visitDate ?? "",
-                                  duration:
-                                      (mngctrl.getPermitPrice?.validityDays ??
-                                              30) -
-                                          1),
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                  duration: (mngctrl.getPermitPrice?.validityDays ?? 30) - 1),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             )),
                           ],
                         ),
@@ -702,8 +621,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "$rupee ${mngctrl.getPermitPrice?.fee ?? 100}",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             )),
                           ],
                         ),
@@ -714,8 +632,7 @@ class _PaymentCardState extends State<PaymentCard> {
                         Center(
                             child: Text(
                           "$rupee ${mngctrl.getPermitPrice?.fee ?? 100}",
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                         )),
                       ],
                     ),
@@ -754,8 +671,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                       child: Column(
                                         children: [
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 "${e.value}",
@@ -779,13 +695,11 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     (f) => ListTile(
                                                       title: Text(
                                                         "${f.key + 1}",
-                                                        style: TextStyle(
-                                                            fontSize: 16),
+                                                        style: TextStyle(fontSize: 16),
                                                       ),
                                                       subtitle: Text(
                                                         f.value,
-                                                        style: TextStyle(
-                                                            fontSize: 20),
+                                                        style: TextStyle(fontSize: 20),
                                                       ),
                                                     ),
                                                   )
@@ -825,17 +739,15 @@ class _PaymentCardState extends State<PaymentCard> {
                             isload = true;
                           });
 
-                          Map<String, dynamic> s =
-                              await mngctrl.addtemporaryPermit(
+                          Map<String, dynamic> s = await mngctrl.addtemporaryPermit(
                             true,
                             imgcon.profileImage!,
                             imgcon.idCardimage!,
                             imgcon.signature!,
                             address: mngctrl.getPermit?.applcntAddress ?? "",
                             applydistrict: mngctrl.getPermit?.district ?? "",
-                            districtss:
-                                mngctrl.getPermit?.applcntDistrict ?? "",
-                            dob: mngctrl.getPermit?.applcntDOB ?? "",
+                            districtss: mngctrl.getPermit?.applcntDistrict ?? "",
+                            dob: mngctrl.getPermit!.applcntDOB!,
                             email: mngctrl.getPermit?.applcntEmail ?? "",
                             gender: mngctrl.getPermit?.applcntGender ?? "",
                             idProofs: mngctrl.getPermit?.idProof ?? "",
@@ -845,17 +757,14 @@ class _PaymentCardState extends State<PaymentCard> {
                             parentname: mngctrl.getPermit?.applcntParent ?? "",
                             pincode: mngctrl.getPermit?.pinCode ?? "",
                             placestay: mngctrl.getPermit?.placeOfStay ?? "",
-                            polstation:
-                                mngctrl.getPermit?.applcntPoliceStation ?? "",
-                            purposeVisits:
-                                mngctrl.getPermit?.purposeVisit ?? "",
+                            polstation: mngctrl.getPermit?.applcntPoliceStation ?? "",
+                            purposeVisits: mngctrl.getPermit?.purposeVisit ?? "",
                             state: mngctrl.getPermit?.applcntState ?? "",
                             tehsl: mngctrl.getPermit?.applcntTehsil ?? "",
                             village: mngctrl.getPermit?.applcntVillage ?? "",
                             visitDates: DateTime.now(),
                             localres: mngctrl.getPermit?.lrName ?? 'NA',
-                            localnearestpol:
-                                mngctrl.getPermit?.nearestPS ?? "NA",
+                            localnearestpol: mngctrl.getPermit?.nearestPS ?? "NA",
                           );
 
                           setState(() {
@@ -867,16 +776,14 @@ class _PaymentCardState extends State<PaymentCard> {
                               content: RepaintBoundary(
                                   key: _globlkey,
                                   child: ReceiptWidget(
-                                      applicantName:
-                                          mngctrl.getPermit?.applcntName ??
-                                              "NA",
+                                      applicantName: mngctrl.getPermit?.applcntName ?? "NA",
                                       applicantId: s["appid"])),
                             ));
                             Future.delayed(Duration(seconds: 3)).then(
                               (value) async {
                                 print("nav Keys sdsd");
-                                await imgcon.saveReceipt(_globlkey, s["appid"],
-                                    "Your permit request is registered.");
+                                await imgcon.saveReceipt(
+                                    _globlkey, s["appid"], "Your permit request is registered.");
                                 print("nav Keys");
 
                                 Get.back();
@@ -898,8 +805,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 "Processing Permit",
@@ -914,8 +820,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                           ),
                                           isload
                                               ? Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      32.0),
+                                                  padding: const EdgeInsets.all(32.0),
                                                   child: Column(
                                                     children: [
                                                       CircularProgressIndicator(),
@@ -924,8 +829,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                       ),
                                                       Text(
                                                         "Creating Permit. Please Wait",
-                                                        style: TextStyle(
-                                                            fontSize: 20),
+                                                        style: TextStyle(fontSize: 20),
                                                       )
                                                     ],
                                                   ),
@@ -938,12 +842,10 @@ class _PaymentCardState extends State<PaymentCard> {
                                         ? null
                                         : [
                                             ButtonCard(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 8),
+                                                padding: EdgeInsets.symmetric(vertical: 8),
                                                 icon: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 8.0),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(horizontal: 8.0),
                                                   child: Icon(
                                                     Icons.laptop_mac_rounded,
                                                     color: Colors.white,
@@ -956,79 +858,41 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   });
 
                                                   Map<String, dynamic>? s =
-                                                      await mngctrl
-                                                          .addtemporaryPermit(
+                                                      await mngctrl.addtemporaryPermit(
                                                     true,
                                                     imgcon.profileImage!,
                                                     imgcon.idCardimage!,
                                                     imgcon.signature!,
-                                                    address: mngctrl.getPermit
-                                                            ?.applcntAddress ??
-                                                        "",
-                                                    applydistrict: mngctrl
-                                                            .getPermit
-                                                            ?.district ??
-                                                        "",
-                                                    districtss: mngctrl
-                                                            .getPermit
-                                                            ?.applcntDistrict ??
-                                                        "",
-                                                    dob: mngctrl.getPermit
-                                                            ?.applcntDOB ??
-                                                        "",
-                                                    email: mngctrl.getPermit
-                                                            ?.applcntEmail ??
-                                                        "",
-                                                    gender: mngctrl.getPermit
-                                                            ?.applcntGender ??
-                                                        "",
-                                                    idProofs: mngctrl.getPermit
-                                                            ?.idProof ??
-                                                        "",
-                                                    idno: mngctrl
-                                                            .getPermit?.idNo ??
-                                                        "",
-                                                    mobile: mngctrl.getPermit
-                                                            ?.applcntMobile ??
-                                                        "",
-                                                    name: mngctrl.getPermit
-                                                            ?.applcntName ??
-                                                        "",
-                                                    parentname: mngctrl
-                                                            .getPermit
-                                                            ?.applcntParent ??
-                                                        "",
-                                                    pincode: mngctrl.getPermit
-                                                            ?.pinCode ??
-                                                        "",
-                                                    placestay: mngctrl.getPermit
-                                                            ?.placeOfStay ??
-                                                        "",
-                                                    polstation: mngctrl
-                                                            .getPermit
-                                                            ?.applcntPoliceStation ??
-                                                        "",
-                                                    purposeVisits: mngctrl
-                                                            .getPermit
-                                                            ?.purposeVisit ??
-                                                        "",
-                                                    state: mngctrl.getPermit
-                                                            ?.applcntState ??
-                                                        "",
-                                                    tehsl: mngctrl.getPermit
-                                                            ?.applcntTehsil ??
-                                                        "",
-                                                    village: mngctrl.getPermit
-                                                            ?.applcntVillage ??
-                                                        "",
+                                                    address:
+                                                        mngctrl.getPermit?.applcntAddress ?? "",
+                                                    applydistrict:
+                                                        mngctrl.getPermit?.district ?? "",
+                                                    districtss:
+                                                        mngctrl.getPermit?.applcntDistrict ?? "",
+                                                    dob: mngctrl.getPermit!.applcntDOB!,
+                                                    email: mngctrl.getPermit?.applcntEmail ?? "",
+                                                    gender: mngctrl.getPermit?.applcntGender ?? "",
+                                                    idProofs: mngctrl.getPermit?.idProof ?? "",
+                                                    idno: mngctrl.getPermit?.idNo ?? "",
+                                                    mobile: mngctrl.getPermit?.applcntMobile ?? "",
+                                                    name: mngctrl.getPermit?.applcntName ?? "",
+                                                    parentname:
+                                                        mngctrl.getPermit?.applcntParent ?? "",
+                                                    pincode: mngctrl.getPermit?.pinCode ?? "",
+                                                    placestay: mngctrl.getPermit?.placeOfStay ?? "",
+                                                    polstation:
+                                                        mngctrl.getPermit?.applcntPoliceStation ??
+                                                            "",
+                                                    purposeVisits:
+                                                        mngctrl.getPermit?.purposeVisit ?? "",
+                                                    state: mngctrl.getPermit?.applcntState ?? "",
+                                                    tehsl: mngctrl.getPermit?.applcntTehsil ?? "",
+                                                    village:
+                                                        mngctrl.getPermit?.applcntVillage ?? "",
                                                     visitDates: DateTime.now(),
-                                                    localres: mngctrl.getPermit
-                                                            ?.lrName ??
-                                                        'NA',
-                                                    localnearestpol: mngctrl
-                                                            .getPermit
-                                                            ?.nearestPS ??
-                                                        "NA",
+                                                    localres: mngctrl.getPermit?.lrName ?? 'NA',
+                                                    localnearestpol:
+                                                        mngctrl.getPermit?.nearestPS ?? "NA",
                                                   );
 
                                                   sta(() {
@@ -1041,16 +905,12 @@ class _PaymentCardState extends State<PaymentCard> {
                                                       content: RepaintBoundary(
                                                           key: _globlkey,
                                                           child: ReceiptWidget(
-                                                              applicantName: mngctrl
-                                                                      .getPermit
-                                                                      ?.applcntName ??
-                                                                  "NA",
-                                                              applicantId:
-                                                                  s['appid'])),
+                                                              applicantName:
+                                                                  mngctrl.getPermit?.applcntName ??
+                                                                      "NA",
+                                                              applicantId: s['appid'])),
                                                     ));
-                                                    Future.delayed(Duration(
-                                                            seconds: 3))
-                                                        .then(
+                                                    Future.delayed(Duration(seconds: 3)).then(
                                                       (value) async {
                                                         print("nav Keys sdsd");
                                                         await imgcon.saveReceipt(
@@ -1060,86 +920,60 @@ class _PaymentCardState extends State<PaymentCard> {
                                                         print("nav Keys");
 
                                                         Get.back();
-                                                        pagectrl
-                                                            .pageIncremeter(4);
-                                                        pagectrl
-                                                            .setmainpageindex(
-                                                                ind: 4);
+                                                        pagectrl.pageIncremeter(4);
+                                                        pagectrl.setmainpageindex(ind: 4);
                                                       },
                                                     );
                                                   } else {
                                                     Get.back();
 
                                                     Get.dialog(
-                                                        barrierDismissible:
-                                                            false,
+                                                        barrierDismissible: false,
                                                         AlertDialog(
                                                           title: Text(
                                                             "Failed to generate Permit.",
-                                                            style: TextStyle(
-                                                                fontSize: 24),
+                                                            style: TextStyle(fontSize: 24),
                                                           ),
                                                           content: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
+                                                            mainAxisSize: MainAxisSize.min,
                                                             crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
+                                                                CrossAxisAlignment.start,
                                                             children: [
                                                               Text(
                                                                   "There are some technical issues at our end.",
                                                                   style: TextStyle(
-                                                                      fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
-                                                              Text(
-                                                                  "Some reasons maybe: ",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                                      fontSize: 16,
+                                                                      fontWeight: FontWeight.bold)),
+                                                              Text("Some reasons maybe: ",
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 16,
                                                               ),
                                                               Text(
                                                                   "The photo provided may be unclear. Please retry again",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 8,
                                                               ),
                                                               Text(
                                                                   "The server failed to load during the permit generation process.",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 8,
                                                               ),
-                                                              Text(
-                                                                  "The server maybe down.",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                              Text("The server maybe down.",
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 8,
                                                               ),
                                                               Text(
                                                                   "The internet connection is slow",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 8,
                                                               ),
-                                                              Text(
-                                                                  "There is no network coverage.",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                              Text("There is no network coverage.",
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 16,
                                                               ),
@@ -1147,31 +981,20 @@ class _PaymentCardState extends State<PaymentCard> {
                                                               Text(
                                                                   "For any issues and queries please go to the ILP COUNTER.",
                                                                   style: TextStyle(
-                                                                      fontSize:
-                                                                          20,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
+                                                                      fontSize: 20,
+                                                                      fontWeight: FontWeight.bold)),
                                                             ],
                                                           ),
                                                           actions: [
                                                             ButtonCard(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .zero,
-                                                                title:
-                                                                    "Try again",
+                                                                padding: EdgeInsets.zero,
+                                                                title: "Try again",
                                                                 onpress: () {
-                                                                  pagectrl
-                                                                      .setmainpageindex(
-                                                                          ind:
-                                                                              0);
-                                                                  imgcon
-                                                                      .disposeAll();
+                                                                  pagectrl.setmainpageindex(ind: 0);
+                                                                  imgcon.disposeAll();
                                                                   Get.back();
                                                                   // Get.off(()=>LandingPage());
-                                                                  pagectrl
-                                                                      .listenPageChange();
+                                                                  pagectrl.listenPageChange();
                                                                 })
                                                           ],
                                                         ));
@@ -1182,226 +1005,139 @@ class _PaymentCardState extends State<PaymentCard> {
                                                 }),
                                             ButtonCard(
                                                 icon: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 8.0),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(horizontal: 8.0),
                                                   child: Icon(
                                                     Icons.money_sharp,
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 8),
+                                                padding: EdgeInsets.symmetric(vertical: 8),
                                                 title: "Pay Online",
                                                 onpress: () async {
                                                   sta(() {
                                                     isload = true;
                                                   });
 
-                                                  Map<String, dynamic> s =
-                                                      await mngctrl
-                                                          .addtemporaryPermit(
-                                                            false,
-                                                            imgcon
-                                                                .profileImage!,
-                                                            imgcon.idCardimage!,
-                                                            imgcon.signature!,
-                                                            address: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntAddress ??
+                                                  Map<String, dynamic> s = await mngctrl
+                                                      .addtemporaryPermit(
+                                                        false,
+                                                        imgcon.profileImage!,
+                                                        imgcon.idCardimage!,
+                                                        imgcon.signature!,
+                                                        address:
+                                                            mngctrl.getPermit?.applcntAddress ?? "",
+                                                        applydistrict:
+                                                            mngctrl.getPermit?.district ?? "",
+                                                        districtss:
+                                                            mngctrl.getPermit?.applcntDistrict ??
                                                                 "",
-                                                            applydistrict: mngctrl
-                                                                    .getPermit
-                                                                    ?.district ??
-                                                                "",
-                                                            districtss: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntDistrict ??
-                                                                "",
-                                                            dob: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntDOB ??
-                                                                "",
-                                                            email: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntEmail ??
-                                                                "ilppay@gmail.com",
-                                                            gender: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntGender ??
-                                                                "",
-                                                            idProofs: mngctrl
-                                                                    .getPermit
-                                                                    ?.idProof ??
-                                                                "",
-                                                            idno: mngctrl
-                                                                    .getPermit
-                                                                    ?.idNo ??
-                                                                "",
-                                                            mobile: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntMobile ??
-                                                                "",
-                                                            name: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntName ??
-                                                                "",
-                                                            parentname: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntParent ??
-                                                                "",
-                                                            pincode: mngctrl
-                                                                    .getPermit
-                                                                    ?.pinCode ??
-                                                                "",
-                                                            placestay: mngctrl
-                                                                    .getPermit
-                                                                    ?.placeOfStay ??
-                                                                "",
-                                                            polstation: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntPoliceStation ??
-                                                                "",
-                                                            purposeVisits: mngctrl
-                                                                    .getPermit
-                                                                    ?.purposeVisit ??
-                                                                "",
-                                                            state: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntState ??
-                                                                "",
-                                                            tehsl: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntTehsil ??
-                                                                "",
-                                                            village: mngctrl
-                                                                    .getPermit
-                                                                    ?.applcntVillage ??
-                                                                "",
-                                                            visitDates:
-                                                                DateTime.now(),
-                                                            localres: mngctrl
-                                                                    .getPermit
-                                                                    ?.lrName ??
-                                                                'NA',
-                                                            localnearestpol: mngctrl
-                                                                    .getPermit
-                                                                    ?.nearestPS ??
-                                                                "NA",
-                                                          )
-                                                          .whenComplete(
-                                                              () => Get.back());
+                                                        dob: mngctrl.getPermit!.applcntDOB!,
+                                                        email: mngctrl.getPermit?.applcntEmail ??
+                                                            "ilppay@gmail.com",
+                                                        gender:
+                                                            mngctrl.getPermit?.applcntGender ?? "",
+                                                        idProofs: mngctrl.getPermit?.idProof ?? "",
+                                                        idno: mngctrl.getPermit?.idNo ?? "",
+                                                        mobile:
+                                                            mngctrl.getPermit?.applcntMobile ?? "",
+                                                        name: mngctrl.getPermit?.applcntName ?? "",
+                                                        parentname:
+                                                            mngctrl.getPermit?.applcntParent ?? "",
+                                                        pincode: mngctrl.getPermit?.pinCode ?? "",
+                                                        placestay:
+                                                            mngctrl.getPermit?.placeOfStay ?? "",
+                                                        polstation: mngctrl
+                                                                .getPermit?.applcntPoliceStation ??
+                                                            "",
+                                                        purposeVisits:
+                                                            mngctrl.getPermit?.purposeVisit ?? "",
+                                                        state:
+                                                            mngctrl.getPermit?.applcntState ?? "",
+                                                        tehsl:
+                                                            mngctrl.getPermit?.applcntTehsil ?? "",
+                                                        village:
+                                                            mngctrl.getPermit?.applcntVillage ?? "",
+                                                        visitDates: DateTime.now(),
+                                                        localres: mngctrl.getPermit?.lrName ?? 'NA',
+                                                        localnearestpol:
+                                                            mngctrl.getPermit?.nearestPS ?? "NA",
+                                                      )
+                                                      .whenComplete(() => Get.back());
 
                                                   sta(() {
                                                     isload = false;
                                                   });
                                                   if (s.isNotEmpty) {
-                                                    mngctrl.setOnlineApplId(
-                                                        s["appid"]);
+                                                    mngctrl.setOnlineApplId(s["appid"]);
                                                     gcontroller.initNdpsPayment(
-                                                      email: mngctrl.getPermit
-                                                              ?.applcntEmail ??
-                                                          "",
-                                                      number: mngctrl.getPermit
-                                                              ?.applcntMobile ??
-                                                          "",
-                                                      transId: mngctrl.getPermit
-                                                              ?.transactionId ??
-                                                          "",
+                                                      email: mngctrl.getPermit?.applcntEmail ?? "",
+                                                      number:
+                                                          mngctrl.getPermit?.applcntMobile ?? "",
+                                                      transId:
+                                                          mngctrl.getPermit?.transactionId ?? "",
                                                       context: context,
-                                                      responseHashKey:
-                                                          gcontroller
-                                                              .responseHashKey,
+                                                      responseHashKey: gcontroller.responseHashKey,
                                                       responseDecryptionKey:
-                                                          gcontroller
-                                                              .responseDecryptionKey,
-                                                      amount: mngctrl
-                                                              .getPermitPrice
-                                                              ?.fee
-                                                              .toString() ??
-                                                          "100",
-                                                      address: mngctrl.getPermit
-                                                              ?.applcntAddress ??
-                                                          'NA',
-                                                      name: mngctrl.getPermit
-                                                              ?.applcntName ??
-                                                          'NA',
-                                                      clientcodeok:
-                                                          s['orderid'],
+                                                          gcontroller.responseDecryptionKey,
+                                                      amount:
+                                                          mngctrl.getPermitPrice?.fee.toString() ??
+                                                              "100",
+                                                      address:
+                                                          mngctrl.getPermit?.applcntAddress ?? 'NA',
+                                                      name: mngctrl.getPermit?.applcntName ?? 'NA',
+                                                      clientcodeok: s['orderid'],
                                                     );
                                                   } else {
                                                     Get.back();
 
                                                     Get.dialog(
-                                                        barrierDismissible:
-                                                            false,
+                                                        barrierDismissible: false,
                                                         AlertDialog(
                                                           title: Text(
                                                             "Failed to generate Permit.",
-                                                            style: TextStyle(
-                                                                fontSize: 24),
+                                                            style: TextStyle(fontSize: 24),
                                                           ),
                                                           content: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
+                                                            mainAxisSize: MainAxisSize.min,
                                                             crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
+                                                                CrossAxisAlignment.start,
                                                             children: [
                                                               Text(
                                                                   "There are some technical issues at our end.",
                                                                   style: TextStyle(
-                                                                      fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
-                                                              Text(
-                                                                  "Some reasons maybe: ",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                                      fontSize: 16,
+                                                                      fontWeight: FontWeight.bold)),
+                                                              Text("Some reasons maybe: ",
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 16,
                                                               ),
                                                               Text(
                                                                   "The photo provided may be unclear. Please retry again",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 8,
                                                               ),
                                                               Text(
                                                                   "The server failed to load during the permit generation process.",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 8,
                                                               ),
-                                                              Text(
-                                                                  "The server maybe down.",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                              Text("The server maybe down.",
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 8,
                                                               ),
                                                               Text(
                                                                   "The internet connection is slow",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 8,
                                                               ),
-                                                              Text(
-                                                                  "There is no network coverage.",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16)),
+                                                              Text("There is no network coverage.",
+                                                                  style: TextStyle(fontSize: 16)),
                                                               SizedBox(
                                                                 height: 16,
                                                               ),
@@ -1409,42 +1145,28 @@ class _PaymentCardState extends State<PaymentCard> {
                                                               Text(
                                                                   "For any issues and queries please go to the ILP COUNTER.",
                                                                   style: TextStyle(
-                                                                      fontSize:
-                                                                          20,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
+                                                                      fontSize: 20,
+                                                                      fontWeight: FontWeight.bold)),
                                                             ],
                                                           ),
                                                           actions: [
                                                             ButtonCard(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .zero,
-                                                                title:
-                                                                    "Try again",
+                                                                padding: EdgeInsets.zero,
+                                                                title: "Try again",
                                                                 onpress: () {
-                                                                  pagectrl
-                                                                      .setmainpageindex(
-                                                                          ind:
-                                                                              0);
+                                                                  pagectrl.setmainpageindex(ind: 0);
                                                                   Get.back();
-                                                                  imgcon
-                                                                      .disposeAll();
+                                                                  imgcon.disposeAll();
 
                                                                   // Get.off(()=>LandingPage());
-                                                                  pagectrl
-                                                                      .listenPageChange();
+                                                                  pagectrl.listenPageChange();
                                                                 })
                                                           ],
                                                         ));
                                                   }
                                                 }),
                                           ],
-                                  )
-                                      .animate()
-                                      .scaleXY(begin: 0.5, end: 1)
-                                      .fadeIn();
+                                  ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();
                                 });
                               });
 
@@ -1480,15 +1202,13 @@ class ButtonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          padding ?? EdgeInsets.symmetric(horizontal: 16, vertical: ver ?? 16),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 16, vertical: ver ?? 16),
       child: InkWell(
         onTap: onpress,
         child: Container(
           width: conwidth ?? double.infinity,
           padding: EdgeInsets.all(32),
-          decoration: BoxDecoration(
-              color: Colors.green, borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(8)),
           clipBehavior: Clip.antiAlias,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

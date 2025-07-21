@@ -8,7 +8,6 @@ import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'paymentresponse.dart';
 import 'permit.dart';
 import 'permitprice.dart';
-import 'permitverifymodel.dart';
 
 abstract class ApiCall {
   Future<void> readPermit();
@@ -22,7 +21,7 @@ abstract class ApiCall {
 
   Future<List<PermitPriceModel>> getallpremitprice();
   Future<Map<String, IlPmodel?>> fetchPermitData(String permitnum);
-  Future<PermitApplication?> verifydoc({required String doctype, required String idnumber});
+  Future<Map<String, dynamic>> verifydoc({required String doctype, required String idnumber});
   Future<PaymentResponse?> sendPayment(Payment payment);
   Future<OtpResponse?> aadharOtpResponse(String aadharid, String referenceId);
   Future<AadhaarVerificationResult?> aadharVerification(

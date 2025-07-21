@@ -8,7 +8,7 @@ class VisitorEntry {
   String? applcntName;
   String? applcntParent;
   String? applcntGender;
-  String? applcntDOB;
+  DateTime? applcntDOB;
   String? applcntEmail;
   String? applcntMobile;
   String? applcntAddress;
@@ -76,7 +76,7 @@ class VisitorEntry {
       applcntName: json['Applcnt_Name'] as String?,
       applcntParent: json['Applcnt_Parent'] as String?,
       applcntGender: json['Applcnt_Gender'] as String?,
-      applcntDOB: json['Applcnt_DOB'] as String?,
+      applcntDOB: json['Applcnt_DOB'] != null ? DateTime.parse(json['Applcnt_DOB']) : null,
       applcntEmail: json['Applcnt_Email'] as String?,
       applcntMobile: json['Applcnt_Mobile'] as String?,
       applcntAddress: json['Applcnt_Address'] as String?,
@@ -112,7 +112,7 @@ class VisitorEntry {
       'Applcnt_Name': applcntName ?? "NA",
       'Applcnt_Parent': applcntParent ?? "NA",
       'Applcnt_Gender': applcntGender ?? "NA",
-      'Applcnt_DOB': applcntDOB ?? "NA",
+      'Applcnt_DOB': applcntDOB != null ? applcntDOB!.toIso8601String() : 'NA',
       'Applcnt_Email': applcntEmail ?? "NA",
       'Applcnt_Mobile': applcntMobile ?? "NA",
       'Applcnt_Address': applcntAddress ?? "NA",
@@ -148,7 +148,7 @@ class VisitorEntry {
       'Applcnt_Name': applcntName ?? "NA",
       'Applcnt_Parent': applcntParent ?? "NA",
       'Applcnt_Gender': applcntGender ?? "NA",
-      'Applcnt_DOB': applcntDOB ?? "NA",
+      'Applcnt_DOB': applcntDOB != null ? applcntDOB!.toIso8601String() : 'NA',
       'Applcnt_Email': applcntEmail ?? "NA",
       'Applcnt_Mobile': applcntMobile ?? "NA",
       'Applcnt_Address': applcntAddress ?? "NA",

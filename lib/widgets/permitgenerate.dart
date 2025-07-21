@@ -39,7 +39,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
         idProof: _permit?.idProof ?? "NA",
         idNo: "",
         gender: _permit?.applcntGender ?? "NA",
-        dob: _permit?.applcntDOB ?? "NA",
+        dob: _permit?.applcntDOB?.toIso8601String() ?? "NA",
         idMark: "NA",
         occupation: "Na",
         photo: "NA",
@@ -132,8 +132,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                               height: 80,
                               width: 80,
                             ),
-                            Image.asset('assets/images/Kanglashaok.png',
-                                height: 80, width: 80),
+                            Image.asset('assets/images/Kanglashaok.png', height: 80, width: 80),
                           ],
                         ),
                         SizedBox(
@@ -142,16 +141,12 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                         Text(
                           "INNER LINE PERMIT",
                           style: TextStyle(
-                              fontSize: 36,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+                              fontSize: 36, color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "GOVERNMENT OF MANIPUR",
                           style: TextStyle(
-                              fontSize: 36,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
+                              fontSize: 36, color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           height: 20,
@@ -191,28 +186,19 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text("Id Proof:",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.idProof}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.idProof}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Id No:",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                Text("Id No:", style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.idNo}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.idNo}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             imgcon.profileImage != null
@@ -224,138 +210,96 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                                   ))
                                 : SizedBox(),
                             Text("${mngctrl.getPermit?.applcntName ?? ""}",
-                                style: TextStyle(
-                                    fontSize: 30, color: Colors.black)),
+                                style: TextStyle(fontSize: 30, color: Colors.black)),
                             Row(
                               children: [
                                 Text("SO/DO/WO:",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.applcntParent}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.applcntParent}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             Text(
-                                "DOB:${getDate(dateTime: mngctrl.getPermit?.applcntDOB)}",
-                                style: TextStyle(
-                                    fontSize: 30, color: Colors.black)),
-                            Text(
-                                "Gender:${getDate(dateTime: mngctrl.getPermit?.applcntGender)}",
-                                style: TextStyle(
-                                    fontSize: 30, color: Colors.black)),
+                                "DOB:${getDate(dateTime: mngctrl.getPermit?.applcntDOB?.toIso8601String())}",
+                                style: TextStyle(fontSize: 30, color: Colors.black)),
+                            Text("Gender:${getDate(dateTime: mngctrl.getPermit?.applcntGender)}",
+                                style: TextStyle(fontSize: 30, color: Colors.black)),
                             Row(
                               children: [
                                 Text("State: ",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.applcntState}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.applcntState}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("District: ",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.applcntDistrict}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.applcntDistrict}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             Row(
-                              
                               children: [
                                 Text("Police Station: ",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.applcntPoliceStation}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.applcntPoliceStation}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Address: ",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
                                     child: Text(
-                                                // "SDHFjdhfjkdhfhf fhdjfhjkdfh fhdjfhkfhdkjhk",
+                                        // "SDHFjdhfjkdhfhf fhdjfhjkdfh fhdjfhkfhdkjhk",
                                         "${mngctrl.currentPermit?.applcntAddress}",
-                                       
-                                       
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             Row(
                               children: [
                                 Text("Residing:",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.placeOfStay}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.placeOfStay}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             Row(
                               children: [
                                 Text("Nearest Ps: ",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.nearestPS}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.nearestPS}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
                             Row(
                               children: [
                                 Text("Purpose: ",
-                                    style: TextStyle(
-                                        fontSize: 30, color: Colors.black)),
+                                    style: TextStyle(fontSize: 30, color: Colors.black)),
                                 Expanded(
-                                    child: Text(
-                                        "${mngctrl.currentPermit?.purposeVisit}",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.black))),
+                                    child: Text("${mngctrl.currentPermit?.purposeVisit}",
+                                        style: TextStyle(fontSize: 30, color: Colors.black))),
                               ],
                             ),
-                            Text(
-                                "Validity: ${mngctrl.getPermitPrice?.validityDays}",
-                                style: TextStyle(
-                                    fontSize: 30, color: Colors.black)),
+                            Text("Validity: ${mngctrl.getPermitPrice?.validityDays}",
+                                style: TextStyle(fontSize: 30, color: Colors.black)),
                             Text(
                                 "Date of Issue: ${getDate(dateTime: DateTime.now().toIso8601String())}",
-                                style: TextStyle(
-                                    fontSize: 30, color: Colors.black)),
+                                style: TextStyle(fontSize: 30, color: Colors.black)),
                             Text(
                                 "Date of Expiry: ${getDate(dateTime: DateTime.now().add(Duration(days: 30)).toIso8601String())}",
-                                style: TextStyle(
-                                    fontSize: 30, color: Colors.black)),
+                                style: TextStyle(fontSize: 30, color: Colors.black)),
                           ],
                         ),
                         SizedBox(height: 20),
@@ -365,8 +309,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                             ? QrImageView(
                                 data: d!.toJson().toString(),
                                 size: mmToDp(50),
-                                embeddedImage:
-                                    AssetImage('assets/images/ilplogo2.png'),
+                                embeddedImage: AssetImage('assets/images/ilplogo2.png'),
                                 version: QrVersions.auto,
                               )
                             : SizedBox(),
@@ -384,48 +327,36 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             children: [
-                              Text(
-                                  "Receipt: #${widget.paymentResponse.orderId}",
-                                  style: TextStyle(
-                                      fontSize: 36, color: Colors.black)),
+                              Text("Receipt: #${widget.paymentResponse.orderId}",
+                                  style: TextStyle(fontSize: 36, color: Colors.black)),
                               // Spacer(),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Type",
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black)),
+                                  Text("Type", style: TextStyle(fontSize: 30, color: Colors.black)),
                                   Text("Temporary Permit",
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black))
+                                      style: TextStyle(fontSize: 30, color: Colors.black))
                                 ],
                               ),
 
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Permit Fee",
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black)),
+                                      style: TextStyle(fontSize: 30, color: Colors.black)),
                                   Text("${mngctrl.getPermitPrice?.fee}",
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black))
+                                      style: TextStyle(fontSize: 30, color: Colors.black))
                                 ],
                               ),
 
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Processing Fee",
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black)),
+                                      style: TextStyle(fontSize: 30, color: Colors.black)),
                                   Text(
-                                      "${widget.paymentResponse.amount - (mngctrl.getPermitPrice!=null?mngctrl.getPermitPrice!.fee:0.0)}",
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black))
+                                      "${widget.paymentResponse.amount - (mngctrl.getPermitPrice != null ? mngctrl.getPermitPrice!.fee : 0.0)}",
+                                      style: TextStyle(fontSize: 30, color: Colors.black))
                                 ],
                               ),
 
@@ -433,15 +364,12 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                                 color: Colors.black,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Total",
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black)),
+                                      style: TextStyle(fontSize: 30, color: Colors.black)),
                                   Text("${widget.paymentResponse.amount}",
-                                      style: TextStyle(
-                                          fontSize: 30, color: Colors.black))
+                                      style: TextStyle(fontSize: 30, color: Colors.black))
                                 ],
                               ),
                               SizedBox(
@@ -449,13 +377,11 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                               ),
                               Text(
                                 "This is an electronically generated Inner Line Permit Card, hence no signature is required.",
-                                style: TextStyle(
-                                    fontSize: 24, color: Colors.black),
+                                style: TextStyle(fontSize: 24, color: Colors.black),
                                 textAlign: TextAlign.center,
                               ),
                               Text("https://manipurilponline.mn.gov.in/",
-                                  style: TextStyle(
-                                      fontSize: 24, color: Colors.black),
+                                  style: TextStyle(fontSize: 24, color: Colors.black),
                                   textAlign: TextAlign.center),
                             ],
                           ),

@@ -49,8 +49,7 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                 pagecon.IdSelection
                     ? Text(
                         'Please type in your Identification number.',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                         textAlign: TextAlign.center,
                       ).animate().fadeIn().slideY(
                         begin: 0.5,
@@ -59,20 +58,15 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                         duration: Duration(milliseconds: 700))
                     : Text(
                         'Choose the type of ID document you want to use for registration.',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                         textAlign: TextAlign.center,
-                      )
-                        .animate()
-                        .fadeIn()
-                        .slideY(begin: 0.5, end: 0, curve: Curves.easeIn),
+                      ).animate().fadeIn().slideY(begin: 0.5, end: 0, curve: Curves.easeIn),
                 const SizedBox(height: 100),
                 pagecon.IdSelection
                     ? GetDocumentId()
                     : GridView.builder(
                         shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 50,
                           mainAxisSpacing: 100,
@@ -80,11 +74,9 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                         ),
                         itemCount: mngctrl.getDocNames.length,
                         itemBuilder: (context, index) {
-                          return _buildButton(
-                                  context, mngctrl.getDocNames[index], index)
+                          return _buildButton(context, mngctrl.getDocNames[index], index)
                               .animate()
-                              .fadeIn(
-                                  delay: Duration(milliseconds: index * 200))
+                              .fadeIn(delay: Duration(milliseconds: index * 200))
                               .scaleXY(begin: 0.5, end: 1);
                         },
                       ),
@@ -111,8 +103,7 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 0, 183, 234),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -228,15 +219,14 @@ class _GetDocumentIdState extends State<GetDocumentId> {
   void _onBackspace() {
     final controller = docIdController;
     if (controller.text.isNotEmpty) {
-      controller.text =
-          controller.text.substring(0, controller.text.length - 1);
+      controller.text = controller.text.substring(0, controller.text.length - 1);
     }
   }
 
   void _onBackspaceotp() {
     if (aadharotpController.text.isNotEmpty) {
-      aadharotpController.text = aadharotpController.text
-          .substring(0, aadharotpController.text.length - 1);
+      aadharotpController.text =
+          aadharotpController.text.substring(0, aadharotpController.text.length - 1);
     }
   }
 
@@ -269,8 +259,8 @@ class _GetDocumentIdState extends State<GetDocumentId> {
               //     top: BorderSide(color: Colors.white.withValues(alpha: 0.5)),
               //     right: BorderSide(color: Colors.white.withValues(alpha: 0.5)),
               //     left: BorderSide(color: Colors.white.withValues(alpha: 0.5))),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+              borderRadius:
+                  BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16))),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child:
@@ -411,16 +401,11 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     child: Form(
                       key: _formKey,
                       child: TextFieldWidget(
-                        counter: mngctrl.getPermit?.idProof == "Aadhaar Card"
-                            ? 12
-                            : null,
+                        counter: mngctrl.getPermit?.idProof == "Aadhaar Card" ? 12 : null,
                         errorSize: 24,
-                        keytype: pagectrl.docindex == 0
-                            ? TextInputType.number
-                            : null,
+                        keytype: pagectrl.docindex == 0 ? TextInputType.number : null,
                         fontSize: 30,
-                        contentpadding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        contentpadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                         focusnode: docFocus,
                         controller: docIdController,
                         label: mngctrl.getPermit?.idProof ?? "Doc Id",
@@ -437,9 +422,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                     ? Text(
                         "Please enter a Valid Id Number",
                         style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            color: Colors.redAccent, fontSize: 16, fontWeight: FontWeight.bold),
                       )
                     : SizedBox(),
                 SizedBox(
@@ -475,82 +458,124 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                       ? null
                       : () async {
                           if (_formKey.currentState!.validate()) {
-                            await mngctrl.verifydocid(
+                            Map<String, int> res = await mngctrl.verifydocid(
                                 doctype: mngctrl.getPermit?.idProof ?? "",
                                 docid: docIdController.text);
-                            mngctrl.getDocumentDetails(
-                                docID: docIdController.text,
-                                docType: mngctrl.getPermit?.idProof ?? "");
 
-                            // if the applicant already exists and the exit status is true
-                            if (mngctrl.applicid == null ||
-                                (mngctrl.applicid != null &&
-                                    mngctrl.applicid!.statusExit != false)) {
-                              if (mngctrl.applicid != null) {
-                                mngctrl.addPermit(VisitorEntry(
-                                  applcntDOB:
-                                      mngctrl.applicid?.dob?.toIso8601String(),
-                                  applcntDistrict:
-                                      mngctrl.applicid?.district ?? "",
-                                  applcntEmail: mngctrl.applicid?.email,
-                                  applcntGender: mngctrl.applicid?.gender ?? "",
-                                  applcntParent: mngctrl.applicid?.parentName,
-                                  applcntMobile: mngctrl.applicid?.mobile,
-                                  applcntPoliceStation:
-                                      mngctrl.applicid?.policeStation,
-                                  applcntName: mngctrl.applicid?.name,
-                                  applcntHNo: mngctrl.applicid?.houseNo,
-                                  idProof: mngctrl.getPermit?.idProof ?? "",
-                                  idNo: docIdController.text,
-                                  applcntState: mngctrl.applicid?.state,
-                                  applcntTehsil: mngctrl.applicid?.tehsil,
-                                  applcntVillage: mngctrl.applicid?.village,
-                                  gateID: mngctrl.gateId,
-                                  entryType: "ONLINE",
-                                  applcntAddress: mngctrl.applicid?.address,
-                                ));
-                                pagectrl.setmainpageindex(ind: 2);
+                            if (res.entries.first.value != -1) {
+                              mngctrl.getDocumentDetails(
+                                  docID: docIdController.text,
+                                  docType: mngctrl.getPermit?.idProof ?? "");
+
+                              // if the applicant already exists and the exit status is true
+                              if (mngctrl.applicid == null ||
+                                  (mngctrl.applicid != null &&
+                                      mngctrl.applicid!.statusExit != false)) {
+                                if (mngctrl.applicid != null) {
+                                  mngctrl.addPermit(VisitorEntry(
+                                    applcntDOB: mngctrl.applicid?.dob,
+                                    applcntDistrict: mngctrl.applicid?.district ?? "",
+                                    applcntEmail: mngctrl.applicid?.email,
+                                    applcntGender: mngctrl.applicid?.gender ?? "",
+                                    applcntParent: mngctrl.applicid?.parentName,
+                                    applcntMobile: mngctrl.applicid?.mobile,
+                                    applcntPoliceStation: mngctrl.applicid?.policeStation,
+                                    applcntName: mngctrl.applicid?.name,
+                                    applcntHNo: mngctrl.applicid?.houseNo,
+                                    idProof: mngctrl.getPermit?.idProof ?? "",
+                                    idNo: docIdController.text,
+                                    applcntState: mngctrl.applicid?.state,
+                                    applcntTehsil: mngctrl.applicid?.tehsil,
+                                    applcntVillage: mngctrl.applicid?.village,
+                                    gateID: mngctrl.gateId,
+                                    entryType: "ONLINE",
+                                    applcntAddress: mngctrl.applicid?.address,
+                                  ));
+                                  pagectrl.setmainpageindex(ind: 2);
+                                } else {
+                                  //demo
+                                  // mngctrl.addPermit(dummyVisitorEntrys);
+                                  // imgcon.demoImage();
+                                  // if( mngctrl.getPermit?.idProof == "Aadhaar Card"){
+
+                                  //       setState(() {
+                                  //         isOtpscreen = true;
+                                  //       });
+
+                                  // } else{
+
+                                  //   pagectrl.setmainpageindex(ind: 2);
+                                  // }
+                                  pagectrl.setmainpageindex(ind: 2);
+                                }
                               } else {
-                                //demo
-                                // mngctrl.addPermit(dummyVisitorEntrys);
-                                // imgcon.demoImage();
-                                // if( mngctrl.getPermit?.idProof == "Aadhaar Card"){
+                                ///here is the exit status part if the user is not yet exited
+                                ///instruct to go to the counter
+                                if (mngctrl.applicid != null) {
+                                  Get.dialog(AlertDialog(
+                                    content: RepaintBoundary(
+                                        key: _globlkey,
+                                        child: ReceiptWidget(
+                                            applicantName: mngctrl.getPermit?.applcntName ?? "NA",
+                                            applicantId: mngctrl.applicid!.applicationNo)),
+                                  ));
+                                }
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'Current Permit Holder Has Not Exited',
+                                        style: TextStyle(fontSize: 30),
+                                      ),
+                                      content: Text(
+                                        'You must exit the current permit before applying for a new one. Please contact the ILP counter for further guidance',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
 
-                                //       setState(() {
-                                //         isOtpscreen = true;
-                                //       });
+                                Future.delayed(Duration(seconds: 3)).then(
+                                  (value) async {
+                                    print("nav Keys sdsd");
+                                    await imgcon.saveReceipt(
+                                        _globlkey,
+                                        mngctrl.applicid?.applicationNo ?? "",
+                                        // . Please ensure you have officially checked out before proceeding with a new application.
+                                        "First exit your Permit");
+                                    print("nav Keys");
 
-                                // } else{
+                                    Get.back();
+                                    Get.back();
 
-                                //   pagectrl.setmainpageindex(ind: 2);
-                                // }
-                                pagectrl.setmainpageindex(ind: 2);
+                                    pagectrl.setmainpageindex(ind: 7);
+                                  },
+                                );
+
+                                /////dsadsadasd
+                                log('already exist');
+                                pagectrl.listenPageChange();
                               }
                             } else {
-                              ///here is the exit status part if the user is not yet exited
-                              ///instruct to go to the counter
-                              if (mngctrl.applicid != null) {
-                                Get.dialog(AlertDialog(
-                                  content: RepaintBoundary(
-                                      key: _globlkey,
-                                      child: ReceiptWidget(
-                                          applicantName:
-                                              mngctrl.getPermit?.applcntName ??
-                                                  "NA",
-                                          applicantId:
-                                              mngctrl.applicid!.applicationNo)),
-                                ));
-                              }
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text(
-                                      'Applicant Already Exist',
+                                      'Error Fetching Data',
                                       style: TextStyle(fontSize: 30),
                                     ),
                                     content: Text(
-                                      'You must first exit your Permit. Please ensure you have officially checked out before proceeding with a new application.',
+                                      'There are some issues fetching your data at our end. Please try again.',
                                       style: TextStyle(fontSize: 20),
                                     ),
                                     actions: [
@@ -564,27 +589,6 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                                   );
                                 },
                               );
-
-                              Future.delayed(Duration(seconds: 3)).then(
-                                (value) async {
-                                  print("nav Keys sdsd");
-                                  await imgcon.saveReceipt(
-                                      _globlkey,
-                                      mngctrl.applicid?.applicationNo ?? "",
-                                      // . Please ensure you have officially checked out before proceeding with a new application.
-                                      "First exit your Permit");
-                                  print("nav Keys");
-
-                                  Get.back();
-                                  Get.back();
-
-                                  pagectrl.setmainpageindex(ind: 7);
-                                },
-                              );
-
-                              /////dsadsadasd
-                              log('already exist');
-                              pagectrl.listenPageChange();
                             }
                           }
                         },
@@ -623,8 +627,7 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 0, 66, 234),
                     foregroundColor: Colors.white,
-                    textStyle: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
