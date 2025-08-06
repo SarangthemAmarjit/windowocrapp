@@ -2,7 +2,7 @@ List<String> genders = ["Male", "Female", "Others"];
 String gate = "Imphal Airport";
 String rupee = "₹";
 bool onlinePayment = true;
-bool isDebugmode = true;
+bool isDebugmode = false;
 String printername = "CUSTOM K80";
 final List<String> cardTypes = ['Aadhar', 'PAN', 'Voter', 'Driving Licence'];
 final List<String> purposes = ["Tourist", "Official", "Business", "Others"];
@@ -46,7 +46,12 @@ List<String> states = [
   "West Bengal"
 ];
 
-final List<String> documentTypes = ['Driving License', 'Passport', 'Aadhaar Card', 'Pan Card'];
+final List<String> documentTypes = [
+  'Driving License',
+  'Passport',
+  'Aadhaar Card',
+  'Pan Card'
+];
 
 List<String> termcondition = [
   "a)I shall be responsible for the good conduct during my stay in the state of Manipur.",
