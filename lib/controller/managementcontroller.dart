@@ -15,6 +15,7 @@ import 'package:camera_windows_example/widgets/paymentresultdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../cons/constant.dart';
 import '../models/gate.dart';
@@ -56,6 +57,7 @@ class Managementcontroller extends GetxController {
   String? ilpapi;
   String? printername;
   bool isdeviceCheck = false;
+  bool isUserAlreadyexist = false;
   @override
   void onInit() {
     super.onInit();
@@ -202,6 +204,7 @@ class Managementcontroller extends GetxController {
       // print(" doctype: $doctype  dociDno.: $docid");
       // print("Appid : ${appid?.toJson().toString()}");
       if (appid['status'] == 200) {
+        isUserAlreadyexist = true;
         _applicid = appid['data'];
         state = _applicid?.state;
         applicationId = _applicid!.applicationNo;
@@ -334,26 +337,35 @@ class Managementcontroller extends GetxController {
     // print("TransactionID ::: ${_permit?.transactionId} ${_applicid?.applicationNo} ");
     // print(":::::::::::");
 
-    _permit!.transactionId = dummyVisitor.transactionId;
-
-    // print(" permit to post: ${_permit?.toJson().toString()}");
-    currentPermit = _permit;
-    update();
-
     if (_applicid != null && _applicid!.applicationNo.isNotEmpty) {
       Map<String?, dynamic> ds = await apicall!
           .updatePermit(passport, idcard, signature, _permit!, _applicid!.applicationNo);
       // print('$ds $isLoading');
       String? appid = ds["applicationId"];
       var orderid = ds["orderId"];
+      _permit!.transactionId = isCash ? "CASH" : ds['TransactionId'];
+
+      // print(" permit to post: ${_permit?.toJson().toString()}");
+      currentPermit = _permit;
+      update();
       return ds.entries.first.value == 0 ? {} : {'appid': appid, 'orderid': orderid};
     } else {
       Map<String?, dynamic> ds = await apicall!.addPermit(passport, idcard, signature, _permit!);
       // print('$ds $isLoading');
       String? appid = ds["applicationId"];
       var orderid = ds["orderId"];
+      _permit!.transactionId = ds['transactionId'];
+
+      // print(" permit to post: ${_permit?.toJson().toString()}");
+      currentPermit = _permit;
+      update();
       // log('Return Orderid map : ' + ds.toString());
-      return appid == null ? {} : {"appid": appid, "orderid": orderid};
+      return appid == null
+          ? {}
+          : {
+              "appid": appid,
+              "orderid": orderid,
+            };
     }
   }
 
@@ -412,7 +424,7 @@ class Managementcontroller extends GetxController {
 
     PaymentResponse? payres = await apicall!.sendPayment(payment);
 
-    if (payres != null && payres.permitNo.isNotEmpty) {
+    if (payres != null) {
       paymentresult = payres;
       update();
 
@@ -420,26 +432,30 @@ class Managementcontroller extends GetxController {
           barrierDismissible: pays.status.toLowerCase() != 'success',
           Dialog(
             child: PaymentResultDialog(
+              amount: pays.amount,
               isSuccess: pays.status.toLowerCase() == 'success',
               callback: () async {},
             ),
           ));
-      if (payres.permitNo.isNotEmpty) {
+      if (payres.permitNo != null && payres.permitNo!.isNotEmpty) {
         await Future.delayed(Duration(milliseconds: 2000));
-        await Get.find<Imagecontroller>().saveReceiptimages(key, printername ?? "CUSTOM K80");
+        await Get.find<Imagecontroller>()
+            .saveReceiptimages(key, printername ?? "CUSTOM K80 (Copy 1)");
         Future.delayed(Duration(milliseconds: 2000));
         Get.back();
         Get.find<PagenavControllers>().setmainpageindex(ind: 5);
       } else {
-        printUsbReceiptWindowsonline(onlineAplicant ?? "", payres.permitNo ?? "",
-            printername: printername ?? "CUSTOM K80");
+        printUsbReceiptWindowsonline(
+            onlineAplicant ?? "", "", {payres.transactionId ?? "": payres.date ?? ""},
+            printername: printername ?? "CUSTOM K80 (Copy 1)");
 
         Get.find<PagenavControllers>().setmainpageindex(ind: 6);
       }
       setOnlineApplId(null);
     } else {
-      printUsbReceiptWindowsonline(onlineAplicant ?? "", payres?.permitNo ?? "",
-          printername: printername ?? "CUSTOM K80");
+      printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
+          {pays.paymentId: DateFormat('dd/MM/yyyy').format(DateTime.now())},
+          printername: printername ?? "CUSTOM K80 (Copy 1)");
       setOnlineApplId(null);
       Get.find<PagenavControllers>().setmainpageindex(ind: 6);
     }
@@ -459,5 +475,6 @@ class Managementcontroller extends GetxController {
     paymentresult = null;
     currentPermit = null;
     _applicid = null;
+    isUserAlreadyexist = false;
   }
 }

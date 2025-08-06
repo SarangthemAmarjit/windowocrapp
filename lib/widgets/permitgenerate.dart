@@ -355,7 +355,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidget> {
                                   Text("Processing Fee",
                                       style: TextStyle(fontSize: 30, color: Colors.black)),
                                   Text(
-                                      "${widget.paymentResponse.amount - (mngctrl.getPermitPrice != null ? mngctrl.getPermitPrice!.fee : 0.0)}",
+                                      "${widget.paymentResponse.amount! - (mngctrl.getPermitPrice != null ? mngctrl.getPermitPrice!.fee : 0.0)}",
                                       style: TextStyle(fontSize: 30, color: Colors.black))
                                 ],
                               ),

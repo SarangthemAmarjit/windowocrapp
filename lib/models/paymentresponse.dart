@@ -48,20 +48,20 @@ class Payment {
 }
 
 class PaymentResponse {
-  final String permitType;
-  final String permitNo;
-  final String applicantName;
-  final String applicantParent;
-  final String idNo;
-  final String dateOfIssue;
-  final String validUpto;
-  final String placeOfStay;
-  final String status;
-  final String orderId;
-  final String transactionId;
-  final String date;
-  final double amount;
-  final String paymentMode;
+  final String? permitType;
+  final String? permitNo;
+  final String? applicantName;
+  final String? applicantParent;
+  final String? idNo;
+  final String? dateOfIssue;
+  final String? validUpto;
+  final String? placeOfStay;
+  final String? status;
+  final String? orderId;
+  final String? transactionId;
+  final String? date;
+  final double? amount;
+  final String? paymentMode;
 
   PaymentResponse({
     required this.permitType,
@@ -91,7 +91,7 @@ class PaymentResponse {
       validUpto: json['validUpto'],
       placeOfStay: json['placeofStay'], // Adjusting key to match JSON format
       status: json['status'],
-      orderId: json['orderId'],
+      orderId: json['invoiceNo'],
       transactionId: json['transactionId'],
       date: json['date'],
       amount: (json['amount'] as num).toDouble(),
@@ -109,7 +109,7 @@ class PaymentResponse {
       'dateOfIssue': dateOfIssue,
       'validUpto': validUpto,
       'placeofStay': placeOfStay,
-      'status': status.toUpperCase(),
+      'status': status?.toUpperCase(),
       'orderId': orderId,
       'transactionId': transactionId,
       'date': date,

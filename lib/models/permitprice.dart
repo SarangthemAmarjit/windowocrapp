@@ -11,11 +11,11 @@ String permitPriceModelToJson(List<PermitPriceModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class PermitPriceModel {
-  final int permitId;
-  final String permitName;
-  final double fee;
-  final double? renewFee;
-  final int validityDays;
+  int permitId;
+  String permitName;
+  double fee;
+  double? renewFee;
+  int validityDays;
 
   PermitPriceModel({
     required this.permitId,

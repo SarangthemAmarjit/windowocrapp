@@ -1,4 +1,4 @@
 device_id=5
 gate_id=2
 ilpapi=
-printer=CUSTOM K80
+printer=CUSTOM K80 (Copy 1)

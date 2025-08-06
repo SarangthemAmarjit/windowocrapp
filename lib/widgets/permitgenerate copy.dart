@@ -370,7 +370,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                                   style:
                                                       TextStyle(fontSize: 30, color: Colors.black)),
                                               Text(
-                                                  "${(widget.paymentResponse.amount - (mngctrl.getPermitPrice != null ? mngctrl.getPermitPrice!.fee : 0.0)).toStringAsFixed(2)}",
+                                                  "${(widget.paymentResponse.amount! - (mngctrl.getPermitPrice != null ? mngctrl.getPermitPrice!.fee : 0.0)).toStringAsFixed(2)}",
                                                   style:
                                                       TextStyle(fontSize: 30, color: Colors.black))
                                             ],
@@ -386,7 +386,7 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                                   style:
                                                       TextStyle(fontSize: 30, color: Colors.black)),
                                               Text(
-                                                  "${widget.paymentResponse.amount.toStringAsFixed(2)}",
+                                                  "${widget.paymentResponse.amount?.toStringAsFixed(2)}",
                                                   style:
                                                       TextStyle(fontSize: 30, color: Colors.black))
                                             ],
