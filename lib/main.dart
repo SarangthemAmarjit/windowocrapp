@@ -6,7 +6,6 @@ import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
@@ -14,10 +13,10 @@ import 'home/landingpage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
-  windowManager.waitUntilReadyToShow().then((_) async {
-    await windowManager.setFullScreen(true);
-  });
+  // await windowManager.ensureInitialized();
+  // windowManager.waitUntilReadyToShow().then((_) async {
+  //   await windowManager.setFullScreen(true);
+  // });
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
   Get.put(Imagecontroller());
