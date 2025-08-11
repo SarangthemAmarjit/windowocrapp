@@ -823,7 +823,9 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   padding: const EdgeInsets.all(32.0),
                                                   child: Column(
                                                     children: [
-                                                      CircularProgressIndicator(),
+                                                      CircularProgressIndicator(
+                                                        color: Colors.blue,
+                                                      ),
                                                       SizedBox(
                                                         height: 20,
                                                       ),
@@ -1074,8 +1076,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                       email: mngctrl.getPermit?.applcntEmail ?? "",
                                                       number:
                                                           mngctrl.getPermit?.applcntMobile ?? "",
-                                                      transId:
-                                                          mngctrl.getPermit?.transactionId ?? "",
+                                                      transId: 'KI${s['orderid']}',
                                                       context: context,
                                                       responseHashKey: gcontroller.responseHashKey,
                                                       responseDecryptionKey:
@@ -1083,6 +1084,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                       amount:
                                                           mngctrl.getPermitPrice?.fee.toString() ??
                                                               "100",
+                                                      // amount: '2',
                                                       address:
                                                           mngctrl.getPermit?.applcntAddress ?? 'NA',
                                                       name: mngctrl.getPermit?.applcntName ?? 'NA',

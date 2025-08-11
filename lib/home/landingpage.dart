@@ -20,6 +20,12 @@ class LandingPage extends StatelessWidget {
           return Scaffold(
               backgroundColor: const Color.fromARGB(255, 162, 207, 240),
               body: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                  const Color.fromARGB(255, 68, 143, 197),
+                  const Color.fromARGB(255, 162, 207, 240),
+                  const Color.fromARGB(255, 162, 207, 240),
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 width: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,

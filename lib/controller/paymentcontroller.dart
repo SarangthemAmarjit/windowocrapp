@@ -204,12 +204,11 @@ class GetxTapController extends GetxController {
 
   // final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
   // final String paymentDomainURL = "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
-  // // final String auth_API_url =
-  // //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
+  // final String auth_API_url = "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
   // final String returnUrl = "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
-  // // final String returnUrl =
-  // //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
+  // final String returnUrl =
+  //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 
   final String payDetails = '';
 

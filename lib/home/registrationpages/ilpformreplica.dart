@@ -233,7 +233,8 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                       SizedBox(
                         height: firspage ? 0 : 20,
                       ),
-                      mngctrl.getPermit != null &&
+                      mngctrl.isUserAlreadyexist &&
+                              mngctrl.getPermit != null &&
                               (mngctrl.getPermit!.applcntName != null &&
                                   mngctrl.getPermit!.applcntName!.isNotEmpty)
                           ? Text(
@@ -1039,9 +1040,13 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         readOnly: true,
         showCursor: true, // Still show the cursor
         enableInteractiveSelection: true,
+
         buildCounter: (context, {required currentLength, required isFocused, required maxLength}) =>
             SizedBox(),
         decoration: InputDecoration(
+          hintStyle: TextStyle(color: Colors.black),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4), borderSide: BorderSide(color: Colors.black)),
           enabled: widget.enable!,
           errorStyle: TextStyle(
             color: Colors.red, // Change error text color
@@ -1049,10 +1054,11 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             // Change font size
             // fontWeight: FontWeight.bold, // Make it bold
           ),
+          focusColor: Colors.black,
           contentPadding: widget.contentpadding,
-          labelStyle: TextStyle(fontSize: 20),
+          labelStyle: TextStyle(fontSize: 20, color: Colors.black),
           labelText: widget.mandatory ? "* ${widget.label}" : widget.label,
-          floatingLabelStyle: TextStyle(fontSize: 20),
+          floatingLabelStyle: TextStyle(fontSize: 20, color: Colors.black),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         ),
         inputFormatters: [UpperCaseTextFormatter()],

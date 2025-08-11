@@ -3,6 +3,7 @@ import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -65,22 +66,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   SizedBox(height: 40),
                   Text(
-                    'Manipur welcomes you to experience its rich culture, breathtaking landscapes, and vibrant traditions. To ensure smooth and lawful entry, the Government of Manipur mandates the issuance of an Inner Line Permit (ILP) for visitors.',
+                    'Manipur welcomes you to experience its rich culture, breathtaking landscapes, and vibrant traditions.\nTo ensure smooth and lawful entry, the Government of Manipur mandates the issuance of an Inner Line Permit (ILP) for visitors.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 22,
                       color: Colors.black,
                     ),
                   ),
-                  Text(
-                    'This system is designed to make the process simple, efficient, and user-friendly.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(height: 40),
+                  // Text(
+                  //   'This system is designed to make the process simple, efficient, and user-friendly.',
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //     fontSize: 22,
+                  //     color: Colors.black,
+                  //   ),
+                  // ),
+                  SizedBox(height: 60),
                   Text(
                     'LET’S GET STARTED',
                     textAlign: TextAlign.center,
@@ -107,36 +108,77 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         pagecon.listenPageChange();
                       } else {
                         Get.dialog(Dialog(
-                            child: Container(
-                                padding: EdgeInsets.all(32),
-                                height: 230,
-                                width: 400,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              Get.back();
-                                            },
-                                            icon: Icon(Icons.close))
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      "Fetching documents...\nPlease wait for some time",
-                                      style: TextStyle(fontSize: 24),
-                                    )
-                                  ],
-                                ))));
+                            insetPadding: EdgeInsets.zero,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 600),
+                              child: Container(
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration:
+                                      BoxDecoration(borderRadius: BorderRadius.circular(24)),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            child: Image.asset(
+                                              'assets/images/searching.gif',
+                                              height: 300,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: 0,
+                                            right: 0,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(16.0),
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    Get.back();
+                                                  },
+                                                  icon: Icon(Icons.close)),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Text(
+                                          "Fetching documents...\nPlease wait for some time",
+                                          style: TextStyle(fontSize: 24),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                    ],
+                                  )),
+                            )));
                       }
                     },
-                    child: const Text(
-                      'Apply for New Permit',
-                      style: TextStyle(fontSize: 25, color: Colors.white),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          height: 30,
+                          width: 30,
+                          'assets/images/permitsvg.svg',
+                          fit: BoxFit.fill,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        const Text(
+                          'Apply New Permit',
+                          style: TextStyle(fontSize: 25, color: Colors.white),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 10),

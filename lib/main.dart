@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
-import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +10,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
+import 'home/landingpage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,18 +51,43 @@ class _MyAppState extends State<MyApp> {
               visualDensity: VisualDensity.standard,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               backgroundColor: Colors.blueAccent,
-              foregroundColor: Colors.white,
-              textStyle: GoogleFonts.robotoCondensedTextTheme().bodyLarge?.copyWith(
+              foregroundColor: Colors.grey,
+              textStyle: GoogleFonts.ralewayTextTheme().bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
             ),
           ),
+          datePickerTheme: DatePickerThemeData(
+              backgroundColor: Colors.grey[300]!,
+              rangeSelectionBackgroundColor:
+                  WidgetStateColor.resolveWith((c) => Colors.blue.withValues(alpha: 0.2)),
+              dayOverlayColor:
+                  WidgetStateColor.resolveWith((c) => Colors.blue.withValues(alpha: 0.2)),
+              todayBackgroundColor: WidgetStateColor.resolveWith((c) => Colors.grey[300]!),
+              dayStyle: TextStyle(color: Colors.grey[900]),
+              rangeSelectionOverlayColor:
+                  WidgetStateColor.resolveWith((c) => Colors.blue.withValues(alpha: 0.2)),
+              cancelButtonStyle:
+                  ButtonStyle(foregroundColor: WidgetStateColor.resolveWith((e) => Colors.blue)),
+              confirmButtonStyle:
+                  ButtonStyle(foregroundColor: WidgetStateColor.resolveWith((e) => Colors.blue))),
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
-          colorSchemeSeed: Colors.white),
+          colorScheme: ColorScheme(
+              brightness: Brightness.light,
+              primary: Colors.white,
+              onPrimary: Colors.black,
+              secondary: Colors.blue,
+              onSecondary: Colors.blue.withValues(alpha: 0.5),
+              error: Colors.redAccent,
+              onError: Colors.white,
+              surface: Colors.white,
+              onSurface: Colors.black)),
       // home: Paymentdemo(),
       home: LandingPage(),
       // home: MyWidget()
-      // home:PermitGenerateWidget(applicantId: "123485986768"),
+      // home:PermitGenerateWidget(
+
+      //   applicantId: "123485986768"),
     );
   }
 }

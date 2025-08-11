@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-import 'package:camera_windows_example/widgets/customkeys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:win32/win32.dart';
@@ -24,7 +23,7 @@ class _WebViewPageState extends State<WebViewPage> {
       TEXT(r'C:\Program Files\Common Files\microsoft shared\ink\TabTip.exe'),
       nullptr,
       nullptr,
-      SW_SHOWNORMAL,
+      SHOW_WINDOW_CMD.SW_SHOWNORMAL,
     );
 
     if (hInstance <= 32) {
@@ -129,12 +128,10 @@ class _WebViewPageState extends State<WebViewPage> {
                 debugPrint('Failed to load $url: $message');
               },
               onJsAlert: (controller, jsAlertRequest) async {
-                return await JsAlertResponse(
-                    action: JsAlertResponseAction.fromNativeValue(10));
+                return await JsAlertResponse(action: JsAlertResponseAction.fromNativeValue(10));
               },
               onConsoleMessage: (controller, consoleMessage) {
-                debugPrint(
-                    "Console Message: ${consoleMessage.message}"); // Log console messages
+                debugPrint("Console Message: ${consoleMessage.message}"); // Log console messages
               },
             ),
           ),

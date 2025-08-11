@@ -213,7 +213,7 @@ void printUsbReceiptWindowsimages(Uint8List d, String printername) async {
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
 
-void printUsbReceiptWindowsonline(String applicantID, String permitno,
+void printUsbReceiptWindowsonline(String applicantID, String permitno, Map<String, String> trans,
     {required String printername}) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
@@ -240,9 +240,21 @@ void printUsbReceiptWindowsonline(String applicantID, String permitno,
         height: PosTextSize.size3,
         width: PosTextSize.size3,
       )));
-  bytes.addAll(generator.feed(1));
+  bytes.addAll(generator.feed(2));
+  if (trans.isNotEmpty) {
+    bytes.addAll(generator.text('Transaction ID', styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.feed(1));
+    bytes.addAll(generator.text('#${trans.entries.first.key}',
+        styles: const PosStyles(
+          align: PosAlign.center,
+          height: PosTextSize.size2,
+          width: PosTextSize.size2,
+        )));
+    bytes.addAll(generator.text('${trans.entries.first.value}',
+        styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.feed(1));
+  }
   if (permitno.isEmpty) {
-    bytes.addAll(generator.text('', styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.text('Your payment failed to process.',
         styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.text('Please go to the counter for further queries.',
@@ -268,7 +280,8 @@ void printUsbReceiptWindowsonline(String applicantID, String permitno,
   }
   // bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
 
-  bytes.addAll(generator.text(' ---------------------------------------------------------------'));
+  bytes.addAll(generator.text(' ---------------------------------------------------------------',
+      styles: const PosStyles(align: PosAlign.center)));
 
   // bytes.addAll(generator.text('Enjoy your stay!',
   //     styles: const PosStyles(align: PosAlign.center)));
@@ -276,7 +289,7 @@ void printUsbReceiptWindowsonline(String applicantID, String permitno,
   bytes.addAll(generator.cut());
 
   // Send raw bytes to USB printer
-  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes), Sizes(80, 180));
+  printToWindowsPrinter(printername, Uint8List.fromList(bytes), Sizes(80, 180));
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
 

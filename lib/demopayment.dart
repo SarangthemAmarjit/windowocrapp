@@ -1,14 +1,7 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
-import 'package:camera_windows_example/payment/atom_pay_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
-import 'package:http/http.dart' as http;
 
 class Paymentdemo extends StatelessWidget {
   // merchant configuration data
@@ -17,12 +10,9 @@ class Paymentdemo extends StatelessWidget {
   final String prodid = 'NSE'; //mandatory
   final String requestHashKey = 'KEY1234567234'; //mandatory
   final String responseHashKey = 'KEYRESP123657234'; //mandatory
-  final String requestEncryptionKey =
-      'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
-  final String responseDecryptionKey =
-      '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
-  final String txnid =
-      'test240223'; // mandatory // this should be unique each time
+  final String requestEncryptionKey = 'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+  final String responseDecryptionKey = '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+  final String txnid = 'test240223'; // mandatory // this should be unique each time
   final String clientcode = "NAVIN"; //mandatory
   final String txncurr = "INR"; //mandatory
   final String mccCode = "5499"; //mandatory
@@ -48,8 +38,7 @@ class Paymentdemo extends StatelessWidget {
   // final String auth_API_url =
   //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
-  final String returnUrl =
-      "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
+  final String returnUrl = "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
   // final String returnUrl =
   //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 

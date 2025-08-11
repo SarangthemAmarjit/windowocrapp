@@ -1,8 +1,7 @@
-import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/models/paymentresponse.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
+import '../cons/printimages.dart';
 import 'permitgenerate copy.dart';
 
 class MyWidget extends StatefulWidget {
@@ -41,7 +40,10 @@ class _MyWidgetState extends State<MyWidget> {
                   paymentMode: "online")),
           ElevatedButton(
             onPressed: () {
-              Get.find<Imagecontroller>().saveReceiptimages(d, "CUSTOM K80");
+              // Get.find<Imagecontroller>().saveReceiptimages(d, printername);
+              printUsbReceiptWindowsonline(
+                  "124385493859", '', {'AI2478347384783748734834': '12/2/2025'},
+                  printername: "CUSTOM K80 (Copy 1)");
             },
             child: Text("Press"),
           ),
