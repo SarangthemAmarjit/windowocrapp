@@ -744,27 +744,6 @@ class _PaymentCardState extends State<PaymentCard> {
                             imgcon.profileImage!,
                             imgcon.idCardimage!,
                             imgcon.signature!,
-                            address: mngctrl.getPermit?.applcntAddress ?? "",
-                            applydistrict: mngctrl.getPermit?.district ?? "",
-                            districtss: mngctrl.getPermit?.applcntDistrict ?? "",
-                            dob: mngctrl.getPermit!.applcntDOB!,
-                            email: mngctrl.getPermit?.applcntEmail ?? "",
-                            gender: mngctrl.getPermit?.applcntGender ?? "",
-                            idProofs: mngctrl.getPermit?.idProof ?? "",
-                            idno: mngctrl.getPermit?.idNo ?? "",
-                            mobile: mngctrl.getPermit?.applcntMobile ?? "",
-                            name: mngctrl.getPermit?.applcntName ?? "",
-                            parentname: mngctrl.getPermit?.applcntParent ?? "",
-                            pincode: mngctrl.getPermit?.pinCode ?? "",
-                            placestay: mngctrl.getPermit?.placeOfStay ?? "",
-                            polstation: mngctrl.getPermit?.applcntPoliceStation ?? "",
-                            purposeVisits: mngctrl.getPermit?.purposeVisit ?? "",
-                            state: mngctrl.getPermit?.applcntState ?? "",
-                            tehsl: mngctrl.getPermit?.applcntTehsil ?? "",
-                            village: mngctrl.getPermit?.applcntVillage ?? "",
-                            visitDates: DateTime.now(),
-                            localres: mngctrl.getPermit?.lrName ?? 'NA',
-                            localnearestpol: mngctrl.getPermit?.nearestPS ?? "NA",
                           );
 
                           setState(() {
@@ -865,36 +844,6 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     imgcon.profileImage!,
                                                     imgcon.idCardimage!,
                                                     imgcon.signature!,
-                                                    address:
-                                                        mngctrl.getPermit?.applcntAddress ?? "",
-                                                    applydistrict:
-                                                        mngctrl.getPermit?.district ?? "",
-                                                    districtss:
-                                                        mngctrl.getPermit?.applcntDistrict ?? "",
-                                                    dob: mngctrl.getPermit!.applcntDOB!,
-                                                    email: mngctrl.getPermit?.applcntEmail ?? "",
-                                                    gender: mngctrl.getPermit?.applcntGender ?? "",
-                                                    idProofs: mngctrl.getPermit?.idProof ?? "",
-                                                    idno: mngctrl.getPermit?.idNo ?? "",
-                                                    mobile: mngctrl.getPermit?.applcntMobile ?? "",
-                                                    name: mngctrl.getPermit?.applcntName ?? "",
-                                                    parentname:
-                                                        mngctrl.getPermit?.applcntParent ?? "",
-                                                    pincode: mngctrl.getPermit?.pinCode ?? "",
-                                                    placestay: mngctrl.getPermit?.placeOfStay ?? "",
-                                                    polstation:
-                                                        mngctrl.getPermit?.applcntPoliceStation ??
-                                                            "",
-                                                    purposeVisits:
-                                                        mngctrl.getPermit?.purposeVisit ?? "",
-                                                    state: mngctrl.getPermit?.applcntState ?? "",
-                                                    tehsl: mngctrl.getPermit?.applcntTehsil ?? "",
-                                                    village:
-                                                        mngctrl.getPermit?.applcntVillage ?? "",
-                                                    visitDates: DateTime.now(),
-                                                    localres: mngctrl.getPermit?.lrName ?? 'NA',
-                                                    localnearestpol:
-                                                        mngctrl.getPermit?.nearestPS ?? "NA",
                                                   );
 
                                                   sta(() {
@@ -1027,43 +976,6 @@ class _PaymentCardState extends State<PaymentCard> {
                                                         imgcon.profileImage!,
                                                         imgcon.idCardimage!,
                                                         imgcon.signature!,
-                                                        address:
-                                                            mngctrl.getPermit?.applcntAddress ?? "",
-                                                        applydistrict:
-                                                            mngctrl.getPermit?.district ?? "",
-                                                        districtss:
-                                                            mngctrl.getPermit?.applcntDistrict ??
-                                                                "",
-                                                        dob: mngctrl.getPermit!.applcntDOB!,
-                                                        email: mngctrl.getPermit?.applcntEmail ??
-                                                            "ilppay@gmail.com",
-                                                        gender:
-                                                            mngctrl.getPermit?.applcntGender ?? "",
-                                                        idProofs: mngctrl.getPermit?.idProof ?? "",
-                                                        idno: mngctrl.getPermit?.idNo ?? "",
-                                                        mobile:
-                                                            mngctrl.getPermit?.applcntMobile ?? "",
-                                                        name: mngctrl.getPermit?.applcntName ?? "",
-                                                        parentname:
-                                                            mngctrl.getPermit?.applcntParent ?? "",
-                                                        pincode: mngctrl.getPermit?.pinCode ?? "",
-                                                        placestay:
-                                                            mngctrl.getPermit?.placeOfStay ?? "",
-                                                        polstation: mngctrl
-                                                                .getPermit?.applcntPoliceStation ??
-                                                            "",
-                                                        purposeVisits:
-                                                            mngctrl.getPermit?.purposeVisit ?? "",
-                                                        state:
-                                                            mngctrl.getPermit?.applcntState ?? "",
-                                                        tehsl:
-                                                            mngctrl.getPermit?.applcntTehsil ?? "",
-                                                        village:
-                                                            mngctrl.getPermit?.applcntVillage ?? "",
-                                                        visitDates: DateTime.now(),
-                                                        localres: mngctrl.getPermit?.lrName ?? 'NA',
-                                                        localnearestpol:
-                                                            mngctrl.getPermit?.nearestPS ?? "NA",
                                                       )
                                                       .whenComplete(() => Get.back());
 

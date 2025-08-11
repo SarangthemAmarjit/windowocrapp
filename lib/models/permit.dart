@@ -132,7 +132,7 @@ class VisitorEntry {
       'Amount': amount ?? "NA",
       'TransactionId': transactionId ?? "NA",
       'LRName': lrName ?? "NA",
-      'LRPhone': lrName ?? "NA",
+      'LRPhone': lrPhone ?? "NA",
       'NearestPS': nearestPS ?? "NA",
     };
   }
@@ -168,7 +168,7 @@ class VisitorEntry {
       'Amount': amount ?? "NA",
       'TransactionId': transactionId ?? "NA",
       'LRName': lrName ?? "NA",
-      'LRPhone': lrName ?? "NA",
+      'LRPhone': lrPhone ?? "NA",
       'NearestPS': nearestPS ?? "NA",
     };
   }

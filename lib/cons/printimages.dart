@@ -140,7 +140,8 @@ Future<Uint8List> getBytesFromAsset(String path) async {
   return data.buffer.asUint8List();
 }
 
-void printUsbReceiptWindows(Uint8List d, String applicantID, String reason) async {
+void printUsbReceiptWindows(
+    String printername, Uint8List d, String applicantID, String reason) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
@@ -193,7 +194,7 @@ void printUsbReceiptWindows(Uint8List d, String applicantID, String reason) asyn
   bytes.addAll(generator.cut());
 
   // Send raw bytes to USB printer
-  printToWindowsPrinter("CUSTOM K80", Uint8List.fromList(bytes), Sizes(80, 180));
+  printToWindowsPrinter(printername, Uint8List.fromList(bytes), Sizes(80, 180));
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
 
