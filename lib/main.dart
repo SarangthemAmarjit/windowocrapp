@@ -49,7 +49,8 @@ class _MyAppState extends State<MyApp> {
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               visualDensity: VisualDensity.standard,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
               backgroundColor: Colors.blueAccent,
               foregroundColor: Colors.grey,
               textStyle: GoogleFonts.ralewayTextTheme().bodyLarge?.copyWith(
@@ -59,18 +60,21 @@ class _MyAppState extends State<MyApp> {
           ),
           datePickerTheme: DatePickerThemeData(
               backgroundColor: Colors.grey[300]!,
-              rangeSelectionBackgroundColor:
-                  WidgetStateColor.resolveWith((c) => Colors.blue.withValues(alpha: 0.2)),
-              dayOverlayColor:
-                  WidgetStateColor.resolveWith((c) => Colors.blue.withValues(alpha: 0.2)),
-              todayBackgroundColor: WidgetStateColor.resolveWith((c) => Colors.grey[300]!),
+              rangeSelectionBackgroundColor: WidgetStateColor.resolveWith(
+                  (c) => Colors.blue.withValues(alpha: 0.2)),
+              dayOverlayColor: WidgetStateColor.resolveWith(
+                  (c) => Colors.blue.withValues(alpha: 0.2)),
+              todayBackgroundColor:
+                  WidgetStateColor.resolveWith((c) => Colors.grey[300]!),
               dayStyle: TextStyle(color: Colors.grey[900]),
-              rangeSelectionOverlayColor:
-                  WidgetStateColor.resolveWith((c) => Colors.blue.withValues(alpha: 0.2)),
-              cancelButtonStyle:
-                  ButtonStyle(foregroundColor: WidgetStateColor.resolveWith((e) => Colors.blue)),
-              confirmButtonStyle:
-                  ButtonStyle(foregroundColor: WidgetStateColor.resolveWith((e) => Colors.blue))),
+              rangeSelectionOverlayColor: WidgetStateColor.resolveWith(
+                  (c) => Colors.blue.withValues(alpha: 0.2)),
+              cancelButtonStyle: ButtonStyle(
+                  foregroundColor:
+                      WidgetStateColor.resolveWith((e) => Colors.blue)),
+              confirmButtonStyle: ButtonStyle(
+                  foregroundColor:
+                      WidgetStateColor.resolveWith((e) => Colors.blue))),
           textTheme: GoogleFonts.robotoCondensedTextTheme(),
           colorScheme: ColorScheme(
               brightness: Brightness.light,
@@ -106,12 +110,14 @@ class MyHttpOverrides extends HttpOverrides {
 
 class NoScrollbarBehavior extends ScrollBehavior {
   @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(
+      BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 
   @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }

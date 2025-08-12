@@ -76,7 +76,9 @@ class VisitorEntry {
       applcntName: json['Applcnt_Name'] as String?,
       applcntParent: json['Applcnt_Parent'] as String?,
       applcntGender: json['Applcnt_Gender'] as String?,
-      applcntDOB: json['Applcnt_DOB'] != null ? DateTime.parse(json['Applcnt_DOB']) : null,
+      applcntDOB: json['Applcnt_DOB'] != null
+          ? DateTime.parse(json['Applcnt_DOB'])
+          : null,
       applcntEmail: json['Applcnt_Email'] as String?,
       applcntMobile: json['Applcnt_Mobile'] as String?,
       applcntAddress: json['Applcnt_Address'] as String?,
@@ -132,7 +134,7 @@ class VisitorEntry {
       'Amount': amount ?? "NA",
       'TransactionId': transactionId ?? "NA",
       'LRName': lrName ?? "NA",
-      'LRPhone': lrName ?? "NA",
+      'LRPhone': lrPhone ?? "NA",
       'NearestPS': nearestPS ?? "NA",
     };
   }
@@ -168,7 +170,7 @@ class VisitorEntry {
       'Amount': amount ?? "NA",
       'TransactionId': transactionId ?? "NA",
       'LRName': lrName ?? "NA",
-      'LRPhone': lrName ?? "NA",
+      'LRPhone': lrPhone ?? "NA",
       'NearestPS': nearestPS ?? "NA",
     };
   }

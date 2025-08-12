@@ -503,8 +503,10 @@ class GetxTapController extends GetxController {
       Uint8List barcodes = byteData!.buffer.asUint8List();
       Get.back();
       try {
+        String printers =
+            Get.find<Managementcontroller>().printername ?? "CUSTOM K80";
         printUsbReceiptWindows(
-            barcodes, s, "The online payment failed to process");
+            printers, barcodes, s, "The online payment failed to process");
       } catch (e) {
         debugPrint("Printere Exception");
       }

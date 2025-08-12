@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:camera_windows_example/cons/printimages.dart';
+import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:crop_image/crop_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -148,8 +149,8 @@ class Imagecontroller extends GetxController {
       ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
-
-      printUsbReceiptWindows(receipt!, applicantId, reason);
+      String printers = Get.find<Managementcontroller>().printername ?? "CUSTOM K80";
+      printUsbReceiptWindows(printers, receipt!, applicantId, reason);
     } on Exception catch (e) {
       debugPrint("failed to save card image");
       // TODO

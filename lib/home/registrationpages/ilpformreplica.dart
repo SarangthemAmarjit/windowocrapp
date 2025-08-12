@@ -566,17 +566,15 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                                 node: _focusNodes['localResidencePhone']!,
                                                 'Local Residence Phone',
                                                 validator: (p) {
-                                                  return null;
-                                                  // if (p == null) {
-                                                  //   return null;
-                                                  // } else {
-                                                  //   if (p.isNumericOnly &&
-                                                  //       p.length == 10) {
-                                                  //     return null;
-                                                  //   } else {
-                                                  //     return 'Must be a Number';
-                                                  //   }
-                                                  // }
+                                                  if (p == null || p.isEmpty) {
+                                                    return null;
+                                                  } else {
+                                                    if (p.isNumericOnly && p.length == 10) {
+                                                      return null;
+                                                    } else {
+                                                      return 'Must be a Number';
+                                                    }
+                                                  }
                                                 },
                                                 _localresidencephone,
                                                 mandatory: false,

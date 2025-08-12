@@ -146,6 +146,7 @@ class _SuccesspagesState extends State<Successpages> {
 
                     Text(
                       "For Enquiry please go to the ILP Counter",
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.montserrat(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
