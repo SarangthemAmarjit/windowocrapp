@@ -346,18 +346,8 @@ class Managementcontroller extends GetxController {
   }
 
   void fetchPermitById(String permitnnum) async {
-    // isFetchPermit = true;
-    // currentPermit = permit;
     update();
     Map<String, IlPmodel?> x = await apicall!.fetchPermitData(permitnnum);
-    // _currentPermitData = x.entries.first.value;
-
-    // fetchPermitmessage = x.entries.first.key;
-    // isFetchPermit = false;
-    // _addressloc = await getAddressFromLatLng(
-    //     double.tryParse(permit.latitude ?? '') ?? 0,
-    //     double.tryParse(permit.longitude ?? '') ?? 0);
-
     update();
   }
 

@@ -149,7 +149,8 @@ class Imagecontroller extends GetxController {
       ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
-      String printers = Get.find<Managementcontroller>().printername ?? "CUSTOM K80";
+      String printers =
+          Get.find<Managementcontroller>().printername ?? "CUSTOM K80";
       printUsbReceiptWindows(printers, receipt!, applicantId, reason);
     } on Exception catch (e) {
       debugPrint("failed to save card image");

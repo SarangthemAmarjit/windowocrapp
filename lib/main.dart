@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ Future<void> main() async {
   Get.put(Connectivitycontroller());
   Get.put(PagenavControllers());
   Get.put(Managementcontroller());
+  print("Parse any date :${parseAnyDate("12-08-2025 11:17:11")}");
 }
 
 class MyApp extends StatefulWidget {
