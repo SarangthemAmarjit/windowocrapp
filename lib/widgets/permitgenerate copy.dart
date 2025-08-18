@@ -36,7 +36,6 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
     d = QrScannerModel(
       applicantName: _permit?.applcntName ?? "",
       applicantParent: _permit?.applcntParent ?? "",
-
       idNo: _permit?.idNo ?? "",
       permitNo: widget.applicantId,
       hs: _permit?.applcntHNo ?? "",
@@ -44,8 +43,6 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
       placeOfStay: _permit?.placeOfStay ?? "",
       dateOfIssue: parseAnyDate(widget.paymentResponse.dateOfIssue ?? ""),
       validUpto: parseAnyDate(widget.paymentResponse.validUpto ?? ""),
-      // validUpto: DateTime.now().add(Duration(
-      //     days: (int.tryParse(_permit?.residingPeriod ?? "30") ?? 30)))
     );
   }
 

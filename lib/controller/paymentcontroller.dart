@@ -21,7 +21,6 @@ import '../home/landingpage.dart';
 import '../models/paymentresponse.dart';
 
 class GetxTapController extends GetxController {
-  GetxTapController();
   String? _validationError;
   String? get validationError => _validationError;
 

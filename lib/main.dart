@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
+import 'controller/paymentcontroller.dart';
 import 'home/landingpage.dart';
 
 Future<void> main() async {
@@ -24,7 +24,7 @@ Future<void> main() async {
   Get.put(Connectivitycontroller());
   Get.put(PagenavControllers());
   Get.put(Managementcontroller());
-  print("Parse any date :${parseAnyDate("12-08-2025 11:17:11")}");
+  Get.put(GetxTapController());
 }
 
 class MyApp extends StatefulWidget {

@@ -61,7 +61,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
 
   @override
   Widget build(BuildContext context) {
-    GetxTapController gcontroller = Get.put(GetxTapController());
+    GetxTapController gcontroller = Get.find<GetxTapController>();
     return WillPopScope(
       onWillPop: () => _handleBackButtonAction(context),
       child: GetBuilder<PagenavControllers>(builder: (pagectrl) {
