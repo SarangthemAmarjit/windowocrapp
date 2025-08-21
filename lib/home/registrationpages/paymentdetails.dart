@@ -819,16 +819,15 @@ class _PaymentCardState extends State<PaymentCard> {
                                                 });
                                                 if (s.isNotEmpty &&
                                                     mngctrl.getPermit != null &&
-                                                    mngctrl.getPermit!.transactionId != null) {
+                                                    mngctrl.getPermit!.transactionId != null &&
+                                                    mngctrl.getPermitPrice != null) {
                                                   mngctrl.setOnlineApplId(s["appid"]);
                                                   gcontroller.initNdpsPayment(
                                                     email: mngctrl.getPermit?.applcntEmail ?? "",
                                                     number: mngctrl.getPermit?.applcntMobile ?? "",
                                                     transId: mngctrl.getPermit!.transactionId!,
                                                     context: context,
-                                                    amount:
-                                                        mngctrl.getPermitPrice?.fee.toString() ??
-                                                            "100",
+                                                    amount: mngctrl.getPermitPrice!.fee.toString(),
                                                     address:
                                                         mngctrl.getPermit?.applcntAddress ?? 'NA',
                                                     name: mngctrl.getPermit?.applcntName ?? 'NA',

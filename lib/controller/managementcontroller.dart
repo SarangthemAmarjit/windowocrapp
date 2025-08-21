@@ -305,7 +305,6 @@ class Managementcontroller extends GetxController {
       var orderid = ds["orderId"];
       _permit!.transactionId = ds['transactionId'];
 
-      // print(" permit to post: ${_permit?.toJson().toString()}");
       currentPermit = _permit;
       update();
       // log('Return Orderid map : ' + ds.toString());

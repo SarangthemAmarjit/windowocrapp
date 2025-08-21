@@ -64,7 +64,7 @@ class ApicallImpl extends ApiCall {
         String? applicant = json["applicationId"];
         return json;
       } else {
-        debugPrint("${response.reasonPhrase} ${response.statusCode}");
+        debugPrint("vcvcv vcv${response.reasonPhrase} ${response.statusCode}");
       }
     } catch (e) {
       debugPrint("Error in addPermit: $e");
