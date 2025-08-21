@@ -817,12 +817,14 @@ class _PaymentCardState extends State<PaymentCard> {
                                                 sta(() {
                                                   isload = false;
                                                 });
-                                                if (s.isNotEmpty) {
+                                                if (s.isNotEmpty &&
+                                                    mngctrl.getPermit != null &&
+                                                    mngctrl.getPermit!.transactionId != null) {
                                                   mngctrl.setOnlineApplId(s["appid"]);
                                                   gcontroller.initNdpsPayment(
                                                     email: mngctrl.getPermit?.applcntEmail ?? "",
                                                     number: mngctrl.getPermit?.applcntMobile ?? "",
-                                                    transId: 'KI${s['orderid']}',
+                                                    transId: mngctrl.getPermit!.transactionId!,
                                                     context: context,
                                                     amount:
                                                         mngctrl.getPermitPrice?.fee.toString() ??
