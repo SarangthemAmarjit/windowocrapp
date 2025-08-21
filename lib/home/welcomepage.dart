@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../widgets/elevatedbuttoncard.dart';
 
 class WelcomeScreen extends StatefulWidget {
   WelcomeScreen({
@@ -38,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       return GetBuilder<PagenavControllers>(builder: (pagecon) {
         return Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 800),
+            constraints: BoxConstraints(maxWidth: 700),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -46,13 +49,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   SizedBox(
                     height: 100,
                   ),
+
                   Text(
-                    'Welcome to the Inner Line Permit (ILP)\nSystem – Manipur',
+                    'Welcome to the',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 40,
+                    style: GoogleFonts.inter(
+                      fontSize: 44,
+                      height: 0.5,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: const Color.fromARGB(255, 41, 40, 40),
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Inner Line Permit (ILP)\nSystem - Manipur',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.interTight(
+                      fontSize: 60,
+                      letterSpacing: 1,
+                      height: 1,
+                      shadows: [
+                        Shadow(
+                            color: Colors.black.withValues(alpha: 0.3),
+                            blurRadius: 2,
+                            offset: Offset(2, 3))
+                      ],
+                      fontWeight: FontWeight.bold,
+                      color: const Color.fromARGB(255, 26, 25, 25),
                     ),
                   ),
                   SizedBox(height: 8),
@@ -61,16 +84,27 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 25,
-                      color: Colors.grey[800],
+                      color: Colors.grey[900],
                     ),
                   ),
                   SizedBox(height: 40),
                   Text(
-                    'Manipur welcomes you to experience its rich culture, breathtaking landscapes, and vibrant traditions.\nTo ensure smooth and lawful entry, the Government of Manipur mandates the issuance of an Inner Line Permit (ILP) for visitors.',
+                    'Manipur welcomes you to experience its rich culture, breathtaking landscapes, and vibrant traditions.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.black,
+                        fontSize: 24,
+                        color: const Color.fromARGB(255, 26, 25, 25),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    'To ensure smooth and lawful entry, the Government of Manipur mandates the issuance of an Inner Line Permit (ILP) for visitors.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: const Color.fromARGB(255, 26, 25, 25),
                     ),
                   ),
                   // Text(
@@ -86,22 +120,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     'LET’S GET STARTED',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 42,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                        fontSize: 38,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 41, 40, 40)),
                   ),
+
                   SizedBox(height: 20),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 0, 66, 234),
-                      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    onPressed: () {
+                  // const SizedBox(height: 20),
+                  ElevatedButtonCard(
+                    callback: () {
                       if (mngctrl.getDocNames.isNotEmpty) {
                         pagecon.setmainpageindex(ind: 1);
                         //return to front page if not active for 30 seconds
@@ -181,13 +208,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 32),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 100.0),
                     child: const Text(
                       'Use this option to apply for a fresh ILP. Follow a few simple steps to fill in your details, submit necessary documents, and receive your permit instantly.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 22, color: Colors.black),
+                      style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                   ),
                   const SizedBox(height: 120),
@@ -261,8 +288,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 child: Text(
                                   e.value,
                                   style: TextStyle(
-                                    fontSize: 24,
-                                    color: Colors.blue,
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).colorScheme.secondary,
                                   ),
                                 )),
                           ),

@@ -64,8 +64,6 @@ class Paymentdemo extends StatelessWidget {
                 number: "3214234356",
                 transId: generateRandomString(12),
                 context: context,
-                responseHashKey: gcontroller.responseHashKey,
-                responseDecryptionKey: gcontroller.responseDecryptionKey,
                 amount: "100",
                 address: 'fsdfsdf',
                 name: 'amarjit',

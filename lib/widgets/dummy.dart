@@ -1,7 +1,9 @@
+import 'package:camera_windows_example/cons/constant.dart';
 import 'package:camera_windows_example/models/paymentresponse.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../cons/printimages.dart';
+import '../controller/imagecapture.dart';
 import 'permitgenerate copy.dart';
 
 class MyWidget extends StatefulWidget {
@@ -23,6 +25,7 @@ class _MyWidgetState extends State<MyWidget> {
           PermitGenerateWidgetcopy(
               applicantId: "123784783578",
               keys: d,
+              permit: dummyVisitorEntrys,
               paymentResponse: PaymentResponse(
                   permitType: "Temporary",
                   permitNo: "12375785785",
@@ -37,13 +40,14 @@ class _MyWidgetState extends State<MyWidget> {
                   transactionId: "ABFFHJS1234",
                   date: '12/3/2025',
                   amount: 100,
-                  paymentMode: "online")),
+                  paymentMode: "online",
+                  processingfee: 0.0)),
           ElevatedButton(
             onPressed: () {
-              // Get.find<Imagecontroller>().saveReceiptimages(d, printername);
-              printUsbReceiptWindowsonline(
-                  "124385493859", '', {'AI2478347384783748734834': '12/2/2025'},
-                  printername: "CUSTOM K80 (Copy 1)");
+              Get.find<Imagecontroller>().saveReceiptimages(d, printername);
+              // printUsbReceiptWindowsonline(
+              //     "124385493859", '', {'AI2478347384783748734834': '12/2/2025'},
+              //     printername: "CUSTOM K80 (Copy 1)");
             },
             child: Text("Press"),
           ),

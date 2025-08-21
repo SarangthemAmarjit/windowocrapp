@@ -17,8 +17,10 @@ class PermitGenerateWidgetcopy extends StatefulWidget {
       required this.applicantId,
       required this.keys,
       req,
-      required this.paymentResponse});
+      required this.paymentResponse,
+      required this.permit});
   final PaymentResponse paymentResponse;
+  final VisitorEntry permit;
   final String applicantId;
   final GlobalKey keys;
   @override
@@ -32,15 +34,15 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    VisitorEntry? _permit = Get.find<Managementcontroller>().getPermit;
+
     d = QrScannerModel(
-      applicantName: _permit?.applcntName ?? "",
-      applicantParent: _permit?.applcntParent ?? "",
-      idNo: _permit?.idNo ?? "",
+      applicantName: widget.permit.applcntName ?? "",
+      applicantParent: widget.permit.applcntParent ?? "",
+      idNo: widget.permit.idNo ?? "",
       permitNo: widget.applicantId,
-      hs: _permit?.applcntHNo ?? "",
-      permitType: _permit?.entryType ?? "",
-      placeOfStay: _permit?.placeOfStay ?? "",
+      hs: widget.permit.applcntHNo ?? "",
+      permitType: widget.permit.entryType ?? "",
+      placeOfStay: widget.permit.placeOfStay ?? "",
       dateOfIssue: parseAnyDate(widget.paymentResponse.dateOfIssue ?? ""),
       validUpto: parseAnyDate(widget.paymentResponse.validUpto ?? ""),
     );
@@ -347,10 +349,10 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                             children: [
                                               Text("Type",
                                                   style:
-                                                      TextStyle(fontSize: 30, color: Colors.black)),
+                                                      TextStyle(fontSize: 26, color: Colors.black)),
                                               Text("Temporary Permit",
                                                   style:
-                                                      TextStyle(fontSize: 30, color: Colors.black))
+                                                      TextStyle(fontSize: 26, color: Colors.black))
                                             ],
                                           ),
 
@@ -359,11 +361,11 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                             children: [
                                               Text("Permit Fee",
                                                   style:
-                                                      TextStyle(fontSize: 30, color: Colors.black)),
+                                                      TextStyle(fontSize: 26, color: Colors.black)),
                                               Text(
                                                   "${mngctrl.getPermitPrice?.fee.toStringAsFixed(2)}",
                                                   style:
-                                                      TextStyle(fontSize: 30, color: Colors.black))
+                                                      TextStyle(fontSize: 26, color: Colors.black))
                                             ],
                                           ),
 
@@ -372,11 +374,11 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                             children: [
                                               Text("Processing Fee",
                                                   style:
-                                                      TextStyle(fontSize: 30, color: Colors.black)),
+                                                      TextStyle(fontSize: 26, color: Colors.black)),
                                               Text(
-                                                  "${(widget.paymentResponse.amount! - (mngctrl.getPermitPrice != null ? mngctrl.getPermitPrice!.fee : 0.0)).toStringAsFixed(2)}",
+                                                  "${widget.paymentResponse.processingfee?.toStringAsFixed(2)}",
                                                   style:
-                                                      TextStyle(fontSize: 30, color: Colors.black))
+                                                      TextStyle(fontSize: 26, color: Colors.black))
                                             ],
                                           ),
 
@@ -388,23 +390,26 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                             children: [
                                               Text("Total",
                                                   style:
-                                                      TextStyle(fontSize: 30, color: Colors.black)),
+                                                      TextStyle(fontSize: 26, color: Colors.black)),
                                               Text(
-                                                  "${widget.paymentResponse.amount?.toStringAsFixed(2)}",
+                                                  "${(widget.paymentResponse.amount! + widget.paymentResponse.processingfee!).toStringAsFixed(2)}",
                                                   style:
-                                                      TextStyle(fontSize: 30, color: Colors.black))
+                                                      TextStyle(fontSize: 26, color: Colors.black))
                                             ],
                                           ),
                                           SizedBox(
-                                            height: 40,
+                                            height: 80,
                                           ),
                                           Text(
                                             "This is an electronically generated Inner Line Permit Card, hence no signature or seal is required.",
-                                            style: TextStyle(fontSize: 18, color: Colors.black),
+                                            style: TextStyle(fontSize: 20, color: Colors.black),
                                             textAlign: TextAlign.center,
                                           ),
                                           Text("https://manipurilponline.mn.gov.in/",
-                                              style: TextStyle(fontSize: 18, color: Colors.black),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold),
                                               textAlign: TextAlign.center),
                                         ],
                                       ),

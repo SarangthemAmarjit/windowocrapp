@@ -266,7 +266,7 @@ class ApicallImpl extends ApiCall {
 
   Future<PaymentResponse?> sendPayment(Payment payment) async {
     final url = Uri.parse('$localapi/api/kiosk/callback');
-    debugPrint("to send payment data: ${payment.toJson()}");
+    debugPrint("api:${url} \nto send payment data: ${payment.toJson()}");
     try {
       final response = await http.post(
         url,

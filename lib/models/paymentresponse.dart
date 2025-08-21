@@ -5,6 +5,7 @@ class Payment {
   final String method;
   final String status;
   final double amount;
+  final double processingfee;
   int? deviceId;
   int? gateId;
   String? transactionDate;
@@ -14,6 +15,7 @@ class Payment {
     required this.method,
     required this.status,
     required this.amount,
+    required this.processingfee,
     required this.deviceId,
     this.gateId,
     this.transactionDate,
@@ -25,6 +27,7 @@ class Payment {
       method: json['Method'],
       status: json['Status'],
       amount: json['Amount'],
+      processingfee: json['ProcessingFee'],
       deviceId: json['DeviceId'],
       gateId: json[' '],
       transactionDate: json['TransactionDate'],
@@ -38,6 +41,7 @@ class Payment {
       'Status': status.toUpperCase(),
       'DeviceId': deviceId,
       'GateId': gateId,
+      'ProcessingFee': processingfee,
       // 'Status': 'Success'.toUpperCase(),
       'Amount': amount // 'TransactionDate': transactionDate,
     };
@@ -61,6 +65,7 @@ class PaymentResponse {
   final String? transactionId;
   final String? date;
   final double? amount;
+  final double? processingfee;
   final String? paymentMode;
 
   PaymentResponse({
@@ -77,6 +82,7 @@ class PaymentResponse {
     required this.transactionId,
     required this.date,
     required this.amount,
+    required this.processingfee,
     required this.paymentMode,
   });
 
@@ -95,6 +101,7 @@ class PaymentResponse {
       transactionId: json['transactionId'],
       date: json['date'],
       amount: (json['amount'] as num).toDouble(),
+      processingfee: (json['processingFee'] as num).toDouble(),
       paymentMode: json['paymentMode'],
     );
   }
@@ -114,6 +121,7 @@ class PaymentResponse {
       'transactionId': transactionId,
       'date': date,
       'amount': amount,
+      'processingFee': processingfee,
       'paymentMode': paymentMode,
     };
   }

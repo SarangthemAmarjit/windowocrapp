@@ -6,11 +6,13 @@ import 'package:camera_windows_example/widgets/bannercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../cons/constant.dart';
 import '../../cons/tandcpolicy.dart';
 import '../../controller/pagecontroller.dart';
+import '../../widgets/buttoncard.dart';
 import '../../widgets/receiptpermit.dart';
 
 class PaymentDetails extends StatelessWidget {
@@ -104,30 +106,6 @@ class PaymentDetails extends StatelessWidget {
                                                       ),
                                                     ),
                                             ),
-                                            //            Container(
-                                            //   height: 120,
-                                            //   width: 120,
-                                            //   clipBehavior: Clip.antiAlias,
-                                            //   decoration: BoxDecoration(
-                                            //       color: Colors.grey[300],
-                                            //       borderRadius:
-                                            //           BorderRadius.circular(8)),
-                                            //   child: imgcon.idCardimage!= null
-                                            //       ? Image.memory(
-                                            //         imgcon.idCardimage!,
-                                            //         // height: 300,
-                                            //         // width:300,
-                                            //         fit: BoxFit.cover,
-
-                                            //       )
-                                            //       : Center(
-                                            //           child: Icon(
-                                            //             Icons.photo,
-                                            //             color: Colors.grey,
-                                            //             size: 40,
-                                            //           ),
-                                            //         ),
-                                            // ),
                                             SizedBox(
                                               width: 20,
                                             ),
@@ -327,61 +305,7 @@ class PaymentDetails extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-
-                                        // Divider(),
-                                        // TextLabel( text: "Documents"),
-                                        // SizedBox(height: 10,),
-                                        //   Row(
-                                        //   children: [
-                                        //     Expanded(
-                                        //       child: Column(
-                                        //         crossAxisAlignment:
-                                        //             CrossAxisAlignment.start,
-                                        //         children: [
-                                        //           TextLabel(
-                                        //               text: "Signature"),
-                                        //             SizedBox(height: 10,),
-                                        //            imgcon.signature!=null? Image.memory(imgcon.signature!,width: 150,height: 70,fit: BoxFit.contain,):Container(
-
-                                        //            decoration: BoxDecoration(color: Colors.grey),
-                                        //            height: 100,
-                                        //            width: 300,
-                                        //            child: Center(child: Text("sig empty"),),
-                                        //          )
-                                        //         ],
-                                        //       ),
-                                        //     ),
-                                        //     Expanded(
-                                        //       child: Column(
-                                        //         crossAxisAlignment:
-                                        //             CrossAxisAlignment.start,
-                                        //         children: [
-                                        //                    TextLabel(
-                                        //               text: "Receipt"),
-                                        //             SizedBox(height: 10,),
-                                        //          imgcon.receipt!=null? Image.memory(imgcon.receipt!,width: 30,height: 70,fit: BoxFit.contain,):Container(
-
-                                        //            decoration: BoxDecoration(color: Colors.grey),
-                                        //            height: 100,
-                                        //            width: 300,
-                                        //            child: Center(child: Text("Receipt empty"),),
-                                        //          )
-                                        //         ],
-                                        //       ),
-                                        //     ),
-                                        //     Expanded(
-                                        //       child: Column(
-                                        //         crossAxisAlignment:
-                                        //             CrossAxisAlignment.start,
-                                        //         children: [
-
-                                        //         ],
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
                                         Divider(),
-
                                         Row(
                                           children: [
                                             Expanded(
@@ -390,7 +314,8 @@ class PaymentDetails extends StatelessWidget {
                                                 children: [
                                                   TextLabel(text: "Period Of Stay"),
                                                   TextSubtitle(
-                                                    text: '30 days',
+                                                    text:
+                                                        "${mngctrl.getPermit?.residingPeriod ?? ""} days",
                                                   ),
                                                 ],
                                               ),
@@ -423,15 +348,34 @@ class PaymentDetails extends StatelessWidget {
                                         SizedBox(
                                           height: 10,
                                         ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                        Row(
                                           children: [
-                                            TextLabel(text: "Place of Stay"),
-                                            TextSubtitle(
-                                              text: mngctrl.getPermit?.placeOfStay ?? "NA",
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "Place of Stay"),
+                                                  TextSubtitle(
+                                                    text: mngctrl.getPermit?.placeOfStay ?? "NA",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  TextLabel(text: "Local Residence"),
+                                                  TextSubtitle(
+                                                    text:
+                                                        "${mngctrl.getPermit?.lrName ?? "NA"} ${mngctrl.getPermit?.lrPhone ?? ""} ",
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(child: SizedBox()),
                                           ],
-                                        ),
+                                        )
                                       ],
                                     ),
                                   ],
@@ -514,7 +458,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "Permit Type",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 16),
                             )),
                             Expanded(
                                 flex: 3,
@@ -525,7 +469,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "Temporary Permit",
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             )),
                           ],
                         ),
@@ -538,7 +482,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "Permit Validity",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 16),
                             )),
                             Expanded(
                                 flex: 3,
@@ -547,8 +491,8 @@ class _PaymentCardState extends State<PaymentCard> {
                                   indent: 80,
                                 )),
                             Expanded(
-                                child: Text("${mngctrl.getPermitPrice?.validityDays ?? 30}",
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+                                child: Text("${mngctrl.getPermitPrice?.validityDays ?? 30} days",
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
                           ],
                         ),
                         SizedBox(
@@ -560,7 +504,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "From",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 16),
                             )),
                             Expanded(
                                 flex: 3,
@@ -571,7 +515,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               getDate(dateTime: mngctrl.getPermit?.visitDate ?? ""),
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             )),
                           ],
                         ),
@@ -584,7 +528,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "To",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 16),
                             )),
                             Expanded(
                                 flex: 3,
@@ -597,7 +541,7 @@ class _PaymentCardState extends State<PaymentCard> {
                               getDate(
                                   dateTime: mngctrl.getPermit?.visitDate ?? "",
                                   duration: (mngctrl.getPermitPrice?.validityDays ?? 30) - 1),
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             )),
                           ],
                         ),
@@ -610,7 +554,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "Amount",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 16),
                             )),
                             Expanded(
                                 flex: 3,
@@ -621,7 +565,7 @@ class _PaymentCardState extends State<PaymentCard> {
                             Expanded(
                                 child: Text(
                               "$rupee ${mngctrl.getPermitPrice?.fee ?? 100}",
-                              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             )),
                           ],
                         ),
@@ -713,10 +657,10 @@ class _PaymentCardState extends State<PaymentCard> {
                                 },
                                 child: Text(
                                   e.value,
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    color: Colors.blue,
-                                  ),
+                                  style: GoogleFonts.interTight(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: Theme.of(context).colorScheme.secondary),
                                 )),
                           ),
                         )
@@ -734,290 +678,172 @@ class _PaymentCardState extends State<PaymentCard> {
                               )))
                           : null,
                       onpress: () async {
-                        if (onlinePayment == false) {
-                          setState(() {
-                            isload = true;
-                          });
-
-                          Map<String, dynamic> s = await mngctrl.addtemporaryPermit(
-                            true,
-                            imgcon.profileImage!,
-                            imgcon.idCardimage!,
-                            imgcon.signature!,
-                          );
-
-                          setState(() {
-                            isload = false;
-                          });
-
-                          if (s.isNotEmpty) {
-                            Get.dialog(AlertDialog(
-                              content: RepaintBoundary(
-                                  key: _globlkey,
-                                  child: ReceiptWidget(
-                                      applicantName: mngctrl.getPermit?.applcntName ?? "NA",
-                                      applicantId: s["appid"])),
-                            ));
-                            Future.delayed(Duration(seconds: 3)).then(
-                              (value) async {
-                                print("nav Keys sdsd");
-                                await imgcon.saveReceipt(
-                                    _globlkey, s["appid"], "Your permit request is registered.");
-                                print("nav Keys");
-
-                                Get.back();
-
-                                pagectrl.setmainpageindex(ind: 4);
-                              },
-                            );
-                          }
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (c) {
-                                return StatefulBuilder(builder: (context, sta) {
-                                  return AlertDialog(
-                                    insetPadding: EdgeInsets.all(16),
-                                    content: Container(
-                                      width: 600,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Processing Permit",
-                                                style: TextStyle(fontSize: 24),
-                                              ),
-                                              IconButton(
-                                                  onPressed: () {
-                                                    Get.back();
-                                                  },
-                                                  icon: Icon(Icons.close))
-                                            ],
-                                          ),
-                                          isload
-                                              ? Padding(
-                                                  padding: const EdgeInsets.all(32.0),
-                                                  child: Column(
-                                                    children: [
-                                                      CircularProgressIndicator(
-                                                        color: Colors.blue,
-                                                      ),
-                                                      SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Text(
-                                                        "Creating Permit. Please Wait",
-                                                        style: TextStyle(fontSize: 20),
-                                                      )
-                                                    ],
-                                                  ),
-                                                )
-                                              : SizedBox()
-                                        ],
-                                      ),
-                                    ),
-                                    actions: isload
-                                        ? null
-                                        : [
-                                            ButtonCard(
-                                                padding: EdgeInsets.symmetric(vertical: 8),
-                                                icon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(horizontal: 8.0),
-                                                  child: Icon(
-                                                    Icons.laptop_mac_rounded,
-                                                    color: Colors.white,
-                                                  ),
+                        showDialog(
+                            context: context,
+                            builder: (c) {
+                              return StatefulBuilder(builder: (context, sta) {
+                                return AlertDialog(
+                                  insetPadding: EdgeInsets.all(16),
+                                  content: Container(
+                                    width: 600,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Processing Permit",
+                                              style: TextStyle(fontSize: 24),
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                icon: Icon(Icons.close))
+                                          ],
+                                        ),
+                                        isload
+                                            ? Padding(
+                                                padding: const EdgeInsets.all(32.0),
+                                                child: Column(
+                                                  children: [
+                                                    CircularProgressIndicator(
+                                                      color: Colors.blue,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Text(
+                                                      "Creating Permit. Please Wait",
+                                                      style: TextStyle(fontSize: 20),
+                                                    )
+                                                  ],
                                                 ),
-                                                title: "Pay at ILP Counter ",
-                                                onpress: () async {
-                                                  sta(() {
-                                                    isload = true;
-                                                  });
+                                              )
+                                            : SizedBox()
+                                      ],
+                                    ),
+                                  ),
+                                  actions: isload
+                                      ? null
+                                      : [
+                                          ButtonCard(
+                                              padding: EdgeInsets.symmetric(vertical: 8),
+                                              icon: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                                child: Icon(
+                                                  Icons.laptop_mac_rounded,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              title: "Pay at ILP Counter ",
+                                              onpress: () async {
+                                                sta(() {
+                                                  isload = true;
+                                                });
 
-                                                  Map<String, dynamic>? s =
-                                                      await mngctrl.addtemporaryPermit(
-                                                    true,
-                                                    imgcon.profileImage!,
-                                                    imgcon.idCardimage!,
-                                                    imgcon.signature!,
+                                                Map<String, dynamic>? s =
+                                                    await mngctrl.addtemporaryPermit(
+                                                  true,
+                                                  imgcon.profileImage!,
+                                                  imgcon.idCardimage!,
+                                                  imgcon.signature!,
+                                                );
+
+                                                sta(() {
+                                                  isload = false;
+                                                });
+                                                Get.back();
+
+                                                if (s.isNotEmpty) {
+                                                  Get.dialog(AlertDialog(
+                                                    content: RepaintBoundary(
+                                                        key: _globlkey,
+                                                        child: ReceiptWidget(
+                                                            applicantName:
+                                                                mngctrl.getPermit?.applcntName ??
+                                                                    "NA",
+                                                            applicantId: s['appid'])),
+                                                  ));
+                                                  Future.delayed(Duration(seconds: 3)).then(
+                                                    (value) async {
+                                                      print("nav Keys sdsd");
+                                                      await imgcon.saveReceipt(
+                                                          _globlkey,
+                                                          s["appid"],
+                                                          "Your Permit request is registered.");
+                                                      print("nav Keys");
+
+                                                      Get.back();
+                                                      pagectrl.pageIncremeter(4);
+                                                      pagectrl.setmainpageindex(ind: 4);
+                                                    },
                                                   );
-
-                                                  sta(() {
-                                                    isload = false;
-                                                  });
+                                                } else {
                                                   Get.back();
 
-                                                  if (s.isNotEmpty) {
-                                                    Get.dialog(AlertDialog(
-                                                      content: RepaintBoundary(
-                                                          key: _globlkey,
-                                                          child: ReceiptWidget(
-                                                              applicantName:
-                                                                  mngctrl.getPermit?.applcntName ??
-                                                                      "NA",
-                                                              applicantId: s['appid'])),
-                                                    ));
-                                                    Future.delayed(Duration(seconds: 3)).then(
-                                                      (value) async {
-                                                        print("nav Keys sdsd");
-                                                        await imgcon.saveReceipt(
-                                                            _globlkey,
-                                                            s["appid"],
-                                                            "Your Permit request is registered.");
-                                                        print("nav Keys");
-
-                                                        Get.back();
-                                                        pagectrl.pageIncremeter(4);
-                                                        pagectrl.setmainpageindex(ind: 4);
-                                                      },
-                                                    );
-                                                  } else {
-                                                    Get.back();
-
-                                                    Get.dialog(
-                                                        barrierDismissible: false,
-                                                        _errorDialog(pagectrl, imgcon));
-                                                  }
-
-                                                  // Get.back();
-                                                  // send permit to api
-                                                }),
-                                            ButtonCard(
-                                                icon: Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(horizontal: 8.0),
-                                                  child: Icon(
-                                                    Icons.money_sharp,
-                                                    color: Colors.white,
-                                                  ),
+                                                  Get.dialog(
+                                                      barrierDismissible: false,
+                                                      _errorDialog(pagectrl, imgcon));
+                                                }
+                                              }),
+                                          ButtonCard(
+                                              icon: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                                child: Icon(
+                                                  Icons.money_sharp,
+                                                  color: Colors.white,
                                                 ),
-                                                padding: EdgeInsets.symmetric(vertical: 8),
-                                                title: "Pay Online",
-                                                onpress: () async {
-                                                  sta(() {
-                                                    isload = true;
-                                                  });
+                                              ),
+                                              padding: EdgeInsets.symmetric(vertical: 8),
+                                              title: "Pay Online",
+                                              onpress: () async {
+                                                sta(() {
+                                                  isload = true;
+                                                });
 
-                                                  Map<String, dynamic> s = await mngctrl
-                                                      .addtemporaryPermit(
-                                                        false,
-                                                        imgcon.profileImage!,
-                                                        imgcon.idCardimage!,
-                                                        imgcon.signature!,
-                                                      )
-                                                      .whenComplete(() => Get.back());
+                                                Map<String, dynamic> s = await mngctrl
+                                                    .addtemporaryPermit(
+                                                      false,
+                                                      imgcon.profileImage!,
+                                                      imgcon.idCardimage!,
+                                                      imgcon.signature!,
+                                                    )
+                                                    .whenComplete(() => Get.back());
 
-                                                  sta(() {
-                                                    isload = false;
-                                                  });
-                                                  if (s.isNotEmpty) {
-                                                    mngctrl.setOnlineApplId(s["appid"]);
-                                                    gcontroller.initNdpsPayment(
-                                                      email: mngctrl.getPermit?.applcntEmail ?? "",
-                                                      number:
-                                                          mngctrl.getPermit?.applcntMobile ?? "",
-                                                      transId: 'KI${s['orderid']}',
-                                                      context: context,
-                                                      responseHashKey: gcontroller.responseHashKey,
-                                                      responseDecryptionKey:
-                                                          gcontroller.responseDecryptionKey,
-                                                      amount:
-                                                          mngctrl.getPermitPrice?.fee.toString() ??
-                                                              "100",
-                                                      // amount: '2',
-                                                      address:
-                                                          mngctrl.getPermit?.applcntAddress ?? 'NA',
-                                                      name: mngctrl.getPermit?.applcntName ?? 'NA',
-                                                      clientcodeok: s['orderid'],
-                                                    );
-                                                  } else {
-                                                    Get.back();
+                                                sta(() {
+                                                  isload = false;
+                                                });
+                                                if (s.isNotEmpty) {
+                                                  mngctrl.setOnlineApplId(s["appid"]);
+                                                  gcontroller.initNdpsPayment(
+                                                    email: mngctrl.getPermit?.applcntEmail ?? "",
+                                                    number: mngctrl.getPermit?.applcntMobile ?? "",
+                                                    transId: 'KI${s['orderid']}',
+                                                    context: context,
+                                                    amount:
+                                                        mngctrl.getPermitPrice?.fee.toString() ??
+                                                            "100",
+                                                    address:
+                                                        mngctrl.getPermit?.applcntAddress ?? 'NA',
+                                                    name: mngctrl.getPermit?.applcntName ?? 'NA',
+                                                    clientcodeok: s['orderid'],
+                                                  );
+                                                } else {
+                                                  Get.back();
 
-                                                    Get.dialog(
-                                                        barrierDismissible: false,
-                                                        AlertDialog(
-                                                          title: Text(
-                                                            "Failed to generate Permit.",
-                                                            style: TextStyle(fontSize: 24),
-                                                          ),
-                                                          content: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text(
-                                                                  "There are some technical issues at our end.",
-                                                                  style: TextStyle(
-                                                                      fontSize: 16,
-                                                                      fontWeight: FontWeight.bold)),
-                                                              Text("Some reasons maybe: ",
-                                                                  style: TextStyle(fontSize: 16)),
-                                                              SizedBox(
-                                                                height: 16,
-                                                              ),
-                                                              Text(
-                                                                  "The photo provided may be unclear. Please retry again",
-                                                                  style: TextStyle(fontSize: 16)),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Text(
-                                                                  "The server failed to load during the permit generation process.",
-                                                                  style: TextStyle(fontSize: 16)),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Text("The server maybe down.",
-                                                                  style: TextStyle(fontSize: 16)),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Text(
-                                                                  "The internet connection is slow",
-                                                                  style: TextStyle(fontSize: 16)),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Text("There is no network coverage.",
-                                                                  style: TextStyle(fontSize: 16)),
-                                                              SizedBox(
-                                                                height: 16,
-                                                              ),
-                                                              Divider(),
-                                                              Text(
-                                                                  "For any issues and queries please go to the ILP COUNTER.",
-                                                                  style: TextStyle(
-                                                                      fontSize: 20,
-                                                                      fontWeight: FontWeight.bold)),
-                                                            ],
-                                                          ),
-                                                          actions: [
-                                                            ButtonCard(
-                                                                padding: EdgeInsets.zero,
-                                                                title: "Try again",
-                                                                onpress: () {
-                                                                  pagectrl.setmainpageindex(ind: 0);
-                                                                  Get.back();
-                                                                  imgcon.disposeAll();
-
-                                                                  // Get.off(()=>LandingPage());
-                                                                  pagectrl.listenPageChange();
-                                                                })
-                                                          ],
-                                                        ));
-                                                  }
-                                                }),
-                                          ],
-                                  ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();
-                                });
+                                                  Get.dialog(
+                                                      barrierDismissible: false,
+                                                      _errorDialog(pagectrl, imgcon));
+                                                }
+                                              }),
+                                        ],
+                                ).animate().scaleXY(begin: 0.5, end: 1).fadeIn();
                               });
-
-                          // Get.to(() => Successpages());
-                        }
+                            });
                       })
                 ],
               ),
@@ -1083,52 +909,6 @@ class _PaymentCardState extends State<PaymentCard> {
               pagectrl.listenPageChange();
             })
       ],
-    );
-  }
-}
-
-class ButtonCard extends StatelessWidget {
-  const ButtonCard({
-    super.key,
-    required this.title,
-    required this.onpress,
-    this.padding,
-    this.icon,
-    this.ver,
-    this.conwidth,
-  });
-  final String title;
-  final VoidCallback onpress;
-  final EdgeInsets? padding;
-  final Widget? icon;
-  final double? ver;
-  final double? conwidth;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 16, vertical: ver ?? 16),
-      child: InkWell(
-        onTap: onpress,
-        child: Container(
-          width: conwidth ?? double.infinity,
-          padding: EdgeInsets.all(32),
-          decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(8)),
-          clipBehavior: Clip.antiAlias,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              icon ?? SizedBox(),
-              SizedBox(
-                width: icon == null ? 0 : 10,
-              ),
-              Text(
-                title,
-                style: TextStyle(color: Colors.white, fontSize: 26),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

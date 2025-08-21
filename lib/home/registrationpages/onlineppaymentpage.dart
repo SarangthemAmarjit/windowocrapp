@@ -1,13 +1,15 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
-import 'package:camera_windows_example/home/registrationpages/paymentdetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'dart:async';
+
+import '../../widgets/buttoncard.dart';
 
 class OnlinePaymentPage extends StatefulWidget {
   const OnlinePaymentPage({
@@ -84,16 +86,11 @@ class _OnlinePaymentPageState extends State<OnlinePaymentPage> {
 
                   Container(
                           clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16)),
-                          child: Lottie.asset('assets/receipt.json',
-                              repeat: false))
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+                          child: Lottie.asset('assets/receipt.json', repeat: false))
                       .animate()
                       .fadeIn()
-                      .slideY(
-                          begin: -0.5,
-                          end: 0,
-                          duration: Duration(milliseconds: 800)),
+                      .slideY(begin: -0.5, end: 0, duration: Duration(milliseconds: 800)),
                   SizedBox(
                     height: 20,
                   ),
@@ -109,8 +106,7 @@ class _OnlinePaymentPageState extends State<OnlinePaymentPage> {
                           Get.find<PagenavControllers>().reset();
                           Get.find<Imagecontroller>().disposeAll();
                           Get.find<Managementcontroller>().disposeAll();
-                          Get.find<PagenavControllers>()
-                              .setmainpageindex(ind: 0);
+                          Get.find<PagenavControllers>().setmainpageindex(ind: 0);
                           if (_timer != null) {
                             _timer!.cancel();
                           }

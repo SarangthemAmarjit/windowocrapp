@@ -357,6 +357,7 @@ class Managementcontroller extends GetxController {
         method: pays.method,
         status: pays.status,
         amount: pays.amount,
+        processingfee: pays.processingfee,
         deviceId: int.tryParse(deviceId!) ?? 0,
         gateId: int.tryParse(gateId!));
     // print(payment.toJson().toString());
@@ -376,7 +377,7 @@ class Managementcontroller extends GetxController {
               callback: () async {},
             ),
           ));
-      if (payres.permitNo != null && payres.permitNo!.isNotEmpty) {
+      if (_permit != null && payres.permitNo != null && payres.permitNo!.isNotEmpty) {
         await Future.delayed(Duration(milliseconds: 2000));
         await Get.find<Imagecontroller>()
             .saveReceiptimages(key, printername ?? "CUSTOM K80 (Copy 1)");
