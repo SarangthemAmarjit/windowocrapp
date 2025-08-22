@@ -646,7 +646,7 @@ class _TemporaryILPFormReplicaState extends State<TemporaryILPFormReplica> {
                                 entryType: "ONLINE",
                                 applcntHNo: mngctrl.applicid?.houseNo ?? "NA",
                                 applyDistrictID: "NA",
-                                category: "NA",
+                                category: mngctrl.purpose,
                                 district: district.trim(),
                                 landmark: "NA",
                                 nearestPS: _nearestpliceController.text.trim(),

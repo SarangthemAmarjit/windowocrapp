@@ -279,41 +279,50 @@ class Managementcontroller extends GetxController {
     Uint8List idcard,
     Uint8List signature,
   ) async {
-    _permit!.transactionId = isCash ? "CASH" : generateRandomString(12);
-    _permit!.amount = _permitPrice?.fee.toString();
+    try {
+      _permit!.transactionId = isCash ? "CASH" : generateRandomString(12);
+      _permit!.amount = _permitPrice!.fee.toString();
+      _permit!.deviceId = deviceId!;
 
-    // print(":::::::::::");
-    // print("TransactionID ::: ${_permit?.transactionId} ${_applicid?.applicationNo} ");
-    // print(":::::::::::");
+      if (_applicid != null && _applicid!.applicationNo.isNotEmpty) {
+        Map<String?, dynamic> ds = await apicall!
+            .updatePermit(passport, idcard, signature, _permit!, _applicid!.applicationNo);
+        // print('$ds $isLoading');
+        String? appid = ds["applicationId"];
+        var orderid = ds["orderId"];
+        _permit!.transactionId = isCash ? "CASH" : ds['transactionId'];
+        String? message = ds['message'];
 
-    if (_applicid != null && _applicid!.applicationNo.isNotEmpty) {
-      Map<String?, dynamic> ds = await apicall!
-          .updatePermit(passport, idcard, signature, _permit!, _applicid!.applicationNo);
-      // print('$ds $isLoading');
-      String? appid = ds["applicationId"];
-      var orderid = ds["orderId"];
-      _permit!.transactionId = isCash ? "CASH" : ds['TransactionId'];
+        update();
+        return ds.entries.first.value == 0
+            ? {}
+            : ds.entries.first.value == 409
+                ? {
+                    'message':
+                        "A permit has already been issued to the applicant and cannot be issued again"
+                  }
+                : {'appid': appid, 'orderid': orderid};
+      } else {
+        Map<String?, dynamic> ds = await apicall!.addPermit(passport, idcard, signature, _permit!);
+        // print('$ds $isLoading');
+        String? appid = ds["applicationId"];
+        var orderid = ds["orderId"];
+        _permit!.transactionId = ds['transactionId'];
 
-      // print(" permit to post: ${_permit?.toJson().toString()}");
-      // currentPermit = _permit;
-      update();
-      return ds.entries.first.value == 0 ? {} : {'appid': appid, 'orderid': orderid};
-    } else {
-      Map<String?, dynamic> ds = await apicall!.addPermit(passport, idcard, signature, _permit!);
-      // print('$ds $isLoading');
-      String? appid = ds["applicationId"];
-      var orderid = ds["orderId"];
-      _permit!.transactionId = ds['transactionId'];
-
-      // currentPermit = _permit;
-      update();
-      // log('Return Orderid map : ' + ds.toString());
-      return appid == null
-          ? {}
-          : {
-              "appid": appid,
-              "orderid": orderid,
-            };
+        // currentPermit = _permit;
+        update();
+        // log('Return Orderid map : ' + ds.toString());
+        return ds.entries.first.value == 0
+            ? {}
+            : ds.entries.first.value == 409
+                ? {
+                    'message':
+                        "A permit has already been issued to the applicant and cannot be issued again"
+                  }
+                : {'appid': appid, 'orderid': orderid};
+      }
+    } catch (e) {
+      return {};
     }
   }
 
@@ -351,55 +360,63 @@ class Managementcontroller extends GetxController {
   }
 
   Future<void> addPayments(Payment pays, GlobalKey key) async {
-    Payment payment = Payment(
-        paymentId: pays.paymentId,
-        method: pays.method,
-        status: pays.status,
-        amount: pays.amount,
-        processingfee: pays.processingfee,
-        deviceId: int.tryParse(deviceId!) ?? 0,
-        gateId: int.tryParse(gateId!));
-    // print(payment.toJson().toString());
+    try {
+      Payment payment = Payment(
+          paymentId: pays.paymentId,
+          method: pays.method,
+          status: pays.status,
+          amount: pays.amount,
+          processingfee: pays.processingfee,
+          deviceId: int.tryParse(deviceId!) ?? 0,
+          gateId: int.tryParse(gateId!));
+      // print(payment.toJson().toString());
 
-    PaymentResponse? payres = await apicall!.sendPayment(payment);
+      PaymentResponse? payres = await apicall!.sendPayment(payment);
 
-    if (payres != null) {
-      paymentresult = payres;
-      update();
+      if (payres != null) {
+        paymentresult = payres;
+        update();
 
-      Get.dialog(
-          barrierDismissible: pays.status.toLowerCase() != 'success',
-          Dialog(
-            child: PaymentResultDialog(
-              amount: pays.amount,
-              isSuccess: pays.status.toLowerCase() == 'success',
-              callback: () async {},
-            ),
-          ));
-      if (_permit != null && payres.permitNo != null && payres.permitNo!.isNotEmpty) {
-        await Future.delayed(Duration(milliseconds: 2000));
-        await Get.find<Imagecontroller>()
-            .saveReceiptimages(key, printername ?? "CUSTOM K80 (Copy 1)");
-        Future.delayed(Duration(milliseconds: 2000));
-        Get.back();
-        Get.find<PagenavControllers>().setmainpageindex(ind: 5);
+        Get.dialog(
+            barrierDismissible: pays.status.toLowerCase() != 'success',
+            Dialog(
+              child: PaymentResultDialog(
+                amount: pays.amount,
+                isSuccess: pays.status.toLowerCase() == 'success',
+                callback: () async {},
+              ),
+            ));
+        if (_permit != null && payres.permitNo != null && payres.permitNo!.isNotEmpty) {
+          await Future.delayed(Duration(milliseconds: 2000));
+          await Get.find<Imagecontroller>()
+              .saveReceiptimages(key, printername ?? "CUSTOM K80 (Copy 1)");
+          Future.delayed(Duration(milliseconds: 2000));
+          Get.back();
+          Get.find<PagenavControllers>().setmainpageindex(ind: 5);
+        } else {
+          printUsbReceiptWindowsonline(
+              onlineAplicant ?? "", "", {payres.transactionId ?? "": payres.date ?? ""},
+              printername: printername ?? "CUSTOM K80 (Copy 1)");
+
+          Get.find<PagenavControllers>().setmainpageindex(ind: 6);
+        }
+        setOnlineApplId(null);
       } else {
-        printUsbReceiptWindowsonline(
-            onlineAplicant ?? "", "", {payres.transactionId ?? "": payres.date ?? ""},
+        printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
+            {pays.paymentId: DateFormat('dd/MM/yyyy').format(DateTime.now())},
             printername: printername ?? "CUSTOM K80 (Copy 1)");
-
+        setOnlineApplId(null);
         Get.find<PagenavControllers>().setmainpageindex(ind: 6);
       }
-      setOnlineApplId(null);
-    } else {
+
+      update();
+    } catch (e) {
       printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
           {pays.paymentId: DateFormat('dd/MM/yyyy').format(DateTime.now())},
           printername: printername ?? "CUSTOM K80 (Copy 1)");
       setOnlineApplId(null);
       Get.find<PagenavControllers>().setmainpageindex(ind: 6);
     }
-
-    update();
   }
 
   void disposeAll() {

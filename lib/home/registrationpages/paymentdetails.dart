@@ -757,7 +757,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                 });
                                                 Get.back();
 
-                                                if (s.isNotEmpty) {
+                                                if (s.isNotEmpty && s["appid"] != null) {
                                                   Get.dialog(AlertDialog(
                                                     content: RepaintBoundary(
                                                         key: _globlkey,
@@ -783,10 +783,12 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   );
                                                 } else {
                                                   Get.back();
+                                                  String? message = s['message'];
 
                                                   Get.dialog(
                                                       barrierDismissible: false,
-                                                      _errorDialog(pagectrl, imgcon));
+                                                      _errorDialog(pagectrl, imgcon,
+                                                          message: message));
                                                 }
                                               }),
                                           ButtonCard(
@@ -818,6 +820,8 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   isload = false;
                                                 });
                                                 if (s.isNotEmpty &&
+                                                    s["appid"] != null &&
+                                                    s['orderid'] != null &&
                                                     mngctrl.getPermit != null &&
                                                     mngctrl.getPermit!.transactionId != null &&
                                                     mngctrl.getPermitPrice != null) {
@@ -835,10 +839,12 @@ class _PaymentCardState extends State<PaymentCard> {
                                                   );
                                                 } else {
                                                   Get.back();
+                                                  String? message = s['message'];
 
                                                   Get.dialog(
                                                       barrierDismissible: false,
-                                                      _errorDialog(pagectrl, imgcon));
+                                                      _errorDialog(pagectrl, imgcon,
+                                                          message: message));
                                                 }
                                               }),
                                         ],
@@ -855,49 +861,54 @@ class _PaymentCardState extends State<PaymentCard> {
     });
   }
 
-  AlertDialog _errorDialog(PagenavControllers pagectrl, Imagecontroller imgcon) {
+  AlertDialog _errorDialog(PagenavControllers pagectrl, Imagecontroller imgcon, {String? message}) {
     return AlertDialog(
       title: Text(
         "Failed to generate Permit.",
         style: TextStyle(fontSize: 24),
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("There are some technical issues at our end.",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          Text("Some reasons maybe: ", style: TextStyle(fontSize: 16)),
-          SizedBox(
-            height: 16,
-          ),
-          Text("The photo provided may be unclear. Please retry again",
-              style: TextStyle(fontSize: 16)),
-          SizedBox(
-            height: 8,
-          ),
-          Text("The server failed to load during the permit generation process.",
-              style: TextStyle(fontSize: 16)),
-          SizedBox(
-            height: 8,
-          ),
-          Text("The server maybe down.", style: TextStyle(fontSize: 16)),
-          SizedBox(
-            height: 8,
-          ),
-          Text("The internet connection is slow", style: TextStyle(fontSize: 16)),
-          SizedBox(
-            height: 8,
-          ),
-          Text("There is no network coverage.", style: TextStyle(fontSize: 16)),
-          SizedBox(
-            height: 16,
-          ),
-          Divider(),
-          Text("For any issues and queries please go to the ILP COUNTER.",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        ],
-      ),
+      content: message != null
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(message, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            )
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("There are some technical issues at our end.",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text("Some reasons maybe: ", style: TextStyle(fontSize: 16)),
+                SizedBox(
+                  height: 16,
+                ),
+                Text("The photo provided may be unclear. Please retry again",
+                    style: TextStyle(fontSize: 16)),
+                SizedBox(
+                  height: 8,
+                ),
+                Text("The server failed to load during the permit generation process.",
+                    style: TextStyle(fontSize: 16)),
+                SizedBox(
+                  height: 8,
+                ),
+                Text("The server maybe down.", style: TextStyle(fontSize: 16)),
+                SizedBox(
+                  height: 8,
+                ),
+                Text("The internet connection is slow", style: TextStyle(fontSize: 16)),
+                SizedBox(
+                  height: 8,
+                ),
+                Text("There is no network coverage.", style: TextStyle(fontSize: 16)),
+                SizedBox(
+                  height: 16,
+                ),
+                Divider(),
+                Text("For any issues and queries please go to the ILP COUNTER.",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              ],
+            ),
       actions: [
         ButtonCard(
             padding: EdgeInsets.zero,
