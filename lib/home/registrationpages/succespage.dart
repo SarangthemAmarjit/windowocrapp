@@ -4,7 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
-import 'package:camera_windows_example/home/registrationpages/paymentdetails.dart';
+import 'package:camera_windows_example/widgets/elevatedbuttoncard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
@@ -150,18 +150,23 @@ class _SuccesspagesState extends State<Successpages> {
                       style: GoogleFonts.montserrat(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      width: 300,
-                      child: ButtonCard(
-                          title: "Apply New Permit",
-                          onpress: () {
-                            Get.find<PagenavControllers>().reset();
-                            Get.find<Imagecontroller>().disposeAll();
-                            Get.find<Managementcontroller>().disposeAll();
-                            Get.find<PagenavControllers>().setmainpageindex(ind: 0);
-                            if (_timer != null) {
-                              _timer!.cancel();
-                            }
-                          }),
+                      height: 32,
+                    ),
+                    ElevatedButtonCard(
+                      callback: () {
+                        Get.find<PagenavControllers>().reset();
+                        Get.find<Imagecontroller>().disposeAll();
+                        Get.find<Managementcontroller>().disposeAll();
+                        Get.find<PagenavControllers>().setmainpageindex(ind: 0);
+                        if (_timer != null) {
+                          _timer!.cancel();
+                        }
+                      },
+                      child: Text(
+                        'Apply New Permit',
+                        style: TextStyle(
+                            fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
 
                     SizedBox(

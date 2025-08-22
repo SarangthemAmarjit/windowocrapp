@@ -76,7 +76,7 @@ class Imagecontroller extends GetxController {
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
     _fetchCameras();
-    // demoImage();
+    demoImage();
   }
 
   Future<Uint8List> assetImageToUint8List(String path) async {
@@ -159,12 +159,6 @@ class Imagecontroller extends GetxController {
 
     iscardProcess = false;
     update();
-
-    // final tempDir = await getTemporaryDirectory();
-
-    // final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
-
-    // await file.writeAsBytes(pngBytes);
   }
 
   Future<void> saveReceiptimages(
@@ -187,12 +181,6 @@ class Imagecontroller extends GetxController {
 
     iscardProcess = false;
     update();
-
-    // final tempDir = await getTemporaryDirectory();
-
-    // final file = File('${tempDir.path}/${DateTime.now().toIso8601String().replaceAll(".","").replaceAll(":","")}signature.png');
-
-    // await file.writeAsBytes(pngBytes);
   }
 
   Future<Uint8List> rotateImage(Uint8List uint8list, int angle) async {
@@ -237,92 +225,6 @@ class Imagecontroller extends GetxController {
     aspectRatio: 0.9,
     defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
   );
-  // void showProfileCameraDialog() {
-  //   Get.dialog(
-  //     AlertDialog(
-  //       contentPadding: EdgeInsets.zero,
-  //       content: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           FittedBox(
-  //             fit: BoxFit.fill, // Ensure it covers the entire aspect ratio
-  //             child: SizedBox(
-  //               width: _previewSize!.width,
-  //               height: _previewSize!.width,
-  //               child: buildPreview(), // Your camera preview
-  //             ),
-  //           ),
-  //           // Container(
-  //           //   constraints: const BoxConstraints(maxHeight: 200),
-  //           //   child: AspectRatio(
-  //           //     aspectRatio: 9 / 12, // Passport photo ratio
-  //           //     child: Center(
-  //           //       child: ClipRect(
-  //           //         child: OverflowBox(
-  //           //           alignment: Alignment.center,
-  //           //           maxWidth: 400,
-  //           //           maxHeight: 500,
-  //           //           child: FittedBox(
-  //           //             fit: BoxFit
-  //           //                 .fill, // Ensure it covers the entire aspect ratio
-  //           //             child: SizedBox(
-  //           //               width: _previewSize!.width,
-  //           //               height: _previewSize!.width,
-  //           //               child: buildPreview(), // Your camera preview
-  //           //             ),
-  //           //           ),
-  //           //         ),
-  //           //       ),
-  //           //     ),
-  //           //   ),
-  //           // ),
-  //           Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //             children: [
-  //               TextButton(
-  //                 onPressed: () {
-  //                   disposeCurrentCamera();
-  //                   Get.back(); // Close the dialog
-  //                 },
-  //                 child: const Text("Cancel"),
-  //               ),
-  //               ElevatedButton(
-  //                 onPressed: () async {
-  //                   try {
-  //                     // Capture the image using the camera
-  //                     final XFile file =
-  //                         await CameraPlatform.instance.takePicture(_cameraId);
-
-  //                     // Load the captured image as a File object
-  //                     final imageFile = File(file.path);
-
-  //                     // Crop the image based on aspectRatio and defaultCrop
-  //                     final croppedFile = await cropImageWithAspectRatio(
-  //                       imageFile,
-  //                       aspectRatio: 0.9,
-  //                       defaultCrop: const Rect.fromLTRB(0.3, 0.1, 0.9, 0.9),
-  //                     );
-
-  //                     updateProfileImage(XFile(croppedFile.path));
-  //                     disposeCurrentCamera();
-  //                     Get.back(); // Close the dialog
-  //                     log('done capture');
-  //                   } catch (e) {
-  //                     // Handle any errors
-  //                     debugPrint("Error capturing or cropping image: $e");
-  //                   }
-  //                 },
-  //                 child: const Text("Capture"),
-  //               ),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //     barrierDismissible:
-  //         false, // Prevent the dialog from closing when tapping outside
-  //   );
-  // }
 
   void disposeAll() {
     selectedCardType = null;

@@ -3,13 +3,15 @@ import 'dart:developer';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
-import 'package:camera_windows_example/home/registrationpages/ilpformreplica.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/widgets/customkeys.dart';
 import 'package:camera_windows_example/widgets/receiptpermit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+
+import '../widgets/elevatedbuttoncard.dart';
+import '../widgets/textfieldwidget.dart';
 
 class DocumentScanPage extends StatefulWidget {
   const DocumentScanPage({super.key});
@@ -137,8 +139,8 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
     Managementcontroller mngctrl = Get.find<Managementcontroller>();
     Imagecontroller imgcon = Get.find<Imagecontroller>();
 
-    return ElevatedButton(
-      onPressed: () {
+    return ElevatedButtonCard(
+      callback: () {
         pagecon.changeIdSelection();
         pagecon.setdocindex(ind: docindex);
         // pagecon.setmainpageindex(ind: 3);
@@ -152,18 +154,10 @@ class _DocumentScanPageState extends State<DocumentScanPage> {
         //   isprofilecam: false,
         // );
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 0, 66, 234),
-        foregroundColor: Colors.white,
-        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 25),
+        style: TextStyle(fontSize: 25, color: Colors.white),
       ),
     );
   }
@@ -453,9 +447,9 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                   isCapital: true,
                 )),
 
-                ElevatedButton(
-                  onPressed: mngctrl.isVeriflyloading
-                      ? null
+                ElevatedButtonCard(
+                  callback: mngctrl.isVeriflyloading
+                      ? () {}
                       : () async {
                           if (_formKey.currentState!.validate()) {
                             Map<String, int> res = await mngctrl.verifydocid(
@@ -592,46 +586,43 @@ class _GetDocumentIdState extends State<GetDocumentId> {
                             }
                           }
                         },
-                  child: Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Verify",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        mngctrl.isVeriflyloading
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                    height: 30,
-                                    width: 30,
-                                    child: Center(
-                                        child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ))),
-                              )
-                            : Icon(
-                                Icons.check,
-                                size: 30,
-                                color: Colors.white,
-                              )
-                      ],
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Verify",
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      mngctrl.isVeriflyloading
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                  height: 30,
+                                  width: 30,
+                                  child: Center(
+                                      child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ))),
+                            )
+                          : Icon(
+                              Icons.check,
+                              size: 30,
+                              color: Colors.white,
+                            )
+                    ],
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 66, 234),
-                    foregroundColor: Colors.white,
-                    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
+                  // style: ElevatedButton.styleFrom(
+                  //   backgroundColor: const Color.fromARGB(255, 0, 66, 234),
+                  //   foregroundColor: Colors.white,
+                  //   textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(8),
+                  //   ),
+                  // ),
                 ),
               ],
             ),

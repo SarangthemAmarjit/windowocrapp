@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
+import 'package:camera_windows_example/home/landingpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +11,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'controller/managementcontroller.dart';
 import 'controller/pagecontroller.dart';
-import 'home/landingpage.dart';
+import 'controller/paymentcontroller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ Future<void> main() async {
   Get.put(Connectivitycontroller());
   Get.put(PagenavControllers());
   Get.put(Managementcontroller());
-  print("Parse any date :${parseAnyDate("12-08-2025 11:17:11")}");
+  Get.put(GetxTapController());
 }
 
 class MyApp extends StatefulWidget {
@@ -61,23 +61,53 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           datePickerTheme: DatePickerThemeData(
-              backgroundColor: Colors.grey[300]!,
-              rangeSelectionBackgroundColor: WidgetStateColor.resolveWith(
-                  (c) => Colors.blue.withValues(alpha: 0.2)),
-              dayOverlayColor: WidgetStateColor.resolveWith(
-                  (c) => Colors.blue.withValues(alpha: 0.2)),
-              todayBackgroundColor:
-                  WidgetStateColor.resolveWith((c) => Colors.grey[300]!),
-              dayStyle: TextStyle(color: Colors.grey[900]),
-              rangeSelectionOverlayColor: WidgetStateColor.resolveWith(
-                  (c) => Colors.blue.withValues(alpha: 0.2)),
-              cancelButtonStyle: ButtonStyle(
-                  foregroundColor:
-                      WidgetStateColor.resolveWith((e) => Colors.blue)),
-              confirmButtonStyle: ButtonStyle(
-                  foregroundColor:
-                      WidgetStateColor.resolveWith((e) => Colors.blue))),
-          textTheme: GoogleFonts.robotoCondensedTextTheme(),
+            backgroundColor: Colors.grey[300], // clean background
+            surfaceTintColor: Colors.transparent,
+            elevation: 4,
+            shadowColor: Colors.black.withOpacity(0.05),
+
+            // Flat rectangle corners
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(0),
+            ),
+
+            // Selected day (blue background, white text)
+            dayBackgroundColor: WidgetStateColor.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return Colors.blue;
+              }
+              return Colors.transparent;
+            }),
+            dayForegroundColor: WidgetStateColor.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return Colors.white;
+              }
+              return Colors.grey[900]!;
+            }),
+
+            // Today’s date with subtle border
+            todayBackgroundColor:
+                WidgetStateColor.resolveWith((c) => Colors.transparent),
+            todayBorder: BorderSide(color: Colors.blue, width: 1.2),
+
+            // Range selection
+            rangeSelectionBackgroundColor: WidgetStateColor.resolveWith(
+                (c) => Colors.blue.withOpacity(0.15)),
+            rangeSelectionOverlayColor: WidgetStateColor.resolveWith(
+                (c) => Colors.blue.withOpacity(0.2)),
+
+            // Buttons
+            cancelButtonStyle: ButtonStyle(
+              foregroundColor:
+                  WidgetStateColor.resolveWith((e) => Colors.grey[700]!),
+            ),
+            confirmButtonStyle: ButtonStyle(
+              foregroundColor:
+                  WidgetStateColor.resolveWith((e) => Colors.white),
+              backgroundColor: WidgetStateColor.resolveWith((e) => Colors.blue),
+            ),
+          ),
+          textTheme: GoogleFonts.interTextTheme(),
           colorScheme: ColorScheme(
               brightness: Brightness.light,
               primary: Colors.white,
@@ -87,10 +117,10 @@ class _MyAppState extends State<MyApp> {
               error: Colors.redAccent,
               onError: Colors.white,
               surface: Colors.white,
-              onSurface: Colors.black)),
+              onSurface: const Color.fromARGB(255, 26, 25, 25))),
       // home: Paymentdemo(),
       home: LandingPage(),
-      // home: MyWidget()
+      // home: CardShuffleDemo()
       // home:PermitGenerateWidget(
 
       //   applicantId: "123485986768"),

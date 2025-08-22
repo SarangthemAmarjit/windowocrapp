@@ -126,7 +126,7 @@ class RegistrationPage extends StatelessWidget {
                         child: Text(
                       "Personal Details",
                       style: TextStyle(
-                          fontSize: controller.page == 1 ? 30 : 16,
+                          fontSize: controller.page == 1 ? 28 : 16,
                           color: controller.page >= 1 ? Colors.green : null),
                     )),
                   ),
@@ -142,7 +142,7 @@ class RegistrationPage extends StatelessWidget {
                         child: Text(
                       "Profile Image",
                       style: TextStyle(
-                          fontSize: controller.page == 2 ? 30 : 16,
+                          fontSize: controller.page == 2 ? 28 : 16,
                           // fontSize: 16,
 
                           color: controller.page >= 2 ? Colors.green : null),
@@ -160,7 +160,7 @@ class RegistrationPage extends StatelessWidget {
                         child: Text(
                       "Card  & Signature",
                       style: TextStyle(
-                          fontSize: controller.page == 3 ? 30 : 16,
+                          fontSize: controller.page == 3 ? 28 : 16,
                           // fontSize: 16,
 
                           color: controller.page >= 3 ? Colors.green : null),
@@ -178,7 +178,7 @@ class RegistrationPage extends StatelessWidget {
                         child: Text(
                       "Payment",
                       style: TextStyle(
-                          fontSize: controller.page == 4 ? 30 : 16,
+                          fontSize: controller.page == 4 ? 28 : 16,
                           // fontSize: 16,
 
                           color: controller.page >= 4 ? Colors.green : null),
@@ -213,9 +213,6 @@ class RegistrationPage extends StatelessWidget {
             ),
             controller.page == 1
                 ? TemporaryILPFormReplica()
-
-                //     : controller.page == 3
-                //         ? PermitDetails()
                 : controller.page == 2
                     ? PhotoSignaturePage()
                     // ?FaceDetectionPage()

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:camera_windows_example/cons/constant.dart';
+import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/controller/paymentcontroller.dart';
@@ -40,8 +41,6 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
   final _key = UniqueKey();
   late InAppWebViewController _controller;
   bool loadComplete = false;
-  final Completer<InAppWebViewController> _controllerCompleter =
-      Completer<InAppWebViewController>();
   final GlobalKey _keys = GlobalKey();
   bool isLoading = false;
   @override
@@ -61,10 +60,9 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
 
   @override
   Widget build(BuildContext context) {
-    GetxTapController gcontroller = Get.put(GetxTapController());
-    return WillPopScope(
-      onWillPop: () => _handleBackButtonAction(context),
-      child: GetBuilder<PagenavControllers>(builder: (pagectrl) {
+    GetxTapController gcontroller = Get.find<GetxTapController>();
+    return GetBuilder<Imagecontroller>(builder: (imgcon) {
+      return GetBuilder<PagenavControllers>(builder: (pagectrl) {
         return GetBuilder<Managementcontroller>(builder: (mngctrl) {
           return Scaffold(
             backgroundColor: const Color.fromARGB(255, 162, 207, 240),
@@ -76,18 +74,24 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
             ),
             body: Stack(
               children: [
-                mngctrl.paymentresult != null && mngctrl.paymentresult!.permitNo!.isNotEmpty
+                mngctrl.paymentresult != null &&
+                        mngctrl.paymentresult!.permitNo!.isNotEmpty &&
+                        mngctrl.getPermit != null &&
+                        imgcon.profileImage != null
                     ? Stack(
                         children: [
                           PermitGenerateWidgetcopy(
                             applicantId: mngctrl.paymentresult!.permitNo!,
                             keys: _keys,
                             paymentResponse: mngctrl.paymentresult!,
+                            permit: mngctrl.getPermit!,
+                            permitfee: mngctrl.getPermitPrice!.fee,
+                            image: imgcon.profileImage!,
                           ),
                           Positioned.fill(
                               child: Container(
                             color: Colors.transparent,
-                          ))
+                          )),
                         ],
                       )
                     : SizedBox(),
@@ -150,7 +154,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                               height: 20,
                                             ),
                                             Text("Processing your Payment",
-                                                style: GoogleFonts.lobster(
+                                                style: GoogleFonts.inter(
                                                     color: Theme.of(context).colorScheme.secondary,
                                                     fontSize: 30))
                                           ],
@@ -176,11 +180,43 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                           initialData: InAppWebViewInitialData(
                                             data: isDebugmode
                                                 ? '''
+                                                      <!DOCTYPE html>
+                                                      <html>
+                                                      <head>
+                                                        <meta name="viewport" content="width=device-width, initial-scale=1">
+                                                        <script src="https://pgtest.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+                                                        <style>
+                                                          body { margin: 0; padding: 0; width: 100%; height: 100%; }
+                                                          #payment-form { width: 100%; height: 100%; }
+                                                        </style>
+                                                      </head>
+                                                      <body>
+                                                        <div id="payment-form"></div>
+                                                        <script>
+                                                          function openPay() {
+                                                            const options = {
+                                                              "atomTokenId": "${gcontroller.atomTokenId}",
+                                                                    "merchId": "${gcontroller.login}",
+                                                                    "custEmail": "test.user@gmail.com",
+                                                                    "custMobile": "8888888888",
+                                                                    "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
+                                                                    "userAgent": "mobile_webView"
+                                                                  };
+                                                                  
+                                                                  new AtomPaynetz(options, 'uat');
+                                                                }
+                                                                document.addEventListener('DOMContentLoaded', openPay);
+                                                              </script>
+                                                            </body>
+                                                            </html>
+                                                          '''
+                                                : '''
                                                     <!DOCTYPE html>
                                                     <html>
                                                     <head>
                                                       <meta name="viewport" content="width=device-width, initial-scale=1">
-                                                      <script src="https://pgtest.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+                                                      // <script src="https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+                                                      
                                                       <style>
                                                         body { margin: 0; padding: 0; width: 100%; height: 100%; }
                                                         #payment-form { width: 100%; height: 100%; }
@@ -192,51 +228,19 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                         function openPay() {
                                                           const options = {
                                                             "atomTokenId": "${gcontroller.atomTokenId}",
-                                                                  "merchId": "${gcontroller.login}",
-                                                                  "custEmail": "test.user@gmail.com",
-                                                                  "custMobile": "8888888888",
-                                                                  "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
-                                                                  "userAgent": "mobile_webView"
-                                                                };
-                                                                
-                                                                new AtomPaynetz(options, 'uat');
-                                                              }
-                                                              document.addEventListener('DOMContentLoaded', openPay);
-                                                            </script>
-                                                          </body>
-                                                          </html>
-                                                        '''
-                                                : '''
-                                                  <!DOCTYPE html>
-                                                  <html>
-                                                  <head>
-                                                    <meta name="viewport" content="width=device-width, initial-scale=1">
-                                                    // <script src="https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
-                                                    
-                                                    <style>
-                                                      body { margin: 0; padding: 0; width: 100%; height: 100%; }
-                                                      #payment-form { width: 100%; height: 100%; }
-                                                    </style>
-                                                  </head>
-                                                  <body>
-                                                    <div id="payment-form"></div>
-                                                    <script>
-                                                      function openPay() {
-                                                        const options = {
-                                                          "atomTokenId": "${gcontroller.atomTokenId}",
-                                                "merchId": "${gcontroller.login}",
-                                                "custEmail": "${mngctrl.getPermit?.applcntEmail ?? "nouser@gmail.com"}",
-                                                "custMobile": "${mngctrl.getPermit?.applcntMobile ?? "9898989898"}",
-                                                "returnUrl": "https://payment.atomtech.in/mobilesdk/param",
-                                                "userAgent": "mobile_webView"
-                                              };
-                                              new AtomPaynetz(options, 'uat');
-                                            }
-                                            document.addEventListener('DOMContentLoaded', openPay);
-                                          </script>
-                                        </body>
-                                        </html>
-                                      ''',
+                                                  "merchId": "${gcontroller.login}",
+                                                  "custEmail": "${mngctrl.getPermit?.applcntEmail ?? "nouser@gmail.com"}",
+                                                  "custMobile": "${mngctrl.getPermit?.applcntMobile ?? "9898989898"}",
+                                                  "returnUrl": "https://payment.atomtech.in/mobilesdk/param",
+                                                  "userAgent": "mobile_webView"
+                                                };
+                                                new AtomPaynetz(options, 'uat');
+                                              }
+                                              document.addEventListener('DOMContentLoaded', openPay);
+                                            </script>
+                                          </body>
+                                          </html>
+                                        ''',
                                           ),
                                           onWebViewCreated: (controller) {
                                             _controller = controller;
@@ -296,6 +300,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                               int? transactionstatus;
                                               String paymentmethodname = '';
                                               String totalamount = '';
+                                              String processingfee = '';
                                               String remark = "";
                                               if (response.trim().contains("cancelTransaction")) {
                                                 remark = remark.isEmpty || remark != 'failed'
@@ -347,7 +352,10 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                           .toString();
                                                       paymentmethodname = paymentmethod[paymethod];
                                                       totalamount = jsonInput['payInstrument']
-                                                              ['payDetails']['totalAmount']
+                                                              ['payDetails']['amount']
+                                                          .toStringAsFixed(2);
+                                                      processingfee = jsonInput['payInstrument']
+                                                              ['payDetails']['surchargeAmount']
                                                           .toStringAsFixed(2);
                                                       remark = "SUCCESS";
                                                       transactionResult = "SUCCESS";
@@ -361,6 +369,9 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                       totalamount = jsonInput['payInstrument']
                                                               ['payDetails']['totalAmount']
                                                           .toStringAsFixed(2);
+                                                      processingfee = jsonInput['payInstrument']
+                                                              ['payDetails']['surchargeAmount']
+                                                          .toStringAsFixed(2);
                                                       remark = "Failed";
                                                       debugPrint("Transaction failed");
                                                       transactionResult = "FAILED";
@@ -373,6 +384,9 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                     paymentmethodname = paymentmethod[paymethod];
                                                     totalamount = jsonInput['payInstrument']
                                                             ['payDetails']['totalAmount']
+                                                        .toStringAsFixed(2);
+                                                    processingfee = jsonInput['payInstrument']
+                                                            ['payDetails']['surchargeAmount']
                                                         .toStringAsFixed(2);
                                                     remark = "Failed";
 
@@ -388,6 +402,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                               _closeWebView(
                                                   callback: () async {
                                                     await gcontroller.updatepaymentremark(
+                                                        processingfee: processingfee,
                                                         amount: totalamount,
                                                         key: _keys,
                                                         transactionid: gcontroller.transacid,
@@ -420,8 +435,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
             ),
           );
         });
-      }),
-    );
+      });
+    });
   }
 
   _closeWebView(

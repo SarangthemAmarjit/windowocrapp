@@ -64,7 +64,7 @@ class ApicallImpl extends ApiCall {
         String? applicant = json["applicationId"];
         return json;
       } else {
-        debugPrint("${response.reasonPhrase} ${response.statusCode}");
+        debugPrint("vcvcv vcv${response.reasonPhrase} ${response.statusCode}");
       }
     } catch (e) {
       debugPrint("Error in addPermit: $e");
@@ -266,7 +266,7 @@ class ApicallImpl extends ApiCall {
 
   Future<PaymentResponse?> sendPayment(Payment payment) async {
     final url = Uri.parse('$localapi/api/kiosk/callback');
-    debugPrint("to send payment data: ${payment.toJson()}");
+    debugPrint("api:${url} \nto send payment data: ${payment.toJson()}");
     try {
       final response = await http.post(
         url,

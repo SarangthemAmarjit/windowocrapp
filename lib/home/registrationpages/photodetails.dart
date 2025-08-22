@@ -4,7 +4,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
@@ -28,11 +27,8 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
     // TODO: implement initState
 
     super.initState();
-    // loadcascade();
     timernew = 0;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      debugPrint("First timernew = $timernew");
-      // Hide keyboard when the screen starts
       if (Get.find<Imagecontroller>().profileImage == null) {
         debugPrint("In Initialise data : Image if null profile");
         initialise();
@@ -50,16 +46,10 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
 
   void initialise() async {
     await Get.find<Imagecontroller>().retakeImage();
-    // await Get.find<Imagecontroller>().initializeCameraAgain(
-    //     isfront: false, isback: false, isprofilecam: true);
+
     if (Get.find<Imagecontroller>().isinitialized) {
       countdowntimernew();
     }
-    // if (Get.find<Imagecontroller>().isinitialized) {
-    //   countdowntimernew();
-    // } else {
-
-    // }
   }
 
   @override
@@ -123,9 +113,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(),
                         boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 5)
+                          BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 5)
                         ]),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,8 +136,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                       )
                                     : Text(
                                         "Initializing Camera. Please Wait",
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.green),
+                                        style: TextStyle(fontSize: 20, color: Colors.green),
                                       )),
                         timernew <= 1
                             ? SizedBox(
@@ -200,8 +187,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                                     controller.repeat();
                                                   },
                                                 ).rotate(
-                                                  duration:
-                                                      Duration(seconds: 2),
+                                                  duration: Duration(seconds: 2),
                                                 ),
                                               )),
                               ),
@@ -218,9 +204,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                       child: Text(
                                     '$timernew',
                                     style: TextStyle(
-                                        fontSize: 200,
-                                        color: Colors.green
-                                            .withValues(alpha: 0.6)),
+                                        fontSize: 200, color: Colors.green.withValues(alpha: 0.6)),
                                   ).animate().fadeIn())),
                               // child: Center(
                               //     child: Text(
@@ -233,9 +217,9 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
 
                             // Draw bounding boxes on top of the image
                           ],
-                        ).animate().fadeIn(
-                            duration: Duration(),
-                            delay: Duration(milliseconds: 200)),
+                        )
+                            .animate()
+                            .fadeIn(duration: Duration(), delay: Duration(milliseconds: 200)),
 
                         SizedBox(
                           height: 20,
@@ -243,8 +227,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                         //
                         timernew > 1
                             ? SizedBox.shrink()
-                            : imgcon.isinitialized ||
-                                    imgcon.profileImage != null
+                            : imgcon.isinitialized || imgcon.profileImage != null
                                 ? Row(
                                     children: [
                                       Expanded(
@@ -264,8 +247,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                             clipBehavior: Clip.antiAlias,
                                             child: Center(
                                                 child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Icon(
                                                   Icons.camera_sharp,
@@ -276,9 +258,8 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                                 ),
                                                 Text(
                                                   "Retake",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 24),
+                                                  style:
+                                                      TextStyle(color: Colors.white, fontSize: 24),
                                                 ),
                                               ],
                                             )),
@@ -310,14 +291,12 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                                             clipBehavior: Clip.antiAlias,
                                             child: Center(
                                                 child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   "Proceed",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 24),
+                                                  style:
+                                                      TextStyle(color: Colors.white, fontSize: 24),
                                                 ),
                                                 SizedBox(
                                                   width: 20,
@@ -361,9 +340,7 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           Text(
                             '📸 Face Capture Instructions',
                             style: TextStyle(
-                                color: Colors.grey[900],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24),
+                                color: Colors.grey[900], fontWeight: FontWeight.bold, fontSize: 24),
                           ),
                           SizedBox(
                             height: 32,
@@ -371,16 +348,12 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           Text(
                             '1. Stand close to the camera',
                             style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
+                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                           Text(
                             '→ Maintain a distance of 1 - 2 ft',
                             style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
+                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           SizedBox(
                             height: 16,
@@ -388,16 +361,12 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           Text(
                             '2. Align your face within the frame',
                             style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
+                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                           Text(
                             '→ Make sure your entire face is visible — no cropping',
                             style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
+                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                           SizedBox(
                             height: 16,
@@ -405,16 +374,12 @@ class _PhotoSignaturePageState extends State<PhotoSignaturePage> {
                           Text(
                             "3. Avoid background faces",
                             style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
+                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                           Text(
                             '→ Only one face must be clearly visible in the frame',
                             style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
+                                color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                         ],
                       ),

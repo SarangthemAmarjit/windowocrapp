@@ -19,36 +19,31 @@ class PagenavControllers extends GetxController {
   Timer? _timer;
   int incrementPage = 1;
   void listenPageChange() {
-    //     if(_mainpageindex!=0){g
-    //       if(_timer!=null){
-    //         _timer!.cancel();
-    //       }
-    //         if(_mainpageindex==2){
-    //  _timer = Timer(Duration(seconds: 40),(){
-
-    //    setmainpageindex(ind: 0);
-    //  });
-    //         }else{
-
-    //        _timer = Timer(Duration(seconds: 30),(){
-    //           setmainpageindex(ind: 0);
-    //        });
-
-    //         }
-
-    //     }else{
-    //            if(_timer!=null){
-    //         _timer!.cancel();
-    //       }
-    //     }
+    // if (_mainpageindex != 0) {
+    //   if (_timer != null) {
+    //     _timer!.cancel();
+    //   }
+    //   if (_mainpageindex == 2) {
+    //     _timer = Timer(Duration(seconds: 40), () {
+    //       setmainpageindex(ind: 0);
+    //     });
+    //   } else {
+    //     _timer = Timer(Duration(seconds: 30), () {
+    //       setmainpageindex(ind: 0);
+    //     });
+    //   }
+    // } else {
+    //   if (_timer != null) {
+    //     _timer!.cancel();
+    //   }
+    // }
   }
 
-  void pageIncremeter(int index){
-    if(index>incrementPage){
-
+  void pageIncremeter(int index) {
+    if (index > incrementPage) {
       incrementPage = index;
     }
-      update();
+    update();
   }
 
   void changePage(int index) {
