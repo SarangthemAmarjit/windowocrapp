@@ -154,7 +154,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                               height: 20,
                                             ),
                                             Text("Processing your Payment",
-                                                style: GoogleFonts.lobster(
+                                                style: GoogleFonts.inter(
                                                     color: Theme.of(context).colorScheme.secondary,
                                                     fontSize: 30))
                                           ],

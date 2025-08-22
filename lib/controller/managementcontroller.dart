@@ -34,7 +34,7 @@ class Managementcontroller extends GetxController {
   List<PermitPriceModel> get allpermitprices => _allpermitprices;
   VisitorEntry? _permit;
   VisitorEntry? get getPermit => _permit;
-  VisitorEntry? currentPermit;
+  // VisitorEntry? currentPermit;
   List<String> _docnames = [];
   List<String> get getDocNames => _docnames;
   PermitApplication? _applicid;
@@ -295,7 +295,7 @@ class Managementcontroller extends GetxController {
       _permit!.transactionId = isCash ? "CASH" : ds['TransactionId'];
 
       // print(" permit to post: ${_permit?.toJson().toString()}");
-      currentPermit = _permit;
+      // currentPermit = _permit;
       update();
       return ds.entries.first.value == 0 ? {} : {'appid': appid, 'orderid': orderid};
     } else {
@@ -305,7 +305,7 @@ class Managementcontroller extends GetxController {
       var orderid = ds["orderId"];
       _permit!.transactionId = ds['transactionId'];
 
-      currentPermit = _permit;
+      // currentPermit = _permit;
       update();
       // log('Return Orderid map : ' + ds.toString());
       return appid == null
@@ -412,7 +412,7 @@ class Managementcontroller extends GetxController {
     onlineAplicant = null;
     _permit = null;
     paymentresult = null;
-    currentPermit = null;
+    // currentPermit = null;
     _applicid = null;
     isUserAlreadyexist = false;
   }
