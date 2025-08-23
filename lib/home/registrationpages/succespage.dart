@@ -8,6 +8,7 @@ import 'package:camera_windows_example/widgets/elevatedbuttoncard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -59,7 +60,7 @@ class _SuccesspagesState extends State<Successpages> {
       Get.find<PagenavControllers>().reset();
       Get.find<Imagecontroller>().disposeAll();
       Get.find<Managementcontroller>().disposeAll();
-      Get.find<PagenavControllers>().setmainpageindex(ind: 0);
+      context.go('/home/homescreen');
     });
   }
 
@@ -157,10 +158,11 @@ class _SuccesspagesState extends State<Successpages> {
                         Get.find<PagenavControllers>().reset();
                         Get.find<Imagecontroller>().disposeAll();
                         Get.find<Managementcontroller>().disposeAll();
-                        Get.find<PagenavControllers>().setmainpageindex(ind: 0);
+
                         if (_timer != null) {
                           _timer!.cancel();
                         }
+                        context.go('/home/homescreen');
                       },
                       child: Text(
                         'Apply New Permit',

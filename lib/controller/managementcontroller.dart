@@ -5,16 +5,15 @@ import 'dart:io';
 import 'package:camera_windows_example/cons/printimages.dart';
 import 'package:camera_windows_example/cons/utils.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
-import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:camera_windows_example/models/apicall.dart';
 import 'package:camera_windows_example/models/apicallimpl.dart';
 import 'package:camera_windows_example/models/ilpmodel.dart';
 import 'package:camera_windows_example/models/permit.dart';
 import 'package:camera_windows_example/models/permitprice.dart';
-import 'package:camera_windows_example/widgets/paymentresultdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../cons/constant.dart';
@@ -192,8 +191,7 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<Map<String, int>> verifydocid(
-      {required String doctype, required String docid}) async {
+  Future<Map<String, int>> verifydocid({required String doctype, required String docid}) async {
     isVeriflyloading = true;
     String applicationId = '';
     int response = -1;
@@ -202,8 +200,6 @@ class Managementcontroller extends GetxController {
       var appid = await apicall!.verifydoc(doctype: doctype, idnumber: docid);
       response = appid['status'];
       print("INVERFIY DOC:$response");
-      // print(" doctype: $doctype  dociDno.: $docid");
-      // print("Appid : ${appid?.toJson().toString()}");
       if (appid['status'] == 200) {
         isUserAlreadyexist = true;
         _applicid = appid['data'];
@@ -267,8 +263,7 @@ class Managementcontroller extends GetxController {
   }
 
   //get document verification details from api
-  Future<void> getDocumentDetails(
-      {required String docID, required String docType}) async {
+  Future<void> getDocumentDetails({required String docID, required String docType}) async {
     //fetch doc from api
     _permit = VisitorEntry(idProof: docType, idNo: docID);
 
@@ -287,8 +282,8 @@ class Managementcontroller extends GetxController {
       _permit!.deviceId = deviceId!;
 
       if (_applicid != null && _applicid!.applicationNo.isNotEmpty) {
-        Map<String?, dynamic> ds = await apicall!.updatePermit(
-            passport, idcard, signature, _permit!, _applicid!.applicationNo);
+        Map<String?, dynamic> ds = await apicall!
+            .updatePermit(passport, idcard, signature, _permit!, _applicid!.applicationNo);
         // print('$ds $isLoading');
         String? appid = ds["applicationId"];
         var orderid = ds["orderId"];
@@ -305,8 +300,7 @@ class Managementcontroller extends GetxController {
                   }
                 : {'appid': appid, 'orderid': orderid};
       } else {
-        Map<String?, dynamic> ds =
-            await apicall!.addPermit(passport, idcard, signature, _permit!);
+        Map<String?, dynamic> ds = await apicall!.addPermit(passport, idcard, signature, _permit!);
         // print('$ds $isLoading');
         String? appid = ds["applicationId"];
         var orderid = ds["orderId"];
@@ -346,7 +340,7 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<void> addPayments(Payment pays, GlobalKey key) async {
+  Future<void> addPayments(Payment pays, GlobalKey key, BuildContext context) async {
     try {
       Payment payment = Payment(
           paymentId: pays.paymentId,
@@ -364,34 +358,26 @@ class Managementcontroller extends GetxController {
         paymentresult = payres;
         update();
 
-        Get.dialog(
-            barrierDismissible: pays.status.toLowerCase() != 'success',
-            Dialog(
-              child: PaymentResultDialog(
-                amount: pays.amount,
-                isSuccess: pays.status.toLowerCase() == 'success',
-                callback: () async {},
-              ),
-            ));
         if (payres.permitNo != null && payres.permitNo!.isNotEmpty) {
           await Future.delayed(Duration(milliseconds: 2000));
-          await Get.find<Imagecontroller>()
-              .saveReceiptimages(key, printername ?? "CUSTOM K80");
+          await Get.find<Imagecontroller>().saveReceiptimages(key, printername ?? "CUSTOM K80");
           Future.delayed(Duration(milliseconds: 2000));
-          Get.back();
-          Get.find<PagenavControllers>().setmainpageindex(ind: 5);
+          // Navigator.pop(context);
+          // Get.find<PagenavControllers>().setmainpageindex(ind: 5);
+          context.go('/home/successpage');
         } else {
-          printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
-              {payres.transactionId ?? "": payres.date ?? ""},
-              deviceId: deviceId ?? '',
-              printername: printername ?? "CUSTOM K80");
-          Get.find<PagenavControllers>().setmainpageindex(ind: 6);
+          printUsbReceiptWindowsonline(
+              onlineAplicant ?? "", "", {payres.transactionId ?? "": payres.date ?? ""},
+              deviceId: deviceId ?? '', printername: printername ?? "CUSTOM K80");
+          // Get.find<PagenavControllers>().setmainpageindex(ind: 6);
+          context.go('/home/successpage');
         }
       } else {
         printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
             {pays.paymentId: DateFormat('dd/MM/yyyy').format(DateTime.now())},
             printername: printername ?? "CUSTOM K80", deviceId: deviceId ?? '');
-        Get.find<PagenavControllers>().setmainpageindex(ind: 6);
+        // Get.find<PagenavControllers>().setmainpageindex(ind: 6);
+        context.go('/home/successpage');
       }
 
       update();
@@ -399,7 +385,8 @@ class Managementcontroller extends GetxController {
       printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
           {pays.paymentId: DateFormat('dd/MM/yyyy').format(DateTime.now())},
           printername: printername ?? "CUSTOM K80", deviceId: deviceId ?? '');
-      Get.find<PagenavControllers>().setmainpageindex(ind: 6);
+      // Get.find<PagenavControllers>().setmainpageindex(ind: 6);
+      context.go('/home/successpage');
     }
   }
 
@@ -414,7 +401,6 @@ class Managementcontroller extends GetxController {
     onlineAplicant = null;
     _permit = null;
     paymentresult = null;
-    // currentPermit = null;
     _applicid = null;
     isUserAlreadyexist = false;
   }

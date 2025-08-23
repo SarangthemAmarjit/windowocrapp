@@ -4,23 +4,21 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class Connectivitycontroller extends GetxController{
+class Connectivitycontroller extends GetxController {
+  RxBool isConnectivity = RxBool(false);
 
-   RxBool isConnectivity = RxBool(false);
- 
- final Connectivity _connectivity = Connectivity();
+  final Connectivity _connectivity = Connectivity();
   StreamSubscription<List<ConnectivityResult>>? connectivitySubscription;
 
-
-    Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     isConnectivity.value = result.contains(ConnectivityResult.none);
   }
-@override
+
+  @override
   void onInit() {
     super.onInit();
-     initConnectivity();
-    connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    initConnectivity();
+    connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
   Future<void> initConnectivity() async {
@@ -33,5 +31,4 @@ class Connectivitycontroller extends GetxController{
     }
     return _updateConnectionStatus(result);
   }
-
 }

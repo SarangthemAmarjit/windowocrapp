@@ -21,18 +21,15 @@ const int DM_IN_BUFFER = 0x00000008; // Loads input values into DEVMODE
 const int DM_IN_PROMPT = 0x00000004; // Prompts the user for changes
 const int DM_MODIFY = 0x00000008; // Modifies the printer settings
 
-Future<void> printImageDirectly(
-    String printerName, Uint8List imageBytes, Sizes size) async {
+Future<void> printImageDirectly(String printerName, Uint8List imageBytes, Sizes size) async {
   final hPrinter = calloc<HANDLE>();
   final printerDefaults = calloc<PRINTER_DEFAULTS>()
     ..ref.pDatatype = nullptr
     ..ref.pDevMode = nullptr
-    ..ref.DesiredAccess = GENERIC_ACCESS_RIGHTS.GENERIC_READ |
-        GENERIC_ACCESS_RIGHTS.GENERIC_WRITE;
+    ..ref.DesiredAccess = GENERIC_ACCESS_RIGHTS.GENERIC_READ | GENERIC_ACCESS_RIGHTS.GENERIC_WRITE;
 
   try {
-    if (OpenPrinter(printerName.toNativeUtf16(), hPrinter, printerDefaults) ==
-        0) {
+    if (OpenPrinter(printerName.toNativeUtf16(), hPrinter, printerDefaults) == 0) {
       print('Failed to open printer');
       return;
     }
@@ -144,7 +141,7 @@ Future<Uint8List> getBytesFromAsset(String path) async {
 }
 
 void printUsbReceiptWindows(
-    String printername, Uint8List d, String applicantID, String reason) async {
+    String printername, Uint8List? d, String applicantID, String reason) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
@@ -167,8 +164,7 @@ void printUsbReceiptWindows(
       styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(generator.feed(2));
 
-  bytes.addAll(generator.text('Applicant ID',
-      styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.text('Applicant ID', styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(generator.text('$applicantID',
       styles: const PosStyles(
         align: PosAlign.center,
@@ -176,23 +172,22 @@ void printUsbReceiptWindows(
         width: PosTextSize.size3,
       )));
   bytes.addAll(generator.feed(1));
-
-  bytes.addAll(
-    generator.image(img.decodeImage(d)!, align: PosAlign.center),
-  );
+  if (d != null) {
+    bytes.addAll(
+      generator.image(img.decodeImage(d)!, align: PosAlign.center),
+    );
+  }
 
   // bytes.addAll(generator.feed(2));
   //    bytes.addAll(generator.text('$reason',
   //     styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.text('', styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(
-      generator.text('', styles: const PosStyles(align: PosAlign.center)));
-  bytes.addAll(generator.text('Please go at the counter',
-      styles: const PosStyles(align: PosAlign.center)));
-  bytes.addAll(generator.text('to complete the process',
-      styles: const PosStyles(align: PosAlign.center)));
+      generator.text('Please go at the counter', styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(
+      generator.text('to complete the process', styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(generator.feed(1));
-  bytes.addAll(generator.text(
-      ' ---------------------------------------------------------------'));
+  bytes.addAll(generator.text(' ---------------------------------------------------------------'));
 
   // bytes.addAll(generator.text('Enjoy your stay!',
   //     styles: const PosStyles(align: PosAlign.center)));
@@ -220,14 +215,13 @@ void printUsbReceiptWindowsimages(Uint8List d, String printername) async {
   // printImageDirectly("CUSTOM K80", imageBytes, Sizes(80, 80));
 }
 
-void printUsbReceiptWindowsonline(
-    String applicantID, String permitno, Map<String, String> trans,
+void printUsbReceiptWindowsonline(String applicantID, String permitno, Map<String, String> trans,
     {required String printername, required String deviceId}) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
-  bytes.addAll(generator.text('   Device Id: ${deviceId}',
-      styles: const PosStyles(align: PosAlign.left)));
+  bytes.addAll(
+      generator.text('   Device Id: ${deviceId}', styles: const PosStyles(align: PosAlign.left)));
   bytes.addAll(generator.feed(2));
   // Add text
   bytes.addAll(generator.text(
@@ -238,12 +232,11 @@ void printUsbReceiptWindowsonline(
       width: PosTextSize.size2,
     ),
   ));
-  bytes.addAll(generator.text('Date: ${DateTime.now()}',
-      styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(
+      generator.text('Date: ${DateTime.now()}', styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(generator.feed(2));
 
-  bytes.addAll(generator.text('Applicant ID',
-      styles: const PosStyles(align: PosAlign.center)));
+  bytes.addAll(generator.text('Applicant ID', styles: const PosStyles(align: PosAlign.center)));
   bytes.addAll(generator.feed(1));
   bytes.addAll(generator.text('$applicantID',
       styles: const PosStyles(
@@ -253,8 +246,7 @@ void printUsbReceiptWindowsonline(
       )));
   bytes.addAll(generator.feed(2));
   if (trans.isNotEmpty) {
-    bytes.addAll(generator.text('Transaction ID',
-        styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.text('Transaction ID', styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.feed(1));
     bytes.addAll(generator.text('#${trans.entries.first.key}',
         styles: const PosStyles(
@@ -273,8 +265,7 @@ void printUsbReceiptWindowsonline(
         styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.feed(1));
   } else {
-    bytes.addAll(generator.text('Permit No:',
-        styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.text('Permit No:', styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.feed(1));
     bytes.addAll(generator.text('$permitno',
         styles: const PosStyles(
@@ -284,19 +275,16 @@ void printUsbReceiptWindowsonline(
         )));
     bytes.addAll(generator.feed(2));
 
+    bytes.addAll(generator.text('', styles: const PosStyles(align: PosAlign.center)));
+    bytes.addAll(generator.text('A message will be sent to your number with the link.',
+        styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(
-        generator.text('', styles: const PosStyles(align: PosAlign.center)));
-    bytes.addAll(generator.text(
-        'A message will be sent to your number with the link.',
-        styles: const PosStyles(align: PosAlign.center)));
-    bytes.addAll(generator.text('Download the receipt.',
-        styles: const PosStyles(align: PosAlign.center)));
+        generator.text('Download the receipt.', styles: const PosStyles(align: PosAlign.center)));
     bytes.addAll(generator.feed(1));
   }
   // bytes.addAll(generator.image(img.decodeImage(d)!,align: PosAlign.center),);
 
-  bytes.addAll(generator.text(
-      ' ---------------------------------------------------------------',
+  bytes.addAll(generator.text(' ---------------------------------------------------------------',
       styles: const PosStyles(align: PosAlign.center)));
 
   // bytes.addAll(generator.text('Enjoy your stay!',
