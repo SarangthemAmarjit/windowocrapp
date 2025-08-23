@@ -334,10 +334,26 @@ class Managementcontroller extends GetxController {
     update();
   }
 
+  void removePermits() {
+    _permit = null;
+  }
+
   Future<Uint8List> getImageAssetBytes(String assetPath) async {
     // Load the asset as bytes from memory
     ByteData byteData = await rootBundle.load(assetPath);
     return byteData.buffer.asUint8List();
+  }
+
+  Future<void> detectFaces(Uint8List face) async {
+    // print("Capturing and checking datas . Sending API");
+    isCheckFaces = true;
+    facesDetect = "";
+    update();
+
+    Map<String, dynamic> res = await apicall!.detectFaces(face);
+    facesDetect = res.entries.first.value.toString();
+    isCheckFaces = false;
+    update();
   }
 
   void fetchPermitById(String permitnnum) async {
@@ -373,7 +389,9 @@ class Managementcontroller extends GetxController {
                 callback: () async {},
               ),
             ));
-        if (payres.permitNo != null && payres.permitNo!.isNotEmpty) {
+        if (_permit != null &&
+            payres.permitNo != null &&
+            payres.permitNo!.isNotEmpty) {
           await Future.delayed(Duration(milliseconds: 2000));
           await Get.find<Imagecontroller>()
               .saveReceiptimages(key, printername ?? "CUSTOM K80");
@@ -391,11 +409,13 @@ class Managementcontroller extends GetxController {
         printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
             {pays.paymentId: DateFormat('dd/MM/yyyy').format(DateTime.now())},
             printername: printername ?? "CUSTOM K80", deviceId: deviceId ?? '');
+
         Get.find<PagenavControllers>().setmainpageindex(ind: 6);
       }
 
       update();
     } catch (e) {
+      log(e.toString());
       printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
           {pays.paymentId: DateFormat('dd/MM/yyyy').format(DateTime.now())},
           printername: printername ?? "CUSTOM K80", deviceId: deviceId ?? '');
