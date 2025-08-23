@@ -44,13 +44,13 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
     super.initState();
 
     d = QrScannerModel(
-      applicantName: widget.permit.applcntName ?? "",
-      applicantParent: widget.permit.applcntParent ?? "",
-      idNo: widget.permit.idNo ?? "",
-      permitNo: widget.applicantId,
+      applicantName: widget.paymentResponse.applicantName ?? "",
+      applicantParent: widget.paymentResponse.applicantParent ?? "",
+      idNo: widget.paymentResponse.idNo ?? "",
+      permitNo: widget.paymentResponse.permitNo ?? "",
       hs: widget.permit.applcntHNo ?? "",
-      permitType: widget.permit.entryType ?? "",
-      placeOfStay: widget.permit.placeOfStay ?? "",
+      permitType: widget.paymentResponse.permitType ?? "",
+      placeOfStay: widget.paymentResponse.placeOfStay ?? "",
       dateOfIssue: parseAnyDate(widget.paymentResponse.dateOfIssue ?? ""),
       validUpto: parseAnyDate(widget.paymentResponse.validUpto ?? ""),
     );
@@ -214,12 +214,12 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                                     ),
                                                     labeltext(
                                                       title:
-                                                          "${widget.permit.applcntName}",
+                                                          "${widget.paymentResponse.applicantName}",
                                                     ),
                                                     labeltext(
                                                       label: "S/O,D/o,/W/O:",
                                                       title:
-                                                          "${widget.permit.applcntParent}",
+                                                          "${widget.paymentResponse.applicantName}",
                                                     ),
                                                     labeltext(
                                                       label: "DOB: ",
@@ -447,12 +447,6 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                         ),
                                         Text(
                                             "https://manipurilponline.mn.gov.in/",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.center),
-                                        Text("Device ID: ${widget.deviceId}",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.black,

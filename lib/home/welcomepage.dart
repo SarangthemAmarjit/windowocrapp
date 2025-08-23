@@ -1,10 +1,12 @@
 import 'package:camera_windows_example/cons/tandcpolicy.dart';
+import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/elevatedbuttoncard.dart';
@@ -22,7 +24,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-
+    Get.find<Managementcontroller>().disposeAll();
+    Get.find<PagenavControllers>().reset();
+    Get.find<Imagecontroller>().disposeAll();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
     });
@@ -130,62 +134,64 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ElevatedButtonCard(
                     callback: () {
                       if (mngctrl.getDocNames.isNotEmpty) {
-                        pagecon.setmainpageindex(ind: 1);
+                        context.go('/home/idverification');
                         //return to front page if not active for 30 seconds
                         pagecon.listenPageChange();
                       } else {
-                        Get.dialog(Dialog(
-                            insetPadding: EdgeInsets.zero,
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: 600),
-                              child: Container(
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration:
-                                      BoxDecoration(borderRadius: BorderRadius.circular(24)),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Stack(
+                        showDialog(
+                            context: context,
+                            builder: (c) => Dialog(
+                                insetPadding: EdgeInsets.zero,
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(maxWidth: 600),
+                                  child: Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration:
+                                          BoxDecoration(borderRadius: BorderRadius.circular(24)),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Container(
-                                            child: Image.asset(
-                                              'assets/images/searching.gif',
-                                              height: 300,
-                                              width: double.infinity,
-                                              fit: BoxFit.cover,
+                                          Stack(
+                                            children: [
+                                              Container(
+                                                child: Image.asset(
+                                                  'assets/images/searching.gif',
+                                                  height: 300,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(16.0),
+                                                  child: IconButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(c);
+                                                      },
+                                                      icon: Icon(Icons.close)),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Text(
+                                              "Fetching documents...\nPlease wait for some time",
+                                              style: TextStyle(fontSize: 24),
                                             ),
                                           ),
-                                          Positioned(
-                                            top: 0,
-                                            right: 0,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(16.0),
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    Get.back();
-                                                  },
-                                                  icon: Icon(Icons.close)),
-                                            ),
-                                          )
+                                          SizedBox(
+                                            height: 20,
+                                          ),
                                         ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Text(
-                                          "Fetching documents...\nPlease wait for some time",
-                                          style: TextStyle(fontSize: 24),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                    ],
-                                  )),
-                            )));
+                                      )),
+                                )));
                       }
                     },
                     child: Row(
@@ -228,62 +234,63 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             padding: const EdgeInsets.all(16.0),
                             child: InkWell(
                                 onTap: () {
-                                  Get.dialog(Dialog(
-                                    child: Container(
-                                      clipBehavior: Clip.antiAlias,
-                                      padding: EdgeInsets.all(32),
-                                      height: e.key == 2 ? 300 : 800,
-                                      width: 600,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        // image: DecorationImage(
-                                        //     image: AssetImage("assets/images/backgrounds.jpg"),
-                                        //     fit: BoxFit.cover)
-                                      ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "${e.value}",
-                                                style: TextStyle(
-                                                    fontSize: 24, fontWeight: FontWeight.bold),
+                                  showDialog(
+                                      context: context,
+                                      builder: (c) => Dialog(
+                                            child: Container(
+                                              clipBehavior: Clip.antiAlias,
+                                              padding: EdgeInsets.all(32),
+                                              height: e.key == 2 ? 300 : 800,
+                                              width: 600,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(16),
                                               ),
-                                              IconButton(
-                                                  onPressed: () {
-                                                    Get.back();
-                                                  },
-                                                  icon: Icon(Icons.close))
-                                            ],
-                                          ),
-                                          Divider(),
-                                          Expanded(
-                                            child: ListView(
-                                              shrinkWrap: true,
-                                              children: termspolicies[e.key]
-                                                  .asMap()
-                                                  .entries
-                                                  .map(
-                                                    (f) => ListTile(
-                                                      title: Text(
-                                                        "${f.key + 1}",
-                                                        style: TextStyle(fontSize: 16),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "${e.value}",
+                                                        style: TextStyle(
+                                                            fontSize: 24,
+                                                            fontWeight: FontWeight.bold),
                                                       ),
-                                                      subtitle: Text(
-                                                        f.value,
-                                                        style: TextStyle(fontSize: 20),
-                                                      ),
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(c);
+                                                          },
+                                                          icon: Icon(Icons.close))
+                                                    ],
+                                                  ),
+                                                  Divider(),
+                                                  Expanded(
+                                                    child: ListView(
+                                                      shrinkWrap: true,
+                                                      children: termspolicies[e.key]
+                                                          .asMap()
+                                                          .entries
+                                                          .map(
+                                                            (f) => ListTile(
+                                                              title: Text(
+                                                                "${f.key + 1}",
+                                                                style: TextStyle(fontSize: 16),
+                                                              ),
+                                                              subtitle: Text(
+                                                                f.value,
+                                                                style: TextStyle(fontSize: 20),
+                                                              ),
+                                                            ),
+                                                          )
+                                                          .toList(),
                                                     ),
-                                                  )
-                                                  .toList(),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ));
+                                          ));
                                 },
                                 child: Text(
                                   e.value,

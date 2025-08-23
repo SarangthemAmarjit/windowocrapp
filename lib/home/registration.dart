@@ -2,6 +2,7 @@ import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 import '../controller/managementcontroller.dart';
 import '../controller/pagecontroller.dart';
@@ -36,57 +37,59 @@ class RegistrationPage extends StatelessWidget {
                     hoverColor: Colors.transparent,
                     onTap: () {
                       if (controller.page == 1) {
-                        Get.dialog(AlertDialog(
-                          title: Text(
-                            "Registration",
-                            style: TextStyle(fontSize: 24),
-                          ),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Are you sure you want to cancel the registration ? ",
-                                style: TextStyle(fontSize: 16),
-                              )
-                            ],
-                          ),
-                          actions: [
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor: WidgetStateColor.resolveWith(
-                                  (states) => Colors.red.withValues(alpha: 0.3),
-                                )),
-                                child: Text(
-                                  'Cancel',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                onPressed: () {
-                                  controller.setmainpageindex(ind: 0);
-                                  Get.find<Imagecontroller>().disposeAll();
-                                  Get.find<Managementcontroller>().disposeAll();
-                                  Get.find<PagenavControllers>().reset();
-                                  Get.back();
-                                }),
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor: WidgetStateColor.resolveWith(
-                                  (states) => Colors.blueAccent,
-                                )),
-                                child: Text(
-                                  'Continue',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                onPressed: () {
-                                  Get.back();
-                                }),
-                          ],
-                        ));
+                        showDialog(
+                            context: context,
+                            builder: (c) => AlertDialog(
+                                  title: Text(
+                                    "Registration",
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "Are you sure you want to cancel the registration ? ",
+                                        style: TextStyle(fontSize: 16),
+                                      )
+                                    ],
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor: WidgetStateColor.resolveWith(
+                                          (states) => Colors.red.withValues(alpha: 0.3),
+                                        )),
+                                        child: Text(
+                                          'Cancel',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Get.find<Imagecontroller>().disposeAll();
+                                          Get.find<Managementcontroller>().disposeAll();
+                                          Get.find<PagenavControllers>().reset();
+                                          Navigator.pop(c);
+                                          context.go('/home/homescreen');
+                                        }),
+                                    ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor: WidgetStateColor.resolveWith(
+                                          (states) => Colors.blueAccent,
+                                        )),
+                                        child: Text(
+                                          'Continue',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(c);
+                                        }),
+                                  ],
+                                ));
                       } else {
                         controller.changeDashboardPage(controller.page - 1);
                       }

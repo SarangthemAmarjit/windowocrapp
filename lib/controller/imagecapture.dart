@@ -75,8 +75,8 @@ class Imagecontroller extends GetxController {
   void onInit() {
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
-    // _fetchCameras();
-    demoImage();
+    _fetchCameras();
+    // demoImage();
   }
 
   Future<Uint8List> assetImageToUint8List(String path) async {
@@ -120,8 +120,6 @@ class Imagecontroller extends GetxController {
       ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       idCardimage = byteData!.buffer.asUint8List();
-
-      Get.back();
     } on Exception catch (e) {
       debugPrint("failed to save card image");
       // TODO
@@ -138,20 +136,19 @@ class Imagecontroller extends GetxController {
   }
 
   Future<void> saveReceipt(
-      GlobalKey _globalKey, String applicantId, String reason) async {
+      GlobalKey globalKey, String applicantId, String reason) async {
     iscardProcess = true;
     update();
     try {
-      RenderRepaintBoundary boundary = _globalKey.currentContext!
-          .findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage();
-      debugPrint("nav Keys image in save receipt");
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      receipt = byteData!.buffer.asUint8List();
+      // RenderRepaintBoundary boundary =
+      //     globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
+      // ui.Image image = await boundary.toImage();
+      // debugPrint("nav Keys image in save receipt");
+      // ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      // receipt = byteData!.buffer.asUint8List();
       String printers =
           Get.find<Managementcontroller>().printername ?? "CUSTOM K80";
-      printUsbReceiptWindows(printers, receipt!, applicantId, reason);
+      printUsbReceiptWindows(printers, null, applicantId, reason);
     } on Exception catch (e) {
       debugPrint("failed to save card image");
       // TODO
@@ -672,7 +669,7 @@ class Imagecontroller extends GetxController {
           await image.toByteData(format: ui.ImageByteFormat.png);
       profileImage = byteData!.buffer.asUint8List();
 
-      Get.back();
+      // Get.back();
     } on Exception catch (e) {
       debugPrint("failed to save profile image");
       // TODO
@@ -700,7 +697,7 @@ class Imagecontroller extends GetxController {
         backImages = byteData!.buffer.asUint8List();
       }
 
-      Get.back();
+      // Get.back();
     } on Exception catch (e) {
       debugPrint("failed to save id card image");
       // TODO

@@ -144,7 +144,7 @@ Future<Uint8List> getBytesFromAsset(String path) async {
 }
 
 void printUsbReceiptWindows(
-    String printername, Uint8List d, String applicantID, String reason) async {
+    String printername, Uint8List? d, String applicantID, String reason) async {
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
@@ -176,10 +176,11 @@ void printUsbReceiptWindows(
         width: PosTextSize.size3,
       )));
   bytes.addAll(generator.feed(1));
-
-  bytes.addAll(
-    generator.image(img.decodeImage(d)!, align: PosAlign.center),
-  );
+  if (d != null) {
+    bytes.addAll(
+      generator.image(img.decodeImage(d)!, align: PosAlign.center),
+    );
+  }
 
   // bytes.addAll(generator.feed(2));
   //    bytes.addAll(generator.text('$reason',
@@ -226,9 +227,7 @@ void printUsbReceiptWindowsonline(
   final profile = await CapabilityProfile.load();
   final generator = Generator(PaperSize.mm80, profile);
   final List<int> bytes = [];
-  bytes.addAll(generator.text('   Device Id: ${deviceId}',
-      styles: const PosStyles(align: PosAlign.left)));
-  bytes.addAll(generator.feed(2));
+
   // Add text
   bytes.addAll(generator.text(
     'ILP MANIPUR',
