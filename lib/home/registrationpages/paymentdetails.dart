@@ -14,7 +14,6 @@ import '../../cons/constant.dart';
 import '../../cons/tandcpolicy.dart';
 import '../../controller/pagecontroller.dart';
 import '../../widgets/buttoncard.dart';
-import '../../widgets/receiptpermit.dart';
 
 class PaymentDetails extends StatelessWidget {
   PaymentDetails({super.key});
@@ -389,12 +388,13 @@ class PaymentDetails extends StatelessWidget {
                   gcontroller.ispaymentprocessstarted
                       ? Positioned.fill(
                           child: Container(
+                          color: Colors.white,
                           child: Center(
                             child: Image.asset(
                               fit: BoxFit.contain,
                               'assets/images/processing.gif',
-                              height: 100,
-                              width: 100,
+                              height: 200,
+                              width: 200,
                             ),
                           ),
                         ))
@@ -671,154 +671,176 @@ class _PaymentCardState extends State<PaymentCard> {
                               width: 20,
                               child: Center(
                                   child: CircularProgressIndicator(
-                                strokeWidth: 0.5,
+                                strokeWidth: 1,
                               )))
                           : null,
-                      onpress: () async {
-                        showDialog(
-                            context: context,
-                            builder: (c) {
-                              return AlertDialog(
-                                insetPadding: EdgeInsets.all(16),
-                                content: Container(
-                                  width: 600,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Processing Permit",
-                                            style: TextStyle(fontSize: 24),
-                                          ),
-                                          IconButton(
-                                              onPressed: () {
-                                                Navigator.pop(c);
-                                              },
-                                              icon: Icon(Icons.close))
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                actions: [
-                                  ButtonCard(
-                                      padding: EdgeInsets.symmetric(vertical: 8),
-                                      icon: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Icon(
-                                          Icons.laptop_mac_rounded,
-                                          color: Colors.white,
+                      onpress: isload
+                          ? () {}
+                          : () async {
+                              showDialog(
+                                  context: context,
+                                  builder: (c) {
+                                    return AlertDialog(
+                                      insetPadding: EdgeInsets.all(16),
+                                      content: Container(
+                                        width: 600,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Processing Permit",
+                                                  style: TextStyle(fontSize: 24),
+                                                ),
+                                                IconButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(c);
+                                                    },
+                                                    icon: Icon(Icons.close))
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      title: "Pay at ILP Counter ",
-                                      onpress: () async {
-                                        Map<String, dynamic>? s = await mngctrl.addtemporaryPermit(
-                                          true,
-                                          imgcon.profileImage!,
-                                          imgcon.idCardimage!,
-                                          imgcon.signature!,
-                                        );
-
-                                        Navigator.pop(c);
-
-                                        if (s.isNotEmpty && s["appid"] != null) {
-                                          showDialog(
-                                              context: context,
-                                              builder: (c) {
-                                                Future.delayed(Duration(seconds: 3)).then(
-                                                  (value) async {
-                                                    print("nav Keys sdsd");
-                                                    await imgcon.saveReceipt(_globlkey, s["appid"],
-                                                        "Your Permit request is registered.");
-
-                                                    print("nav Keys");
-
-                                                    pagectrl.pageIncremeter(4);
-                                                    // pagectrl.setmainpageindex(ind: 4);
-                                                    Navigator.pop(c);
-                                                    context.go('/home/successpage');
-                                                  },
-                                                );
-                                                return AlertDialog(
-                                                  content: RepaintBoundary(
-                                                      key: _globlkey,
-                                                      child: ReceiptWidget(
-                                                          applicantName:
-                                                              mngctrl.getPermit?.applcntName ??
-                                                                  "NA",
-                                                          applicantId: s['appid'])),
-                                                );
+                                      actions: [
+                                        ButtonCard(
+                                            padding: EdgeInsets.symmetric(vertical: 8),
+                                            icon: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: Icon(
+                                                Icons.laptop_mac_rounded,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            title: "Pay at ILP Counter ",
+                                            onpress: () async {
+                                              setState(() {
+                                                isload = true;
                                               });
-                                        } else {
-                                          Navigator.pop(c);
-                                          String? message = s['message'];
+                                              Map<String, dynamic>? s =
+                                                  await mngctrl.addtemporaryPermit(
+                                                true,
+                                                imgcon.profileImage!,
+                                                imgcon.idCardimage!,
+                                                imgcon.signature!,
+                                              );
+                                              setState(() {
+                                                isload = false;
+                                              });
+                                              Navigator.pop(c);
 
-                                          showDialog(
-                                              barrierDismissible: false,
-                                              context: context,
-                                              builder: (c) =>
-                                                  _errorDialog(pagectrl, imgcon, message: message));
-                                        }
-                                      }),
-                                  ButtonCard(
-                                      icon: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Icon(
-                                          Icons.money_sharp,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.symmetric(vertical: 8),
-                                      title: "Pay Online",
-                                      onpress: () async {
-                                        Navigator.pop(c);
-                                        Map<String, dynamic> s = await mngctrl.addtemporaryPermit(
-                                          false,
-                                          imgcon.profileImage!,
-                                          imgcon.idCardimage!,
-                                          imgcon.signature!,
-                                        );
+                                              if (s.isNotEmpty && s["appid"] != null) {
+                                                imgcon.saveReceipt(_globlkey, s["appid"],
+                                                    "Your Permit request is registered.");
+                                                context.go('/home/successpage');
+                                                // showDialog(
+                                                //     context: context,
+                                                //     builder: (css) {
 
-                                        if (s.isNotEmpty &&
-                                            s["appid"] != null &&
-                                            s['orderid'] != null &&
-                                            mngctrl.getPermit != null &&
-                                            mngctrl.getPermit!.transactionId != null &&
-                                            mngctrl.getPermitPrice != null) {
-                                          mngctrl.setOnlineApplId(s["appid"]);
+                                                //           print("nav Keys sdsd");
+                                                //           imgcon.saveReceipt(
+                                                //               _globlkey,
+                                                //               s["appid"],
+                                                //               "Your Permit request is registered.");
 
-                                          String? paymentres = await gcontroller.initNdpsPayment(
-                                            email: mngctrl.getPermit?.applcntEmail ?? "",
-                                            number: mngctrl.getPermit?.applcntMobile ?? "",
-                                            transId: mngctrl.getPermit!.transactionId!,
-                                            context: context,
-                                            amount: mngctrl.getPermitPrice!.fee.toString(),
-                                            address: mngctrl.getPermit?.applcntAddress ?? 'NA',
-                                            name: mngctrl.getPermit?.applcntName ?? 'NA',
-                                            clientcodeok: s['orderid'],
-                                          );
+                                                //           print("nav Keys");
 
-                                          if (paymentres != null) {
-                                            context.go('/home/paymentpage');
-                                          } else {
-                                            context.go('/home/successpage');
-                                          }
-                                        } else {
-                                          String? message = s['message'];
+                                                //           pagectrl.pageIncremeter(4);
+                                                //           // pagectrl.setmainpageindex(ind: 4);
+                                                //           Navigator.pop(css);
+                                                //           context.go('/home/successpage');
 
-                                          showDialog(
-                                              barrierDismissible: false,
-                                              context: context,
-                                              builder: (c) =>
-                                                  _errorDialog(pagectrl, imgcon, message: message));
-                                        }
-                                      }),
-                                ],
-                              );
-                            });
-                      })
+                                                //       return AlertDialog(
+                                                //         content: RepaintBoundary(
+                                                //             key: _globlkey,
+                                                //             child: ReceiptWidget(
+                                                //                 applicantName: mngctrl
+                                                //                         .getPermit?.applcntName ??
+                                                //                     "NA",
+                                                //                 applicantId: s['appid'])),
+                                                //       );
+                                                //     });
+                                              } else {
+                                                Navigator.pop(c);
+                                                String? message = s['message'];
+
+                                                showDialog(
+                                                    barrierDismissible: false,
+                                                    context: context,
+                                                    builder: (con) => _errorDialog(
+                                                        con, pagectrl, imgcon,
+                                                        message: message));
+                                              }
+                                            }),
+                                        ButtonCard(
+                                            icon: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: Icon(
+                                                Icons.money_sharp,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            padding: EdgeInsets.symmetric(vertical: 8),
+                                            title: "Pay Online",
+                                            onpress: () async {
+                                              setState(() {
+                                                isload = true;
+                                              });
+                                              Navigator.pop(c);
+                                              Map<String, dynamic> s =
+                                                  await mngctrl.addtemporaryPermit(
+                                                false,
+                                                imgcon.profileImage!,
+                                                imgcon.idCardimage!,
+                                                imgcon.signature!,
+                                              );
+
+                                              if (s.isNotEmpty &&
+                                                  s["appid"] != null &&
+                                                  s['orderid'] != null &&
+                                                  mngctrl.getPermit != null &&
+                                                  mngctrl.getPermit!.transactionId != null &&
+                                                  mngctrl.getPermitPrice != null) {
+                                                mngctrl.setOnlineApplId(s["appid"]);
+
+                                                String? paymentres =
+                                                    await gcontroller.initNdpsPayment(
+                                                  email: mngctrl.getPermit?.applcntEmail ?? "",
+                                                  number: mngctrl.getPermit?.applcntMobile ?? "",
+                                                  transId: mngctrl.getPermit!.transactionId!,
+                                                  context: context,
+                                                  amount: mngctrl.getPermitPrice!.fee.toString(),
+                                                  address:
+                                                      mngctrl.getPermit?.applcntAddress ?? 'NA',
+                                                  name: mngctrl.getPermit?.applcntName ?? 'NA',
+                                                  clientcodeok: s['orderid'],
+                                                );
+
+                                                if (paymentres != null) {
+                                                  context.go('/home/paymentpage');
+                                                } else {
+                                                  context.go('/home/successpage');
+                                                }
+                                              } else {
+                                                String? message = s['message'];
+
+                                                showDialog(
+                                                    barrierDismissible: false,
+                                                    context: context,
+                                                    builder: (con) => _errorDialog(
+                                                        con, pagectrl, imgcon,
+                                                        message: message));
+                                              }
+                                              setState(() {
+                                                isload = false;
+                                              });
+                                            }),
+                                      ],
+                                    );
+                                  });
+                            })
                 ],
               ),
             );
@@ -828,7 +850,8 @@ class _PaymentCardState extends State<PaymentCard> {
     });
   }
 
-  AlertDialog _errorDialog(PagenavControllers pagectrl, Imagecontroller imgcon, {String? message}) {
+  AlertDialog _errorDialog(BuildContext cons, PagenavControllers pagectrl, Imagecontroller imgcon,
+      {String? message}) {
     return AlertDialog(
       title: Text(
         "Failed to generate Permit.",
@@ -883,6 +906,7 @@ class _PaymentCardState extends State<PaymentCard> {
             onpress: () {
               pagectrl.setmainpageindex(ind: 0);
               imgcon.disposeAll();
+              Navigator.pop(cons);
               context.go('/home/homescreen');
 
               pagectrl.listenPageChange();

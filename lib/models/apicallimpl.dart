@@ -62,6 +62,8 @@ class ApicallImpl extends ApiCall {
       if (response.statusCode == 200) {
         var json = jsonDecode(await response.stream.bytesToString());
         String? applicant = json["applicationId"];
+        debugPrint("payment");
+
         return json;
       } else {
         if (response.statusCode == 409) {

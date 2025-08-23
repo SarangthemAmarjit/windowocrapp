@@ -76,7 +76,7 @@ class Imagecontroller extends GetxController {
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
     _fetchCameras();
-    demoImage();
+    // demoImage();
   }
 
   Future<Uint8List> assetImageToUint8List(String path) async {
@@ -650,7 +650,7 @@ class Imagecontroller extends GetxController {
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       profileImage = byteData!.buffer.asUint8List();
 
-      Get.back();
+      // Get.back();
     } on Exception catch (e) {
       debugPrint("failed to save profile image");
       // TODO
@@ -677,7 +677,7 @@ class Imagecontroller extends GetxController {
         backImages = byteData!.buffer.asUint8List();
       }
 
-      Get.back();
+      // Get.back();
     } on Exception catch (e) {
       debugPrint("failed to save id card image");
       // TODO
