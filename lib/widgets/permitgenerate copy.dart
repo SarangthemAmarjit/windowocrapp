@@ -21,9 +21,11 @@ class PermitGenerateWidgetcopy extends StatefulWidget {
       required this.paymentResponse,
       required this.permit,
       required this.permitfee,
+      required this.deviceId,
       required this.image});
   final PaymentResponse paymentResponse;
   final VisitorEntry permit;
+  final String deviceId;
   final double permitfee;
   final String applicantId;
   final GlobalKey keys;
@@ -117,7 +119,8 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                       // ),
                       Container(
                         margin: EdgeInsets.all(16),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16)),
                         height: mmToDp(270),
                         child: Transform.translate(
                           offset: Offset(0, -560),
@@ -131,10 +134,13 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                     child: Column(
                                       children: [
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Image.asset('assets/images/Kanglashaok.png',
-                                                height: 100, width: 100),
+                                            Image.asset(
+                                                'assets/images/Kanglashaok.png',
+                                                height: 100,
+                                                width: 100),
                                             Column(
                                               children: [
                                                 Text(
@@ -142,14 +148,16 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                                   style: TextStyle(
                                                       fontSize: 36,
                                                       color: Colors.black,
-                                                      fontWeight: FontWeight.bold),
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                                 Text(
                                                   "GOVERNMENT OF MANIPUR",
                                                   style: TextStyle(
                                                       fontSize: 36,
                                                       color: Colors.black,
-                                                      fontWeight: FontWeight.bold),
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                                 SizedBox(
                                                   height: 10,
@@ -172,24 +180,32 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                             )),
                                             Expanded(
                                               child: Padding(
-                                                padding: const EdgeInsets.all(16.0),
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Row(
-                                                      mainAxisAlignment: MainAxisAlignment.end,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         BarcodeWidget(
-                                                          barcode:
-                                                              Barcode.code128(), // Barcode format
-                                                          data: '${widget.applicantId}',
+                                                          barcode: Barcode
+                                                              .code128(), // Barcode format
+                                                          data:
+                                                              '${widget.applicantId}',
                                                           width: mmToDp(50),
                                                           height: mmToDp(20),
                                                           drawText: true,
 
                                                           style: TextStyle(
-                                                              fontSize: 24, color: Colors.black),
+                                                              fontSize: 24,
+                                                              color:
+                                                                  Colors.black),
                                                         ),
                                                       ],
                                                     ),
@@ -197,11 +213,13 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                                       height: 20,
                                                     ),
                                                     labeltext(
-                                                      title: "${widget.permit.applcntName}",
+                                                      title:
+                                                          "${widget.permit.applcntName}",
                                                     ),
                                                     labeltext(
                                                       label: "S/O,D/o,/W/O:",
-                                                      title: "${widget.permit.applcntParent}",
+                                                      title:
+                                                          "${widget.permit.applcntParent}",
                                                     ),
                                                     labeltext(
                                                       label: "DOB: ",
@@ -255,18 +273,21 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                           children: [
                                             d != null
                                                 ? QrImageView(
-                                                    data: d!.toJson().toString(),
+                                                    data:
+                                                        d!.toJson().toString(),
                                                     size: mmToDp(45),
-                                                    embeddedImage:
-                                                        AssetImage('assets/manimap.jpeg'),
+                                                    embeddedImage: AssetImage(
+                                                        'assets/manimap.jpeg'),
                                                     version: QrVersions.auto,
                                                   )
                                                 : SizedBox(),
                                             Expanded(
                                               child: Padding(
-                                                padding: const EdgeInsets.all(16.0),
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(
                                                       height: 20,
@@ -277,7 +298,8 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                                             "${widget.permit.district} ${widget.permit.placeOfStay} ${widget.permit.pinCode} "),
                                                     labeltext(
                                                         label: "Purpose: ",
-                                                        title: "${widget.permit.purposeVisit}"),
+                                                        title:
+                                                            "${widget.permit.purposeVisit}"),
                                                     widget.permit.lrName != null
                                                         ? labeltext(
                                                             label: "LR: ",
@@ -295,15 +317,18 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                           children: [
                                             Text(
                                               'Date of Issue:\n${d != null && d!.dateOfIssue != null ? DateFormat('dd/MM/yyyy').format(d!.dateOfIssue!) : widget.paymentResponse.dateOfIssue!.split(' ')[0]}',
-                                              style: TextStyle(fontSize: 22, color: Colors.black),
+                                              style: TextStyle(
+                                                  fontSize: 22,
+                                                  color: Colors.black),
                                             ),
                                             SizedBox(
                                               width: 30,
                                             ),
                                             Text(
                                                 'Date of Expiry:\n${d != null && d!.dateOfIssue != null ? DateFormat('dd/MM/yyyy').format(d!.validUpto!) : widget.paymentResponse.validUpto!.split(' ')[0]}',
-                                                style:
-                                                    TextStyle(fontSize: 22, color: Colors.black)),
+                                                style: TextStyle(
+                                                    fontSize: 22,
+                                                    color: Colors.black)),
                                           ],
                                         )
                                       ],
@@ -312,7 +337,8 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                   height: mmToDp(80),
                                   child: Column(
                                     children: [
-                                      Transform.rotate(angle: 1.54, child: Icon(Icons.cut)),
+                                      Transform.rotate(
+                                          angle: 1.54, child: Icon(Icons.cut)),
                                       SizedBox(
                                         width: 10,
                                       ),
@@ -334,7 +360,8 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                         SizedBox(
                                           height: 60,
                                         ),
-                                        Text("Receipt: #${widget.paymentResponse.orderId}",
+                                        Text(
+                                            "Receipt: #${widget.paymentResponse.orderId}",
                                             style: TextStyle(
                                                 fontSize: 26,
                                                 color: Colors.black,
@@ -344,36 +371,49 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                           color: Colors.black,
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text("Type",
-                                                style:
-                                                    TextStyle(fontSize: 26, color: Colors.black)),
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.black)),
                                             Text("Temporary Permit",
-                                                style: TextStyle(fontSize: 26, color: Colors.black))
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.black))
                                           ],
                                         ),
 
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text("Permit Fee",
-                                                style:
-                                                    TextStyle(fontSize: 26, color: Colors.black)),
-                                            Text("${widget.permitfee.toStringAsFixed(2)}",
-                                                style: TextStyle(fontSize: 26, color: Colors.black))
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.black)),
+                                            Text(
+                                                "${widget.permitfee.toStringAsFixed(2)}",
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.black))
                                           ],
                                         ),
 
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text("Processing Fee",
-                                                style:
-                                                    TextStyle(fontSize: 26, color: Colors.black)),
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.black)),
                                             Text(
                                                 "${widget.paymentResponse.processingfee?.toStringAsFixed(2)}",
-                                                style: TextStyle(fontSize: 26, color: Colors.black))
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.black))
                                           ],
                                         ),
 
@@ -381,14 +421,18 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                         //   color: Colors.black,
                                         // ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text("Total",
-                                                style:
-                                                    TextStyle(fontSize: 26, color: Colors.black)),
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.black)),
                                             Text(
                                                 "${(widget.paymentResponse.amount! + widget.paymentResponse.processingfee!).toStringAsFixed(2)}",
-                                                style: TextStyle(fontSize: 26, color: Colors.black))
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.black))
                                           ],
                                         ),
                                         SizedBox(
@@ -396,10 +440,19 @@ class _PermitGenerateWidgetState extends State<PermitGenerateWidgetcopy> {
                                         ),
                                         Text(
                                           "This is an electronically generated Inner Line Permit Card, hence no signature or seal is required.",
-                                          style: TextStyle(fontSize: 20, color: Colors.black),
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black),
                                           textAlign: TextAlign.center,
                                         ),
-                                        Text("https://manipurilponline.mn.gov.in/",
+                                        Text(
+                                            "https://manipurilponline.mn.gov.in/",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.center),
+                                        Text("Device ID: ${widget.deviceId}",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.black,
@@ -443,11 +496,15 @@ class labeltext extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         label != null || label!.isNotEmpty
-            ? Text(label ?? "", style: TextStyle(fontSize: 24, color: Colors.black))
+            ? Text(label ?? "",
+                style: TextStyle(fontSize: 24, color: Colors.black))
             : SizedBox(),
         Expanded(
           child: Text(title,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black)),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)),
         ),
       ],
     );

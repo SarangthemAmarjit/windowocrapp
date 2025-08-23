@@ -25,12 +25,13 @@ class PaymentFinalPage extends StatefulWidget {
   final responsehashKey;
   final responseDecryptionKey;
 
-  const PaymentFinalPage(
-      this.mode, this.payDetails, this.responsehashKey, this.responseDecryptionKey,
+  const PaymentFinalPage(this.mode, this.payDetails, this.responsehashKey,
+      this.responseDecryptionKey,
       {super.key});
 
   @override
-  createState() => _PaymentFinalPageState(mode, payDetails, responsehashKey, responseDecryptionKey);
+  createState() => _PaymentFinalPageState(
+      mode, payDetails, responsehashKey, responseDecryptionKey);
 }
 
 class _PaymentFinalPageState extends State<PaymentFinalPage> {
@@ -50,8 +51,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
     // if (Platform.isAndroid) WebView.platform  = SurfaceAndroidViewController();
   }
 
-  _PaymentFinalPageState(
-      this.mode, this.payDetails, this._responsehashKey, this._responseDecryptionKey);
+  _PaymentFinalPageState(this.mode, this.payDetails, this._responsehashKey,
+      this._responseDecryptionKey);
   @override
   void dispose() {
     // TODO: implement dispose
@@ -83,6 +84,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                           PermitGenerateWidgetcopy(
                             applicantId: mngctrl.paymentresult!.permitNo!,
                             keys: _keys,
+                            deviceId: mngctrl.deviceId ?? '',
                             paymentResponse: mngctrl.paymentresult!,
                             permit: mngctrl.getPermit!,
                             permitfee: mngctrl.getPermitPrice!.fee,
@@ -107,7 +109,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 30),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -128,7 +131,10 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                         Expanded(
                           child: DefaultTextStyle(
                             style: TextStyle(
-                              fontFamily: Theme.of(context).textTheme.bodyLarge!.fontFamily,
+                              fontFamily: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .fontFamily,
                               // Retrieve fontFamily from the current theme
                             ),
                             child: Center(
@@ -137,25 +143,30 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                 width: 700,
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
-                                    color: Colors.white, borderRadius: BorderRadius.circular(16)),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16)),
                                 child: Stack(
                                   children: [
                                     Center(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             SizedBox(
                                                 height: 40,
                                                 width: 40,
-                                                child: CircularProgressIndicator()),
+                                                child:
+                                                    CircularProgressIndicator()),
                                             SizedBox(
                                               height: 20,
                                             ),
                                             Text("Processing your Payment",
                                                 style: GoogleFonts.inter(
-                                                    color: Theme.of(context).colorScheme.secondary,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary,
                                                     fontSize: 30))
                                           ],
                                         ),
@@ -165,7 +176,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                       child: WebviewTouchWrapper(
                                         child: InAppWebView(
                                           initialSettings: InAppWebViewSettings(
-                                            javaScriptEnabled: true, // ✅ Enable JS
+                                            javaScriptEnabled:
+                                                true, // ✅ Enable JS
                                             allowFileAccessFromFileURLs:
                                                 true, // ✅ Allow asset file access
                                             allowUniversalAccessFromFileURLs:
@@ -247,16 +259,21 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                             gcontroller.resetloading();
                                           },
 
-                                          onConsoleMessage: (controller, consoleMessage) {
+                                          onConsoleMessage:
+                                              (controller, consoleMessage) {
                                             debugPrint(
                                                 "WebView Console: ${consoleMessage.message}");
                                           },
-                                          shouldOverrideUrlLoading:
-                                              (controller, navigationAction) async {
-                                            String url = navigationAction.request.url.toString();
-                                            var uri = navigationAction.request.url!;
+                                          shouldOverrideUrlLoading: (controller,
+                                              navigationAction) async {
+                                            String url = navigationAction
+                                                .request.url
+                                                .toString();
+                                            var uri =
+                                                navigationAction.request.url!;
                                             if (url.startsWith("upi://")) {
-                                              debugPrint("upi url started loading");
+                                              debugPrint(
+                                                  "upi url started loading");
                                               try {
                                                 await launchUrl(uri);
                                               } catch (e) {
@@ -272,7 +289,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
 
                                                 throw 'custom error for UPI Intent';
                                               }
-                                              return NavigationActionPolicy.CANCEL;
+                                              return NavigationActionPolicy
+                                                  .CANCEL;
                                             }
                                             return NavigationActionPolicy.ALLOW;
                                           },
@@ -280,21 +298,29 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                           onLoadStop: (controller, url) async {
                                             debugPrint("onloadstop_url: $url");
 
-                                            if (url.toString().contains("AIPAYLocalFile")) {
-                                              debugPrint(" AIPAYLocalFile Now url loaded: $url");
+                                            if (url
+                                                .toString()
+                                                .contains("AIPAYLocalFile")) {
+                                              debugPrint(
+                                                  " AIPAYLocalFile Now url loaded: $url");
                                               await _controller.evaluateJavascript(
-                                                  source: "${"openPay('" + payDetails}')");
+                                                  source:
+                                                      "${"openPay('" + payDetails}')");
 
                                               log('Checking 1 $url');
                                             }
 
-                                            if (url.toString().contains('/mobilesdk/param')) {
+                                            if (url
+                                                .toString()
+                                                .contains('/mobilesdk/param')) {
                                               log('Checking 2');
                                               final String response =
-                                                  await _controller.evaluateJavascript(
-                                                      source:
-                                                          "document.getElementsByTagName('h5')[0].innerHTML");
-                                              debugPrint("HTML response : $response");
+                                                  await _controller
+                                                      .evaluateJavascript(
+                                                          source:
+                                                              "document.getElementsByTagName('h5')[0].innerHTML");
+                                              debugPrint(
+                                                  "HTML response : $response");
                                               var transactionResult = "";
                                               String transactionid = '';
                                               int? transactionstatus;
@@ -302,119 +328,187 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                               String totalamount = '';
                                               String processingfee = '';
                                               String remark = "";
-                                              if (response.trim().contains("cancelTransaction")) {
-                                                remark = remark.isEmpty || remark != 'failed'
+                                              if (response.trim().contains(
+                                                  "cancelTransaction")) {
+                                                remark = remark.isEmpty ||
+                                                        remark != 'failed'
                                                     ? "Cancelled"
                                                     : remark;
                                                 totalamount = "0";
                                                 transactionResult = "CANCELLED";
                                                 transactionstatus = 100;
                                               } else {
-                                                final split = response.trim().split('|');
-                                                final Map<int, String> values = {
-                                                  for (int i = 0; i < split.length; i++) i: split[i]
+                                                final split =
+                                                    response.trim().split('|');
+                                                final Map<int, String> values =
+                                                    {
+                                                  for (int i = 0;
+                                                      i < split.length;
+                                                      i++)
+                                                    i: split[i]
                                                 };
 
-                                                final splitTwo = values[1]!.split('=');
+                                                final splitTwo =
+                                                    values[1]!.split('=');
                                                 // const platform = MethodChannel('flutter.dev/NDPSAESLibrary');
 
                                                 try {
-                                                  final String result = await gcontroller
-                                                      .decrypt(splitTwo[1].toString());
+                                                  final String result =
+                                                      await gcontroller.decrypt(
+                                                          splitTwo[1]
+                                                              .toString());
                                                   //     await platform.invokeMethod('NDPSAESInit', {
                                                   //   'AES_Method': 'decrypt',
                                                   //   'text': splitTwo[1].toString(),
                                                   //   'encKey': _responseDecryptionKey
                                                   // });
-                                                  var respJsonStr = result.toString();
-                                                  Map<String, dynamic> jsonInput =
+                                                  var respJsonStr =
+                                                      result.toString();
+                                                  Map<String, dynamic>
+                                                      jsonInput =
                                                       jsonDecode(respJsonStr);
-                                                  debugPrint("read full respone : $jsonInput");
+                                                  debugPrint(
+                                                      "read full respone : $jsonInput");
 
                                                   //calling validateSignature function from atom_pay_helper file
-                                                  var checkFinalTransaction = validateSignature(
-                                                      jsonInput, _responsehashKey);
+                                                  var checkFinalTransaction =
+                                                      validateSignature(
+                                                          jsonInput,
+                                                          _responsehashKey);
 
                                                   if (checkFinalTransaction) {
                                                     if (jsonInput["payInstrument"]
-                                                                ["responseDetails"]["statusCode"] ==
+                                                                    [
+                                                                    "responseDetails"]
+                                                                [
+                                                                "statusCode"] ==
                                                             'OTS0000' ||
                                                         jsonInput["payInstrument"]
-                                                                ["responseDetails"]["statusCode"] ==
+                                                                    [
+                                                                    "responseDetails"]
+                                                                [
+                                                                "statusCode"] ==
                                                             'OTS0551') {
-                                                      debugPrint("Transaction success");
-                                                      transactionid = jsonInput['payInstrument']
-                                                          ['merchDetails']['merchTxnId'];
+                                                      debugPrint(
+                                                          "Transaction success");
+                                                      transactionid = jsonInput[
+                                                                  'payInstrument']
+                                                              ['merchDetails']
+                                                          ['merchTxnId'];
 
-                                                      var paymethod = jsonInput['payInstrument']
-                                                                  ['payModeSpecificData']
+                                                      var paymethod = jsonInput[
+                                                                      'payInstrument']
+                                                                  [
+                                                                  'payModeSpecificData']
                                                               ['subChannel'][0]
                                                           .toString();
-                                                      paymentmethodname = paymentmethod[paymethod];
-                                                      totalamount = jsonInput['payInstrument']
-                                                              ['payDetails']['amount']
+                                                      paymentmethodname =
+                                                          paymentmethod[
+                                                              paymethod];
+                                                      totalamount = jsonInput[
+                                                                      'payInstrument']
+                                                                  ['payDetails']
+                                                              ['amount']
                                                           .toStringAsFixed(2);
-                                                      processingfee = jsonInput['payInstrument']
-                                                              ['payDetails']['surchargeAmount']
+                                                      processingfee = jsonInput[
+                                                                      'payInstrument']
+                                                                  ['payDetails']
+                                                              [
+                                                              'surchargeAmount']
                                                           .toStringAsFixed(2);
                                                       remark = "SUCCESS";
-                                                      transactionResult = "SUCCESS";
+                                                      transactionResult =
+                                                          "SUCCESS";
                                                       transactionstatus = 200;
                                                     } else {
-                                                      var paymethod = jsonInput['payInstrument']
-                                                                  ['payModeSpecificData']
+                                                      var paymethod = jsonInput[
+                                                                      'payInstrument']
+                                                                  [
+                                                                  'payModeSpecificData']
                                                               ['subChannel'][0]
                                                           .toString();
-                                                      paymentmethodname = paymentmethod[paymethod];
-                                                      totalamount = jsonInput['payInstrument']
-                                                              ['payDetails']['totalAmount']
+                                                      paymentmethodname =
+                                                          paymentmethod[
+                                                              paymethod];
+                                                      totalamount = jsonInput[
+                                                                      'payInstrument']
+                                                                  ['payDetails']
+                                                              ['totalAmount']
                                                           .toStringAsFixed(2);
-                                                      processingfee = jsonInput['payInstrument']
-                                                              ['payDetails']['surchargeAmount']
+                                                      processingfee = jsonInput[
+                                                                      'payInstrument']
+                                                                  ['payDetails']
+                                                              [
+                                                              'surchargeAmount']
                                                           .toStringAsFixed(2);
                                                       remark = "Failed";
-                                                      debugPrint("Transaction failed");
-                                                      transactionResult = "FAILED";
+                                                      debugPrint(
+                                                          "Transaction failed");
+                                                      transactionResult =
+                                                          "FAILED";
                                                       transactionstatus = 300;
                                                     }
                                                   } else {
-                                                    var paymethod = jsonInput['payInstrument']
-                                                            ['payModeSpecificData']['subChannel'][0]
+                                                    var paymethod = jsonInput[
+                                                                    'payInstrument']
+                                                                [
+                                                                'payModeSpecificData']
+                                                            ['subChannel'][0]
                                                         .toString();
-                                                    paymentmethodname = paymentmethod[paymethod];
-                                                    totalamount = jsonInput['payInstrument']
-                                                            ['payDetails']['totalAmount']
-                                                        .toStringAsFixed(2);
-                                                    processingfee = jsonInput['payInstrument']
-                                                            ['payDetails']['surchargeAmount']
+                                                    paymentmethodname =
+                                                        paymentmethod[
+                                                            paymethod];
+                                                    totalamount =
+                                                        jsonInput['payInstrument']
+                                                                    [
+                                                                    'payDetails']
+                                                                ['totalAmount']
+                                                            .toStringAsFixed(2);
+                                                    processingfee = jsonInput[
+                                                                    'payInstrument']
+                                                                ['payDetails']
+                                                            ['surchargeAmount']
                                                         .toStringAsFixed(2);
                                                     remark = "Failed";
 
-                                                    transactionResult = "FAILED";
+                                                    transactionResult =
+                                                        "FAILED";
                                                     transactionstatus = 300;
                                                   }
-                                                  debugPrint("Transaction Response : $jsonInput");
+                                                  debugPrint(
+                                                      "Transaction Response : $jsonInput");
                                                 } on PlatformException catch (e) {
-                                                  debugPrint("Failed to decrypt: '${e.message}'.");
+                                                  debugPrint(
+                                                      "Failed to decrypt: '${e.message}'.");
                                                 }
                                               }
 
                                               _closeWebView(
                                                   callback: () async {
-                                                    await gcontroller.updatepaymentremark(
-                                                        processingfee: processingfee,
-                                                        amount: totalamount,
-                                                        key: _keys,
-                                                        transactionid: gcontroller.transacid,
-                                                        paymentmethod: paymentmethodname,
-                                                        remark: remark);
-                                                    Get.off(() => LandingPage());
+                                                    await gcontroller
+                                                        .updatepaymentremark(
+                                                            processingfee:
+                                                                processingfee,
+                                                            amount: totalamount,
+                                                            key: _keys,
+                                                            transactionid:
+                                                                gcontroller
+                                                                    .transacid,
+                                                            paymentmethod:
+                                                                paymentmethodname,
+                                                            status:
+                                                                transactionResult);
+                                                    Get.off(
+                                                        () => LandingPage());
                                                   },
                                                   context: context,
-                                                  transactionResult: transactionResult,
+                                                  transactionResult:
+                                                      transactionResult,
                                                   txid: transactionid,
-                                                  transstatus: transactionstatus!,
-                                                  paymentname: paymentmethodname,
+                                                  transstatus:
+                                                      transactionstatus!,
+                                                  paymentname:
+                                                      paymentmethodname,
                                                   totalamount: totalamount);
                                             }
                                           },
@@ -427,6 +521,29 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                             ),
                           ),
                         ),
+                        // ElevatedButtonCard(
+                        //   callback: () async {
+                        //     showDialog(context: context, builder: (c){
+                        //         showAboutDialog(context:c,);
+                        //     });
+
+                        //     await gcontroller.updatepaymentremark(
+                        //         processingfee: '0',
+                        //         amount: mngctrl.getPermitPrice?.fee.toStringAsFixed(2)??'100' ,
+                        //         key: _keys,
+                        //         transactionid: gcontroller.transacid,
+                        //         paymentmethod: "NA",
+                        //         status: "FAILED");
+                        //     Get.off(() => LandingPage());
+                        //   },
+                        //   child: Text(
+                        //     'Cancel Payment',
+                        //     style: TextStyle(
+                        //         fontSize: 24,
+                        //         color: Colors.white,
+                        //         fontWeight: FontWeight.bold),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -470,7 +587,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                     Navigator.pop(context);
                     Navigator.of(context).pop(); // Close current window
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Transaction Status = Transaction cancelled")));
+                        content: Text(
+                            "Transaction Status = Transaction cancelled")));
                   },
                   child: const Text('Yes'),
                 ),

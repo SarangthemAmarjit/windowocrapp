@@ -64,7 +64,12 @@ class ApicallImpl extends ApiCall {
         String? applicant = json["applicationId"];
         return json;
       } else {
-        debugPrint("vcvcv vcv${response.reasonPhrase} ${response.statusCode}");
+        if (response.statusCode == 409) {
+          debugPrint("${response.reasonPhrase} ${response.stream.first} ${response.statusCode}");
+          return {"Failed": 409};
+        }
+        debugPrint(
+            "vcvcv vcv${response.reasonPhrase} ${response.stream.first} ${response.statusCode}");
       }
     } catch (e) {
       debugPrint("Error in addPermit: $e");
@@ -106,7 +111,10 @@ class ApicallImpl extends ApiCall {
         debugPrint("in update api ss ${response.statusCode} data: $json");
         return json;
       } else {
-        debugPrint("${response.reasonPhrase} ${response.statusCode}");
+        if (response.statusCode == 409) {
+          debugPrint("${response.reasonPhrase} ${response.stream.first} ${response.statusCode}");
+          return {"Failed": 409};
+        }
       }
     } catch (e) {
       debugPrint("Error in updatePermit: $e");
@@ -127,6 +135,10 @@ class ApicallImpl extends ApiCall {
         debugPrint(await response.stream.bytesToString());
         return jsonDecode(response.stream.first.toString());
       } else {
+        if (response.statusCode == 409) {
+          debugPrint("${response.reasonPhrase} ${response.stream.first} ${response.statusCode}");
+          return {"Failed": 409};
+        }
         debugPrint(response.reasonPhrase);
         return {"Failed": 0};
       }
