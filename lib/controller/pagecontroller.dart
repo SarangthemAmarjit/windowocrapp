@@ -100,4 +100,9 @@ class PagenavControllers extends GetxController {
     cardtype = null;
     _mainpageindex = 0;
   }
+
+  void printnavpages() {
+    print(
+        "Nav Page: id selection: $IdSelection  page: $page incremetnpage: $incrementPage regPage: $regPage docindex: $_docindex  cardtype: $cardtype");
+  }
 }

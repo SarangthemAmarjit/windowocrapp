@@ -191,8 +191,7 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<Map<String, int>> verifydocid(
-      {required String doctype, required String docid}) async {
+  Future<Map<String, int>> verifydocid({required String doctype, required String docid}) async {
     isVeriflyloading = true;
     String applicationId = '';
     int response = -1;
@@ -264,8 +263,7 @@ class Managementcontroller extends GetxController {
   }
 
   //get document verification details from api
-  Future<void> getDocumentDetails(
-      {required String docID, required String docType}) async {
+  Future<void> getDocumentDetails({required String docID, required String docType}) async {
     //fetch doc from api
     _permit = VisitorEntry(idProof: docType, idNo: docID);
 
@@ -284,8 +282,8 @@ class Managementcontroller extends GetxController {
       _permit!.deviceId = deviceId!;
 
       if (_applicid != null && _applicid!.applicationNo.isNotEmpty) {
-        Map<String?, dynamic> ds = await apicall!.updatePermit(
-            passport, idcard, signature, _permit!, _applicid!.applicationNo);
+        Map<String?, dynamic> ds = await apicall!
+            .updatePermit(passport, idcard, signature, _permit!, _applicid!.applicationNo);
         // print('$ds $isLoading');
         String? appid = ds["applicationId"];
         var orderid = ds["orderId"];
@@ -302,8 +300,7 @@ class Managementcontroller extends GetxController {
                   }
                 : {'appid': appid, 'orderid': orderid};
       } else {
-        Map<String?, dynamic> ds =
-            await apicall!.addPermit(passport, idcard, signature, _permit!);
+        Map<String?, dynamic> ds = await apicall!.addPermit(passport, idcard, signature, _permit!);
         // print('$ds $isLoading');
         String? appid = ds["applicationId"];
         var orderid = ds["orderId"];
@@ -359,8 +356,7 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  Future<void> addPayments(
-      Payment pays, GlobalKey key, BuildContext context) async {
+  Future<void> addPayments(Payment pays, GlobalKey key, BuildContext context) async {
     try {
       Payment payment = Payment(
           paymentId: pays.paymentId,
@@ -380,17 +376,15 @@ class Managementcontroller extends GetxController {
 
         if (payres.permitNo != null && payres.permitNo!.isNotEmpty) {
           await Future.delayed(Duration(milliseconds: 2000));
-          await Get.find<Imagecontroller>()
-              .saveReceiptimages(key, printername ?? "CUSTOM K80");
+          await Get.find<Imagecontroller>().saveReceiptimages(key, printername ?? "CUSTOM K80");
           Future.delayed(Duration(milliseconds: 2000));
           // Navigator.pop(context);
           // Get.find<PagenavControllers>().setmainpageindex(ind: 5);
           context.go('/home/successpage');
         } else {
-          printUsbReceiptWindowsonline(onlineAplicant ?? "", "",
-              {payres.transactionId ?? "": payres.date ?? ""},
-              deviceId: deviceId ?? '',
-              printername: printername ?? "CUSTOM K80");
+          printUsbReceiptWindowsonline(
+              onlineAplicant ?? "", "", {payres.transactionId ?? "": payres.date ?? ""},
+              deviceId: deviceId ?? '', printername: printername ?? "CUSTOM K80");
           // Get.find<PagenavControllers>().setmainpageindex(ind: 6);
           context.go('/home/successpage');
         }
@@ -426,5 +420,10 @@ class Managementcontroller extends GetxController {
     paymentresult = null;
     _applicid = null;
     isUserAlreadyexist = false;
+  }
+
+  void printManagement() {
+    print(
+        "Management Controller:gender: ${genders[0]} state: $state  applicant: $onlineAplicant permit: ${_permit?.toJson()}  applicidID: $applicid  paymentresult: $paymentresult");
   }
 }

@@ -1,5 +1,4 @@
 import 'package:camera_windows_example/cons/tandcpolicy.dart';
-import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:camera_windows_example/controller/managementcontroller.dart';
 import 'package:camera_windows_example/controller/pagecontroller.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +23,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    Get.find<Managementcontroller>().disposeAll();
-    Get.find<PagenavControllers>().reset();
-    Get.find<Imagecontroller>().disposeAll();
+    // Get.find<Managementcontroller>().disposeAll();
+    // Get.find<PagenavControllers>().reset();
+    // Get.find<Imagecontroller>().disposeAll();
+    Get.find<Managementcontroller>().printManagement();
+    Get.find<PagenavControllers>().printnavpages();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
     });
