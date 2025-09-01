@@ -15,12 +15,24 @@ import '../../cons/tandcpolicy.dart';
 import '../../controller/pagecontroller.dart';
 import '../../widgets/buttoncard.dart';
 
-class PaymentDetails extends StatelessWidget {
+class PaymentDetails extends StatefulWidget {
   PaymentDetails({super.key});
+
+  @override
+  State<PaymentDetails> createState() => _PaymentDetailsState();
+}
+
+class _PaymentDetailsState extends State<PaymentDetails> {
   final GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
+  bool isLoading = false;
+  void isLoadingFunc(bool v) {
+    setState(() {
+      isLoading = v;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    GetxTapController gcontroller = Get.find<GetxTapController>();
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus(); // Hide keyboard when the screen starts
@@ -28,7 +40,7 @@ class PaymentDetails extends StatelessWidget {
       child: GetBuilder<Managementcontroller>(builder: (mngctrl) {
         return GetBuilder<Imagecontroller>(builder: (imgcon) {
           return GetBuilder<PagenavControllers>(builder: (controller) {
-            return GetBuilder<GetxTapController>(builder: (_) {
+            return GetBuilder<GetxTapController>(builder: (gcontroller) {
               return Stack(
                 children: [
                   Center(
@@ -370,6 +382,8 @@ class PaymentDetails extends StatelessWidget {
                             Divider(),
                             PaymentCard(
                               mngctrl: mngctrl,
+                              isload: isLoading,
+                              onloadfunc: isLoadingFunc,
                             ).animate().fadeIn(
                                 duration: Duration(milliseconds: 1200),
                                 delay: Duration(milliseconds: 600)),
@@ -385,19 +399,31 @@ class PaymentDetails extends StatelessWidget {
                           .fadeIn(duration: Duration(milliseconds: 500)),
                     ),
                   ),
-                  gcontroller.ispaymentprocessstarted
-                      ? Positioned.fill(
+                  gcontroller.ispaymentprocessstarted || isLoading
+                      ? Positioned(
+                          top: 0,
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
                           child: Container(
-                          color: Colors.white,
-                          child: Center(
-                            child: Image.asset(
-                              fit: BoxFit.contain,
-                              'assets/images/processing.gif',
-                              height: 200,
-                              width: 200,
+                            color: Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  fit: BoxFit.contain,
+                                  'assets/images/processing.gif',
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Text("Please wait while we process your permit.")
+                              ],
                             ),
                           ),
-                        ))
+                        )
                       : SizedBox.shrink()
                 ],
               );
@@ -410,19 +436,18 @@ class PaymentDetails extends StatelessWidget {
 }
 
 class PaymentCard extends StatefulWidget {
-  const PaymentCard({
-    super.key,
-    required this.mngctrl,
-  });
+  const PaymentCard(
+      {super.key, required this.mngctrl, required this.isload, required this.onloadfunc});
   final Managementcontroller mngctrl;
-
+  final bool isload;
+  final Function(bool) onloadfunc;
   @override
   State<PaymentCard> createState() => _PaymentCardState();
 }
 
 class _PaymentCardState extends State<PaymentCard> {
   final GlobalKey _globlkey = GlobalKey();
-  bool isload = false;
+
   @override
   Widget build(BuildContext context) {
     GetxTapController gcontroller = Get.put(GetxTapController());
@@ -664,8 +689,8 @@ class _PaymentCardState extends State<PaymentCard> {
                         .toList(),
                   ),
                   ButtonCard(
-                      title: isload ? "Registering Permit" : "Register Permit",
-                      icon: isload
+                      title: widget.isload ? "Registering Permit" : "Register Permit",
+                      icon: widget.isload
                           ? SizedBox(
                               height: 20,
                               width: 20,
@@ -674,7 +699,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                 strokeWidth: 3,
                               )))
                           : null,
-                      onpress: isload
+                      onpress: widget.isload
                           ? () {}
                           : () async {
                               showDialog(
@@ -708,7 +733,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     icon: Padding(
                                                       padding: const EdgeInsets.symmetric(
                                                           horizontal: 8.0),
-                                                      child: isload
+                                                      child: widget.isload
                                                           ? SizedBox(
                                                               height: 20,
                                                               width: 20,
@@ -723,9 +748,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     ),
                                                     title: "Pay at ILP Counter ",
                                                     onpress: () async {
-                                                      setState(() {
-                                                        isload = true;
-                                                      });
+                                                      widget.onloadfunc(true);
                                                       Navigator.pop(c);
                                                       Map<String, dynamic>? s =
                                                           await mngctrl.addtemporaryPermit(
@@ -734,9 +757,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                         imgcon.idCardimage!,
                                                         imgcon.signature!,
                                                       );
-                                                      setState(() {
-                                                        isload = false;
-                                                      });
+                                                      widget.onloadfunc(false);
 
                                                       if (s.isNotEmpty && s["appid"] != null) {
                                                         imgcon.saveReceipt(_globlkey, s["appid"],
@@ -760,7 +781,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     icon: Padding(
                                                       padding: const EdgeInsets.symmetric(
                                                           horizontal: 8.0),
-                                                      child: isload
+                                                      child: widget.isload
                                                           ? SizedBox(
                                                               height: 20,
                                                               width: 20,
@@ -776,9 +797,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                     padding: EdgeInsets.symmetric(vertical: 8),
                                                     title: "Pay Online",
                                                     onpress: () async {
-                                                      setState(() {
-                                                        isload = true;
-                                                      });
+                                                      widget.onloadfunc(true);
                                                       Navigator.pop(c);
                                                       Map<String, dynamic> s =
                                                           await mngctrl.addtemporaryPermit(
@@ -830,9 +849,7 @@ class _PaymentCardState extends State<PaymentCard> {
                                                                 con, pagectrl, imgcon,
                                                                 message: message));
                                                       }
-                                                      setState(() {
-                                                        isload = false;
-                                                      });
+                                                      widget.onloadfunc(false);
                                                     }),
                                               ],
                                             ),

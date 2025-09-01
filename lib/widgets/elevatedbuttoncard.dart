@@ -12,7 +12,8 @@ class ElevatedButtonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: callback,
-      child: Container(
+      child: AnimatedContainer(
+          duration: Duration(milliseconds: 400),
           padding: EdgeInsets.symmetric(vertical: 32, horizontal: 64),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),

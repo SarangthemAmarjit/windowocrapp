@@ -139,62 +139,63 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         context.go('/home/idverification');
                         //return to front page if not active for 30 seconds
                         pagecon.listenPageChange();
-                      } else {
-                        showDialog(
-                            context: context,
-                            builder: (c) => Dialog(
-                                insetPadding: EdgeInsets.zero,
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(maxWidth: 600),
-                                  child: Container(
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration:
-                                          BoxDecoration(borderRadius: BorderRadius.circular(24)),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Stack(
-                                            children: [
-                                              Container(
-                                                child: Image.asset(
-                                                  'assets/images/searching.gif',
-                                                  height: 300,
-                                                  width: double.infinity,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              Positioned(
-                                                top: 0,
-                                                right: 0,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(16.0),
-                                                  child: IconButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(c);
-                                                      },
-                                                      icon: Icon(Icons.close)),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Text(
-                                              "Fetching documents...\nPlease wait for some time",
-                                              style: TextStyle(fontSize: 24),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                        ],
-                                      )),
-                                )));
                       }
+                      //  else {
+                      //   showDialog(
+                      //       context: context,
+                      //       builder: (c) => Dialog(
+                      //           insetPadding: EdgeInsets.zero,
+                      //           child: ConstrainedBox(
+                      //             constraints: BoxConstraints(maxWidth: 600),
+                      //             child: Container(
+                      //                 clipBehavior: Clip.antiAlias,
+                      //                 decoration:
+                      //                     BoxDecoration(borderRadius: BorderRadius.circular(24)),
+                      //                 child: Column(
+                      //                   crossAxisAlignment: CrossAxisAlignment.start,
+                      //                   mainAxisSize: MainAxisSize.min,
+                      //                   children: [
+                      //                     Stack(
+                      //                       children: [
+                      //                         Container(
+                      //                           child: Image.asset(
+                      //                             'assets/images/searching.gif',
+                      //                             height: 300,
+                      //                             width: double.infinity,
+                      //                             fit: BoxFit.cover,
+                      //                           ),
+                      //                         ),
+                      //                         Positioned(
+                      //                           top: 0,
+                      //                           right: 0,
+                      //                           child: Padding(
+                      //                             padding: const EdgeInsets.all(16.0),
+                      //                             child: IconButton(
+                      //                                 onPressed: () {
+                      //                                   Navigator.pop(c);
+                      //                                 },
+                      //                                 icon: Icon(Icons.close)),
+                      //                           ),
+                      //                         )
+                      //                       ],
+                      //                     ),
+                      //                     SizedBox(
+                      //                       height: 20,
+                      //                     ),
+                      //                     Padding(
+                      //                       padding: const EdgeInsets.all(16.0),
+                      //                       child: Text(
+                      //                         "Fetching documents...\nPlease wait for some time",
+                      //                         style: TextStyle(fontSize: 24),
+                      //                       ),
+                      //                     ),
+                      //                     SizedBox(
+                      //                       height: 20,
+                      //                     ),
+                      //                   ],
+                      //                 )),
+                      //           )));
+                      // }
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -209,21 +210,43 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         SizedBox(
                           width: 8,
                         ),
-                        const Text(
-                          'Apply New Permit',
+                        Text(
+                          mngctrl.getDocNames.isNotEmpty
+                              ? ' Apply New Permit'
+                              : 'Fetching Documents ',
                           style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        mngctrl.getDocNames.isEmpty
+                            ? SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                            : SizedBox.shrink()
                       ],
                     ),
                   ),
                   const SizedBox(height: 32),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 100.0),
-                    child: const Text(
-                      'Use this option to apply for a fresh ILP. Follow a few simple steps to fill in your details, submit necessary documents, and receive your permit instantly.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20, color: Colors.black),
-                    ),
+                    child: mngctrl.getDocNames.isNotEmpty
+                        ? const Text(
+                            'Use this option to apply for a fresh ILP. Follow a few simple steps to fill in your details, submit necessary documents, and receive your permit instantly.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                          )
+                        : const Text(
+                            'Getting things ready… Please wait while we fetch your documents so you can get started.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                          ),
                   ),
                   const SizedBox(height: 120),
                   Row(

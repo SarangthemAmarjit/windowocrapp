@@ -323,6 +323,8 @@ class Managementcontroller extends GetxController {
     }
   }
 
+  void openPayments() {}
+
   void addPermit(VisitorEntry? permits) {
     _permit = permits;
     update();
