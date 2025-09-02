@@ -76,7 +76,6 @@ class Imagecontroller extends GetxController {
     super.onInit();
     WidgetsFlutterBinding.ensureInitialized();
     _fetchCameras();
-    // demoImage();
   }
 
   Future<Uint8List> assetImageToUint8List(String path) async {
@@ -84,16 +83,16 @@ class Imagecontroller extends GetxController {
     return byteData.buffer.asUint8List(); // Convert to Uint8List
   }
 
-  Future<void> demoImage() async {
-    profileImage = await assetImageToUint8List('assets/images/ilplogo.png');
-    frontImages = await assetImageToUint8List('assets/images/ilplogo.png');
-    backImages = await assetImageToUint8List('assets/images/ilplogo.png');
-    idCardimage = await assetImageToUint8List('assets/images/ilplogo.png');
+  // Future<void> demoImage() async {
+  //   profileImage = await assetImageToUint8List('assets/images/ilplogo.png');
+  //   frontImages = await assetImageToUint8List('assets/images/ilplogo.png');
+  //   backImages = await assetImageToUint8List('assets/images/ilplogo.png');
+  //   idCardimage = await assetImageToUint8List('assets/images/ilplogo.png');
 
-    signature = await assetImageToUint8List('assets/images/ilplogo.png');
+  //   signature = await assetImageToUint8List('assets/images/ilplogo.png');
 
-    update();
-  }
+  //   update();
+  // }
 
   @override
   void dispose() {
@@ -114,11 +113,10 @@ class Imagecontroller extends GetxController {
     iscardProcess = true;
     update();
     try {
-      RenderRepaintBoundary boundary = _globalKey.currentContext!
-          .findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       idCardimage = byteData!.buffer.asUint8List();
     } on Exception catch (e) {
       debugPrint("failed to save card image");
@@ -135,8 +133,7 @@ class Imagecontroller extends GetxController {
     // await file.writeAsBytes(pngBytes);
   }
 
-  Future<void> saveReceipt(
-      GlobalKey globalKey, String applicantId, String reason) async {
+  Future<void> saveReceipt(GlobalKey globalKey, String applicantId, String reason) async {
     iscardProcess = true;
     update();
     try {
@@ -146,8 +143,7 @@ class Imagecontroller extends GetxController {
       // debugPrint("nav Keys image in save receipt");
       // ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       // receipt = byteData!.buffer.asUint8List();
-      String printers =
-          Get.find<Managementcontroller>().printername ?? "CUSTOM K80";
+      String printers = Get.find<Managementcontroller>().printername ?? "CUSTOM K80";
       printUsbReceiptWindows(printers, null, applicantId, reason);
     } on Exception catch (e) {
       debugPrint("failed to save card image");
@@ -158,17 +154,15 @@ class Imagecontroller extends GetxController {
     update();
   }
 
-  Future<void> saveReceiptimages(
-      GlobalKey _globalKey, String printername) async {
+  Future<void> saveReceiptimages(GlobalKey _globalKey, String printername) async {
     iscardProcess = true;
     update();
     try {
-      RenderRepaintBoundary boundary = _globalKey.currentContext!
-          .findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
       debugPrint("nav Keys image in save receipt");
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       receipt = byteData!.buffer.asUint8List();
       printUsbReceiptWindowsimages(receipt!, printername);
     } on Exception catch (e) {
@@ -249,9 +243,8 @@ class Imagecontroller extends GetxController {
             children: [
               Container(
                 height: 300,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all()),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all()),
                 // constraints: const BoxConstraints(
                 //     maxHeight: 120, maxWidth: 160),
                 child: Center(
@@ -276,8 +269,7 @@ class Imagecontroller extends GetxController {
                   children: [
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                       icon: Icon(
                         Icons.repeat,
                       ),
@@ -339,8 +331,7 @@ class Imagecontroller extends GetxController {
           ),
         ),
       ),
-      barrierDismissible:
-          false, // Prevent the dialog from closing when tapping outside
+      barrierDismissible: false, // Prevent the dialog from closing when tapping outside
     );
   }
 
@@ -395,14 +386,12 @@ class Imagecontroller extends GetxController {
         );
 
         unawaited(_errorStreamSubscription?.cancel());
-        _errorStreamSubscription = CameraPlatform.instance
-            .onCameraError(cameraId)
-            .listen(_onCameraError);
+        _errorStreamSubscription =
+            CameraPlatform.instance.onCameraError(cameraId).listen(_onCameraError);
 
         unawaited(_cameraClosingStreamSubscription?.cancel());
-        _cameraClosingStreamSubscription = CameraPlatform.instance
-            .onCameraClosing(cameraId)
-            .listen(_onCameraClosing);
+        _cameraClosingStreamSubscription =
+            CameraPlatform.instance.onCameraClosing(cameraId).listen(_onCameraClosing);
 
         final Future<CameraInitializedEvent> initialized =
             CameraPlatform.instance.onCameraInitialized(cameraId).first;
@@ -481,8 +470,8 @@ class Imagecontroller extends GetxController {
 
           update();
         } else {
-          cameraIndex = _allavailablecameras.indexWhere(
-              (ele) => ele.name.toString().toLowerCase().contains('czur'));
+          cameraIndex = _allavailablecameras
+              .indexWhere((ele) => ele.name.toString().toLowerCase().contains('czur'));
           update();
         }
 
@@ -494,14 +483,12 @@ class Imagecontroller extends GetxController {
         );
 
         unawaited(_errorStreamSubscription?.cancel());
-        _errorStreamSubscription = CameraPlatform.instance
-            .onCameraError(cameraId)
-            .listen(_onCameraError);
+        _errorStreamSubscription =
+            CameraPlatform.instance.onCameraError(cameraId).listen(_onCameraError);
 
         unawaited(_cameraClosingStreamSubscription?.cancel());
-        _cameraClosingStreamSubscription = CameraPlatform.instance
-            .onCameraClosing(cameraId)
-            .listen(_onCameraClosing);
+        _cameraClosingStreamSubscription =
+            CameraPlatform.instance.onCameraClosing(cameraId).listen(_onCameraClosing);
 
         final Future<CameraInitializedEvent> initialized =
             CameraPlatform.instance.onCameraInitialized(cameraId).first;
@@ -566,31 +553,25 @@ class Imagecontroller extends GetxController {
       // Calculate cropping rectangle based on `defaultCrop`
       final int x = (defaultCrop.left * imageWidth).toInt();
       final int y = (defaultCrop.top * imageHeight).toInt();
-      final int cropWidth =
-          ((defaultCrop.right - defaultCrop.left) * imageWidth).toInt();
-      final int cropHeight =
-          ((defaultCrop.bottom - defaultCrop.top) * imageHeight).toInt();
+      final int cropWidth = ((defaultCrop.right - defaultCrop.left) * imageWidth).toInt();
+      final int cropHeight = ((defaultCrop.bottom - defaultCrop.top) * imageHeight).toInt();
 
       // Ensure the crop respects the aspect ratio
       final int adjustedCropHeight = (cropWidth / aspectRatio).toInt();
       final int adjustedCropWidth = (cropHeight * aspectRatio).toInt();
 
       // Adjust the final crop dimensions
-      final finalWidth =
-          cropWidth < adjustedCropWidth ? cropWidth : adjustedCropWidth;
-      final finalHeight =
-          cropHeight < adjustedCropHeight ? cropHeight : adjustedCropHeight;
+      final finalWidth = cropWidth < adjustedCropWidth ? cropWidth : adjustedCropWidth;
+      final finalHeight = cropHeight < adjustedCropHeight ? cropHeight : adjustedCropHeight;
 
       // Crop the image
-      final cropped =
-          img.copyCrop(originalImage, x, y, finalWidth, finalHeight);
+      final cropped = img.copyCrop(originalImage, x, y, finalWidth, finalHeight);
 
       // Encode the cropped image back to PNG or JPG
       final croppedBytes = img.encodePng(cropped);
 
 // Generate a unique file name
-      final uniqueFileName =
-          'cropped_image_${Uuid().v4()}.png'; // Using UUID for uniqueness
+      final uniqueFileName = 'cropped_image_${Uuid().v4()}.png'; // Using UUID for uniqueness
       final tempDir = Directory.systemTemp;
       final croppedFilePath = '${tempDir.path}/$uniqueFileName';
       final croppedFile = File(croppedFilePath);
@@ -665,8 +646,7 @@ class Imagecontroller extends GetxController {
       RenderRepaintBoundary boundary =
           prokey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       profileImage = byteData!.buffer.asUint8List();
 
       // Get.back();
@@ -686,8 +666,7 @@ class Imagecontroller extends GetxController {
       RenderRepaintBoundary boundary =
           docKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
       ui.Image image = await boundary.toImage();
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
       if (isFront) {
         frontImages = byteData!.buffer.asUint8List();
@@ -709,8 +688,7 @@ class Imagecontroller extends GetxController {
     profileImage = null;
     log('isinitialised:  ${isinitialized}');
     if (isinitialized == false) {
-      await initializeCameraAgain(
-          isfront: false, isback: false, isprofilecam: true);
+      await initializeCameraAgain(isfront: false, isback: false, isprofilecam: true);
     }
     update();
   }
