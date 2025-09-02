@@ -4,6 +4,7 @@ import 'package:camera_windows_example/controller/connectivitycontroller.dart';
 import 'package:camera_windows_example/controller/imagecapture.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'cons/themes/theme.dart';
 import 'controller/managementcontroller.dart';
@@ -13,10 +14,10 @@ import 'routes/approute.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await windowManager.ensureInitialized();
-  // windowManager.waitUntilReadyToShow().then((_) async {
-  //   await windowManager.setFullScreen(true);
-  // });
+  await windowManager.ensureInitialized();
+  windowManager.waitUntilReadyToShow().then((_) async {
+    await windowManager.setFullScreen(true);
+  });
   // HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
   Get.put(Imagecontroller());
@@ -64,12 +65,14 @@ class _MyAppState extends State<MyApp> {
 
 class NoScrollbarBehavior extends ScrollBehavior {
   @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(
+      BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 
   @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
     return child;
   }
 }
