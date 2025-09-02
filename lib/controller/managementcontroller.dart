@@ -226,8 +226,12 @@ class Managementcontroller extends GetxController {
 
   Future<void> getallDocscheck() async {
     _docnames = await apicall!.getDocumentType();
-    getpermitprice();
-    getallGates();
+    if (_permitPrice == null) {
+      getpermitprice();
+    }
+    if (_allGates.isEmpty) {
+      getallGates();
+    }
     update();
   }
 
